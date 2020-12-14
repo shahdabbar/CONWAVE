@@ -264,7 +264,7 @@ const HomeScreen = ({ navigation }) => {
                             ? "#155c47"
                             : COLORS.black,
 
-                        ...FONTS.h2,
+                        // ...FONTS.h2,
                       }}
                     >
                       {item.name}
