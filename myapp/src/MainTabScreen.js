@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useTheme } from "react-native-paper";
 import Svg, { Path, Circle, ClipPath } from "react-native-svg";
+import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { AuthContext } from "./AuthProvider";
 
@@ -14,7 +15,7 @@ import DetailsScreen from "./DetailsScreen";
 import ProfileScreen from "./ProfileScreen";
 import ExploreScreen from "./ExploreScreen";
 import EditProfileScreen from "./EditProfileScreen";
-import { COLORS, SIZES, FONTS } from "../src/constants/index";
+// import { COLORS, SIZES, FONTS } from "../src/constants/index";
 import axios from "axios";
 
 axios.defaults.baseURL = "http://10.0.2.2:8000";
@@ -275,7 +276,7 @@ const ProfileStackScreen = ({ navigation }) => {
         component={ProfileScreen}
         options={{
           title: "",
-
+          // headerShown: false,
           headerLeft: () => (
             <Icon.Button
               name="ios-menu"

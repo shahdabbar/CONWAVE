@@ -26,7 +26,7 @@ const ProfileScreen = () => {
     name: "",
     email: "",
     location: "",
-    status: "",
+    type: "",
   });
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const ProfileScreen = () => {
           name: response.data.name,
           email: response.data.email,
           location: response.data.location,
-          status: response.data.status,
+          type: response.data.type,
         });
       })
       .catch((error) => {
@@ -49,12 +49,7 @@ const ProfileScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView showsHorizontalScrollIndicator={false}>
-        <View style={styles.titleBar}>
-          <Icon name="ios-arrow-back" size={24} color="#52575D" />
-        </View>
-      </ScrollView>
-      {/* <View style={styles.userInfoSection}>
+      <View style={styles.userInfoSection}>
         <View style={{ flexDirection: "row", marginTop: 15 }}>
           <Avatar.Image
             source={require("../assets/images/avatar2.png")}
@@ -66,7 +61,7 @@ const ProfileScreen = () => {
             >
               {userInfo.name}
             </Title>
-            <Caption style={styles.caption}>@{userInfo.status}</Caption>
+            <Caption style={styles.caption}>@{userInfo.type}</Caption>
           </View>
         </View>
       </View>
@@ -90,7 +85,7 @@ const ProfileScreen = () => {
           </Text>
         </View>
       </View>
-      {userInfo.status === "tutor" ? (
+      {userInfo.type === "tutor" ? (
         <View style={styles.infoBoxWrapper}>
           <View
             style={{
@@ -115,35 +110,29 @@ const ProfileScreen = () => {
       <View style={styles.menuWrapper}>
         <TouchableRipple onPress={() => {}}>
           <View style={styles.menuItem}>
-            <Icon name="heart-outline" color="#FF6347" size={25} />
-            <Text style={styles.menuItemText}>Your favorites</Text>
-          </View>
-        </TouchableRipple>
-        <TouchableRipple onPress={() => {}}>
-          <View style={styles.menuItem}>
-            <Icon name="credit-card-outline" color="#FF6347" size={25} />
+            <Icon name="credit-card" color="#000000" size={25} />
             <Text style={styles.menuItemText}>Payment</Text>
           </View>
         </TouchableRipple>
         <TouchableRipple onPress={() => {}}>
           <View style={styles.menuItem}>
-            <Icon name="share-outline" color="#FF6347" size={25} />
+            <Icon name="heart-outline" color="#000000" size={25} />
+            <Text style={styles.menuItemText}>Your favorites</Text>
+          </View>
+        </TouchableRipple>
+        <TouchableRipple onPress={() => {}}>
+          <View style={styles.menuItem}>
+            <Icon name="share-outline" color="#000000" size={25} />
             <Text style={styles.menuItemText}>Tell Your Friends</Text>
           </View>
         </TouchableRipple>
         <TouchableRipple onPress={() => {}}>
           <View style={styles.menuItem}>
-            <Icon name="account-outline" color="#FF6347" size={25} />
-            <Text style={styles.menuItemText}>Support</Text>
-          </View>
-        </TouchableRipple>
-        <TouchableRipple onPress={() => {}}>
-          <View style={styles.menuItem}>
-            <Icon name="settings-outline" color="#FF6347" size={25} />
+            <Icon name="settings-outline" color="#000000" size={25} />
             <Text style={styles.menuItemText}>Settings</Text>
           </View>
         </TouchableRipple>
-      </View> */}
+      </View>
     </SafeAreaView>
   );
 };
@@ -153,6 +142,7 @@ export default ProfileScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#FFFFFF",
   },
   userInfoSection: {
     paddingHorizontal: 30,
