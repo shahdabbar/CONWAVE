@@ -8,8 +8,6 @@ import {
   Platform,
   Dimensions,
   TouchableOpacity,
-  TextPropTypes,
-  StatusBar,
 } from "react-native";
 import Svg, { Image, Circle, ClipPath } from "react-native-svg";
 import Animated, { Easing } from "react-native-reanimated";
@@ -25,18 +23,22 @@ const SignInScreen = ({ route, navigation }) => {
   const { signup, error } = useContext(AuthContext);
 
   const [data, setData] = React.useState({
-    name: route.params.data.name,
+    firstname: route.params.data.firstname,
+    lastname: route.params.data.lastname,
     email: "",
     type: route.params.data.type,
     location: route.params.data.location,
+    gender: route.params.data.gender,
+    phone_number: "",
     password: "",
     confirm_password: "",
     check_textInputChange: false,
     secureTextEntry: true,
     confirm_secureTextEntry: true,
+    isValidUser: true,
+    isValidPassword: true,
   });
 
-  console.log("type", data.type, data.name, data.location);
   const textInputChange = (value) => {
     if (value.length !== 0) {
       setData({
@@ -54,16 +56,41 @@ const SignInScreen = ({ route, navigation }) => {
   };
 
   const handlePasswordChange = (value) => {
-    setData({
-      ...data,
-      password: value,
-    });
+    if (value.trim().length >= 8) {
+      setData({
+        ...data,
+        password: value,
+        isValidPassword: true,
+      });
+    } else {
+      setData({
+        ...data,
+        password: value,
+        isValidPassword: false,
+      });
+    }
   };
 
   const handleConfirmPasswordChange = (value) => {
+    if (value.trim().length >= 8) {
+      setData({
+        ...data,
+        confirm_password: value,
+        isValidPassword: true,
+      });
+    } else {
+      setData({
+        ...data,
+        confirm_password: value,
+        isValidPassword: false,
+      });
+    }
+  };
+
+  const textNumberChange = (value) => {
     setData({
       ...data,
-      confirm_password: value,
+      phone_number: value,
     });
   };
 
@@ -86,10 +113,9 @@ const SignInScreen = ({ route, navigation }) => {
       <Animated.View
         style={{
           ...StyleSheet.absoluteFill,
-          // transform: [{ translateY: this.bgY }],
         }}
       >
-        <Svg height={height + 50} width={width}>
+        <Svg height={height + 50} width={width + 50}>
           <ClipPath id="clip">
             <Circle r={height + 50} cx={width / 2} />
           </ClipPath>
@@ -115,6 +141,11 @@ const SignInScreen = ({ route, navigation }) => {
         <Text style={styles.text_header}>Create Your Account!</Text>
       </View>
       <Animatable.View style={styles.footer} animation="fadeInUpBig">
+        {error && (
+          <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text style={styles.errorMsg}>{error}</Text>
+          </Animatable.View>
+        )}
         <View style={styles.action}>
           <FontAwesome
             name="envelope"
@@ -171,7 +202,13 @@ const SignInScreen = ({ route, navigation }) => {
             )}
           </TouchableOpacity>
         </View>
-
+        {data.isValidPassword ? null : (
+          <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text style={styles.errorMsg}>
+              Password must be 8 characters long.
+            </Text>
+          </Animatable.View>
+        )}
         <View style={styles.action}>
           <FontAwesome
             style={styles.icon}
@@ -205,15 +242,48 @@ const SignInScreen = ({ route, navigation }) => {
           </TouchableOpacity>
         </View>
         <View>
+          <Text style={styles.text_footer}>
+            We need your number to send you a verfivation code.
+          </Text>
+        </View>
+        <View style={styles.action}>
+          <FontAwesome
+            name="phone"
+            color="black"
+            size={20}
+            style={styles.icon}
+          />
+          <TextInput
+            placeholder="71 123 456"
+            style={styles.textInput}
+            textContentType="telephoneNumber"
+            autoCapitalize="none"
+            onChangeText={(value) => textNumberChange(value)}
+          />
+          {data.check_textInputChange ? (
+            <Animatable.View animation="bounceIn">
+              <Feather
+                style={{ ...styles.icon, marginRight: 15 }}
+                name="check-circle"
+                color="green"
+                size={20}
+              />
+            </Animatable.View>
+          ) : null}
+        </View>
+        <View>
           <Animated.View>
             <View>
               <TouchableOpacity
                 onPress={() =>
                   signup(
-                    data.name,
+                    data.firstname,
+                    data.lastname,
+                    data.gender,
                     data.email,
                     data.type,
                     data.location,
+                    data.phone_number,
                     data.password,
                     data.confirm_password
                   )
@@ -258,12 +328,11 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    justifyContent: "flex-end",
+    justifyContent: "space-around",
     marginHorizontal: 30,
-    // marginVertical: 50,
   },
   footer: {
-    flex: 3,
+    flex: 6,
     opacity: 0.5,
     paddingVertical: 30,
     paddingHorizontal: 20,
@@ -274,8 +343,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   text_footer: {
-    color: "#05375a",
+    margin: 16,
+    color: "#000000",
     fontSize: 18,
+    fontWeight: "bold",
   },
   button: {
     backgroundColor: "white",
@@ -331,6 +402,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
+  },
+  errorMsg: {
+    color: "#d80000",
+    marginLeft: 30,
   },
   textSign: {
     fontSize: 18,

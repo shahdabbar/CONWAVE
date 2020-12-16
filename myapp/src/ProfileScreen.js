@@ -221,7 +221,8 @@ const ProfileScreen = ({ navigation }) => {
   const { user } = useContext(AuthContext);
 
   const [userInfo, setUserInfo] = useState({
-    name: "",
+    firstname: "",
+    lastname: "",
     email: "",
     location: "",
     type: "",
@@ -234,7 +235,8 @@ const ProfileScreen = ({ navigation }) => {
       .then((response) => {
         setUserInfo({
           ...userInfo,
-          name: response.data.name,
+          firstname: response.data.firstname,
+          lastname: response.data.lastname,
           email: response.data.email,
           location: response.data.location,
           type: response.data.type,
@@ -278,8 +280,8 @@ const ProfileScreen = ({ navigation }) => {
           <View style={styles.active}></View>
         </View>
         <View style={styles.infoContainer}>
-          <Text style={{ ...styles.text, fontWeight: "200", fontSize: 36 }}>
-            {userInfo.name}
+          <Text style={{ ...styles.text, fontWeight: "200", fontSize: 30 }}>
+            {userInfo.firstname} {userInfo.lastname}
           </Text>
           <Text style={{ ...styles.text, color: "#AEB5BC", fontSize: 14 }}>
             @{userInfo.type}

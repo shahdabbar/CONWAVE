@@ -16,6 +16,7 @@ import {
   Ionicons as Ionicon,
   MaterialCommunityIcons as Icon,
   FontAwesome,
+  FontAwesome5,
   Feather,
 } from "react-native-vector-icons";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
@@ -25,7 +26,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import Animated, { Easing } from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 import * as ImagePicker from "expo-image-picker";
-
 import Constants from "expo-constants";
 import axios from "axios";
 
@@ -35,14 +35,13 @@ const EditProfileScreen = ({ route, navigation }) => {
   const { colors } = useTheme();
 
   const [user, setUser] = useState({
-    name: route.params.data.name,
+    firstname: route.params.data.firstname,
+    lastname: route.params.data.lastname,
     email: route.params.data.email,
     location: route.params.data.location,
   });
 
-  const [image, setImage] = useState(
-    "file:/data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fmyapp-b4e7cd70-8fd6-42af-bf1b-7a07e7f1abe1/ImagePicker/665a8652-9a82-4fbc-ab54-115f96304690.jpgfile:/data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Fmyapp-b4e7cd70-8fd6-42af-bf1b-7a07e7f1abe1/ImagePicker/665a8652-9a82-4fbc-ab54-115f96304690.jpg"
-  );
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -70,6 +69,15 @@ const EditProfileScreen = ({ route, navigation }) => {
     if (!result.cancelled) {
       setImage(result.uri);
       bs.current.snapTo(1);
+      // axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+      // axios
+      //   .post("api/profile/photo", image)
+      //   .then((response) => {
+      //     console.log(response);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error.response);
+      //   });
     }
   };
   console.log(image);
@@ -133,16 +141,16 @@ const EditProfileScreen = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <BottomSheet
+        ref={bs}
+        snapPoints={[330, 0]}
+        renderContent={renderInner}
+        renderHeader={renderHeader}
+        initialSnap={1}
+        callbackNode={fall}
+        enabledContentGestureInteraction={true}
+      />
       <ScrollView>
-        <BottomSheet
-          ref={bs}
-          snapPoints={[330, 0]}
-          renderContent={renderInner}
-          renderHeader={renderHeader}
-          initialSnap={1}
-          callbackNode={fall}
-          enabledContentGestureInteraction={true}
-        />
         {/* <View style={styles.titleBar}>
           <MaterialIcon
             name="arrow-back-ios"
@@ -163,7 +171,11 @@ const EditProfileScreen = ({ route, navigation }) => {
           <View style={{ alignSelf: "center" }}>
             <View style={styles.profileImage}>
               <Image
-                source={require("../assets/images/profile4.png")}
+                source={
+                  image
+                    ? { uri: image }
+                    : require("../assets/images/profile4.png")
+                }
                 style={styles.image}
                 resizeMode="cover"
               />
@@ -181,7 +193,7 @@ const EditProfileScreen = ({ route, navigation }) => {
           </View>
           <View style={styles.infoContainer}>
             <Text style={{ ...styles.text, fontWeight: "200", fontSize: 36 }}>
-              {user.name}
+              {user.firstname} {user.lastname}
             </Text>
             <Text style={{ ...styles.text, color: "#AEB5BC", fontSize: 17 }}>
               {user.email}
@@ -190,7 +202,7 @@ const EditProfileScreen = ({ route, navigation }) => {
 
           <View style={{ marginHorizontal: 10, marginTop: 20 }}>
             <LinearGradient
-              colors={["#CABFAB", { ...COLORS.primary }]}
+              colors={["#CABFAB", COLORS.primary]}
               style={{
                 borderRadius: SIZES.radius / 2,
                 elevation: 5,
@@ -211,8 +223,8 @@ const EditProfileScreen = ({ route, navigation }) => {
                       alignItems: "center",
                     }}
                   >
-                    <Feather name="user" size={20} color="black" />
-                    <Text style={styles.infoText}>{user.name}</Text>
+                    <FontAwesome name="user" size={22} color={COLORS.dark} />
+                    <Text style={styles.infoText}>{user.firstname}</Text>
                   </View>
 
                   <Icon name="pencil" size={24} />
@@ -225,26 +237,27 @@ const EditProfileScreen = ({ route, navigation }) => {
                       alignItems: "center",
                     }}
                   >
-                    <Feather name="phone" size={20} color={colors.text} />
+                    <FontAwesome name="user" size={22} color={COLORS.dark} />
+                    <Text style={styles.infoText}>{user.lastname}</Text>
+                  </View>
+
+                  <Icon name="pencil" size={24} />
+                </View>
+                <View style={styles.infoContent}>
+                  <View
+                    style={{
+                      ...styles.infoContent,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <FontAwesome name="phone" size={20} color={COLORS.dark} />
                     <Text style={styles.infoText}>+961 76 638 758</Text>
                   </View>
 
                   <Icon name="pencil" size={24} />
                 </View>
-                <View style={styles.infoContent}>
-                  <View
-                    style={{
-                      ...styles.infoContent,
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <FontAwesome name="globe" size={20} color={colors.text} />
-                    <Text style={styles.infoText}>{user.name}</Text>
-                  </View>
 
-                  <Icon name="pencil" size={24} />
-                </View>
                 <View style={styles.infoContent}>
                   <View
                     style={{
@@ -254,11 +267,11 @@ const EditProfileScreen = ({ route, navigation }) => {
                     }}
                   >
                     <Icon
-                      name="map-marker-outline"
-                      size={22}
-                      color={colors.text}
+                      name="gender-male-female"
+                      size={25}
+                      color={COLORS.dark}
                     />
-                    <Text style={styles.infoText}>{user.name}</Text>
+                    <Text style={styles.infoText}>Female</Text>
                   </View>
 
                   <Icon name="pencil" size={24} />
@@ -266,7 +279,7 @@ const EditProfileScreen = ({ route, navigation }) => {
               </View>
             </LinearGradient>
             <LinearGradient
-              colors={["#CABFAB", { ...COLORS.primary }]}
+              colors={["#CABFAB", COLORS.primary]}
               style={{
                 borderRadius: SIZES.radius / 2,
                 elevation: 5,
@@ -287,8 +300,63 @@ const EditProfileScreen = ({ route, navigation }) => {
                       alignItems: "center",
                     }}
                   >
-                    <Feather name="user" size={20} color="black" />
-                    <Text style={styles.infoText}>{user.name}</Text>
+                    <Ionicon name="location" size={22} color={COLORS.dark} />
+                    <Text style={styles.infoText}>{user.location}</Text>
+                  </View>
+
+                  <Icon name="pencil" size={24} />
+                </View>
+              </View>
+            </LinearGradient>
+            <LinearGradient
+              colors={["#CABFAB", COLORS.primary]}
+              style={{
+                borderRadius: SIZES.radius / 2,
+                elevation: 5,
+                padding: 10,
+                marginBottom: 10,
+              }}
+            >
+              <View>
+                <View style={{ marginBottom: 10 }}>
+                  <Text style={{ ...styles.info }}>Education</Text>
+                </View>
+
+                <View style={styles.infoContent}>
+                  <View
+                    style={{
+                      ...styles.infoContent,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <FontAwesome
+                      name="university"
+                      size={20}
+                      color={COLORS.dark}
+                    />
+                    <Text style={styles.infoText}>
+                      Lebanese International University
+                    </Text>
+                  </View>
+
+                  <Icon name="pencil" size={24} />
+                </View>
+
+                <View style={styles.infoContent}>
+                  <View
+                    style={{
+                      ...styles.infoContent,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Icon
+                      name="book-open-page-variant"
+                      size={22}
+                      color={COLORS.dark}
+                    />
+                    <Text style={styles.infoText}>Computer Science</Text>
                   </View>
 
                   <Icon name="pencil" size={24} />

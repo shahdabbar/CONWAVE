@@ -30,7 +30,10 @@ const HomeScreen = ({ navigation }) => {
 
   const { user } = useContext(AuthContext);
 
-  const [name, setName] = useState(null);
+  const [name, setName] = useState({
+    firstname: "",
+    lastname: "",
+  });
   const [categories, setCategories] = useState(null);
   const [courses, setCourses] = useState(null);
   const [filterCourses, setFilterCourses] = useState(null);
@@ -79,7 +82,11 @@ const HomeScreen = ({ navigation }) => {
     axios
       .get("api/user")
       .then((response) => {
-        setName(response.data.name);
+        setName({
+          ...name,
+          firstname: response.data.firstname,
+          lastname: response.data.lastname,
+        });
       })
       .catch((error) => {
         console.log(error.response);
@@ -297,7 +304,9 @@ const HomeScreen = ({ navigation }) => {
         >
           <View style={styles.DarkOverlay}></View>
           <View style={styles.searchContainer}>
-            <Text style={styles.userGreet}>Hi {name},</Text>
+            <Text style={styles.userGreet}>
+              Hi {name.firstname} {name.lastname},
+            </Text>
             <Text style={styles.userText}>
               what do you want to learn today?
             </Text>

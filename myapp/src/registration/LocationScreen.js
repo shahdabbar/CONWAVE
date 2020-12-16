@@ -21,10 +21,14 @@ function LocationScreen({ route, navigation }) {
   const { width, height } = Dimensions.get("screen");
 
   const [state, setState] = useState({
-    name: "",
+    firstname: "",
+    lastname: "",
     location: "",
     type: route.params.type,
+    gender: route.params.gender,
   });
+
+  console.log(state.gender);
 
   return (
     <View style={styles.container}>
@@ -66,10 +70,27 @@ function LocationScreen({ route, navigation }) {
             <View style={styles.action}>
               <FontAwesome name="user" size={20} style={styles.icon} />
               <TextInput
-                placeholder="name"
+                placeholder="First name"
                 style={styles.input}
                 autoCapitalize="none"
-                onChangeText={(value) => setState({ ...state, name: value })}
+                textContentType="name"
+                onChangeText={(value) =>
+                  setState({ ...state, firstname: value })
+                }
+              />
+            </View>
+          </View>
+          <View>
+            <View style={styles.action}>
+              <FontAwesome name="user" size={20} style={styles.icon} />
+              <TextInput
+                placeholder="Last name"
+                style={styles.input}
+                autoCapitalize="none"
+                textContentType="familyName"
+                onChangeText={(value) =>
+                  setState({ ...state, lastname: value })
+                }
               />
             </View>
           </View>

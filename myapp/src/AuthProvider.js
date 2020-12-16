@@ -51,13 +51,37 @@ export const AuthProvider = ({ children }) => {
               console.log("error", error);
             });
         },
-        signup: (name, email, type, location, password, confirm_password) => {
+        signup: (
+          firstname,
+          lastname,
+          gender,
+          email,
+          type,
+          location,
+          phone_number,
+          password,
+          confirm_password
+        ) => {
+          console.log(
+            firstname,
+            lastname,
+            gender,
+            email,
+            type,
+            location,
+            phone_number,
+            password,
+            confirm_password
+          );
           axios
             .post("/api/signup", {
-              name,
+              firstname,
+              lastname,
+              gender,
               email,
               type,
               location,
+              phone_number,
               password,
               confirm_password,
               device_name: "mobile",

@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import SplashScreen from "./SplashScreen";
 import TypeScreen from "./registration/TypeScreen";
+import GenderScreen from "./registration/GenderScreen";
 import SignUpScreen from "./registration/SignUpScreen";
 import LocationScreen from "./registration/LocationScreen";
 
@@ -14,6 +15,7 @@ const RootStackScreen = ({ navigation }) => {
     <RootStack.Navigator headerMode="none">
       <RootStack.Screen name="SplashScreen" component={SplashScreen} />
       <RootStack.Screen name="TypeScreen" component={TypeScreen} />
+      <RootStack.Screen name="GenderScreen" component={GenderScreen} />
       <RootStack.Screen name="LocationScreen" component={LocationScreen} />
       <RootStack.Screen name="SignUpScreen" component={SignUpScreen} />
     </RootStack.Navigator>

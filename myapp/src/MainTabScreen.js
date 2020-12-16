@@ -240,7 +240,8 @@ const ProfileStackScreen = ({ navigation }) => {
   const { user } = useContext(AuthContext);
 
   const [userInfo, setUserInfo] = useState({
-    name: "",
+    firstname: "",
+    lastname: "",
     email: "",
     location: "",
     type: "",
@@ -253,7 +254,8 @@ const ProfileStackScreen = ({ navigation }) => {
       .then((response) => {
         setUserInfo({
           ...userInfo,
-          name: response.data.name,
+          firstname: response.data.firstname,
+          lastname: response.data.lastname,
           email: response.data.email,
           location: response.data.location,
           type: response.data.type,

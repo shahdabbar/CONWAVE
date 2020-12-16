@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import LocationScreen from "./LocationScreen";
+import GenderScreen from "./GenderScreen";
 import Svg, { Image, Circle, ClipPath } from "react-native-svg";
 import Animated, { block, Easing } from "react-native-reanimated";
 import * as Animatable from "react-native-animatable";
@@ -55,7 +55,7 @@ function TypeScreen({ navigation }) {
           <View>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("LocationScreen", { type: "student" });
+                navigation.navigate("GenderScreen", { type: "student" });
               }}
             >
               <LinearGradient
@@ -77,7 +77,7 @@ function TypeScreen({ navigation }) {
           <View>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("LocationScreen", { type: "tutor" });
+                navigation.navigate("GenderScreen", { type: "tutor" });
               }}
             >
               <LinearGradient
