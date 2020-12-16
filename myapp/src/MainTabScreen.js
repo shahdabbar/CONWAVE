@@ -1,14 +1,18 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Image, TouchableOpacity, View } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useTheme } from "react-native-paper";
 import Svg, { Path, Circle, ClipPath } from "react-native-svg";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { AuthContext } from "./AuthProvider";
+import {
+  MaterialIcons as MaterialIcon,
+  Ionicons as Icon,
+  MaterialCommunityIcons as MaterialCommunityIcons,
+  FontAwesome,
+  Feather,
+} from "react-native-vector-icons";
 
 import HomeScreen from "./HomeScreen";
 import DetailsScreen from "./DetailsScreen";
@@ -204,6 +208,7 @@ const HomeStackScreen = ({ navigation }) => (
 const DetailsStackScreen = ({ navigation }) => (
   <DetailsStack.Navigator
     screenOptions={{
+      headerShown: false,
       headerStyle: {
         backgroundColor: "#fff",
       },
@@ -238,7 +243,7 @@ const ProfileStackScreen = ({ navigation }) => {
     name: "",
     email: "",
     location: "",
-    status: "",
+    type: "",
   });
 
   useEffect(() => {
@@ -251,7 +256,7 @@ const ProfileStackScreen = ({ navigation }) => {
           name: response.data.name,
           email: response.data.email,
           location: response.data.location,
-          status: response.data.status,
+          type: response.data.type,
         });
       })
       .catch((error) => {
@@ -275,36 +280,61 @@ const ProfileStackScreen = ({ navigation }) => {
         name="Profile"
         component={ProfileScreen}
         options={{
-          title: "",
           // headerShown: false,
+          title: "",
           headerLeft: () => (
-            <Icon.Button
+            <Icon
               name="ios-menu"
               size={30}
-              backgroundColor={colors.background}
-              color={colors.text}
+              color="gray"
+              style={{ marginLeft: 16 }}
               onPress={() => navigation.openDrawer()}
-            ></Icon.Button>
+            />
           ),
           headerRight: () => (
-            <MaterialCommunityIcons.Button
+            <MaterialCommunityIcons
               name="account-edit"
               size={30}
-              backgroundColor={colors.background}
-              color={colors.text}
+              color="gray"
+              style={{ marginRight: 20 }}
               onPress={() =>
                 navigation.navigate("EditProfile", { data: userInfo })
               }
-            ></MaterialCommunityIcons.Button>
+            />
           ),
         }}
       />
       <ProfileStack.Screen
         name="EditProfile"
-        options={{
-          title: "Edit Profile",
-        }}
         component={EditProfileScreen}
+        options={{
+          title: "PROFILE SETTINGS",
+          headerTitleStyle: {
+            color: "gray",
+            fontWeight: "800",
+            fontSize: 14,
+            alignSelf: "center",
+          },
+          headerLeft: () => (
+            <MaterialIcon
+              name="arrow-back-ios"
+              size={24}
+              color="gray"
+              style={{ marginLeft: 20 }}
+              onPress={() => {
+                navigation.goBack("EditProfileScreen");
+              }}
+            />
+          ),
+          headerRight: () => (
+            <Icon
+              name="md-ellipsis-vertical"
+              size={30}
+              color="gray"
+              style={{ marginRight: 16 }}
+            />
+          ),
+        }}
       />
     </ProfileStack.Navigator>
   );
@@ -313,6 +343,7 @@ const ProfileStackScreen = ({ navigation }) => {
 const ExploreStackScreen = ({ navigation }) => (
   <ExploreStack.Navigator
     screenOptions={{
+      headerShown: false,
       headerStyle: {
         backgroundColor: "#fff",
       },

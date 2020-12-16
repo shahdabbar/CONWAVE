@@ -8,22 +8,30 @@ import {
   TextInput,
   Platform,
   Image,
+  SafeAreaView,
+  ScrollView,
 } from "react-native";
-
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Feather from "react-native-vector-icons/Feather";
+import {
+  MaterialIcons as MaterialIcon,
+  Ionicons as Ionicon,
+  MaterialCommunityIcons as Icon,
+  FontAwesome,
+  Feather,
+} from "react-native-vector-icons";
+import { COLORS, SIZES, FONTS, icons } from "../src/constants";
+import DropShadow from "react-native-drop-shadow";
 import { useTheme } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated, { Easing } from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 import * as ImagePicker from "expo-image-picker";
+
 import Constants from "expo-constants";
-// import axios from "axios";
+import axios from "axios";
 
-// axios.defaults.baseURL = "http://10.0.2.2:8000";
+axios.defaults.baseURL = "http://10.0.2.2:8000";
 
-const EditProfileScreen = ({ route }) => {
+const EditProfileScreen = ({ route, navigation }) => {
   const { colors } = useTheme();
 
   const [user, setUser] = useState({
@@ -124,103 +132,194 @@ const EditProfileScreen = ({ route }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <BottomSheet
-        ref={bs}
-        snapPoints={[330, 0]}
-        renderContent={renderInner}
-        renderHeader={renderHeader}
-        initialSnap={1}
-        callbackNode={fall}
-        enabledContentGestureInteraction={true}
-      />
-      <Animated.View
-        style={{
-          margin: 20,
-          opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
-        }}
-      >
-        <View style={{ alignItems: "center" }}>
-          <TouchableOpacity onPress={() => bs.current.snapTo(0)}>
-            <View
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <BottomSheet
+          ref={bs}
+          snapPoints={[330, 0]}
+          renderContent={renderInner}
+          renderHeader={renderHeader}
+          initialSnap={1}
+          callbackNode={fall}
+          enabledContentGestureInteraction={true}
+        />
+        {/* <View style={styles.titleBar}>
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color="gray"
+            onPress={() => {
+              navigation.goBack();
+            }}
+          />
+          <Text style={styles.edit}>PROFILE SETTINGS</Text>
+          <Ionicon name="md-ellipsis-vertical" size={30} color="gray" />
+        </View> */}
+        <Animated.View
+          style={{
+            opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
+          }}
+        >
+          <View style={{ alignSelf: "center" }}>
+            <View style={styles.profileImage}>
+              <Image
+                source={require("../assets/images/profile4.png")}
+                style={styles.image}
+                resizeMode="cover"
+              />
+            </View>
+            <View style={styles.active}></View>
+            <View style={styles.add}>
+              <Ionicon
+                name="camera"
+                size={48}
+                color="#DFDBC8"
+                style={{ marginBottom: 2, marginLeft: 1 }}
+                onPress={() => bs.current.snapTo(0)}
+              />
+            </View>
+          </View>
+          <View style={styles.infoContainer}>
+            <Text style={{ ...styles.text, fontWeight: "200", fontSize: 36 }}>
+              {user.name}
+            </Text>
+            <Text style={{ ...styles.text, color: "#AEB5BC", fontSize: 17 }}>
+              {user.email}
+            </Text>
+          </View>
+
+          <View style={{ marginHorizontal: 10, marginTop: 20 }}>
+            <LinearGradient
+              colors={["#CABFAB", { ...COLORS.primary }]}
               style={{
-                height: 100,
-                width: 100,
-                borderRadius: 15,
-                justifyContent: "center",
-                alignItems: "center",
+                borderRadius: SIZES.radius / 2,
+                elevation: 5,
+                padding: 10,
+                marginBottom: 10,
               }}
             >
-              <ImageBackground
-                source={{ uri: image }}
-                // source={require("../assets/avatar2.png")}
-                style={{ height: 100, width: 100 }}
-                imageStyle={{ borderRadius: 50 }}
-              >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    // justifyContent: "center",
-                  }}
-                >
-                  <Icon
-                    name="camera"
-                    size={35}
-                    color="gray"
-                    style={{
-                      opacity: 0.7,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderWidth: 1,
-                      borderColor: "#fff",
-                      borderRadius: 10,
-                    }}
-                  />
+              <View>
+                <View style={{ marginBottom: 10 }}>
+                  <Text style={{ ...styles.info }}>Personal Information</Text>
                 </View>
-              </ImageBackground>
+
+                <View style={styles.infoContent}>
+                  <View
+                    style={{
+                      ...styles.infoContent,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Feather name="user" size={20} color="black" />
+                    <Text style={styles.infoText}>{user.name}</Text>
+                  </View>
+
+                  <Icon name="pencil" size={24} />
+                </View>
+                <View style={styles.infoContent}>
+                  <View
+                    style={{
+                      ...styles.infoContent,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Feather name="phone" size={20} color={colors.text} />
+                    <Text style={styles.infoText}>+961 76 638 758</Text>
+                  </View>
+
+                  <Icon name="pencil" size={24} />
+                </View>
+                <View style={styles.infoContent}>
+                  <View
+                    style={{
+                      ...styles.infoContent,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <FontAwesome name="globe" size={20} color={colors.text} />
+                    <Text style={styles.infoText}>{user.name}</Text>
+                  </View>
+
+                  <Icon name="pencil" size={24} />
+                </View>
+                <View style={styles.infoContent}>
+                  <View
+                    style={{
+                      ...styles.infoContent,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Icon
+                      name="map-marker-outline"
+                      size={22}
+                      color={colors.text}
+                    />
+                    <Text style={styles.infoText}>{user.name}</Text>
+                  </View>
+
+                  <Icon name="pencil" size={24} />
+                </View>
+              </View>
+            </LinearGradient>
+            <LinearGradient
+              colors={["#CABFAB", { ...COLORS.primary }]}
+              style={{
+                borderRadius: SIZES.radius / 2,
+                elevation: 5,
+                padding: 10,
+                marginBottom: 10,
+              }}
+            >
+              <View>
+                <View style={{ marginBottom: 10 }}>
+                  <Text style={{ ...styles.info }}>Search location</Text>
+                </View>
+
+                <View style={styles.infoContent}>
+                  <View
+                    style={{
+                      ...styles.infoContent,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Feather name="user" size={20} color="black" />
+                    <Text style={styles.infoText}>{user.name}</Text>
+                  </View>
+
+                  <Icon name="pencil" size={24} />
+                </View>
+              </View>
+            </LinearGradient>
+
+            <View style={styles.action}>
+              <FontAwesome name="user-o" size={20} color={colors.text} />
+              <TextInput
+                placeholder="Name"
+                name="name"
+                defaultValue={user.name}
+                placeholderTextColor="#666666"
+                autoCorrect={false}
+                style={{ ...styles.textInput, color: colors.text }}
+                onChangeText={onTextChange}
+              />
             </View>
-          </TouchableOpacity>
-          <Text
-            style={{
-              marginTop: 10,
-              fontSize: 18,
-              fontWeight: "bold",
-              marginBottom: 20,
-            }}
-          >
-            {user.name}
-          </Text>
-        </View>
-
-        <View>
-          <Text style={styles.info}>Personal Information</Text>
-        </View>
-
-        <View style={styles.action}>
-          <FontAwesome name="user-o" size={20} color={colors.text} />
-          <TextInput
-            placeholder="Name"
-            name="name"
-            defaultValue={user.name}
-            placeholderTextColor="#666666"
-            autoCorrect={false}
-            style={{ ...styles.textInput, color: colors.text }}
-            onChangeText={onTextChange}
-          />
-        </View>
-        <View style={styles.action}>
-          <Feather name="phone" size={20} color={colors.text} />
-          <TextInput
-            placeholder="Phone"
-            defaultValue="+961 76 638 758"
-            placeholderTextColor="#666666"
-            keyboardType="number-pad"
-            autoCorrect={false}
-            style={{ ...styles.textInput, color: colors.text }}
-          />
-        </View>
-        <View style={styles.action}>
+            <View style={styles.action}>
+              <Feather name="phone" size={20} color={colors.text} />
+              <TextInput
+                placeholder="Phone"
+                defaultValue="+961 76 638 758"
+                placeholderTextColor="#666666"
+                keyboardType="number-pad"
+                autoCorrect={false}
+                style={{ ...styles.textInput, color: colors.text }}
+              />
+            </View>
+            {/* <View style={styles.action}>
           <FontAwesome name="envelope-o" size={20} color={colors.text} />
           <TextInput
             placeholder="Email"
@@ -230,43 +329,45 @@ const EditProfileScreen = ({ route }) => {
             autoCorrect={false}
             style={{ ...styles.textInput, color: colors.text }}
           />
-        </View>
-        <View style={styles.action}>
-          <FontAwesome name="globe" size={20} color={colors.text} />
-          <TextInput
-            placeholder="Country"
-            defaultValue="Lebanon"
-            placeholderTextColor="#666666"
-            autoCorrect={false}
-            style={{ ...styles.textInput, color: colors.text }}
-          />
-        </View>
-        <View style={styles.action}>
-          <Icon name="map-marker-outline" size={22} color={colors.text} />
-          <TextInput
-            placeholder="City"
-            name="location"
-            defaultValue={user.location}
-            placeholderTextColor="#666666"
-            autoCorrect={false}
-            style={{ ...styles.textInput, color: colors.text }}
-            onChangeText={onTextChange}
-          />
-        </View>
-        <Animated.View>
-          <View>
-            <TouchableOpacity onPress={() => {}}>
-              <LinearGradient
-                colors={["#c6b893", "#A8D9F8"]}
-                style={styles.button}
-              >
-                <Text style={styles.panelButtonTitle}>Update</Text>
-              </LinearGradient>
-            </TouchableOpacity>
+        </View> */}
+            <View style={styles.action}>
+              <FontAwesome name="globe" size={20} color={colors.text} />
+              <TextInput
+                placeholder="Country"
+                defaultValue="Lebanon"
+                placeholderTextColor="#666666"
+                autoCorrect={false}
+                style={{ ...styles.textInput, color: colors.text }}
+              />
+            </View>
+            <View style={styles.action}>
+              <Icon name="map-marker-outline" size={22} color={colors.text} />
+              <TextInput
+                placeholder="City"
+                name="location"
+                defaultValue={user.location}
+                placeholderTextColor="#666666"
+                autoCorrect={false}
+                style={{ ...styles.textInput, color: colors.text }}
+                onChangeText={onTextChange}
+              />
+            </View>
           </View>
+          <Animated.View>
+            <View>
+              <TouchableOpacity onPress={() => {}}>
+                <LinearGradient
+                  colors={["#c6b893", "#A8D9F8"]}
+                  style={styles.button}
+                >
+                  <Text style={styles.panelButtonTitle}>Update</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+          </Animated.View>
         </Animated.View>
-      </Animated.View>
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -275,6 +376,81 @@ export default EditProfileScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#FFFFFF",
+  },
+  titleBar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 50,
+    marginBottom: 10,
+    marginHorizontal: 20,
+  },
+  edit: {
+    color: "gray",
+    fontWeight: "800",
+  },
+  text: {
+    fontFamily: "HelveticaNeue",
+    color: "#41444B",
+  },
+  subText: {
+    fontSize: 14,
+    color: "#AEB5BC",
+    textTransform: "uppercase",
+    fontWeight: "500",
+  },
+  userInfoSection: {
+    paddingHorizontal: 30,
+    marginBottom: 25,
+  },
+  image: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+  },
+  profileImage: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    overflow: "hidden",
+  },
+  dm: {
+    backgroundColor: "#41444B",
+    position: "absolute",
+    top: 28,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  active: {
+    backgroundColor: "#34FFB9",
+    position: "absolute",
+    bottom: 22,
+    left: 20,
+    padding: 4,
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+  },
+  add: {
+    backgroundColor: "#41444B",
+    position: "absolute",
+    bottom: 5,
+    right: 0,
+    padding: 4,
+    height: 60,
+    width: 60,
+    borderRadius: 30,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  infoContainer: {
+    alignSelf: "center",
+    alignItems: "center",
+    marginTop: 5,
   },
   commandButton: {
     padding: 15,
@@ -296,8 +472,7 @@ const styles = StyleSheet.create({
   },
   info: {
     color: "gray",
-    fontSize: 14,
-    marginBottom: 10,
+    fontSize: 17,
   },
   header: {
     backgroundColor: "#FFFFFF",
@@ -370,10 +545,14 @@ const styles = StyleSheet.create({
     borderBottomColor: "#FF0000",
     paddingBottom: 5,
   },
-  textInput: {
-    flex: 1,
-    marginTop: Platform.OS === "ios" ? 0 : -5,
+  infoText: {
+    fontWeight: "800",
+    fontSize: 20,
     paddingLeft: 10,
-    color: "#05375a",
+  },
+  infoContent: {
+    marginBottom: 5,
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });

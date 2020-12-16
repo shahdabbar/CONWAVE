@@ -4,7 +4,6 @@ import { StyleSheet, Text, View, Button, StatusBar } from "react-native";
 const DetailsScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="dark-content" />
       <Text>Details Screen</Text>
       <Button
         title="Go to details screen...again"
