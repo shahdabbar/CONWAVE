@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
                 email: response.data.user.email,
                 token: response.data.token,
               };
-              console.log("userRes", userResponse);
+              console.log("userRes", userResponse.token);
               setUser(userResponse);
               SecureStore.setItemAsync("user", JSON.stringify(userResponse));
             })
@@ -62,17 +62,6 @@ export const AuthProvider = ({ children }) => {
           password,
           confirm_password
         ) => {
-          console.log(
-            firstname,
-            lastname,
-            gender,
-            email,
-            type,
-            location,
-            phone_number,
-            password,
-            confirm_password
-          );
           axios
             .post("/api/signup", {
               firstname,

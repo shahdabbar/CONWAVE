@@ -14,8 +14,14 @@ import {
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import * as Animatable from "react-native-animatable";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Feather from "react-native-vector-icons/Feather";
+import {
+  MaterialIcons as MaterialIcon,
+  Ionicons as Ionicon,
+  MaterialCommunityIcons as Icon,
+  FontAwesome,
+  FontAwesome5,
+  Feather,
+} from "react-native-vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { AuthContext } from "./AuthProvider";
 import DrawerContent from "./DrawerContent";
@@ -39,14 +45,14 @@ const HomeScreen = ({ navigation }) => {
   const [filterCourses, setFilterCourses] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState(null);
-
+  const [profiles, setProfiles] = useState(null);
   const [gallery, setgallery] = useState([
     {
       image: {
         uri:
           "https://images.pexels.com/photos/672358/pexels-photo-672358.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940%27",
       },
-      title: "Switzerland",
+      title: "tutor1",
       key: "1",
     },
     {
@@ -54,7 +60,7 @@ const HomeScreen = ({ navigation }) => {
         uri:
           "https://images.pexels.com/photos/227417/pexels-photo-227417.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
       },
-      title: "New Zeland",
+      title: "tutor2",
       key: "2",
     },
     {
@@ -62,7 +68,7 @@ const HomeScreen = ({ navigation }) => {
         uri:
           "https://images.pexels.com/photos/258196/pexels-photo-258196.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
       },
-      title: "Rome",
+      title: "tutor3",
       key: "3",
     },
     {
@@ -70,7 +76,7 @@ const HomeScreen = ({ navigation }) => {
         uri:
           "https://images.pexels.com/photos/672358/pexels-photo-672358.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940%27",
       },
-      title: "Tahiti",
+      title: "tutor4",
       key: "4",
     },
   ]);
@@ -89,7 +95,16 @@ const HomeScreen = ({ navigation }) => {
         });
       })
       .catch((error) => {
-        console.log(error.response);
+        console.log("error", error.response);
+      });
+
+    axios
+      .get("api/user/profile")
+      .then((response) => {
+        setProfiles(response.data);
+      })
+      .catch((error) => {
+        console.log("error", error.response);
       });
 
     // get all categories
@@ -97,7 +112,6 @@ const HomeScreen = ({ navigation }) => {
       .get("api/categories")
       .then((response) => {
         setCategories(response.data);
-        console.log(categories);
       })
       .catch((error) => {
         console.log(error.response);
@@ -108,7 +122,6 @@ const HomeScreen = ({ navigation }) => {
       .get("api/courses")
       .then((response) => {
         setCourses(response.data);
-        console.log("courses", courses);
       })
       .catch((error) => {
         console.log(error.response);
@@ -119,11 +132,9 @@ const HomeScreen = ({ navigation }) => {
 
   const onSelectCategory = (category) => {
     // filter courses
-    console.log("cat", category);
     let coursesList = courses.filter(
       (course) => course.category_id === category.id
     );
-    console.log("all", courses);
     setFilterCourses(coursesList);
     setSelectedCategory(category);
   };
@@ -352,8 +363,9 @@ const HomeScreen = ({ navigation }) => {
         <Animatable.View animation="pulse" style={{ padding: 20 }}>
           <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>Top Tutors</Text>
         </Animatable.View>
-        <View>
+        <View style={{ marginBottom: 60 }}>
           <FlatList
+            showsHorizontalScrollIndicator={false}
             horizontal={true}
             data={gallery}
             renderItem={({ item }) => {
@@ -365,13 +377,13 @@ const HomeScreen = ({ navigation }) => {
                       style={{
                         width: 150,
                         marginRight: 8,
-                        height: 250,
+                        height: 200,
                         borderRadius: 30,
                       }}
                     />
                     <View style={styles.imageOverlay}></View>
-                    <Feather
-                      name="map-pin"
+                    <MaterialIcon
+                      name="alternate-email"
                       size={16}
                       color="white"
                       style={styles.imageLocationIcon}
@@ -383,7 +395,7 @@ const HomeScreen = ({ navigation }) => {
             }}
           />
         </View>
-        <View style={{ marginBottom: 60 }}>
+        {/* <View style={{ marginBottom: 60 }}>
           <View
             style={{
               padding: 20,
@@ -441,7 +453,7 @@ const HomeScreen = ({ navigation }) => {
               Adriatic Sea
             </Text>
           </View>
-        </View>
+        </View> */}
       </ScrollView>
     </View>
   );
@@ -497,7 +509,7 @@ const styles = StyleSheet.create({
   },
   imageOverlay: {
     width: 150,
-    height: 250,
+    height: 200,
     marginRight: 8,
     borderRadius: 30,
     position: "absolute",

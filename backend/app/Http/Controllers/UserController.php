@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 
@@ -91,18 +92,45 @@ class UserController extends Controller
         ]);
 
         if (request('profile_photo_path')) {
-            $imagePath = request('profile_photo_path')->store('uploads', 'public');
-            return  response()->json(request());
-            
-            $image = Image::make(public_path("storage/{$imagePath}"));
-            $image->save();
-
-
-            $imageArray = ['profile_photo_path' => $imagePath];
+            $imagePath = request('profile_photo_path')->store('profile', 'public');            
+            $image = ['profile_photo_path' => $imagePath];
         }
-            // Auth()->user()->update($data);
-
-
-        // return response()->json('image updated', 200);
+        Auth()->user()->update($image);
+        return response()->json('image updated successfully', 200);
     }
-}
+
+    public function update(Request $request)
+    {
+        if (request("firstname")){
+            $data = request()->validate([
+                'firstname' => 'required',
+            ]);
+        } else if (request("lastname")){
+            $data = request()->validate([
+                'lastname' => 'required',
+            ]);
+        } else if (request("gender")){
+            $data = request()->validate([
+                'gender' => 'required',
+            ]);
+        } else if (request("phone_number")){
+            $data = request()->validate([
+                'phone_number' => 'required',
+            ]);
+        } else if (request("location")){
+            $data = request()->validate([
+                'location' => 'required',
+            ]);
+        }
+
+        Auth()->user()->update($data);
+        return response()->json('success', 200);
+
+    }
+
+    public function indexAll()
+    {
+        $users = User::all()->where(type, "tutor");
+        return respose()->json($users);
+    }
+}       

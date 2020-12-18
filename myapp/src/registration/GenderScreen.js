@@ -58,7 +58,7 @@ function GenderScreen({ route, navigation }) {
               onPress={() => {
                 navigation.navigate("LocationScreen", {
                   type: route.params.type,
-                  gender: "male",
+                  gender: "Male",
                 });
               }}
             >
@@ -83,7 +83,7 @@ function GenderScreen({ route, navigation }) {
               onPress={() => {
                 navigation.navigate("LocationScreen", {
                   type: route.params.type,
-                  gender: "female",
+                  gender: "Female",
                 });
               }}
             >

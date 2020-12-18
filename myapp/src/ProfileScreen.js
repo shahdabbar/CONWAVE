@@ -212,6 +212,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import Ionicon from "react-native-vector-icons/Ionicons";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
+import { LinearGradient } from "expo-linear-gradient";
 
 import axios from "axios";
 
@@ -226,6 +227,9 @@ const ProfileScreen = ({ navigation }) => {
     email: "",
     location: "",
     type: "",
+    hours_tutored: "",
+    students_tutored: "",
+    bio: "",
   });
 
   useEffect(() => {
@@ -240,6 +244,19 @@ const ProfileScreen = ({ navigation }) => {
           email: response.data.email,
           location: response.data.location,
           type: response.data.type,
+        });
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+    axios
+      .get("api/profile")
+      .then((response) => {
+        setUserInfo({
+          ...userInfo,
+          bio: response.data.bio,
+          hours_tutored: response.data.hours_tutored,
+          students_tutored: response.data.students_tutored,
         });
       })
       .catch((error) => {
@@ -289,7 +306,9 @@ const ProfileScreen = ({ navigation }) => {
         </View>
         <View style={styles.statsContainer}>
           <View style={styles.statsBox}>
-            <Text style={{ ...styles.text, fontSize: 24 }}>234</Text>
+            <Text style={{ ...styles.text, fontSize: 24 }}>
+              {userInfo.hours_tutored}
+            </Text>
             <Text style={{ ...styles.text, ...styles.subText }}>
               Hours Tutored
             </Text>
@@ -301,7 +320,9 @@ const ProfileScreen = ({ navigation }) => {
               borderLeftWidth: 1,
             }}
           >
-            <Text style={{ ...styles.text, fontSize: 24 }}>234</Text>
+            <Text style={{ ...styles.text, fontSize: 24 }}>
+              {userInfo.students_tutored}
+            </Text>
             <Text style={{ ...styles.text, ...styles.subText }}>
               Students Tutored
             </Text>
@@ -353,16 +374,20 @@ const ProfileScreen = ({ navigation }) => {
             <Text
               style={[
                 styles.text,
-                { fontSize: 14, color: "#DFD8C8", textTransform: "uppercase" },
+                {
+                  fontSize: 14,
+                  color: "#DFD8C8",
+                  textTransform: "uppercase",
+                },
               ]}
             >
               Videos
             </Text>
           </View>
         </View>
-        <Text style={[styles.subText, styles.recent]}>Recent Activity</Text>
-        <View style={{ alignItems: "center" }}>
-          <View style={styles.recentItem}>
+        <Text style={[styles.subText, styles.recent]}>About</Text>
+        <View style={{ alignItems: "center", marginBottom: 30 }}>
+          {/* <View style={styles.recentItem}>
             <View style={styles.activityIndicator}></View>
             <View style={{ width: 250 }}>
               <Text
@@ -372,14 +397,8 @@ const ProfileScreen = ({ navigation }) => {
                 <Text style={{ fontWeight: "400" }}>Jake Challeahe</Text> and{" "}
                 <Text style={{ fontWeight: "400" }}>Luis Poteer</Text>
               </Text>
-
-              {/* <TouchableRipple onPress={() => {}}>
-                <View>
-                  <Text>Tell Your Friends</Text>
-                </View>
-              </TouchableRipple> */}
             </View>
-          </View>
+          </View> */}
 
           <View style={styles.recentItem}>
             <View style={styles.activityIndicator}></View>
@@ -387,8 +406,9 @@ const ProfileScreen = ({ navigation }) => {
               <Text
                 style={[styles.text, { color: "#41444B", fontWeight: "300" }]}
               >
-                Started following{" "}
-                <Text style={{ fontWeight: "400" }}>Luke Harper</Text>
+                <Text>{userInfo.bio}</Text>
+                {/* Started following{" "}
+                <Text style={{ fontWeight: "400" }}>Luke Harper</Text> */}
               </Text>
             </View>
           </View>
@@ -406,7 +426,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
   },
   text: {
-    fontFamily: "HelveticaNeue",
+    // fontFamily: "HelveticaNeue",
     color: "#41444B",
   },
   subText: {
@@ -515,7 +535,7 @@ const styles = StyleSheet.create({
     marginLeft: 78,
     marginTop: 32,
     marginBottom: 6,
-    fontSize: 10,
+    fontSize: 14,
   },
   recentItem: {
     flexDirection: "row",

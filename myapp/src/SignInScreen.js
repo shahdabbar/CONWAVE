@@ -209,10 +209,7 @@ const SignInScreen = ({ navigation }) => {
           <TouchableOpacity
             style={styles.signIn}
             onPress={(value) => {
-              // Test();
-              // onSubmit(value);
               loginHandle();
-              // loginHandle(data.username, data.password);
             }}
           >
             <LinearGradient

@@ -32,6 +32,7 @@ class User extends Authenticatable
         'location',
         'phone_number',
         'password',
+        'profile_photo_path',
     ];
 
     /**
@@ -63,6 +64,11 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
 
   
 }

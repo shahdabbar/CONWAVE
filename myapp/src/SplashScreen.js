@@ -263,7 +263,7 @@ class MyApp extends Component {
               <View>
                 <TouchableOpacity>
                   <LinearGradient
-                    colors={["white", "#c6b893"]}
+                    colors={["#c6b893", "orange"]}
                     style={styles.button}
                   >
                     <Text style={styles.text}>SIGN IN</Text>

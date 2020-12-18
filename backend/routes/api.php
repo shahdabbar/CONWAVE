@@ -8,6 +8,7 @@ use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +29,12 @@ Route::post('/sanctum/token', [UserController::class, 'signin']);
 Route::post('/signup', [UserController::class, 'signup']);
 Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);
 
-Route::middleware('auth:sanctum')->post('/profile/photo', [UserController::class, 'storeImage']);
+Route::middleware('auth:sanctum')->get('/profile', [ProfileController::class, 'index'] );
+Route::middleware('auth:sanctum')->post('/profile/update', [ProfileController::class, 'update'] );
+
+Route::middleware('auth:sanctum')->post('/user/photo', [UserController::class, 'storeImage']);
+Route::middleware('auth:sanctum')->post('/user/update', [UserController::class, 'update']);
+Route::middleware('auth:sanctum')->get('/user/profile', [UserController::class, 'indexAll'] );
 
 Route::middleware('auth:sanctum')->get('/categories', [CategoryController::class, 'index']);
 Route::middleware('auth:sanctum')->get('/courses', [CourseController::class, 'index']);

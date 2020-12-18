@@ -1,5 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import {
+  MaterialIcons as MaterialIcon,
+  Ionicons as Ionicon,
+  MaterialCommunityIcons as Icon,
+  FontAwesome,
+  FontAwesome5,
+  Feather,
+} from "react-native-vector-icons";
 import { StyleSheet, SwitchComponent, View } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { AuthContext } from "./AuthProvider";
@@ -15,7 +22,6 @@ import {
   Switch,
 } from "react-native-paper";
 import axios from "axios";
-
 axios.defaults.baseURL = "http://10.0.2.2:8000";
 
 function DrawerContent(props) {
@@ -23,10 +29,11 @@ function DrawerContent(props) {
   const { user, logout } = useContext(AuthContext);
 
   const [userInfo, setUserInfo] = useState({
-    name: "",
+    firstname: "",
+    lastname: "",
     email: "",
     location: "",
-    status: "",
+    type: "",
   });
 
   useEffect(() => {
@@ -36,10 +43,11 @@ function DrawerContent(props) {
       .then((response) => {
         setUserInfo({
           ...userInfo,
-          name: response.data.name,
+          firstname: response.data.firstname,
+          lastname: response.data.lastname,
           email: response.data.email,
           location: response.data.location,
-          status: response.data.status,
+          type: response.data.type,
         });
       })
       .catch((error) => {
@@ -53,12 +61,14 @@ function DrawerContent(props) {
           <View style={styles.userInfoSection}>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
               <Avatar.Image
-                source={require("../assets/images/avatar2.png")}
+                source={require("../assets/images/profile4.png")}
                 size={75}
               />
               <View style={{ marginLeft: 15, flexDirection: "column" }}>
-                <Title style={styles.title}>{userInfo.name}</Title>
-                <Caption style={styles.caption}>@{userInfo.status}</Caption>
+                <Title style={styles.title}>
+                  {userInfo.firstname} {userInfo.lastname}
+                </Title>
+                <Caption style={styles.caption}>@{userInfo.type}</Caption>
               </View>
             </View>
             <View style={styles.row}>
@@ -66,13 +76,7 @@ function DrawerContent(props) {
                 <Paragraph style={[styles.paragraph, styles.caption]}>
                   80
                 </Paragraph>
-                <Caption style={styles.caption}>Posts</Caption>
-              </View>
-              <View style={styles.section}>
-                <Paragraph style={[styles.paragraph, styles.caption]}>
-                  100
-                </Paragraph>
-                <Caption style={styles.caption}>Followers</Caption>
+                <Caption style={styles.caption}>Videos</Caption>
               </View>
             </View>
           </View>
@@ -106,7 +110,7 @@ function DrawerContent(props) {
             />
             <DrawerItem
               icon={() => (
-                <Icon name="settings-outline" color="#515e5a" size={24} />
+                <Ionicon name="settings-outline" color="#515e5a" size={24} />
               )}
               label="Settings"
               onPress={() => {

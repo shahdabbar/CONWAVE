@@ -1,5 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Image, TouchableOpacity, View } from "react-native";
+import {
+  EdgeInsetsPropType,
+  Image,
+  TouchableOpacity,
+  View,
+  Text,
+  StyleSheet,
+} from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useTheme } from "react-native-paper";
@@ -13,13 +20,12 @@ import {
   FontAwesome,
   Feather,
 } from "react-native-vector-icons";
-
+import { Modal, Card } from "react-native-paper";
 import HomeScreen from "./HomeScreen";
 import DetailsScreen from "./DetailsScreen";
 import ProfileScreen from "./ProfileScreen";
 import ExploreScreen from "./ExploreScreen";
 import EditProfileScreen from "./EditProfileScreen";
-// import { COLORS, SIZES, FONTS } from "../src/constants/index";
 import axios from "axios";
 
 axios.defaults.baseURL = "http://10.0.2.2:8000";
@@ -237,35 +243,6 @@ const DetailsStackScreen = ({ navigation }) => (
 );
 
 const ProfileStackScreen = ({ navigation }) => {
-  const { user } = useContext(AuthContext);
-
-  const [userInfo, setUserInfo] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    location: "",
-    type: "",
-  });
-
-  useEffect(() => {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
-    axios
-      .get("api/user")
-      .then((response) => {
-        setUserInfo({
-          ...userInfo,
-          firstname: response.data.firstname,
-          lastname: response.data.lastname,
-          email: response.data.email,
-          location: response.data.location,
-          type: response.data.type,
-        });
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
-  }, []);
-
   const { colors } = useTheme();
   return (
     <ProfileStack.Navigator
@@ -299,9 +276,7 @@ const ProfileStackScreen = ({ navigation }) => {
               size={30}
               color="gray"
               style={{ marginRight: 20 }}
-              onPress={() =>
-                navigation.navigate("EditProfile", { data: userInfo })
-              }
+              onPress={() => navigation.navigate("EditProfile")}
             />
           ),
         }}
@@ -310,6 +285,7 @@ const ProfileStackScreen = ({ navigation }) => {
         name="EditProfile"
         component={EditProfileScreen}
         options={{
+          headerShown: false,
           title: "PROFILE SETTINGS",
           headerTitleStyle: {
             color: "gray",
@@ -324,7 +300,7 @@ const ProfileStackScreen = ({ navigation }) => {
               color="gray"
               style={{ marginLeft: 20 }}
               onPress={() => {
-                navigation.goBack("EditProfileScreen");
+                navigation.navigate("ProfileScreen");
               }}
             />
           ),
@@ -334,6 +310,9 @@ const ProfileStackScreen = ({ navigation }) => {
               size={30}
               color="gray"
               style={{ marginRight: 16 }}
+              onPress={() => {
+                navigation.navigate("EditProfile", { modal3: true });
+              }}
             />
           ),
         }}
@@ -372,3 +351,10 @@ const ExploreStackScreen = ({ navigation }) => (
     />
   </ExploreStack.Navigator>
 );
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+  },
+});
