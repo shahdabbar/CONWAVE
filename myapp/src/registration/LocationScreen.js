@@ -28,8 +28,6 @@ function LocationScreen({ route, navigation }) {
     gender: route.params.gender,
   });
 
-  console.log(state.gender);
-
   return (
     <View style={styles.container}>
       <Animated.View

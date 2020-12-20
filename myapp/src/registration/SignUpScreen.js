@@ -308,7 +308,7 @@ const SignInScreen = ({ route, navigation }) => {
             <Text style={{ color: "#474747" }}>Already have an account?</Text>
             <Text
               style={{ color: "blue", marginLeft: 4 }}
-              onPress={() => navigation.goBack()}
+              onPress={() => navigation.navigate("SplashScreen")}
             >
               Sign In
             </Text>

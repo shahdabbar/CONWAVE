@@ -216,10 +216,11 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import axios from "axios";
 
-axios.defaults.baseURL = "http://10.0.2.2:8000";
+// axios.defaults.baseURL = "http://10.0.2.2:8000";
 
 const ProfileScreen = ({ navigation }) => {
   const { user } = useContext(AuthContext);
+  axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
 
   const [userInfo, setUserInfo] = useState({
     firstname: "",
@@ -233,7 +234,6 @@ const ProfileScreen = ({ navigation }) => {
   });
 
   useEffect(() => {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
     axios
       .get("api/user")
       .then((response) => {
@@ -247,7 +247,7 @@ const ProfileScreen = ({ navigation }) => {
         });
       })
       .catch((error) => {
-        console.log(error.response);
+        console.log(error);
       });
     axios
       .get("api/profile")
@@ -260,7 +260,7 @@ const ProfileScreen = ({ navigation }) => {
         });
       })
       .catch((error) => {
-        console.log(error.response);
+        console.log(error);
       });
   }, []);
 

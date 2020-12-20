@@ -93,7 +93,7 @@ class UserController extends Controller
 
         if (request('profile_photo_path')) {
             $imagePath = request('profile_photo_path')->store('profile', 'public');            
-            $image = ['profile_photo_path' => $imagePath];
+            $image = ['profile_photo_path' => "storage/{$imagePath}"];
         }
         Auth()->user()->update($image);
         return response()->json('image updated successfully', 200);
@@ -128,9 +128,10 @@ class UserController extends Controller
 
     }
 
-    public function indexAll()
+    public function getAll(Request $request)
     {
-        $users = User::all()->where(type, "tutor");
-        return respose()->json($users);
+        return response()->json('success', 200);
+        // $users = User::all()->where(type, "tutor");
+        // return respose()->json($users);
     }
 }       

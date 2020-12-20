@@ -29,7 +29,7 @@ import { deleteItemAsync } from "expo-secure-store";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://10.0.2.2:8000";
+// axios.defaults.baseURL = "http://192.168.0.1:8000";
 
 const HomeScreen = ({ navigation }) => {
   const { colors } = useTheme();
@@ -41,8 +41,10 @@ const HomeScreen = ({ navigation }) => {
     lastname: "",
   });
   const [categories, setCategories] = useState(null);
-  const [courses, setCourses] = useState(null);
-  const [filterCourses, setFilterCourses] = useState(null);
+  const [courses, setCourses] = useState([]);
+  const [search, setSearch] = useState("");
+  const [filteredCourses, setFilteredCourses] = useState([]);
+  const [filterCourses, setFilterCourses] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [profiles, setProfiles] = useState(null);
@@ -95,16 +97,16 @@ const HomeScreen = ({ navigation }) => {
         });
       })
       .catch((error) => {
-        console.log("error", error.response);
+        console.log("error", error);
       });
 
     axios
-      .get("api/user/profile")
+      .get("api/user_profile")
       .then((response) => {
         setProfiles(response.data);
       })
       .catch((error) => {
-        console.log("error", error.response);
+        console.log("error", error);
       });
 
     // get all categories
@@ -114,28 +116,27 @@ const HomeScreen = ({ navigation }) => {
         setCategories(response.data);
       })
       .catch((error) => {
-        console.log(error.response);
+        console.log(error);
       });
 
     // get all courses
     axios
       .get("api/courses")
       .then((response) => {
+        // setFilterCourses(response.data);
         setCourses(response.data);
       })
       .catch((error) => {
-        console.log(error.response);
+        console.log(error);
       });
   }, []);
-
-  const theme = useTheme();
 
   const onSelectCategory = (category) => {
     // filter courses
     let coursesList = courses.filter(
       (course) => course.category_id === category.id
     );
-    setFilterCourses(coursesList);
+    setFilteredCourses(coursesList);
     setSelectedCategory(category);
   };
 
@@ -145,18 +146,61 @@ const HomeScreen = ({ navigation }) => {
 
   const Icon = (name) => {
     let icon = "";
-    if (name === "Fitness") {
-      icon = icons.fitness;
+    if (name === "Health & Fitness") {
+      icon = icons.health;
     } else if (name === "Cooking") {
       icon = icons.cooking;
     } else if (name === "Languages") {
       icon = icons.languages;
-    } else if (name === "Computer") {
+    } else if (name === "Development") {
+      icon = icons.code;
+    } else if (name === "Finance & Accounting") {
+      icon = icons.finance;
+    } else if (name === "Office Productivity") {
+      icon = icons.office;
+    } else if (name === "Design") {
+      icon = icons.design;
+    } else if (name === "Marketing") {
+      icon = icons.marketing;
+    } else if (name === "Photography & Video") {
+      icon = icons.camera;
+    } else if (name === "Music") {
+      icon = icons.music;
+    } else if (name === "Lifestyle") {
+      icon = icons.lifestyle;
+    } else if (name === "Personal Development") {
+      icon = icons.self_dev;
+    } else if (name === "IT & Software") {
       icon = icons.computer;
-    } else if (name === "Prep Tests") {
+    } else if (name === "Business") {
+      icon = icons.business;
+    } else if (name === "Teaching & Academics") {
+      icon = icons.teach;
+    } else if (name === "Test Prep") {
       icon = icons.test;
     }
     return icon;
+  };
+
+  const searchFilterFunction = (text) => {
+    if (text) {
+      const newData = courses
+        ? courses.filter(function (item) {
+            console.log(courses);
+
+            const itemData = item.name
+              ? item.name.toUpperCase()
+              : "".toUpperCase();
+            const textData = text.toUpperCase();
+            return itemData.indexOf(textData) > -1;
+          })
+        : null;
+      setFilterCourses(newData);
+      setSearch(text);
+    } else {
+      setFilterCourses([]);
+      setSearch(text);
+    }
   };
 
   function renderCategories() {
@@ -166,6 +210,7 @@ const HomeScreen = ({ navigation }) => {
           horizontal={true}
           data={categories}
           showsHorizontalScrollIndicator={false}
+          // ItemSeparatorComponent={ItemSeparatorView}
           keyExtractor={(item) => `${item.id}`}
           contentContainerStyle={{ paddingVertical: SIZES.padding }}
           renderItem={({ item }) => {
@@ -246,7 +291,7 @@ const HomeScreen = ({ navigation }) => {
           </Animatable.View>
         ) : null}
         <FlatList
-          data={filterCourses}
+          data={filteredCourses}
           keyExtractor={(item) => `${item.id}`}
           contentContainerStyle={{
             paddingBottom: 30,
@@ -305,6 +350,129 @@ const HomeScreen = ({ navigation }) => {
     );
   }
 
+  function renderCourses() {
+    return (
+      <Animatable.View animation="bounceInLeft">
+        <FlatList
+          horizontal={true}
+          data={courses}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item) => `${item.id}`}
+          contentContainerStyle={{ paddingVertical: SIZES.padding / 2 }}
+          renderItem={({ item }) => {
+            return (
+              <View style={{ paddingVertical: 5, paddingLeft: 16 }}>
+                <View
+                  style={{
+                    padding: SIZES.padding,
+                    paddingBottom: SIZES.padding * 2,
+                    backgroundColor: "#b9a85c",
+                    borderRadius: SIZES.radius / 2,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    elevation: 5,
+                    marginRight: SIZES.padding,
+                    // ...styles.shadow,
+                  }}
+                  onPress={() => onSelectCategory(item)}
+                >
+                  <Text
+                    style={{
+                      marginHorizontal: 1,
+                      marginTop: SIZES.padding,
+                      fontWeight: "bold",
+                      color: "#FFFFFF",
+                      fontSize: 17,
+                    }}
+                  >
+                    {item.name}
+                  </Text>
+
+                  <View
+                    style={{
+                      margin: 5,
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Text>5 Tutors</Text>
+                  </View>
+                </View>
+              </View>
+            );
+          }}
+        />
+      </Animatable.View>
+    );
+  }
+  const ItemView = ({ item }) => {
+    return (
+      // // Flat List Item
+      // <Text style={styles.itemStyle} onPress={() => getItem(item)}>
+      //   {item.name.toUpperCase()}
+      // </Text>
+      <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
+        <TouchableOpacity
+          style={{
+            backgroundColor:
+              selectedCourse?.id == item.id ? "#DEE9FD" : COLORS.white,
+            borderRadius: SIZES.radius,
+            elevation: 10,
+            marginRight: SIZES.padding * 2,
+          }}
+          onPress={() => onSelectCourse(item)}
+        >
+          <View
+            style={{
+              padding: 20,
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text
+              style={{
+                marginHorizontal: 5,
+                marginTop: 4,
+                fontWeight: selectedCourse?.id == item.id ? "bold" : "normal",
+                color: selectedCourse?.id == item.id ? "#155c47" : COLORS.black,
+
+                ...FONTS.h2,
+              }}
+            >
+              {item.name}
+            </Text>
+            <Image
+              source={icons.right}
+              resizeMode="contain"
+              style={{
+                width: 20,
+                height: 44,
+              }}
+            />
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  const ItemSeparatorView = () => {
+    return (
+      // Flat List Item Separator
+      <View
+        style={{
+          height: 0.5,
+          width: "100%",
+          backgroundColor: "#C8C8C8",
+        }}
+      />
+    );
+  };
+
+  const getItem = (item) => {
+    // Function for click on an item
+    alert("Id : " + item.id + " Title : " + item.name);
+  };
+
   return (
     <View style={styles.container}>
       <View>
@@ -325,8 +493,11 @@ const HomeScreen = ({ navigation }) => {
           <View>
             <TextInput
               style={styles.searchBox}
-              placeholder="Search Category"
+              placeholder="Search Courses"
               placeholderTextColor="#666"
+              onChangeText={(text) => searchFilterFunction(text)}
+              value={search}
+              underlineColorAndroid="transparent"
             ></TextInput>
             <Feather
               name="search"
@@ -351,19 +522,34 @@ const HomeScreen = ({ navigation }) => {
         </ImageBackground>
       </View>
       <ScrollView>
-        <Animatable.View
-          animation="pulse"
-          style={{ padding: SIZES.padding * 2 }}
-        >
-          <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>Main</Text>
-          <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>Categories</Text>
-        </Animatable.View>
-        {renderCategories()}
-        {renderCoursesList()}
-        <Animatable.View animation="pulse" style={{ padding: 20 }}>
-          <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>Top Tutors</Text>
-        </Animatable.View>
-        <View style={{ marginBottom: 60 }}>
+        {search ? (
+          <View>
+            <FlatList
+              data={filterCourses}
+              keyExtractor={(item, index) => index.toString()}
+              // ItemSeparatorComponent={ItemSeparatorView}
+              renderItem={ItemView}
+            />
+          </View>
+        ) : (
+          <View>
+            <Animatable.View
+              animation="pulse"
+              style={{ padding: SIZES.padding * 2 }}
+            >
+              <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>Main</Text>
+              <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>
+                Categories
+              </Text>
+            </Animatable.View>
+            {renderCategories()}
+            {renderCoursesList()}
+          </View>
+        )}
+        <View>
+          <Animatable.View animation="pulse" style={{ padding: 20 }}>
+            <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>Top Tutors</Text>
+          </Animatable.View>
           <FlatList
             showsHorizontalScrollIndicator={false}
             horizontal={true}
@@ -394,6 +580,14 @@ const HomeScreen = ({ navigation }) => {
               );
             }}
           />
+        </View>
+        <View style={{ marginBottom: 60 }}>
+          <Animatable.View animation="pulse" style={{ padding: 20 }}>
+            <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>
+              Most Popular courses
+            </Text>
+          </Animatable.View>
+          <View>{renderCourses()}</View>
         </View>
         {/* <View style={{ marginBottom: 60 }}>
           <View
@@ -480,6 +674,7 @@ const styles = StyleSheet.create({
     opacity: 0.5,
     borderBottomRightRadius: 65,
   },
+
   searchContainer: {
     paddingTop: 100,
     paddingLeft: 16,

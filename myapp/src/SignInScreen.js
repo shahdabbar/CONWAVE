@@ -68,33 +68,6 @@ const SignInScreen = ({ navigation }) => {
     }
   };
 
-  const URI = "http://127.0.0.1:8000";
-  async function Test() {
-    try {
-      let response = await fetch(URI + "/api/test");
-      let responseJsonData = await response.json();
-      console.log(responseJsonData);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    console.log("holaa");
-
-    apiClient.get("/api/test").then((res) => {
-      console.log(res);
-    });
-    // apiClient.get("/sanctum/csrf-cookie").then((response) => {
-    //   console.log(response);
-    //   apiClient.post("/login", data).then((userFound) => {
-    //     console.log(userFound.data);
-    //     // return userFound;
-    //   });
-    // });
-  };
-
   const updateSecureTextEntry = () => {
     setData({
       ...data,

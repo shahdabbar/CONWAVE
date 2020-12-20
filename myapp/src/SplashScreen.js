@@ -372,7 +372,6 @@ class MyApp extends Component {
               <View>
                 <TouchableOpacity
                   onPress={() => {
-                    console.log(this.state.email, this.state.password);
                     this.context.login(this.state.email, this.state.password);
                   }}
                 >

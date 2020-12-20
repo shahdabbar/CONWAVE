@@ -16,17 +16,21 @@ class CreateProfilesTable extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('bio');
-            $table->string('university');
-            $table->string('major');
-            $table->string('degree');
+            $table->unsignedBigInteger('university_id');
+            $table->unsignedBigInteger('major_id');
+            $table->unsignedBigInteger('degree_id');
             $table->date('graduation_date');
+            $table->text('bio')->nullable();
+            $table->text('cv')->nullable();
             $table->unsignedBigInteger('hours_tutored')->default(false);
             $table->unsignedBigInteger('students_tutored')->default(false);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->index('user_id');
+            $table->foreign('university_id')->references('id')->on('universities')->onDelete('cascade');
+            $table->foreign('major_id')->references('id')->on('majors')->onDelete('cascade');
+            $table->foreign('degree_id')->references('id')->on('degrees')->onDelete('cascade');
 
         });
     }

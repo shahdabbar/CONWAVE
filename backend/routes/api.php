@@ -34,8 +34,8 @@ Route::middleware('auth:sanctum')->post('/profile/update', [ProfileController::c
 
 Route::middleware('auth:sanctum')->post('/user/photo', [UserController::class, 'storeImage']);
 Route::middleware('auth:sanctum')->post('/user/update', [UserController::class, 'update']);
-Route::middleware('auth:sanctum')->get('/user/profile', [UserController::class, 'indexAll'] );
-
+Route::middleware('auth:sanctum')->get('/user_profile', [UserController::class, 'getAll'] );
+\
 Route::middleware('auth:sanctum')->get('/categories', [CategoryController::class, 'index']);
 Route::middleware('auth:sanctum')->get('/courses', [CourseController::class, 'index']);
 

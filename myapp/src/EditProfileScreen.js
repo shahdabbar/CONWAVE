@@ -32,12 +32,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import Animated, { Easing } from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 import * as ImagePicker from "expo-image-picker";
-// import Modal from "react-native-modal";
 
 import Constants from "expo-constants";
 import axios from "axios";
 import { curveBasis } from "d3-shape";
-axios.defaults.baseURL = "http://10.0.2.2:8000";
+// axios.defaults.baseURL = "http://192.168.0.1:8000";
 
 const EditProfileScreen = ({ route, navigation }) => {
   const { user, logout } = useContext(AuthContext);
@@ -59,7 +58,6 @@ const EditProfileScreen = ({ route, navigation }) => {
     modal2: false,
     modal3: false,
   });
-  const [checked, setChecked] = useState(false);
 
   const [userInfo, setUserInfo] = useState({
     firstname: "",
@@ -69,6 +67,7 @@ const EditProfileScreen = ({ route, navigation }) => {
     location: "",
     type: "",
     phone_number: "",
+    imagePath: "",
   });
 
   const [profileInfo, setProfileInfo] = useState({
@@ -125,6 +124,8 @@ const EditProfileScreen = ({ route, navigation }) => {
     axios
       .get("api/user")
       .then((response) => {
+        console.log(response.data);
+
         setUserInfo({
           ...userInfo,
           firstname: response.data.firstname,
@@ -134,12 +135,13 @@ const EditProfileScreen = ({ route, navigation }) => {
           location: response.data.location,
           type: response.data.type,
           phone_number: response.data.phone_number,
+          imagePath: response.data.profile_photo_path,
         });
       })
       .catch((error) => {
         console.log(error.response);
       });
-
+    console.log("image path", userInfo.imagePath);
     // (async () => {
     //   if (Platform.OS !== "web") {
     //     const {
@@ -276,59 +278,60 @@ const EditProfileScreen = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Modal visible={modalOpen.modal3} transparent={true} animationType="fade">
-        <View style={{ backgroundColor: "#222222aa", flex: 1 }}>
+        {/* <View style={{ backgroundColor: "#222222aa", flex: 1 }}> */}
+        <View
+          style={{
+            backgroundColor: "#FFFFFF",
+            marginTop: "10%",
+            marginHorizontal: 70,
+            padding: 20,
+            marginRight: 20,
+            borderRadius: 16,
+            elevation: 10,
+            // flex: 1,
+          }}
+        >
           <View
             style={{
-              backgroundColor: "#faf7f2",
-              marginTop: "10%",
-              marginHorizontal: 70,
-              padding: 20,
-              marginRight: 20,
-              borderRadius: 16,
-              // flex: 1,
+              position: "absolute",
+              marginHorizontal: 10,
+              marginVertical: 10,
+              right: 2,
             }}
           >
+            <FontAwesome
+              name="close"
+              size={24}
+              color="gray"
+              onPress={() => {
+                setModalOpen({ ...modalOpen, modal3: false });
+              }}
+            />
+          </View>
+          <View>
             <View
               style={{
-                position: "absolute",
-                marginHorizontal: 10,
-                marginVertical: 10,
-                right: 2,
+                borderColor: "#DFDBC8",
+                borderBottomWidth: 1,
+                marginBottom: 10,
+                paddingBottom: 10,
               }}
             >
-              <FontAwesome
-                name="close"
-                size={24}
-                color="gray"
-                onPress={() => {
-                  setModalOpen({ ...modalOpen, modal3: false });
-                }}
-              />
+              <Text style={{ fontSize: 20 }}>Change password</Text>
             </View>
             <View>
-              <View
-                style={{
-                  borderColor: "#DFDBC8",
-                  borderBottomWidth: 1,
-                  marginBottom: 10,
-                  paddingBottom: 10,
+              <Text
+                style={{ fontSize: 20 }}
+                onPress={() => {
+                  logout();
                 }}
               >
-                <Text style={{ fontSize: 20 }}>Change password</Text>
-              </View>
-              <View>
-                <Text
-                  style={{ fontSize: 20 }}
-                  onPress={() => {
-                    logout();
-                  }}
-                >
-                  Logout
-                </Text>
-              </View>
+                Logout
+              </Text>
             </View>
           </View>
         </View>
+        {/* </View> */}
       </Modal>
       <Modal
         visible={modalOpen.modal2}
@@ -456,7 +459,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                 size={24}
                 color="gray"
                 onPress={() => {
-                  setModalOpen({ ...modalOpen, modal1: false });
+                  setModalOpen({ ...modalOpen, modal1: !modalOpen.modal1 });
                 }}
               />
             </View>
@@ -466,7 +469,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                   status="unchecked"
                   onPress={() => {
                     setUpdate({ ...update, updateValue: "Male" });
-                    setModalOpen({ ...modalOpen, modal1: false });
+                    setModalOpen({ ...modalOpen, modal1: !modalOpen.modal1 });
                   }}
                 >
                   <Text>Male</Text>
@@ -475,7 +478,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                   checked={true}
                   onPress={() => {
                     setUpdate({ ...update, updateValue: "Female" });
-                    setModalOpen({ ...modalOpen, modal1: false });
+                    setModalOpen({ ...modalOpen, modal1: !modalOpen.modal1 });
                   }}
                 >
                   <Text style={{ ...styles.updateText, color: "#000000" }}>
@@ -508,7 +511,10 @@ const EditProfileScreen = ({ route, navigation }) => {
                     <TouchableOpacity
                       style={styles.signIn}
                       onPress={() => {
-                        setModalOpen({ ...modalOpen, modal1: false });
+                        setModalOpen({
+                          ...modalOpen,
+                          modal1: !modalOpen.modal1,
+                        });
                         updateUser();
                       }}
                     >
@@ -526,7 +532,10 @@ const EditProfileScreen = ({ route, navigation }) => {
                     <TouchableOpacity
                       style={styles.signIn}
                       onPress={() => {
-                        setModalOpen({ ...modalOpen, modal1: false });
+                        setModalOpen({
+                          ...modalOpen,
+                          modal1: !modalOpen.modal1,
+                        });
                       }}
                     >
                       <LinearGradient
@@ -543,7 +552,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                     name="ios-checkmark-circle"
                     size={40}
                     onPress={() => {
-                      setModalOpen({ ...modalOpen, modal1: false });
+                      setModalOpen({ ...modalOpen, modal1: !modalOpen.modal1 });
                       updateUser();
                     }}
                   /> */}
@@ -593,8 +602,8 @@ const EditProfileScreen = ({ route, navigation }) => {
             <View style={styles.profileImage}>
               <Image
                 source={
-                  image
-                    ? { uri: image }
+                  userInfo.imagePath
+                    ? { uri: `http://10.0.2.2:8000/${userInfo.imagePath}` }
                     : require("../assets/images/profile4.png")
                 }
                 style={styles.image}
@@ -651,7 +660,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                     name="pencil"
                     size={20}
                     onPress={() => {
-                      setModalOpen({ ...modalOpen, modal1: true });
+                      setModalOpen({ ...modalOpen, modal1: !modalOpen.modal1 });
                       setUpdate({
                         ...update,
                         updateName: "firstname",
@@ -677,7 +686,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                     name="pencil"
                     size={20}
                     onPress={() => {
-                      setModalOpen({ ...modalOpen, modal1: true });
+                      setModalOpen({ ...modalOpen, modal1: !modalOpen.modal1 });
                       setUpdate({
                         ...update,
                         updateName: "lastname",
@@ -704,7 +713,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                     name="pencil"
                     size={20}
                     onPress={() => {
-                      setModalOpen({ ...modalOpen, modal1: true });
+                      setModalOpen({ ...modalOpen, modal1: !modalOpen.modal1 });
                       setUpdate({
                         ...update,
                         updateName: "phone_number",
@@ -735,7 +744,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                     name="pencil"
                     size={20}
                     onPress={() => {
-                      setModalOpen({ ...modalOpen, modal1: true });
+                      setModalOpen({ ...modalOpen, modal1: !modalOpen.modal1 });
                       setUpdate({
                         ...update,
                         updateName: "gender",
@@ -776,7 +785,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                     name="pencil"
                     size={20}
                     onPress={() => {
-                      setModalOpen({ ...modalOpen, modal1: true });
+                      setModalOpen({ ...modalOpen, modal1: !modalOpen.modal1 });
                       setUpdate({
                         ...update,
                         updateName: "location",

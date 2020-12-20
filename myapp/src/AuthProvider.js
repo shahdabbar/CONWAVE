@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://10.0.2.2:8000";
+axios.defaults.baseURL = "http://192.168.0.106:8000";
 export const AuthContext = React.createContext({});
 
 export const AuthProvider = ({ children }) => {
@@ -26,7 +26,6 @@ export const AuthProvider = ({ children }) => {
                 email: response.data.user.email,
                 token: response.data.token,
               };
-              console.log("userRes", userResponse.token);
               setUser(userResponse);
               SecureStore.setItemAsync("user", JSON.stringify(userResponse));
             })
@@ -81,7 +80,6 @@ export const AuthProvider = ({ children }) => {
                   email: response.data.user.email,
                   token: response.data.token,
                 };
-                console.log("userRes", userResponse);
                 setUser(userResponse);
                 SecureStore.setItemAsync("user", JSON.stringify(userResponse));
               }

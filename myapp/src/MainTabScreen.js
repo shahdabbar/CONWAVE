@@ -28,8 +28,6 @@ import ExploreScreen from "./ExploreScreen";
 import EditProfileScreen from "./EditProfileScreen";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://10.0.2.2:8000";
-
 const HomeStack = createStackNavigator();
 const DetailsStack = createStackNavigator();
 const ProfileStack = createStackNavigator();

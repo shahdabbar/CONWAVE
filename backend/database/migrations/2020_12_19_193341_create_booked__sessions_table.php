@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePostsTable extends Migration
+class CreateBookedSessionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,19 @@ class CreatePostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('booked__sessions', function (Blueprint $table) {
             $table->id();
-            $table->string('meeting_type');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('profile_id');
             $table->unsignedBigInteger('course_id');
+            $table->string('meeting_type');
             $table->date('available_date');
             $table->decimal('payment');
-            $table->string('location');
+            $table->text('location');
             $table->string('contact')->nullable();
             $table->timestamps();
 
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('profile_id')->references('id')->on('profiles')->onDelete('cascade');
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
 
@@ -37,6 +39,6 @@ class CreatePostsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('booked__sessions');
     }
 }
