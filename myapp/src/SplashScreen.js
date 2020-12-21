@@ -240,7 +240,7 @@ class MyApp extends Component {
               <Circle r={height + 50} cx={width / 2} />
             </ClipPath>
             <Image
-              href={require("../assets/images/bg.jpg")}
+              href={require("../assets/images/bg17.jpg")}
               width={width}
               height={height + 50}
               preserveAspectRatio="xMidYMid slice"
@@ -263,7 +263,7 @@ class MyApp extends Component {
               <View>
                 <TouchableOpacity>
                   <LinearGradient
-                    colors={["#c6b893", "orange"]}
+                    colors={["#c6b893", "#ffba00"]}
                     style={styles.button}
                   >
                     <Text style={styles.text}>SIGN IN</Text>
@@ -284,10 +284,10 @@ class MyApp extends Component {
               >
                 {/* d02860 */}
                 <LinearGradient
-                  colors={["#c6b893", "#d02860"]}
+                  colors={["#ff01ff", "#ffba00"]}
                   style={styles.button}
                 >
-                  <Text style={styles.text}>Create an account</Text>
+                  <Text style={styles.text}>CREATE AN ACCOUNT</Text>
                 </LinearGradient>
               </TouchableOpacity>
             </View>
@@ -376,7 +376,7 @@ class MyApp extends Component {
                   }}
                 >
                   <LinearGradient
-                    colors={["#c6b893", "#d02860"]}
+                    colors={["#ff01ff", "#ffba00"]}
                     style={styles.button}
                   >
                     <Text style={styles.text}>SIGN IN</Text>

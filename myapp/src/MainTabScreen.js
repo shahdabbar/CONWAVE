@@ -26,12 +26,19 @@ import DetailsScreen from "./DetailsScreen";
 import ProfileScreen from "./ProfileScreen";
 import ExploreScreen from "./ExploreScreen";
 import EditProfileScreen from "./EditProfileScreen";
+import CoursesScreen from "./CoursesScreen";
+import CompleteProfileScreen from "./CompleteProfileScreen";
+import AddCourseScreen from "./AddCourseScreen";
+
 import axios from "axios";
 
 const HomeStack = createStackNavigator();
 const DetailsStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const ExploreStack = createStackNavigator();
+const SessionStack = createStackNavigator();
+// const ExploreStack = createStackNavigator();
+
 const Tab = createBottomTabNavigator();
 
 const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
@@ -120,6 +127,25 @@ const MainTabScreen = () => (
         tabBarIcon: ({ focused }) => (
           <Image
             source={require("../assets/icons/notification.png")}
+            resizeMode="contain"
+            style={{
+              width: 25,
+              height: 25,
+              tintColor: focused ? COLORS.primary : COLORS.secondary,
+            }}
+          />
+        ),
+        tabBarButton: (props) => <TabBarCustomButton {...props} />,
+      }}
+    />
+    <Tab.Screen
+      name="Sessions"
+      component={SessionsStackScreen}
+      options={{
+        tabBarLabel: "Sessions",
+        tabBarIcon: ({ focused }) => (
+          <Image
+            source={require("../assets/icons/explore.png")}
             resizeMode="contain"
             style={{
               width: 25,
@@ -309,7 +335,7 @@ const ProfileStackScreen = ({ navigation }) => {
               color="gray"
               style={{ marginRight: 16 }}
               onPress={() => {
-                navigation.navigate("EditProfile", { modal3: true });
+                navigation.navigate("EditProfile");
               }}
             />
           ),
@@ -348,6 +374,91 @@ const ExploreStackScreen = ({ navigation }) => (
       }}
     />
   </ExploreStack.Navigator>
+);
+
+const SessionsStackScreen = ({ navigation }) => (
+  <SessionStack.Navigator
+    screenOptions={{
+      headerShown: false,
+      headerStyle: {
+        backgroundColor: "#fff",
+        shadowColor: "#000", // ios
+        elevation: 0, // Android
+      },
+      headerTintColor: "#000",
+      headerTitleStyle: {
+        fontWeight: "bold",
+      },
+    }}
+  >
+    <SessionStack.Screen
+      name="Sessions"
+      component={CompleteProfileScreen}
+      options={{
+        headerLeft: () => (
+          <Icon.Button
+            name="ios-menu"
+            size={30}
+            backgroundColor="#fff"
+            color="black"
+            onPress={() => navigation.openDrawer()}
+          ></Icon.Button>
+        ),
+      }}
+    />
+
+    <SessionStack.Screen
+      name="Courses"
+      component={CoursesScreen}
+      options={{
+        headerShown: true,
+        title: "COURSES",
+        headerTitleStyle: {
+          color: "gray",
+          fontWeight: "800",
+          fontSize: 14,
+          alignSelf: "center",
+        },
+        headerLeft: () => (
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color="gray"
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.navigate("CompleteProfileScreen");
+            }}
+          />
+        ),
+
+        headerRight: () => (
+          <Icon
+            name="pencil"
+            size={25}
+            color="gray"
+            style={{ marginRight: 16 }}
+            onPress={() => {}}
+          />
+        ),
+      }}
+    />
+
+    <SessionStack.Screen
+      name="AddCourse"
+      component={AddCourseScreen}
+      options={{
+        headerLeft: () => (
+          <Icon.Button
+            name="ios-menu"
+            size={30}
+            backgroundColor="#fff"
+            color="black"
+            onPress={() => navigation.openDrawer()}
+          ></Icon.Button>
+        ),
+      }}
+    />
+  </SessionStack.Navigator>
 );
 
 const styles = StyleSheet.create({

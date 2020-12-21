@@ -24,7 +24,7 @@ import MainTabScreen from "../src/MainTabScreen";
 import DrawerContent from "../src/DrawerContent";
 import SupportScreen from "../src/SupportScreen";
 import SettingsScreen from "../src/SettingsScreen";
-import BookmarkScreen from "../src/BookmarkScreen";
+import CompleteProfileScreen from "../src/CompleteProfileScreen";
 import RootStackScreen from "../src/RootStackScreen";
 
 const Drawer = createDrawerNavigator();
@@ -66,7 +66,10 @@ function App() {
         <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
         <Drawer.Screen name="SupportScreen" component={SupportScreen} />
         <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
-        <Drawer.Screen name="BookmarkScreen" component={BookmarkScreen} />
+        <Drawer.Screen
+          name="CompleteProfileScreen"
+          component={CompleteProfileScreen}
+        />
       </Drawer.Navigator>
     </PaperProvider>
   );

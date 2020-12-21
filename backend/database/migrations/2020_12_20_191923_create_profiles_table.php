@@ -14,7 +14,7 @@ class CreateProfilesTable extends Migration
     public function up()
     {
         Schema::create('profiles', function (Blueprint $table) {
-            $table->id();
+           $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('university_id');
             $table->unsignedBigInteger('major_id');
@@ -31,6 +31,7 @@ class CreateProfilesTable extends Migration
             $table->foreign('university_id')->references('id')->on('universities')->onDelete('cascade');
             $table->foreign('major_id')->references('id')->on('majors')->onDelete('cascade');
             $table->foreign('degree_id')->references('id')->on('degrees')->onDelete('cascade');
+
 
         });
     }

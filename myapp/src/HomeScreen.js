@@ -222,7 +222,7 @@ const HomeScreen = ({ navigation }) => {
                     paddingBottom: SIZES.padding * 2,
                     backgroundColor:
                       selectedCategory?.id == item.id
-                        ? COLORS.primary
+                        ? "#ffd200"
                         : COLORS.white,
                     borderRadius: SIZES.radius,
                     alignItems: "center",
@@ -477,7 +477,7 @@ const HomeScreen = ({ navigation }) => {
     <View style={styles.container}>
       <View>
         <ImageBackground
-          source={require("../assets/images/bg10.jpg")}
+          source={require("../assets/images/images.jpg")}
           style={{ width: "100%", height: 270 }}
           imageStyle={styles.image}
         >
@@ -503,7 +503,7 @@ const HomeScreen = ({ navigation }) => {
               name="search"
               size={22}
               color="#666"
-              style={{ position: "absolute", top: 30, right: 60, opacity: 0.6 }}
+              style={{ position: "absolute", top: 35, right: 60, opacity: 0.6 }}
             />
           </View>
           <Feather
@@ -674,7 +674,18 @@ const styles = StyleSheet.create({
     opacity: 0.5,
     borderBottomRightRadius: 65,
   },
-
+  searchBox: {
+    marginTop: 16,
+    backgroundColor: "#fff",
+    paddingLeft: 24,
+    padding: 12,
+    borderTopRightRadius: 40,
+    borderBottomRightRadius: 40,
+    width: "90%",
+    height: 60,
+    borderColor: "#ffd200",
+    borderWidth: 2,
+  },
   searchContainer: {
     paddingTop: 100,
     paddingLeft: 16,
@@ -689,15 +700,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "normal",
   },
-  searchBox: {
-    marginTop: 16,
-    backgroundColor: "#fff",
-    paddingLeft: 24,
-    padding: 12,
-    borderTopRightRadius: 40,
-    borderBottomRightRadius: 40,
-    width: "90%",
-  },
+
   textSection: {
     fontSize: 22,
     fontWeight: "bold",

@@ -825,10 +825,15 @@ const EditProfileScreen = ({ route, navigation }) => {
                           size={20}
                           color={COLORS.dark}
                         />
-
-                        <Text style={styles.infoText}>
-                          {profileInfo.university}
-                        </Text>
+                        {profileInfo.university ? (
+                          <Text style={styles.infoText}>
+                            {profileInfo.university}
+                          </Text>
+                        ) : (
+                          <Text style={{ ...styles.infoText, color: "gray" }}>
+                            + Add University
+                          </Text>
+                        )}
                       </View>
 
                       <Icon
@@ -858,8 +863,15 @@ const EditProfileScreen = ({ route, navigation }) => {
                           size={22}
                           color={COLORS.dark}
                         />
-
-                        <Text style={styles.infoText}>{profileInfo.major}</Text>
+                        {profileInfo.major ? (
+                          <Text style={styles.infoText}>
+                            {profileInfo.major}
+                          </Text>
+                        ) : (
+                          <Text style={{ ...styles.infoText, color: "gray" }}>
+                            + Add Your Major
+                          </Text>
+                        )}
                       </View>
 
                       <Icon
@@ -905,10 +917,15 @@ const EditProfileScreen = ({ route, navigation }) => {
                           size={22}
                           color={COLORS.dark}
                         />
-
-                        <Text style={{ ...styles.infoText, width: "88%" }}>
-                          {profileInfo.bio}
-                        </Text>
+                        {profileInfo.bio ? (
+                          <Text style={{ ...styles.infoText, width: "88%" }}>
+                            {profileInfo.bio}
+                          </Text>
+                        ) : (
+                          <Text style={{ ...styles.infoText, color: "gray" }}>
+                            Enter something about yourself
+                          </Text>
+                        )}
                       </View>
 
                       <Icon

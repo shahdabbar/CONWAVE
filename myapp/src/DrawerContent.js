@@ -22,7 +22,7 @@ import {
   Switch,
 } from "react-native-paper";
 import axios from "axios";
-axios.defaults.baseURL = "http://10.0.2.2:8000";
+// axios.defaults.baseURL = "http://10.0.2.2:8000";
 
 function DrawerContent(props) {
   const paperTheme = useTheme();
@@ -105,7 +105,7 @@ function DrawerContent(props) {
               )}
               label="Bookmarks"
               onPress={() => {
-                props.navigation.navigate("BookmarkScreen");
+                props.navigation.navigate("CompleteProfileScreen");
               }}
             />
             <DrawerItem

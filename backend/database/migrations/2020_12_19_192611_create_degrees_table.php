@@ -30,3 +30,7 @@ class CreateDegreesTable extends Migration
         Schema::dropIfExists('degrees');
     }
 }
+
+
+
+
