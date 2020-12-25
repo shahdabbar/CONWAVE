@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }) => {
               };
               setUser(userResponse);
               SecureStore.setItemAsync("user", JSON.stringify(userResponse));
+              console.log(userResponse.token);
             })
             .catch((error) => {
               console.log("error", error);

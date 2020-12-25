@@ -30,32 +30,134 @@ import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import axios from "axios";
 
 const CoursesScreen = ({ navigation }) => {
-  const { colors } = useTheme();
-
   const { user } = useContext(AuthContext);
+  const [courses, setCourses] = useState([]);
+  useEffect(() => {
+    // get all tutor courses
+    axios
+      .get("api/tutor/courses")
+      .then((response) => {
+        setCourses(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const onChangeText = (item, text) => {
+    const newData = courses.map((e) => {
+      if (e.id === item.id) {
+        return {
+          ...e,
+          rate: text,
+        };
+      }
+      return {
+        ...e,
+        rate: e.rate,
+      };
+    });
+    setCourses(newData);
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.placeholder_box}>
-        <TouchableOpacity
-          style={{ marginTop: -60 }}
-          onPress={() => navigation.navigate("AddCourse")}
-        >
-          <LinearGradient colors={["#ff01ff", "#ffd200"]} style={styles.button}>
-            <Image
-              source={icons.plus}
-              resizeMode="contain"
-              imageStyle={{ borderRadius: 16 }}
-              style={{
-                width: 40,
-                height: 40,
-              }}
-            />
-          </LinearGradient>
-        </TouchableOpacity>
-        <View>
-          <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>My Courses</Text>
-        </View>
+      <View style={styles.courses}>
+        <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>My Courses</Text>
       </View>
+      <ScrollView>
+        <FlatList
+          data={courses}
+          keyExtractor={(item) => `${item.id}`}
+          contentContainerStyle={{
+            paddingVertical: SIZES.padding,
+            marginBottom: 60,
+          }}
+          renderItem={({ item }) => {
+            return (
+              <View>
+                <View>
+                  <LinearGradient
+                    colors={["#FFFFFF", "#FFFFFF"]}
+                    style={{
+                      borderRadius: SIZES.radius / 2,
+                      borderColor: "#ffd200",
+                      borderWidth: 2,
+                      elevation: 10,
+                      padding: 5,
+                      marginHorizontal: 20,
+                      height: 200,
+                      marginBottom: 10,
+                    }}
+                  >
+                    <View>
+                      <View style={{ ...styles.infoContent }}>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            marginBottom: 10,
+                          }}
+                        >
+                          <View>
+                            <Text style={styles.infoText}>
+                              {item.course.name}
+                            </Text>
+                          </View>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                            }}
+                          >
+                            <View style={styles.action}>
+                              <TextInput
+                                defaultValue={item.rate}
+                                textContentType="telephoneNumber"
+                                style={{ fontSize: 20 }}
+                                placeholder="Rate"
+                                placeholderTextColor="#666"
+                                onChangeText={(text) =>
+                                  onChangeText(item, text)
+                                }
+                                underlineColorAndroid="transparent"
+                              ></TextInput>
+                            </View>
+                            <Text style={{ ...styles.text, color: "#34495e" }}>
+                              LBP/h
+                            </Text>
+                          </View>
+                        </View>
+                        <Text style={styles.text}>
+                          {item.course_description}
+                        </Text>
+                      </View>
+                    </View>
+                  </LinearGradient>
+                </View>
+              </View>
+            );
+          }}
+        />
+      </ScrollView>
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={() => navigation.navigate("AddCourse")}
+      >
+        <LinearGradient colors={["#ff01ff", "#ffd200"]} style={styles.button}>
+          <Image
+            source={icons.plus}
+            resizeMode="contain"
+            imageStyle={{ borderRadius: 16 }}
+            style={{
+              width: 40,
+              height: 40,
+            }}
+          />
+        </LinearGradient>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -65,42 +167,59 @@ export default CoursesScreen;
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    height: "100%",
-    backgroundColor: "#fff",
+    backgroundColor: "white",
   },
-  add: {
-    margin: 20,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  placeholder_box: {
-    position: "relative",
-    display: "flex",
-    width: "98%",
-    alignSelf: "center",
-    minHeight: "90%",
-    marginTop: 40,
-    padding: 30,
-    borderColor: "#ffd200",
-    borderBottomRightRadius: 10,
-    borderRadius: 10,
-    elevation: 10,
-    marginHorizontal: 10,
-  },
+  courses: { marginHorizontal: 20, marginVertical: 10, fontWeight: "100" },
   button: {
-    justifyContent: "center",
-    alignItems: "center",
+    height: 75,
+    width: "100%",
     borderColor: "#ffd200",
     borderWidth: 2,
-    width: 100,
-    alignSelf: "center",
     borderRadius: 50,
-    color: "white",
-    marginBottom: 15,
-    padding: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 5,
+    elevation: 5,
+    position: "absolute",
+    alignSelf: "flex-end",
+  },
+  buttonContainer: {
+    height: 75,
+    width: "20%",
+    left: 300,
+    borderRadius: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 5,
+    elevation: 5,
+    position: "absolute",
+    bottom: 60,
+    alignSelf: "flex-end",
+  },
+  infoContent: {
+    margin: 10,
+  },
+  infoText: {
+    fontSize: 27,
+    fontWeight: "bold",
+  },
+  text: {
+    fontSize: 18,
   },
   image: {
     borderBottomRightRadius: 65,
+  },
+  action: {
+    flexDirection: "row",
+    height: 40,
+    borderRadius: 15,
+    borderWidth: 1,
+    marginHorizontal: 10,
+    marginVertical: 5,
+    borderColor: "#ff01ff",
+    paddingHorizontal: 5,
+    backgroundColor: "#FFFFFF",
+    elevation: 2,
   },
   DarkOverlay: {
     position: "absolute",

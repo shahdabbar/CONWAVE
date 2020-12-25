@@ -12,6 +12,7 @@ import {
   Modal,
 } from "react-native";
 import { Card, CardItem } from "react-native-paper";
+import { LinearGradient } from "expo-linear-gradient";
 import {
   MaterialIcons as MaterialIcon,
   Ionicons as Ionicon,
@@ -24,9 +25,13 @@ import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import EditProfile from "./EditProfileScreen";
 
 const CompleteProfileSCreen = ({ navigation }) => {
+  const [meetingType, setMeetingType] = useState({
+    inperson: false,
+    online: false,
+  });
   const [modal, setModal] = useState({
     availabilityModal: false,
-    locationModal: false,
+    meetingTypeModal: false,
     addressModal: false,
     addressModal: false,
     addressModal: false,
@@ -35,7 +40,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
     <View style={styles.container}>
       <SafeAreaView>
         <Modal
-          visible={modal.courseModal}
+          visible={modal.addressModal}
           // transparent={true}
           animationType="slide"
         >
@@ -54,9 +59,181 @@ const CompleteProfileSCreen = ({ navigation }) => {
                 size={24}
                 color="gray"
                 onPress={() => {
-                  setModal({ ...modal, courseModal: false });
+                  setModal({ ...modal, addressModal: false });
                 }}
               />
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          visible={modal.meetingTypeModal}
+          transparent={true}
+          animationType="slide"
+        >
+          <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
+            <View
+              style={{
+                backgroundColor: "#FFFFFF",
+                marginTop: "60%",
+                marginHorizontal: 10,
+                paddingTop: 20,
+                paddingLeft: 20,
+                paddingRight: 20,
+                borderRadius: 16,
+              }}
+            >
+              <View
+                style={{
+                  position: "absolute",
+                  marginHorizontal: 10,
+                  marginVertical: 5,
+                  right: 2,
+                }}
+              >
+                <FontAwesome
+                  name="close"
+                  size={24}
+                  color="gray"
+                  onPress={() => {
+                    setModal({ ...modal, meetingTypeModal: false });
+                  }}
+                />
+              </View>
+              <View>
+                <View>
+                  <TouchableOpacity
+                    style={{
+                      marginBottom: 10,
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                    onPress={() => {
+                      setMeetingType({
+                        ...meetingType,
+                        inperson: !meetingType.inperson,
+                      });
+                    }}
+                  >
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <View>
+                        <Feather name="users" size={30} color={COLORS.black} />
+                      </View>
+                      <View style={{ left: 10 }}>
+                        <Text style={styles.text}>In-Person Session</Text>
+                        <Text style={styles.subtext}>
+                          Meet your student face to face
+                        </Text>
+                      </View>
+                    </View>
+                    {meetingType.inperson ? (
+                      <View>
+                        <Ionicon
+                          name="checkmark-sharp"
+                          size={40}
+                          color={COLORS.black}
+                        />
+                      </View>
+                    ) : null}
+                  </TouchableOpacity>
+                  <View
+                    style={{
+                      height: 0.5,
+                      width: "100%",
+                      backgroundColor: "#C8C8C8",
+                    }}
+                  />
+                  <TouchableOpacity
+                    style={{
+                      marginBottom: 10,
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                    onPress={() => {
+                      setMeetingType({
+                        ...meetingType,
+                        online: !meetingType.online,
+                      });
+                    }}
+                  >
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
+                      <View>
+                        <FontAwesome name="tv" size={25} color={COLORS.black} />
+                      </View>
+                      <View style={{ left: 10 }}>
+                        <Text style={styles.text}>Online Session</Text>
+                        <Text style={styles.subtext}>
+                          Have a video call session
+                        </Text>
+                      </View>
+                    </View>
+                    {meetingType.online ? (
+                      <View>
+                        <Ionicon
+                          name="checkmark-sharp"
+                          size={40}
+                          color={COLORS.black}
+                        />
+                      </View>
+                    ) : null}
+                  </TouchableOpacity>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <View style={styles.button}>
+                    <TouchableOpacity
+                      style={styles.signIn}
+                      onPress={() => {
+                        setModal({ ...modal, meetingTypeModal: false });
+                        // updateProfile();
+                      }}
+                    >
+                      <LinearGradient
+                        colors={["#ff01ff", "#d0d610"]}
+                        style={styles.signIn}
+                      >
+                        <Text style={[styles.textSign, { color: "#000000" }]}>
+                          Save
+                        </Text>
+                      </LinearGradient>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.button}>
+                    <TouchableOpacity
+                      style={styles.signIn}
+                      onPress={() => {
+                        setModal({ ...modal, meetingTypeModal: false });
+                      }}
+                    >
+                      <LinearGradient
+                        colors={["#d0d610", "#ff01ff"]}
+                        style={styles.signIn}
+                      >
+                        <Text style={[styles.textSign, { color: "#000000" }]}>
+                          Cancel
+                        </Text>
+                      </LinearGradient>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
             </View>
           </View>
         </Modal>
@@ -71,7 +248,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
                 style={{ position: "absolute", top: 40, left: 16 }}
                 onPress={() => navigation.openDrawer()}
               /> */}
-                <Text style={styles.name}>Hey Shahd!</Text>
+                <Text style={styles.name}>Hey MH!</Text>
                 <Text style={styles.paragraph}>
                   You're a few steps away from becoming an AWESOME tutor.
                 </Text>
@@ -82,7 +259,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
                 You Need to fill out all info to be able to continue
               </Text>
             </View>
-            <View style={{ marginTop: 10 }}>
+            <View style={{ marginTop: 10, marginBottom: 30 }}>
               <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
                 <TouchableOpacity
                   style={styles.wrapper}
@@ -130,9 +307,14 @@ const CompleteProfileSCreen = ({ navigation }) => {
                 </TouchableOpacity>
               </View>
               <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
-                <TouchableOpacity style={styles.wrapper} onPress={() => {}}>
+                <TouchableOpacity
+                  style={styles.wrapper}
+                  onPress={() => {
+                    setModal({ ...modal, meetingTypeModal: true });
+                  }}
+                >
                   <View style={styles.warpper_content}>
-                    <Text style={styles.text}>Add your location</Text>
+                    <Text style={styles.text}>Prefered meeting type</Text>
                     <Image
                       source={icons.right}
                       resizeMode="contain"
@@ -144,7 +326,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
               <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
                 <TouchableOpacity style={styles.wrapper} onPress={() => {}}>
                   <View style={styles.warpper_content}>
-                    <Text style={styles.text}>Add your address</Text>
+                    <Text style={styles.text}>Default meeting address</Text>
                     <Image
                       source={icons.right}
                       resizeMode="contain"
@@ -199,6 +381,29 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#34495e",
   },
+  button: {
+    backgroundColor: "white",
+    height: 70,
+    marginHorizontal: 5,
+    borderRadius: 35,
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 5,
+    shadowOffset: { width: 2, height: 2 },
+    shadowColor: "black",
+    shadowOpacity: 0.2,
+  },
+  signIn: {
+    width: 170,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+  },
+  textSign: {
+    fontSize: 22,
+    fontWeight: "bold",
+  },
   name: {
     marginTop: 70,
     color: "#34495e",
@@ -230,6 +435,11 @@ const styles = StyleSheet.create({
     color: "#000000",
     fontWeight: "bold",
     ...FONTS.h2,
+  },
+  subtext: {
+    marginHorizontal: 5,
+    fontWeight: "800",
+    color: "gray",
   },
   image: {
     width: 20,

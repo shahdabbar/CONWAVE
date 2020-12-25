@@ -23,6 +23,7 @@ import {
   FontAwesome5,
   Feather,
 } from "react-native-vector-icons";
+import CheckBox from "@react-native-community/checkbox";
 import { LinearGradient } from "expo-linear-gradient";
 import { AuthContext } from "./AuthProvider";
 import DrawerContent from "./DrawerContent";
@@ -35,13 +36,14 @@ const AddCoursesScreen = ({ navigation }) => {
 
   const { user } = useContext(AuthContext);
 
+  const [userInfo, setUserInfo] = useState(null);
   const [categories, setCategories] = useState(null);
   const [courses, setCourses] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [filterCourses, setFilterCourses] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [selectedCourses, setSelectedCourses] = useState(null);
   const [profiles, setProfiles] = useState(null);
 
   useEffect(() => {
@@ -51,8 +53,8 @@ const AddCoursesScreen = ({ navigation }) => {
     axios
       .get("api/user")
       .then((response) => {
-        setName({
-          ...name,
+        setUserInfo({
+          ...userInfo,
           firstname: response.data.firstname,
           lastname: response.data.lastname,
         });
@@ -77,18 +79,25 @@ const AddCoursesScreen = ({ navigation }) => {
         setCategories(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("error", error);
       });
 
     // get all courses
     axios
       .get("api/courses")
       .then((response) => {
-        // setFilterCourses(response.data);
-        setCourses(response.data);
+        const newArray = response.data.map((e) => {
+          return {
+            ...e,
+            isSelected: false,
+          };
+        });
+
+        setCourses(newArray);
+        console.log("courses updated", courses);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("error", error);
       });
   }, []);
 
@@ -101,9 +110,9 @@ const AddCoursesScreen = ({ navigation }) => {
     setSelectedCategory(category);
   };
 
-  const onSelectCourse = (course) => {
-    setSelectedCourse(course);
-  };
+  // const onSelectCourse = (course) => {
+  //   setSelectedCourse(course);
+  // };
 
   const Icon = (name) => {
     let icon = "";
@@ -147,7 +156,7 @@ const AddCoursesScreen = ({ navigation }) => {
     if (text) {
       const newData = courses
         ? courses.filter(function (item) {
-            console.log(courses);
+            // console.log(courses);
 
             const itemData = item.name
               ? item.name.toUpperCase()
@@ -233,26 +242,17 @@ const AddCoursesScreen = ({ navigation }) => {
     );
   }
 
-  const ItemView = ({ item }) => {
+  const ItemView = ({ item, index }) => {
     return (
-      // // Flat List Item
-      // <Text style={styles.itemStyle} onPress={() => getItem(item)}>
-      //   {item.name.toUpperCase()}
-      // </Text>
-      <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
+      <View style={{ paddingLeft: 5 }}>
         <TouchableOpacity
           style={{
-            backgroundColor:
-              selectedCourse?.id == item.id ? "#DEE9FD" : COLORS.white,
-            borderRadius: SIZES.radius,
-            elevation: 10,
-            marginRight: SIZES.padding * 2,
+            backgroundColor: COLORS.white,
           }}
-          onPress={() => onSelectCourse(item)}
         >
           <View
             style={{
-              padding: 20,
+              padding: 10,
               flexDirection: "row",
               justifyContent: "space-between",
             }}
@@ -261,26 +261,51 @@ const AddCoursesScreen = ({ navigation }) => {
               style={{
                 marginHorizontal: 5,
                 marginTop: 4,
-                fontWeight: selectedCourse?.id == item.id ? "bold" : "normal",
-                color: selectedCourse?.id == item.id ? "#155c47" : COLORS.black,
-
+                fontWeight: "normal",
+                color: COLORS.black,
                 ...FONTS.h2,
               }}
             >
               {item.name}
             </Text>
-            <Image
-              source={icons.right}
-              resizeMode="contain"
-              style={{
-                width: 20,
-                height: 44,
-              }}
+            <CheckBox
+              boxType="circle"
+              style={{ width: 40, height: 40 }}
+              disabled={item.isSelected}
+              onAnimationType="fill"
+              offAnimationType="bounce"
+              onValueChange={() => onValueChange(item, index)}
             />
           </View>
         </TouchableOpacity>
+        <View
+          style={{
+            height: 0.5,
+            width: "100%",
+            backgroundColor: "#C8C8C8",
+          }}
+        />
       </View>
     );
+  };
+
+  const onValueChange = (item, index) => {
+    const newData = courses.map((e) => {
+      if (e.id === item.id) {
+        return {
+          ...e,
+          isSelected: !e.isSelected,
+        };
+      }
+      return {
+        ...e,
+        isSelected: e.isSelected,
+      };
+    });
+    setCourses(newData);
+    const selectedCoursesList = newData.filter((e) => e.isSelected === true);
+    setSelectedCourses(selectedCoursesList);
+    console.log("selected", selectedCoursesList);
   };
 
   function renderCoursesList() {
@@ -297,21 +322,20 @@ const AddCoursesScreen = ({ navigation }) => {
         <FlatList
           data={filteredCourses}
           keyExtractor={(item) => `${item.id}`}
+          extraData={filteredCourses}
           contentContainerStyle={{
             paddingBottom: 30,
           }}
-          renderItem={({ item }) => {
+          renderItem={({ item, index }) => {
             return (
               <View style={{ paddingLeft: 5 }}>
                 <TouchableOpacity
                   style={{
-                    backgroundColor:
-                      selectedCourse?.id == item.id ? "#DEE9FD" : COLORS.white,
+                    backgroundColor: COLORS.white,
                     // borderRadius: SIZES.radius,
                     // elevation: 10,
                     // marginRight: SIZES.padding * 2,
                   }}
-                  onPress={() => onSelectCourse(item)}
                 >
                   <View
                     style={{
@@ -324,18 +348,21 @@ const AddCoursesScreen = ({ navigation }) => {
                       style={{
                         marginHorizontal: 5,
                         marginTop: 4,
-                        fontWeight:
-                          selectedCourse?.id == item.id ? "bold" : "normal",
-                        color:
-                          selectedCourse?.id == item.id
-                            ? "#155c47"
-                            : COLORS.black,
-
+                        fontWeight: "normal",
+                        color: COLORS.black,
                         ...FONTS.h2,
                       }}
                     >
                       {item.name}
                     </Text>
+                    <CheckBox
+                      boxType="circle"
+                      style={{ width: 40, height: 40 }}
+                      disabled={item.isSelected}
+                      onAnimationType="fill"
+                      offAnimationType="bounce"
+                      onValueChange={() => onValueChange(item, index)}
+                    />
                   </View>
                 </TouchableOpacity>
                 <View
@@ -410,14 +437,19 @@ const AddCoursesScreen = ({ navigation }) => {
           <View>{renderCoursesList()}</View>
         )}
       </ScrollView>
-      <TouchableOpacity
-        style={{ marginTop: -60 }}
-        onPress={() => navigation.navigate("AddCourse")}
-      >
-        <LinearGradient colors={["#ff01ff", "#ffd200"]} style={styles.next}>
-          <Text style={styles.text}>NEXT</Text>
-        </LinearGradient>
-      </TouchableOpacity>
+
+      <View>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={() =>
+            navigation.navigate("CourseDescription", { data: selectedCourses })
+          }
+        >
+          <LinearGradient colors={["#ff01ff", "#ffd200"]} style={styles.next}>
+            <Text style={styles.text}>NEXT</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -427,7 +459,6 @@ export default AddCoursesScreen;
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    height: "100%",
     backgroundColor: "#fff",
     paddingTop: 40,
   },
@@ -447,23 +478,32 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
   },
   next: {
-    marginTop: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    borderTopLeftRadius: 40,
+    borderBottomLeftRadius: 40,
+    width: "100%",
+    height: 70,
+    borderColor: "#ffd200",
+    borderWidth: 2,
+    position: "absolute",
+    alignSelf: "flex-end",
+    elevation: 5,
+  },
+  buttonContainer: {
     backgroundColor: "#fff",
-    // paddingRight: 24,
-    padding: 12,
-    left: "70%",
     borderTopLeftRadius: 40,
     borderBottomLeftRadius: 40,
     width: "30%",
-    height: 60,
-    borderColor: "#ffd200",
-    borderWidth: 2,
+    height: 70,
+    position: "absolute",
+    bottom: 10,
+    alignSelf: "flex-end",
   },
   text: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "bold",
     color: "black",
-    marginHorizontal: 10,
   },
   DarkOverlay: {
     position: "absolute",

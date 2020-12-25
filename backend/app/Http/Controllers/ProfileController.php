@@ -36,7 +36,7 @@ class ProfileController extends Controller
             ]);
         } 
 
-        Auth()->user()->profile()->update($data);
+        Auth()->user()->profile()->insertOrUpdate($data);
         return response()->json('success', 200);
 
     }

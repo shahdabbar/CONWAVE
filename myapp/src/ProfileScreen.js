@@ -286,7 +286,7 @@ const ProfileScreen = ({ navigation }) => {
         <View style={{ alignSelf: "center" }}>
           <View style={styles.profileImage}>
             <Image
-              source={require("../assets/images/profile4.png")}
+              source={require("../assets/images/profile2.png")}
               style={styles.image}
               resizeMode="cover"
             />

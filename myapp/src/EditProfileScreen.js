@@ -604,7 +604,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                 source={
                   userInfo.imagePath
                     ? { uri: `http://10.0.2.2:8000/${userInfo.imagePath}` }
-                    : require("../assets/images/profile4.png")
+                    : require("../assets/images/profile2.png")
                 }
                 style={styles.image}
                 resizeMode="cover"
@@ -985,10 +985,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     marginBottom: 25,
   },
-  // button: {
-  //   alignItems: "center",
-  //   marginTop: 50,
-  // },
   signIn: {
     width: 170,
     height: 50,

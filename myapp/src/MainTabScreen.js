@@ -29,6 +29,8 @@ import EditProfileScreen from "./EditProfileScreen";
 import CoursesScreen from "./CoursesScreen";
 import CompleteProfileScreen from "./CompleteProfileScreen";
 import AddCourseScreen from "./AddCourseScreen";
+import AddRateScreen from "./AddRateScreen";
+import CourseDescScreen from "./CourseDescScreen";
 
 import axios from "axios";
 
@@ -379,7 +381,6 @@ const ExploreStackScreen = ({ navigation }) => (
 const SessionsStackScreen = ({ navigation }) => (
   <SessionStack.Navigator
     screenOptions={{
-      headerShown: false,
       headerStyle: {
         backgroundColor: "#fff",
         shadowColor: "#000", // ios
@@ -395,6 +396,7 @@ const SessionsStackScreen = ({ navigation }) => (
       name="Sessions"
       component={CompleteProfileScreen}
       options={{
+        headerShown: false,
         headerLeft: () => (
           <Icon.Button
             name="ios-menu"
@@ -447,6 +449,7 @@ const SessionsStackScreen = ({ navigation }) => (
       name="AddCourse"
       component={AddCourseScreen}
       options={{
+        headerShown: false,
         headerLeft: () => (
           <Icon.Button
             name="ios-menu"
@@ -455,6 +458,56 @@ const SessionsStackScreen = ({ navigation }) => (
             color="black"
             onPress={() => navigation.openDrawer()}
           ></Icon.Button>
+        ),
+      }}
+    />
+
+    <SessionStack.Screen
+      name="CourseDescription"
+      component={CourseDescScreen}
+      options={{
+        headerShown: true,
+        title: "Course Description",
+        headerTitleStyle: {
+          color: "gray",
+          fontWeight: "800",
+          fontSize: 20,
+        },
+        headerLeft: () => (
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color="gray"
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.navigate("AddCourse");
+            }}
+          />
+        ),
+      }}
+    />
+
+    <SessionStack.Screen
+      name="SetRate"
+      component={AddRateScreen}
+      options={{
+        headerShown: true,
+        title: "Set Your Rate",
+        headerTitleStyle: {
+          color: "gray",
+          fontWeight: "800",
+          fontSize: 20,
+        },
+        headerLeft: () => (
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color="gray"
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.navigate("AddCourse");
+            }}
+          />
         ),
       }}
     />

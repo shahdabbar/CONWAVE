@@ -9,3 +9,5 @@ class University extends Model
 {
     use HasFactory;
 }
+
+
