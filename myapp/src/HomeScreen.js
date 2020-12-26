@@ -27,12 +27,28 @@ import { AuthContext } from "./AuthProvider";
 import DrawerContent from "./DrawerContent";
 import { deleteItemAsync } from "expo-secure-store";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
+// import { AppLoading } from "expo";
+// import {
+//   useFonts,
+//   Raleway_200ExtraLight,
+//   Raleway_400Regular,
+//   Raleway_900Black,
+// } from "@expo-google-fonts/raleway";
 import axios from "axios";
 
 // axios.defaults.baseURL = "http://192.168.0.1:8000";
 
 const HomeScreen = ({ navigation }) => {
-  const { colors } = useTheme();
+  // let [fontsLoaded, error] = useFonts({
+  //   Raleway_200ExtraLight,
+  //   Raleway_400Regular,
+  //   Raleway_900Black,
+  //   italic_black: require("../assets/fonts/Roboto-Italic.ttf"),
+  // });
+
+  // if (!fontsLoaded) {
+  //   return <AppLoading />;
+  // }
 
   const { user } = useContext(AuthContext);
 
@@ -537,7 +553,15 @@ const HomeScreen = ({ navigation }) => {
               animation="pulse"
               style={{ padding: SIZES.padding * 2 }}
             >
-              <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>Main</Text>
+              <Text
+                style={{
+                  ...FONTS.h1,
+                  fontWeight: "bold",
+                  // fontFamily: "italic_black",
+                }}
+              >
+                Main
+              </Text>
               <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>
                 Categories
               </Text>

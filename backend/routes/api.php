@@ -10,6 +10,9 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TutorCoursesController;
+use App\Http\Controllers\DayController;
+use App\Http\Controllers\HourController;
+use App\Http\Controllers\TimeslotsController;
 
 
 /*
@@ -30,6 +33,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/sanctum/token', [UserController::class, 'signin']);
 Route::post('/signup', [UserController::class, 'signup']);
 Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);
+
+Route::get('/days', [DayController::class, 'index'] );
+Route::get('/hours', [HourController::class, 'index'] );
+
+Route::middleware('auth:sanctum')->post('/timeslots', [TimeslotsController::class, 'store'] );
 
 Route::middleware('auth:sanctum')->get('/profile', [ProfileController::class, 'index'] );
 Route::middleware('auth:sanctum')->post('/profile/update', [ProfileController::class, 'update'] );

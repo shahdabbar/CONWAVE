@@ -36,6 +36,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
     addressModal: false,
     addressModal: false,
   });
+
   return (
     <View style={styles.container}>
       <SafeAreaView>
@@ -295,7 +296,12 @@ const CompleteProfileSCreen = ({ navigation }) => {
                 </TouchableOpacity>
               </View>
               <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
-                <TouchableOpacity style={styles.wrapper} onPress={() => {}}>
+                <TouchableOpacity
+                  style={styles.wrapper}
+                  onPress={() => {
+                    navigation.navigate("Availabilities");
+                  }}
+                >
                   <View style={styles.warpper_content}>
                     <Text style={styles.text}>Add your availability</Text>
                     <Image
@@ -324,7 +330,12 @@ const CompleteProfileSCreen = ({ navigation }) => {
                 </TouchableOpacity>
               </View>
               <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
-                <TouchableOpacity style={styles.wrapper} onPress={() => {}}>
+                <TouchableOpacity
+                  style={styles.wrapper}
+                  onPress={() => {
+                    setModal({ ...modal, addressModal: !modal.addressModal });
+                  }}
+                >
                   <View style={styles.warpper_content}>
                     <Text style={styles.text}>Default meeting address</Text>
                     <Image

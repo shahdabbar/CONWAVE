@@ -31,6 +31,7 @@ import CompleteProfileScreen from "./CompleteProfileScreen";
 import AddCourseScreen from "./AddCourseScreen";
 import AddRateScreen from "./AddRateScreen";
 import CourseDescScreen from "./CourseDescScreen";
+import AvailabilityScreen from "./AvailabilityScreen";
 
 import axios from "axios";
 
@@ -506,6 +507,30 @@ const SessionsStackScreen = ({ navigation }) => (
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("AddCourse");
+            }}
+          />
+        ),
+      }}
+    />
+    <SessionStack.Screen
+      name="Availabilities"
+      component={AvailabilityScreen}
+      options={{
+        headerShown: true,
+        title: "Availabilities",
+        headerTitleStyle: {
+          color: "gray",
+          fontWeight: "800",
+          fontSize: 20,
+        },
+        headerLeft: () => (
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color="gray"
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.navigate("CompleteProfileScreen");
             }}
           />
         ),

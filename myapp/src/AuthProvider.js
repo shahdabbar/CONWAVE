@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import axios from "axios";
@@ -9,6 +9,47 @@ export const AuthContext = React.createContext({});
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
+  const [days, setDays] = useState([]);
+  const [hours, setHours] = useState([]);
+
+  useEffect(() => {
+    // get days
+    axios
+      .get("api/days")
+      .then((response) => {
+        setDays(response.data);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+
+    // get hours
+    axios
+      .get("api/hours")
+      .then((response) => {
+        setHours(response.data);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  }, []);
+
+  const timeslotsSetUp = (type) => {
+    if (user && type === "tutor") {
+      const array = [];
+      days.forEach((day) => {
+        hours.forEach((hour) => {
+          array.push({ day_id: day.id, hour_id: hour.id });
+        });
+      });
+      //   console.log(array);
+      axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+      axios.post("/api/timeslots", array).then((response) => {
+        console.log("response", response.data);
+      });
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -83,6 +124,21 @@ export const AuthProvider = ({ children }) => {
                 };
                 setUser(userResponse);
                 SecureStore.setItemAsync("user", JSON.stringify(userResponse));
+                // timeslotsSetUp(type);
+                if (userResponse && type === "tutor") {
+                  const array = [];
+                  days.forEach((day) => {
+                    hours.forEach((hour) => {
+                      array.push({ day_id: day.id, hour_id: hour.id });
+                    });
+                  });
+                  axios.defaults.headers.common[
+                    "Authorization"
+                  ] = `Bearer ${userResponse.token}`;
+                  axios.post("/api/timeslots", array).then((response) => {
+                    console.log("response", response.data);
+                  });
+                }
               }
             })
             .catch((error) => {
