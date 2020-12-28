@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { Card, CardItem } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
+import { AuthContext } from "./AuthProvider";
 import {
   MaterialIcons as MaterialIcon,
   Ionicons as Ionicon,
@@ -23,19 +24,51 @@ import {
 } from "react-native-vector-icons";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import EditProfile from "./EditProfileScreen";
+import axios from "axios";
 
 const CompleteProfileSCreen = ({ navigation }) => {
+  const { user } = useContext(AuthContext);
+  axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+
   const [meetingType, setMeetingType] = useState({
     inperson: false,
     online: false,
   });
   const [modal, setModal] = useState({
-    availabilityModal: false,
     meetingTypeModal: false,
     addressModal: false,
-    addressModal: false,
-    addressModal: false,
   });
+
+  useEffect(() => {
+    axios.get("/api/meetingtype").then((response) => {
+      if (response.data === "both") {
+        setMeetingType({ ...meetingType, inperson: true });
+        setMeetingType({ ...meetingType, online: true });
+      } else if (response.data === "inperson") {
+        setMeetingType({ ...meetingType, inperson: true });
+      } else if (response.data === "online") {
+        setMeetingType({ ...meetingType, online: true });
+      }
+    });
+  }, []);
+
+  const save = () => {
+    let type = "";
+    if (meetingType.inperson === true && meetingType.online === true) {
+      type = "both";
+    } else if (meetingType.inperson === true) {
+      type = "inperson";
+    } else if (meetingType.online === true) {
+      type = "online";
+    } else {
+      alert("Please choose one at least!");
+    }
+    if (type) {
+      axios.post("./api/meetingtype", { type: type }).then((response) => {
+        console.log(response.data);
+      });
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -203,7 +236,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
                       style={styles.signIn}
                       onPress={() => {
                         setModal({ ...modal, meetingTypeModal: false });
-                        // updateProfile();
+                        save();
                       }}
                     >
                       <LinearGradient

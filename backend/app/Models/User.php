@@ -75,5 +75,10 @@ class User extends Authenticatable
         return $this->hasMany(Tutor_Courses::class);
     }
 
+    public function Utimeslots()
+    {
+        return $this->hasMany(Timeslots::class);
+    }
+
   
 }

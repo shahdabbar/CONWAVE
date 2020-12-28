@@ -30,200 +30,137 @@ import DrawerContent from "./DrawerContent";
 import { deleteItemAsync } from "expo-secure-store";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import axios from "axios";
+import { cos } from "react-native-reanimated";
 
 const AvailabilityScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
-  const [selectedHour, setSelectedHour] = useState(null);
+  axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+
   const [selectedDay, setSelectedDay] = useState(null);
-  const [hours, setHours] = useState([
-    {
-      hour: "7 am",
-      key: "7am",
-      isSelected: false,
-    },
-    {
-      hour: "8 am",
-      key: "8am",
-      isSelected: false,
-    },
-    {
-      hour: "9 am",
-      key: "9am",
-      isSelected: false,
-    },
-    {
-      hour: "10 am",
-      key: "10am",
-      isSelected: false,
-    },
-    {
-      hour: "11 am",
-      key: "11am",
-      isSelected: false,
-    },
-    {
-      hour: "12 pm",
-      key: "12pm",
-      isSelected: false,
-    },
-    {
-      hour: "1 pm",
-      key: "1pm",
-      isSelected: false,
-    },
-    {
-      hour: "2 pm",
-      key: "2pm",
-      isSelected: false,
-    },
-    {
-      hour: "3 pm",
-      key: "3pm",
-      isSelected: false,
-    },
-    {
-      hour: "4 pm",
-      key: "4pm",
-      isSelected: false,
-    },
-    {
-      hour: "5 pm",
-      key: "5pm",
-      isSelected: false,
-    },
-    {
-      hour: "6 pm",
-      key: "6pm",
-      isSelected: false,
-    },
-    {
-      hour: "7 pm",
-      key: "7pm",
-      isSelected: false,
-    },
-    {
-      hour: "8 pm",
-      key: "8pm",
-      isSelected: false,
-    },
-    {
-      hour: "9 pm",
-      key: "9pm",
-      isSelected: false,
-    },
-    {
-      hour: "10 pm",
-      key: "10pm",
-      isSelected: false,
-    },
-  ]);
+  const [hours, setHours] = useState([]);
 
   const [days, setDays] = useState([
     {
       name: "Sun",
-      key: 1,
+      id: 1,
       isSelected: false,
-      hours: hours,
+      hours: [],
     },
     {
       name: "Mon",
-      key: 2,
+      id: 2,
       isSelected: false,
-      hours: hours,
+      hours: [],
     },
     {
       name: "Tue",
-      key: 3,
+      id: 3,
       isSelected: false,
-      hours: hours,
+      hours: [],
     },
     {
       name: "Wed",
-      key: 4,
+      id: 4,
       isSelected: false,
-      hours: hours,
+      hours: [],
     },
     {
       name: "Thu",
-      key: 5,
+      id: 5,
       isSelected: false,
-      hours: hours,
+      hours: [],
     },
     {
       name: "Fri",
-      key: 6,
+      id: 6,
       isSelected: false,
-      hours: hours,
+      hours: [],
     },
     {
       name: "Sat",
-      key: 7,
+      id: 7,
       isSelected: false,
-      hours: hours,
+      hours: [],
     },
   ]);
 
-  //   const [day, setDay] = useState([]);
-  //   const [hour, setHour] = useState([]);
+  useEffect(() => {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+    // get timeslots
+    axios
+      .get(`api/timeslots/sunday`)
+      .then((response) => {
+        days[0] = { ...days[0], hours: response.data };
+        console.log("days", days[0]);
+        setDays(days);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
 
-  //   useEffect(() => {
-  //     axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
-
-  //     // get days
-  //     axios
-  //       .get("api/days")
-  //       .then((response) => {
-  //         setDay(response.data);
-  //         console.log("dayssssss", response.data);
-  //       })
-  //       .catch((error) => {
-  //         console.log("error", error);
-  //       });
-
-  //     // get hours
-  //     axios
-  //       .get("api/hours")
-  //       .then((response) => {
-  //         setHour(response.data);
-  //         console.log("hourssssss", response.data);
-  //       })
-  //       .catch((error) => {
-  //         console.log("error", error);
-  //       });
-  //   }, []);
-
-  //   const timeslotsSetUp = () => {
-  //     if (day && hour) {
-  //       const array = [];
-  //       day.forEach((day) => {
-  //         hour.forEach((hour) => {
-  //           array.push({ day_id: day.id, hour_id: hour.id });
-  //         });
-  //       });
-  //       //   console.log(array);
-  //       axios.post("/api/timeslots", array).then((response) => {
-  //         console.log("response", response.data);
-  //       });
-  //     }
-  //   };
+    axios
+      .get(`api/timeslots/monday`)
+      .then((response) => {
+        days[1] = { ...days[1], hours: response.data };
+        console.log("days", days[1]);
+        setDays(days);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+    axios
+      .get(`api/timeslots/tuesday`)
+      .then((response) => {
+        days[2] = { ...days[2], hours: response.data };
+        console.log("days", days[2]);
+        setDays(days);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+    axios
+      .get(`api/timeslots/wednesday`)
+      .then((response) => {
+        days[3] = { ...days[3], hours: response.data };
+        console.log("days", days[3]);
+        setDays(days);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+    axios
+      .get(`api/timeslots/thursday`)
+      .then((response) => {
+        days[4] = { ...days[4], hours: response.data };
+        console.log("days", days[4]);
+        setDays(days);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+    axios
+      .get(`api/timeslots/friday`)
+      .then((response) => {
+        days[5] = { ...days[5], hours: response.data };
+        console.log("days", days[5]);
+        setDays(days);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+    axios
+      .get(`api/timeslots/saturday`)
+      .then((response) => {
+        days[6] = { ...days[6], hours: response.data };
+        console.log("days", days[6]);
+        setDays(days);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  }, []);
 
   const onSavePress = () => {
-    const newData = days.forEach((e) => {
-      if (
-        e.hours.forEach((e) => {
-          if (e.isSelected === true) return true;
-        })
-      ) {
-        return {
-          ...e,
-          isSelected: !e.isSelected,
-        };
-      }
-      return {
-        ...e,
-        isSelected: e.isSelected,
-      };
-    });
     console.log(days);
   };
 
@@ -235,7 +172,7 @@ const AvailabilityScreen = ({ route, navigation }) => {
             horizontal={false}
             data={selectedDay.hours}
             showsVerticalScrollIndicator={false}
-            keyExtractor={(item) => `${item.key}`}
+            keyExtractor={(item) => `${item.id}`}
             contentContainerStyle={{
               paddingVertical: SIZES.padding,
               paddingHorizontal: SIZES.padding,
@@ -245,7 +182,7 @@ const AvailabilityScreen = ({ route, navigation }) => {
               return (
                 <View style={styles.content}>
                   <TouchableOpacity
-                    disabled={item.isSelected ? true : false}
+                    // disabled={item.isSelected ? true : false}
                     style={{
                       elevation: 10,
                       ...styles.wrapper_content,
@@ -267,7 +204,7 @@ const AvailabilityScreen = ({ route, navigation }) => {
                           color: COLORS.black,
                         }}
                       >
-                        {item.hour}
+                        {item.hours.hour}
                       </Text>
                     </View>
                   </TouchableOpacity>
@@ -281,8 +218,9 @@ const AvailabilityScreen = ({ route, navigation }) => {
   };
 
   const onHourPress = (item, index) => {
+    setSelectedDay(item);
     const newData = selectedDay.hours.map((e) => {
-      if (e.key === item.key) {
+      if (e.id === item.id) {
         return {
           ...e,
           isSelected: !e.isSelected,
@@ -294,26 +232,29 @@ const AvailabilityScreen = ({ route, navigation }) => {
       };
     });
     setSelectedDay({ ...selectedDay, hours: newData });
+
+    axios
+      .post("/api/timeslots/hours/update", {
+        days_id: item.days_id,
+        hours_id: item.hours_id,
+        isSelected: !item.isSelected,
+      })
+      .then((response) => {
+        console.log("success?", response.data);
+      });
+
+    axios
+      .get(`/api/timeslots/hours?days_id=${item.days_id}`)
+      .then((response) => {
+        days[item.days_id - 1] = {
+          ...days[item.days_id - 1],
+          hours: response.data,
+        };
+        setSelectedDay(days[item.days_id - 1]);
+      });
   };
 
   const onDaySelected = (item) => {
-    if (selectedDay) {
-      const newDays = days.map((e) => {
-        if (e.key === selectedDay.key) {
-          return {
-            ...e,
-            hours: selectedDay.hours,
-          };
-        }
-        return {
-          ...e,
-          hours: e.hours,
-        };
-      });
-      setDays(newDays);
-      console.log(days);
-    }
-
     setSelectedDay(item);
   };
 
@@ -324,8 +265,7 @@ const AvailabilityScreen = ({ route, navigation }) => {
           <Text style={styles.text}>Availabilites</Text>
           <TouchableOpacity
             onPress={() => {
-              //   onSavePress();
-              timeslotsSetUp();
+              onSavePress();
             }}
           >
             <Text style={styles.subText}>Save</Text>
@@ -336,7 +276,7 @@ const AvailabilityScreen = ({ route, navigation }) => {
             horizontal={true}
             data={days}
             showsHorizontalScrollIndicator={false}
-            keyExtractor={(item) => `${item.key}`}
+            keyExtractor={(item) => `${item.id}`}
             contentContainerStyle={{
               paddingVertical: SIZES.padding,
             }}
@@ -348,11 +288,11 @@ const AvailabilityScreen = ({ route, navigation }) => {
                       ...styles.days,
                       elevation: 5,
                       backgroundColor:
-                        selectedDay?.key === item.key
+                        selectedDay?.id === item.id
                           ? COLORS.lightblue
                           : COLORS.white,
                       borderColor:
-                        selectedDay?.key === item.key
+                        selectedDay?.id === item.id
                           ? COLORS.primary
                           : COLORS.yellow,
                     }}

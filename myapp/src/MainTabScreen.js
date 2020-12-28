@@ -32,6 +32,7 @@ import AddCourseScreen from "./AddCourseScreen";
 import AddRateScreen from "./AddRateScreen";
 import CourseDescScreen from "./CourseDescScreen";
 import AvailabilityScreen from "./AvailabilityScreen";
+import SessionTypeScreen from "./SessionTypeScreen";
 
 import axios from "axios";
 
@@ -232,6 +233,31 @@ const HomeStackScreen = ({ navigation }) => (
             color="black"
             onPress={() => navigation.openDrawer()}
           ></Icon.Button>
+        ),
+      }}
+    />
+
+    <HomeStack.Screen
+      name="SessionType"
+      component={SessionTypeScreen}
+      options={{
+        headerShown: true,
+        title: "Session Type",
+        headerTitleStyle: {
+          color: "gray",
+          fontWeight: "800",
+          fontSize: 20,
+        },
+        headerLeft: () => (
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color="gray"
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.navigate("Home");
+            }}
+          />
         ),
       }}
     />

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTimeslotsTable extends Migration
+class CreateMeetingTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,13 @@ class CreateTimeslotsTable extends Migration
      */
     public function up()
     {
-        Schema::create('timeslots', function (Blueprint $table) {
+        Schema::create('meeting_types', function (Blueprint $table) {
             $table->id();
+            $table->string('type');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('days_id');
-            $table->unsignedBigInteger('hours_id');
-            $table->boolean('isSelected')->default(false);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('days_id')->references('id')->on('days')->onDelete('cascade');
-            $table->foreign('hours_id')->references('id')->on('hours')->onDelete('cascade');
 
         });
     }
@@ -35,6 +31,6 @@ class CreateTimeslotsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('timeslots');
+        Schema::dropIfExists('meeting_types');
     }
 }

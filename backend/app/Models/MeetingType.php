@@ -5,12 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Days extends Model
+class MeetingType extends Model
 {
     use HasFactory;
-
-    public function Dtimeslots()
-    {
-        return $this->hasMany(Timeslots::class);
-    }
+    protected $guarded = [];  
 }

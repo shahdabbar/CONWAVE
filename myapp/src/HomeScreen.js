@@ -158,6 +158,7 @@ const HomeScreen = ({ navigation }) => {
 
   const onSelectCourse = (course) => {
     setSelectedCourse(course);
+    navigation.navigate("SessionType");
   };
 
   const Icon = (name) => {

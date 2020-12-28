@@ -38,4 +38,8 @@ class TutorCoursesController extends Controller
         return response()->json('success');
 
     }
+
+    public function courses(Request $request) {
+        $courses = Tutor_Courses::where('course_id', 16)->with('users')->get();
+    }
 }

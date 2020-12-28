@@ -13,6 +13,8 @@ use App\Http\Controllers\TutorCoursesController;
 use App\Http\Controllers\DayController;
 use App\Http\Controllers\HourController;
 use App\Http\Controllers\TimeslotsController;
+use App\Http\Controllers\MeetingTypeController;
+
 
 
 /*
@@ -38,6 +40,20 @@ Route::get('/days', [DayController::class, 'index'] );
 Route::get('/hours', [HourController::class, 'index'] );
 
 Route::middleware('auth:sanctum')->post('/timeslots', [TimeslotsController::class, 'store'] );
+Route::middleware('auth:sanctum')->get('/timeslots', [TimeslotsController::class, 'index']);
+
+Route::middleware('auth:sanctum')->get('/timeslots/sunday', [TimeslotsController::class, 'sunday']);
+Route::middleware('auth:sanctum')->get('/timeslots/monday', [TimeslotsController::class, 'monday']);
+Route::middleware('auth:sanctum')->get('/timeslots/tuesday', [TimeslotsController::class, 'tuesday']);
+Route::middleware('auth:sanctum')->get('/timeslots/wednesday', [TimeslotsController::class, 'wednesday']);
+Route::middleware('auth:sanctum')->get('/timeslots/thursday', [TimeslotsController::class, 'thursday']);
+Route::middleware('auth:sanctum')->get('/timeslots/friday', [TimeslotsController::class, 'friday']);
+Route::middleware('auth:sanctum')->get('/timeslots/saturday', [TimeslotsController::class, 'saturday']);
+Route::middleware('auth:sanctum')->get('/timeslots/hours', [TimeslotsController::class, 'hours']);
+Route::middleware('auth:sanctum')->post('/timeslots/hours/update', [TimeslotsController::class, 'update']);
+
+Route::middleware('auth:sanctum')->post('/meetingtype', [MeetingTypeController::class, 'insertOrUpdate'] );
+Route::middleware('auth:sanctum')->get('/meetingtype', [MeetingTypeController::class, 'index'] );
 
 Route::middleware('auth:sanctum')->get('/profile', [ProfileController::class, 'index'] );
 Route::middleware('auth:sanctum')->post('/profile/update', [ProfileController::class, 'update'] );
