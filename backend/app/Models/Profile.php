@@ -11,6 +11,6 @@ class Profile extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class)->where("type", "=", "tutor");
+        return $this->belongsTo(User::class)->where("type", "tutor");
     }
 }

@@ -52,12 +52,15 @@ Route::middleware('auth:sanctum')->get('/timeslots/saturday', [TimeslotsControll
 Route::middleware('auth:sanctum')->get('/timeslots/hours', [TimeslotsController::class, 'hours']);
 Route::middleware('auth:sanctum')->post('/timeslots/hours/update', [TimeslotsController::class, 'update']);
 
-Route::middleware('auth:sanctum')->post('/meetingtype', [MeetingTypeController::class, 'insertOrUpdate'] );
+Route::middleware('auth:sanctum')->post('/meetingtype', [MeetingTypeController::class, 'updateOrCreate'] );
 Route::middleware('auth:sanctum')->get('/meetingtype', [MeetingTypeController::class, 'index'] );
+Route::middleware('auth:sanctum')->get('/meetingtype/tutors', [MeetingTypeController::class, 'meetingType'] );
+
 
 Route::middleware('auth:sanctum')->get('/profile', [ProfileController::class, 'index'] );
 Route::middleware('auth:sanctum')->post('/profile/update', [ProfileController::class, 'update'] );
 
+Route::middleware('auth:sanctum')->get('/user/tutor', [UserController::class, 'getTutor']);
 Route::middleware('auth:sanctum')->post('/user/photo', [UserController::class, 'storeImage']);
 Route::middleware('auth:sanctum')->post('/user/update', [UserController::class, 'update']);
 Route::middleware('auth:sanctum')->get('/user_profile', [UserController::class, 'getAll'] );
@@ -67,6 +70,10 @@ Route::middleware('auth:sanctum')->get('/courses', [CourseController::class, 'in
 
 Route::middleware('auth:sanctum')->post('/tutor/courses', [TutorCoursesController::class, 'store']);
 Route::middleware('auth:sanctum')->get('/tutor/courses', [TutorCoursesController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/course/tutors', [TutorCoursesController::class, 'courses'] );
+Route::middleware('auth:sanctum')->get('/user/tutor/courses', [TutorCoursesController::class, 'getTutorCourses']);
+
+
 
 
 

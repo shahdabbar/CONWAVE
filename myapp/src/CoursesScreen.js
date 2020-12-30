@@ -81,14 +81,16 @@ const CoursesScreen = ({ navigation }) => {
                   <LinearGradient
                     colors={["#FFFFFF", "#FFFFFF"]}
                     style={{
-                      borderRadius: SIZES.radius / 2,
+                      // borderRadius: SIZES.radius / 2,
+                      borderTopRightRadius: SIZES.radius,
+                      borderBottomLeftRadius: SIZES.radius,
                       borderColor: "#ffd200",
                       borderWidth: 2,
                       elevation: 10,
                       padding: 5,
                       marginHorizontal: 20,
                       height: 200,
-                      marginBottom: 10,
+                      marginBottom: 20,
                     }}
                   >
                     <View>
@@ -212,7 +214,11 @@ const styles = StyleSheet.create({
   action: {
     flexDirection: "row",
     height: 40,
-    borderRadius: 15,
+    // borderRadius: 15,
+    borderBottomRightRadius: SIZES.radius,
+    borderTopLeftRadius: SIZES.radius,
+    // borderTopRightRadius: SIZES.radius,
+    // borderBottomLeftRadius: SIZES.radius,
     borderWidth: 1,
     marginHorizontal: 10,
     marginVertical: 5,

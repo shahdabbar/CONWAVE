@@ -34,6 +34,7 @@ import { color } from "react-native-reanimated";
 
 const SessionTypeScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
+  const [course, setCourse] = useState(route.params.course);
 
   return (
     <View style={styles.container}>
@@ -57,7 +58,12 @@ const SessionTypeScreen = ({ route, navigation }) => {
               justifyContent: "space-between",
               alignItems: "center",
             }}
-            onPress={() => {}}
+            onPress={() => {
+              navigation.navigate("SearchTutor", {
+                course: course,
+                type: "In-person",
+              });
+            }}
           >
             <View
               style={{
@@ -101,7 +107,12 @@ const SessionTypeScreen = ({ route, navigation }) => {
               justifyContent: "space-between",
               alignItems: "center",
             }}
-            onPress={() => {}}
+            onPress={() => {
+              navigation.navigate("SearchTutor", {
+                course: course,
+                type: "Online",
+              });
+            }}
           >
             <View
               style={{

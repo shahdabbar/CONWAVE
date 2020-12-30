@@ -22,6 +22,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { AuthContext } from "./AuthProvider";
 import * as Animatable from "react-native-animatable";
 import { useTheme } from "@react-navigation/native";
+import { COLORS, SIZES, FONTS, icons } from "./constants";
 
 const { width, height } = Dimensions.get("screen");
 const {
@@ -411,6 +412,8 @@ const styles = StyleSheet.create({
     height: 70,
     marginHorizontal: 20,
     borderRadius: 35,
+    // borderTopRightRadius: SIZES.radius * 4,
+    // borderBottomLeftRadius: SIZES.radius * 4,
     alignItems: "center",
     justifyContent: "center",
     marginVertical: 5,

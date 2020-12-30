@@ -222,29 +222,15 @@ const ProfileScreen = ({ navigation }) => {
   const { user } = useContext(AuthContext);
   axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
 
-  const [userInfo, setUserInfo] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    location: "",
-    type: "",
-    hours_tutored: "",
-    students_tutored: "",
-    bio: "",
-  });
+  const [userInfo, setUserInfo] = useState([]);
+
+  const [profile, setProfile] = useState([]);
 
   useEffect(() => {
     axios
       .get("api/user")
       .then((response) => {
-        setUserInfo({
-          ...userInfo,
-          firstname: response.data.firstname,
-          lastname: response.data.lastname,
-          email: response.data.email,
-          location: response.data.location,
-          type: response.data.type,
-        });
+        setUserInfo(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -252,12 +238,7 @@ const ProfileScreen = ({ navigation }) => {
     axios
       .get("api/profile")
       .then((response) => {
-        setUserInfo({
-          ...userInfo,
-          bio: response.data.bio,
-          hours_tutored: response.data.hours_tutored,
-          students_tutored: response.data.students_tutored,
-        });
+        setProfile(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -286,7 +267,13 @@ const ProfileScreen = ({ navigation }) => {
         <View style={{ alignSelf: "center" }}>
           <View style={styles.profileImage}>
             <Image
-              source={require("../assets/images/profile2.png")}
+              source={
+                userInfo.profile_photo_path
+                  ? {
+                      uri: `http://192.168.0.106:8000/${userInfo.profile_photo_path}`,
+                    }
+                  : require("../assets/images/profile2.png")
+              }
               style={styles.image}
               resizeMode="cover"
             />
@@ -307,7 +294,7 @@ const ProfileScreen = ({ navigation }) => {
         <View style={styles.statsContainer}>
           <View style={styles.statsBox}>
             <Text style={{ ...styles.text, fontSize: 24 }}>
-              {userInfo.hours_tutored}
+              {profile.hours_tutored}
             </Text>
             <Text style={{ ...styles.text, ...styles.subText }}>
               Hours Tutored
@@ -321,7 +308,7 @@ const ProfileScreen = ({ navigation }) => {
             }}
           >
             <Text style={{ ...styles.text, fontSize: 24 }}>
-              {userInfo.students_tutored}
+              {profile.students_tutored}
             </Text>
             <Text style={{ ...styles.text, ...styles.subText }}>
               Students Tutored
@@ -406,7 +393,7 @@ const ProfileScreen = ({ navigation }) => {
               <Text
                 style={[styles.text, { color: "#41444B", fontWeight: "300" }]}
               >
-                <Text>{userInfo.bio}</Text>
+                <Text>{profile.bio}</Text>
                 {/* Started following{" "}
                 <Text style={{ fontWeight: "400" }}>Luke Harper</Text> */}
               </Text>

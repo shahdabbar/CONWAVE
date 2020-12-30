@@ -33,10 +33,7 @@ import Animated, { Easing } from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 import * as ImagePicker from "expo-image-picker";
 
-import Constants from "expo-constants";
 import axios from "axios";
-import { curveBasis } from "d3-shape";
-// axios.defaults.baseURL = "http://192.168.0.1:8000";
 
 const EditProfileScreen = ({ route, navigation }) => {
   const { user, logout } = useContext(AuthContext);
@@ -44,8 +41,6 @@ const EditProfileScreen = ({ route, navigation }) => {
 
   const bs = React.createRef();
   const fall = new Animated.Value(1);
-
-  const { colors } = useTheme();
 
   const [update, setUpdate] = useState({ updateName: "", updateValue: "" });
   const [updatePro, setUpdatePro] = useState({
@@ -92,6 +87,7 @@ const EditProfileScreen = ({ route, navigation }) => {
         type: `image/${fileType}`,
       });
     }
+    console.log("formData", formData);
 
     axios
       .post("api/user/photo", formData)
@@ -630,14 +626,20 @@ const EditProfileScreen = ({ route, navigation }) => {
             </Text>
           </View>
 
-          <View style={{ marginHorizontal: 10, marginTop: 20 }}>
+          <View
+            style={{ marginHorizontal: 10, marginTop: 20, marginBottom: 30 }}
+          >
             <LinearGradient
-              colors={["#FFFFFF", "#CABFAB"]}
+              colors={[COLORS.yellow, COLORS.white]}
               style={{
-                borderRadius: SIZES.radius / 2,
+                // borderRadius: SIZES.radius / 2,
+                borderTopRightRadius: SIZES.radius,
+                borderBottomLeftRadius: SIZES.radius,
+                borderWidth: 2,
+                borderColor: COLORS.yellow,
                 elevation: 5,
                 padding: 10,
-                marginBottom: 10,
+                marginBottom: 20,
               }}
             >
               <View>
@@ -756,12 +758,16 @@ const EditProfileScreen = ({ route, navigation }) => {
               </View>
             </LinearGradient>
             <LinearGradient
-              colors={["#FFFFFF", "#CABFAB"]}
+              colors={[COLORS.yellow, COLORS.white]}
               style={{
-                borderRadius: SIZES.radius / 2,
+                // borderRadius: SIZES.radius / 2,
+                borderBottomRightRadius: SIZES.radius,
+                borderTopLeftRadius: SIZES.radius,
+                borderWidth: 2,
+                borderColor: COLORS.yellow,
                 elevation: 5,
                 padding: 10,
-                marginBottom: 10,
+                marginBottom: 20,
               }}
             >
               <View>
@@ -799,12 +805,16 @@ const EditProfileScreen = ({ route, navigation }) => {
             {userInfo.type === "tutor" ? (
               <View>
                 <LinearGradient
-                  colors={["#FFFFFF", "#CABFAB"]}
+                  colors={[COLORS.yellow, COLORS.white]}
                   style={{
-                    borderRadius: SIZES.radius / 2,
+                    // borderRadius: SIZES.radius / 2,
+                    borderTopRightRadius: SIZES.radius,
+                    borderBottomLeftRadius: SIZES.radius,
+                    borderWidth: 2,
+                    borderColor: COLORS.yellow,
                     elevation: 5,
                     padding: 10,
-                    marginBottom: 10,
+                    marginBottom: 20,
                   }}
                 >
                   <View>
@@ -858,8 +868,8 @@ const EditProfileScreen = ({ route, navigation }) => {
                           alignItems: "center",
                         }}
                       >
-                        <Icon
-                          name="book-open-page-variant"
+                        <FontAwesome
+                          name="graduation-cap"
                           size={22}
                           color={COLORS.dark}
                         />
@@ -891,12 +901,16 @@ const EditProfileScreen = ({ route, navigation }) => {
                 </LinearGradient>
 
                 <LinearGradient
-                  colors={["#FFFFFF", "#CABFAB"]}
+                  colors={[COLORS.yellow, COLORS.white]}
                   style={{
-                    borderRadius: SIZES.radius / 2,
+                    // borderRadius: SIZES.radius / 2,
+                    borderBottomRightRadius: SIZES.radius,
+                    borderTopLeftRadius: SIZES.radius,
+                    borderWidth: 2,
+                    borderColor: COLORS.yellow,
                     elevation: 5,
                     padding: 10,
-                    marginBottom: 10,
+                    marginBottom: 20,
                   }}
                 >
                   <View>

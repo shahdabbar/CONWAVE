@@ -33,6 +33,8 @@ import AddRateScreen from "./AddRateScreen";
 import CourseDescScreen from "./CourseDescScreen";
 import AvailabilityScreen from "./AvailabilityScreen";
 import SessionTypeScreen from "./SessionTypeScreen";
+import SearchTutorsScreen from "./SearchTutorsScreen";
+import TutorProfileScreen from "./TutorProfileScreen";
 
 import axios from "axios";
 
@@ -225,6 +227,7 @@ const HomeStackScreen = ({ navigation }) => (
         headerTitleStyle: {
           marginHorizontal: "30%",
         },
+
         headerLeft: () => (
           <Icon.Button
             name="ios-menu"
@@ -256,6 +259,60 @@ const HomeStackScreen = ({ navigation }) => (
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("Home");
+            }}
+          />
+        ),
+      }}
+    />
+
+    <HomeStack.Screen
+      name="SearchTutor"
+      component={SearchTutorsScreen}
+      options={{
+        headerShown: true,
+        title: "Tutors",
+        headerTitleStyle: {
+          color: "gray",
+          fontWeight: "800",
+          fontSize: 20,
+        },
+        headerLeft: () => (
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color="gray"
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.navigate("SessionType");
+            }}
+          />
+        ),
+      }}
+    />
+
+    <HomeStack.Screen
+      name="TutorProfile"
+      component={TutorProfileScreen}
+      options={{
+        headerShown: true,
+        title: "Tutor Prfile",
+        headerTitleStyle: {
+          color: "gray",
+          fontWeight: "800",
+          fontSize: 25,
+        },
+        headerStyle: {
+          // backgroundColor: COLORS.primary,
+          // elevation: 10, // Android
+        },
+        headerLeft: () => (
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color="gray"
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.navigate("SearchTutor");
             }}
           />
         ),

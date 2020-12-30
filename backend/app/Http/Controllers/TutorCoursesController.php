@@ -22,6 +22,11 @@ class TutorCoursesController extends Controller
         return response()->json($courses);
     }
 
+    public function getTutorCourses(Request $request) {
+          $courses = Tutor_Courses::where('user_id',$request->user_id)->with('course')->get();
+          return response()->json($courses);
+    }
+
     public function store(Request $request) {
 
         $courses = $request->all();
@@ -36,10 +41,10 @@ class TutorCoursesController extends Controller
         }
 
         return response()->json('success');
-
     }
 
     public function courses(Request $request) {
-        $courses = Tutor_Courses::where('course_id', 16)->with('users')->get();
+        $courses = Tutor_Courses::with('tutor', 'course')->where('course_id', $request->course_id)->get();
+        return response()->json($courses);
     }
 }

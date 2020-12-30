@@ -72,12 +72,17 @@ class User extends Authenticatable
 
     public function courses()
     {
-        return $this->hasMany(Tutor_Courses::class);
+        return $this->hasMany(Tutor_Courses::class, 'user_id');
     }
 
     public function Utimeslots()
     {
         return $this->hasMany(Timeslots::class);
+    }
+
+    public function meetingtype()
+    {
+        return $this->hasOne(MeetingType::class);
     }
 
   

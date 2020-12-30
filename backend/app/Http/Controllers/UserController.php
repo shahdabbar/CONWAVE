@@ -134,4 +134,9 @@ class UserController extends Controller
         // $users = User::all()->where(type, "tutor");
         // return respose()->json($users);
     }
+
+    public function getTutor(Request $request) {
+        $tutor = User::with('profile')->where('id', $request->user_id)->get();
+        return response()->json($tutor);
+    }
 }       

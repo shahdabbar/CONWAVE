@@ -158,7 +158,7 @@ const HomeScreen = ({ navigation }) => {
 
   const onSelectCourse = (course) => {
     setSelectedCourse(course);
-    navigation.navigate("SessionType");
+    navigation.navigate("SessionType", { course: course });
   };
 
   const Icon = (name) => {
@@ -383,7 +383,7 @@ const HomeScreen = ({ navigation }) => {
                   style={{
                     padding: SIZES.padding,
                     paddingBottom: SIZES.padding * 2,
-                    backgroundColor: "#b9a85c",
+                    backgroundColor: "#a2cf51",
                     borderRadius: SIZES.radius / 2,
                     alignItems: "center",
                     justifyContent: "center",
@@ -700,6 +700,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 65,
   },
   searchBox: {
+    fontSize: 18,
     marginTop: 16,
     backgroundColor: "#fff",
     paddingLeft: 24,
