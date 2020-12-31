@@ -240,7 +240,7 @@ const HomeScreen = ({ navigation }) => {
                     backgroundColor:
                       selectedCategory?.id == item.id
                         ? "#ffd200"
-                        : COLORS.white,
+                        : COLORS.beige,
                     borderRadius: SIZES.radius,
                     alignItems: "center",
                     justifyContent: "center",
@@ -383,7 +383,7 @@ const HomeScreen = ({ navigation }) => {
                   style={{
                     padding: SIZES.padding,
                     paddingBottom: SIZES.padding * 2,
-                    backgroundColor: "#a2cf51",
+                    backgroundColor: COLORS.yellow2,
                     borderRadius: SIZES.radius / 2,
                     alignItems: "center",
                     justifyContent: "center",
@@ -563,7 +563,13 @@ const HomeScreen = ({ navigation }) => {
               >
                 Main
               </Text>
-              <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>
+              <Text
+                style={{
+                  ...FONTS.h1,
+                  fontWeight: "bold",
+                  color: COLORS.pink,
+                }}
+              >
                 Categories
               </Text>
             </Animatable.View>
@@ -573,7 +579,11 @@ const HomeScreen = ({ navigation }) => {
         )}
         <View>
           <Animatable.View animation="pulse" style={{ padding: 20 }}>
-            <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>Top Tutors</Text>
+            <Text
+              style={{ ...FONTS.h1, fontWeight: "bold", color: COLORS.yellow }}
+            >
+              Top Tutors
+            </Text>
           </Animatable.View>
           <FlatList
             showsHorizontalScrollIndicator={false}

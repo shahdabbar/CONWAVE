@@ -103,9 +103,16 @@ const TutorProfileScreen = ({ route, navigation }) => {
                     color: "gray",
                   }}
                 >
-                  @{tutor[0].location} Lebanon
+                  {tutor[0].location} Lebanon
                 </Text>
-                <View style={{ flexDirection: "row", top: 4 }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    top: 4,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <Icon name="star" size={22} color={COLORS.yellow} />
                   <Text
                     style={{
@@ -270,7 +277,7 @@ const TutorProfileScreen = ({ route, navigation }) => {
               </View>
               {/* <Text style={[styles.subText, styles.recent]}>My Courses</Text> */}
               {courses.map((e) => (
-                <View>
+                <View key={e.id}>
                   <View style={styles.recentItem}>
                     <View style={styles.activityIndicator}></View>
                     <View style={{ width: "70%" }}>
@@ -299,7 +306,8 @@ const TutorProfileScreen = ({ route, navigation }) => {
             <View style={{ marginBottom: 50 }}>
               <View
                 style={{
-                  padding: 20,
+                  paddingHorizontal: 20,
+                  paddingVertical: 10,
                   flexDirection: "row",
                   justifyContent: "space-between",
                 }}
@@ -363,13 +371,14 @@ const TutorProfileScreen = ({ route, navigation }) => {
             <TouchableOpacity
               style={styles.buttonContainer}
               onPress={() =>
-                navigation.navigate("CourseDescription", {
-                  data: selectedCourses,
+                navigation.navigate("BookTime", {
+                  course: item,
+                  // tutor: tutor,
                 })
               }
             >
               <LinearGradient
-                colors={["#ff01ff", "#ffd200"]}
+                colors={[COLORS.beige, COLORS.beige]}
                 style={styles.next}
               >
                 <Text
@@ -377,9 +386,10 @@ const TutorProfileScreen = ({ route, navigation }) => {
                     ...styles.infoText,
                     fontSize: 20,
                     textAlign: "center",
+                    textTransform: "uppercase",
                   }}
                 >
-                  BOOK A SESSION - LBP {item.rate}/h
+                  Book a session - LBP {item.rate}/h
                 </Text>
               </LinearGradient>
             </TouchableOpacity>
@@ -419,7 +429,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: "80%",
     borderTopRightRadius: SIZES.radius * 2,
-    borderBottomLeftRadius: SIZES.radius * 2,
+    borderTopLeftRadius: SIZES.radius * 2,
     height: 70,
     position: "absolute",
     bottom: 10,
@@ -428,13 +438,14 @@ const styles = StyleSheet.create({
   next: {
     alignItems: "center",
     justifyContent: "center",
+    borderRadius: 30,
     borderTopRightRadius: SIZES.radius * 2,
-    borderBottomLeftRadius: SIZES.radius * 2,
+    borderTopLeftRadius: SIZES.radius * 2,
     width: "80%",
     height: 70,
-    borderColor: "#ffd200",
+    borderColor: COLORS.yellow,
     borderWidth: 2,
-    position: "absolute",
+    // position: "absolute",
     elevation: 5,
     alignSelf: "center",
   },
@@ -513,7 +524,8 @@ const styles = StyleSheet.create({
   },
   subText: {
     fontSize: 14,
-    color: "#AEB5BC",
+    color: COLORS.black,
+    // color: "#AEB5BC",
     textTransform: "uppercase",
     fontWeight: "500",
   },

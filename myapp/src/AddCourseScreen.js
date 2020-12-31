@@ -445,10 +445,30 @@ const AddCoursesScreen = ({ navigation }) => {
             navigation.navigate("CourseDescription", { data: selectedCourses })
           }
         >
-          <LinearGradient colors={["#ff01ff", "#ffd200"]} style={styles.next}>
-            <Text style={styles.text}>NEXT</Text>
+          <LinearGradient
+            colors={[COLORS.primary, COLORS.yellow2]}
+            style={styles.next}
+          >
+            <Text style={{ ...styles.text, color: COLORS.black2 }}>NEXT</Text>
           </LinearGradient>
         </TouchableOpacity>
+        {/* <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={() =>
+            navigation.navigate("CourseDescription", { data: selectedCourses })
+          }
+        >
+          
+          <LinearGradient colors={["#ff01ff", "#ffd200"]} style={styles.next}>
+            <View>
+              <MaterialIcon
+                icon="arrow-forward-ios"
+                size={30}
+                color={COLORS.black}
+              />
+            </View>
+          </LinearGradient>
+        </TouchableOpacity> */}
       </View>
     </SafeAreaView>
   );
@@ -473,9 +493,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     marginHorizontal: 20,
     marginVertical: 5,
-    borderColor: "#ffd200",
+    borderColor: COLORS.white,
     paddingLeft: 10,
-    backgroundColor: "#f2f2f2",
+    backgroundColor: COLORS.beige,
   },
   next: {
     alignItems: "center",
@@ -489,6 +509,17 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignSelf: "flex-end",
     elevation: 5,
+
+    // alignItems: "center",
+    // justifyContent: "center",
+    // borderRadius: 20,
+    // width: "100%",
+    // height: "100%",
+    // borderColor: "#ffd200",
+    // borderWidth: 2,
+    // // position: "absolute",
+    // alignSelf: "flex-end",
+    // elevation: 5,
   },
   buttonContainer: {
     backgroundColor: "#fff",
@@ -499,6 +530,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 10,
     alignSelf: "flex-end",
+
+    // borderRadius: 25,
+    // width: "20%",
+    // height: 70,
+    // position: "absolute",
+    // bottom: 10,
+    // alignSelf: "flex-end",
   },
   text: {
     fontSize: 25,

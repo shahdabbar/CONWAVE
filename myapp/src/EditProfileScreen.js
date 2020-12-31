@@ -630,13 +630,13 @@ const EditProfileScreen = ({ route, navigation }) => {
             style={{ marginHorizontal: 10, marginTop: 20, marginBottom: 30 }}
           >
             <LinearGradient
-              colors={[COLORS.yellow, COLORS.white]}
+              colors={[COLORS.beige, COLORS.white]}
               style={{
                 // borderRadius: SIZES.radius / 2,
                 borderTopRightRadius: SIZES.radius,
                 borderBottomLeftRadius: SIZES.radius,
                 borderWidth: 2,
-                borderColor: COLORS.yellow,
+                borderColor: COLORS.beige,
                 elevation: 5,
                 padding: 10,
                 marginBottom: 20,

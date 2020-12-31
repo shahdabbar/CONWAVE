@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
   StatusBar,
 } from "react-native";
-import Svg, { Image, Circle, ClipPath } from "react-native-svg";
+import Svg, { Image, Circle, ClipPath, inlineStyles } from "react-native-svg";
 import Animated, { Easing } from "react-native-reanimated";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
@@ -250,7 +250,18 @@ class MyApp extends Component {
           </Svg>
         </Animated.View>
         <View style={styles.header}>
-          <Text style={{ ...styles.title }}>Stay connected with everyone!</Text>
+          <Text
+            style={{
+              ...styles.title,
+              textTransform: "uppercase",
+              fontSize: 50,
+            }}
+          >
+            <Text style={{ fontSize: 60 }}>Stay</Text>{" "}
+            <Text style={{ fontSize: 60, color: COLORS.beige }}>connected</Text>{" "}
+            <Text style={{ fontSize: 60, width: 400 }}>with</Text>{" "}
+            <Text style={{ fontSize: 60 }}>everyone</Text>!
+          </Text>
           <Text style={styles.ttt}>Sign in with account</Text>
         </View>
         <View style={styles.footer}>
@@ -431,7 +442,7 @@ const styles = StyleSheet.create({
     // marginRight: 20,
   },
   text: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "bold",
     color: "black",
   },
@@ -441,7 +452,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     // marginLeft: 20,
     // marginRight: 20,
-    marginHorizontal: 30,
+    // marginHorizontal: 30,
   },
   signin: {
     height: height / 3,

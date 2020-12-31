@@ -35,6 +35,8 @@ import AvailabilityScreen from "./AvailabilityScreen";
 import SessionTypeScreen from "./SessionTypeScreen";
 import SearchTutorsScreen from "./SearchTutorsScreen";
 import TutorProfileScreen from "./TutorProfileScreen";
+import BookTimeScreen from "./BookTimeScreen";
+import BookSessionScreen from "./BookSessionScreen";
 
 import axios from "axios";
 
@@ -244,7 +246,7 @@ const HomeStackScreen = ({ navigation }) => (
       name="SessionType"
       component={SessionTypeScreen}
       options={{
-        headerShown: true,
+        headerShown: false,
         title: "Session Type",
         headerTitleStyle: {
           color: "gray",
@@ -269,7 +271,7 @@ const HomeStackScreen = ({ navigation }) => (
       name="SearchTutor"
       component={SearchTutorsScreen}
       options={{
-        headerShown: true,
+        headerShown: false,
         title: "Tutors",
         headerTitleStyle: {
           color: "gray",
@@ -303,7 +305,7 @@ const HomeStackScreen = ({ navigation }) => (
         },
         headerStyle: {
           // backgroundColor: COLORS.primary,
-          // elevation: 10, // Android
+          elevation: 0, // Android
         },
         headerLeft: () => (
           <MaterialIcon
@@ -313,6 +315,64 @@ const HomeStackScreen = ({ navigation }) => (
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("SearchTutor");
+            }}
+          />
+        ),
+      }}
+    />
+
+    <HomeStack.Screen
+      name="BookTime"
+      component={BookTimeScreen}
+      options={{
+        headerShown: false,
+        title: "Select Time",
+        headerTitleStyle: {
+          color: "gray",
+          fontWeight: "800",
+          fontSize: 25,
+        },
+        headerStyle: {
+          // backgroundColor: COLORS.primary,
+          elevation: 0, // Android
+        },
+        headerLeft: () => (
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color="gray"
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.navigate("TutorProfile");
+            }}
+          />
+        ),
+      }}
+    />
+
+    <HomeStack.Screen
+      name="BookSession"
+      component={BookSessionScreen}
+      options={{
+        headerShown: false,
+        title: "Payment",
+        headerTitleStyle: {
+          color: "gray",
+          fontWeight: "800",
+          fontSize: 25,
+        },
+        headerStyle: {
+          // backgroundColor: COLORS.primary,
+          elevation: 0, // Android
+        },
+        headerLeft: () => (
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color="gray"
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.navigate("BookTime");
             }}
           />
         ),

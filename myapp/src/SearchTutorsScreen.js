@@ -80,45 +80,40 @@ const SearchTutorsScreen = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <View style={styles.headerContent}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color="gray"
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.navigate("SessionType");
             }}
-          >
-            {data.type === "In-person" ? (
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <View>
-                  <Feather name="users" size={20} color={COLORS.blue} />
-                </View>
+          />
+          <View style={{ left: 10 }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              {data.type === "In-person" ? (
                 <View style={{ left: 10 }}>
-                  <Text style={styles.text}>{data.type}</Text>
+                  <Text style={{ ...styles.infoText, color: COLORS.pink }}>
+                    {data.type}
+                  </Text>
                 </View>
-              </View>
-            ) : (
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <View>
-                  <FontAwesome name="tv" size={18} color={COLORS.primary} />
-                </View>
+              ) : (
                 <View style={{ left: 10 }}>
-                  <Text style={styles.text}>{data.type}</Text>
+                  <Text style={{ ...styles.infoText, color: COLORS.pink }}>
+                    {data.type}
+                  </Text>
                 </View>
-              </View>
-            )}
+              )}
 
-            <View style={{ left: 16 }}>
-              <Text style={styles.text}>Tutors</Text>
+              <View style={{ left: 20 }}>
+                <Text style={styles.infoText}>Tutors</Text>
+              </View>
             </View>
           </View>
         </View>
@@ -142,7 +137,7 @@ const SearchTutorsScreen = ({ route, navigation }) => {
                       borderBottomLeftRadius: SIZES.radius,
                       // borderColor: "#ffd200",
                       // borderWidth: 2,
-                      elevation: 10,
+                      // elevation: 1,
                       marginHorizontal: 10,
                       height: 200,
                       marginBottom: 20,
@@ -154,7 +149,7 @@ const SearchTutorsScreen = ({ route, navigation }) => {
                     }}
                   >
                     <LinearGradient
-                      colors={["#FFFFFF", "#FFFFFF"]}
+                      colors={[COLORS.beige, COLORS.beige]}
                       style={{
                         borderTopRightRadius: SIZES.radius,
                         borderBottomLeftRadius: SIZES.radius,
@@ -299,13 +294,14 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: "white",
+    paddingTop: 60,
   },
   header: {
-    backgroundColor: COLORS.lightGray4,
+    // backgroundColor: COLORS.lightGray4,
   },
   headerContent: {
     marginHorizontal: 10,
-    marginVertical: 5,
+    marginVertical: 20,
     fontWeight: "100",
   },
 
