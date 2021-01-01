@@ -36,6 +36,7 @@ const TutorProfileScreen = ({ route, navigation }) => {
 
   const [tutor, setTutor] = useState([]);
   const [item, setItem] = useState(route.params.item);
+  const [type, seType] = useState(route.params.type);
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
@@ -373,7 +374,7 @@ const TutorProfileScreen = ({ route, navigation }) => {
               onPress={() =>
                 navigation.navigate("BookTime", {
                   course: item,
-                  // tutor: tutor,
+                  type: type,
                 })
               }
             >

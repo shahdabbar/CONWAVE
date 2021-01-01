@@ -145,6 +145,7 @@ const SearchTutorsScreen = ({ route, navigation }) => {
                     onPress={() => {
                       navigation.navigate("TutorProfile", {
                         item: item,
+                        type: data.type,
                       });
                     }}
                   >

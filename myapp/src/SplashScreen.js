@@ -230,7 +230,7 @@ class MyApp extends Component {
 
     return (
       <View style={styles.container}>
-        <Animated.View
+        {/* <Animated.View
           style={{
             ...StyleSheet.absoluteFill,
             transform: [{ translateY: this.bgY }],
@@ -248,19 +248,60 @@ class MyApp extends Component {
               ClipPath="url(#clip)"
             />
           </Svg>
-        </Animated.View>
+        </Animated.View> */}
         <View style={styles.header}>
           <Text
             style={{
               ...styles.title,
               textTransform: "uppercase",
               fontSize: 50,
+              color: COLORS.white2,
+              // textAlign: "center",
+              textShadowColor: COLORS.primary,
+              lineHeight: 50,
             }}
           >
-            <Text style={{ fontSize: 60 }}>Stay</Text>{" "}
-            <Text style={{ fontSize: 60, color: COLORS.beige }}>connected</Text>{" "}
-            <Text style={{ fontSize: 60, width: 400 }}>with</Text>{" "}
-            <Text style={{ fontSize: 60 }}>everyone</Text>!
+            <Text
+              style={{
+                fontSize: 50,
+                fontWeight: "100",
+                width: width,
+              }}
+            >
+              Stay
+            </Text>
+            {"\n"}
+            <Text
+              style={{
+                fontSize: 60,
+                color: "#ffa3b2",
+                fontWeight: "bold",
+                width: width,
+              }}
+            >
+              <Text style={{ color: COLORS.pink }}>con</Text>
+              nected
+            </Text>{" "}
+            <Text
+              style={{
+                fontSize: 50,
+                width: width,
+              }}
+            >
+              with
+            </Text>{" "}
+            <Text
+              style={{
+                fontSize: 65,
+                fontWeight: "bold",
+                color: COLORS.yellow,
+                width: width,
+              }}
+            >
+              <Text style={{ color: COLORS.pink }}>con</Text>
+              wave
+            </Text>
+            !
           </Text>
           <Text style={styles.ttt}>Sign in with account</Text>
         </View>
@@ -331,9 +372,15 @@ class MyApp extends Component {
               </Animatable.View>
             )}
             <View style={styles.action}>
-              <FontAwesome name="envelope" size={20} style={styles.icon} />
+              <FontAwesome
+                name="envelope"
+                size={20}
+                style={styles.icon}
+                color={COLORS.yellow}
+              />
               <TextInput
                 placeholder="email"
+                placeholderTextColor={COLORS.lightgray}
                 style={styles.textInput}
                 autoCapitalize="none"
                 textContentType="emailAddress"
@@ -351,9 +398,15 @@ class MyApp extends Component {
             </View>
 
             <View style={styles.action}>
-              <FontAwesome name="lock" size={25} style={styles.icon} />
+              <FontAwesome
+                name="lock"
+                size={25}
+                style={styles.icon}
+                color={COLORS.yellow}
+              />
               <TextInput
                 placeholder="password"
+                placeholderTextColor={COLORS.lightgray}
                 secureTextEntry={this.state.secureTextEntry ? true : false}
                 style={styles.textInput}
                 autoCapitalize="none"
@@ -408,7 +461,7 @@ export default MyApp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: COLORS.black,
     justifyContent: "flex-end",
   },
   header: {
@@ -448,8 +501,8 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "black",
-    fontSize: 30,
-    fontWeight: "bold",
+    // fontSize: 30,
+    // fontWeight: "bold",
     // marginLeft: 20,
     // marginRight: 20,
     // marginHorizontal: 30,
@@ -491,6 +544,7 @@ const styles = StyleSheet.create({
   textInput: {
     flex: 1,
     paddingLeft: 10,
+    color: COLORS.white2,
   },
   errorMsg: {
     color: "#d80000",

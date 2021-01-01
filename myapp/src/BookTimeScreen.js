@@ -67,7 +67,7 @@ const BookTimeScreen = ({ route, navigation }) => {
   });
 
   const [course, setCourse] = useState(route.params.course);
-  // const [tutor, setTutor] = useState(route.params.tutor);
+  const [type, setType] = useState(route.params.type);
 
   const [selectedDay, setSelectedDay] = useState(null);
   const [selectedHour, setSelectedHour] = useState(null);
@@ -258,7 +258,7 @@ const BookTimeScreen = ({ route, navigation }) => {
                             date: state.currentDate,
                             hour: selectedHour,
                             course: course,
-                            // tutor: tutor,
+                            type: type,
                           });
                           setSelectedHour(null);
                           // console.log(selectedHour);

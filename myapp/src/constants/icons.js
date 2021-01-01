@@ -23,6 +23,8 @@ export const marketing = require("../../assets/icons/social-media.png");
 export const lifestyle = require("../../assets/icons/walking-the-dog.png");
 export const office = require("../../assets/icons/checklist.png");
 export const plus = require("../../assets/icons/add.png");
+export const check = require("../../assets/icons/check.png");
+export const dollar = require("../../assets/icons/dollar-coin.png");
 
 export default {
   user,
@@ -49,4 +51,6 @@ export default {
   lifestyle,
   office,
   plus,
+  check,
+  dollar,
 };

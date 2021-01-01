@@ -37,6 +37,7 @@ import SearchTutorsScreen from "./SearchTutorsScreen";
 import TutorProfileScreen from "./TutorProfileScreen";
 import BookTimeScreen from "./BookTimeScreen";
 import BookSessionScreen from "./BookSessionScreen";
+import PaymentMethodScreen from "./PaymentMethodScreen";
 
 import axios from "axios";
 
@@ -353,6 +354,35 @@ const HomeStackScreen = ({ navigation }) => (
     <HomeStack.Screen
       name="BookSession"
       component={BookSessionScreen}
+      options={{
+        headerShown: false,
+        title: "Payment",
+        headerTitleStyle: {
+          color: "gray",
+          fontWeight: "800",
+          fontSize: 25,
+        },
+        headerStyle: {
+          // backgroundColor: COLORS.primary,
+          elevation: 0, // Android
+        },
+        headerLeft: () => (
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color="gray"
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.navigate("BookTime");
+            }}
+          />
+        ),
+      }}
+    />
+
+    <HomeStack.Screen
+      name="PaymentMethod"
+      component={PaymentMethodScreen}
       options={{
         headerShown: false,
         title: "Payment",

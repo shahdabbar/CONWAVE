@@ -39,6 +39,7 @@ const BookSessionScreen = ({ route, navigation }) => {
     date: route.params.date,
     hour: route.params.hour,
     // tutor: route.params.tutor,
+    type: route.params.type,
     course: route.params.course,
   });
 
@@ -200,14 +201,63 @@ const BookSessionScreen = ({ route, navigation }) => {
               <View
                 style={{
                   flexDirection: "row",
-                  alignItems: "center",
-                  marginBottom: 10,
                 }}
               >
-                <FontAwesome name="credit-card" color="#000000" size={30} />
-                <Text style={{ left: 20, fontSize: 20, color: "blue" }}>
-                  Credit Card
-                </Text>
+                {data.type === "Online" ? (
+                  <FontAwesome
+                    name="circle-thin"
+                    size={26}
+                    color={COLORS.black}
+                  />
+                ) : (
+                  <Image
+                    source={icons.check}
+                    resizeMode="contain"
+                    style={{
+                      width: 25,
+                      height: 25,
+                    }}
+                  />
+                )}
+
+                {data.type === "Online" ? (
+                  <View
+                    style={{
+                      left: 10,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      marginBottom: 10,
+                    }}
+                  >
+                    <FontAwesome name="credit-card" color="#000000" size={30} />
+                    <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate("PaymentMethod");
+                      }}
+                    >
+                      <Text style={{ left: 20, fontSize: 20, color: "blue" }}>
+                        Credit Card
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                ) : (
+                  <View
+                    style={{
+                      left: 10,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      marginBottom: 10,
+                    }}
+                  >
+                    <FontAwesome name="dollar" color="#000000" size={25} />
+
+                    <Text
+                      style={{ left: 20, fontSize: 20, color: COLORS.black2 }}
+                    >
+                      Pay Cash
+                    </Text>
+                  </View>
+                )}
               </View>
               <View
                 style={{
