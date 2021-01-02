@@ -7,9 +7,16 @@ import {
   FontAwesome5,
   Feather,
 } from "react-native-vector-icons";
-import { StyleSheet, SwitchComponent, View } from "react-native";
+import {
+  Dimensions,
+  Image,
+  StyleSheet,
+  SwitchComponent,
+  View,
+} from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { AuthContext } from "./AuthProvider";
+import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import {
   useTheme,
   Avatar,
@@ -22,7 +29,12 @@ import {
   Switch,
 } from "react-native-paper";
 import axios from "axios";
+import { LinearGradient } from "react-native-svg";
 // axios.defaults.baseURL = "http://10.0.2.2:8000";
+
+const { width } = Dimensions.get("window");
+const aspectRatio = 750 / 1125;
+const height = width * aspectRatio;
 
 function DrawerContent(props) {
   const paperTheme = useTheme();
@@ -55,79 +67,123 @@ function DrawerContent(props) {
       });
   }, []);
   return (
+    // <LinearGradient colors={[COLORS.yellow, COLORS.white]}>
     <View style={styles.container}>
-      <DrawerContentScrollView {...props}>
-        <View style={styles.drawerContent}>
-          <View style={styles.userInfoSection}>
-            <View style={{ flexDirection: "row", marginTop: 15 }}>
-              <Avatar.Image
-                source={require("../assets/images/profile2.png")}
-                size={75}
+      {/* <View style={{ flex: 1 }}> */}
+      <View style={{ flex: 0.4, backgroundColor: COLORS.white }}>
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            borderBottomRightRadius: 70,
+            backgroundColor: COLORS.yellow2,
+          }}
+        />
+      </View>
+      <View style={{ flex: 0.8 }}>
+        <View style={{ flex: 1, backgroundColor: COLORS.yellow2 }} />
+        <View style={{ flex: 1, backgroundColor: COLORS.gray }} />
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: COLORS.white,
+            borderTopLeftRadius: 70,
+          }}
+        />
+      </View>
+      <View>
+        <DrawerContentScrollView {...props}>
+          <View style={styles.drawerContent}>
+            <View style={styles.userInfoSection}>
+              <View style={{ flexDirection: "row", marginTop: 15 }}>
+                <Avatar.Image
+                  source={require("../assets/images/profile2.png")}
+                  size={75}
+                  // resizeMode="contain"
+                  style={{ backgroundColor: COLORS.white }}
+                />
+                <View style={{ marginLeft: 15, flexDirection: "column" }}>
+                  <Title style={styles.title}>
+                    {userInfo.firstname} {userInfo.lastname}
+                  </Title>
+                  <Caption style={styles.caption}>@{userInfo.type}</Caption>
+                </View>
+              </View>
+              <View style={styles.row}>
+                <View style={styles.section}>
+                  <Paragraph style={[styles.paragraph, styles.caption]}>
+                    @
+                  </Paragraph>
+                  <Caption style={styles.caption}>
+                    shahdabbar32@gmail.com
+                  </Caption>
+                </View>
+              </View>
+            </View>
+            <Drawer.Section style={styles.drawerSection}>
+              <DrawerItem
+                icon={() => (
+                  <Icon name="home-outline" color="#515e5a" size={30} />
+                )}
+                label="Home"
+                labelStyle={{ fontSize: 18, fontWeight: "bold" }}
+                onPress={() => {
+                  props.navigation.navigate("Home");
+                }}
               />
-              <View style={{ marginLeft: 15, flexDirection: "column" }}>
-                <Title style={styles.title}>
-                  {userInfo.firstname} {userInfo.lastname}
-                </Title>
-                <Caption style={styles.caption}>@{userInfo.type}</Caption>
-              </View>
-            </View>
-            <View style={styles.row}>
-              <View style={styles.section}>
-                <Paragraph style={[styles.paragraph, styles.caption]}>
-                  80
-                </Paragraph>
-                <Caption style={styles.caption}>Videos</Caption>
-              </View>
-            </View>
-          </View>
-          <Drawer.Section style={styles.drawerSection}>
-            <DrawerItem
-              icon={() => (
-                <Icon name="home-outline" color="#515e5a" size={24} />
-              )}
-              label="Home"
-              onPress={() => {
-                props.navigation.navigate("Home");
-              }}
-            />
-            <DrawerItem
-              icon={() => (
-                <Icon name="account-outline" color="#515e5a" size={24} />
-              )}
-              label="Profile"
-              onPress={() => {
-                props.navigation.navigate("Profile");
-              }}
-            />
-            <DrawerItem
-              icon={() => (
-                <Icon name="bookmark-outline" color="#515e5a" size={24} />
-              )}
-              label="Bookmarks"
-              onPress={() => {
-                props.navigation.navigate("CompleteProfileScreen");
-              }}
-            />
-            <DrawerItem
-              icon={() => (
-                <Ionicon name="settings-outline" color="#515e5a" size={24} />
-              )}
-              label="Settings"
-              onPress={() => {
-                props.navigation.navigate("SettingsScreen");
-              }}
-            />
-            <DrawerItem
-              icon={() => (
-                <Icon name="account-check-outline" color="#515e5a" size={24} />
-              )}
-              label="Support"
-              onPress={() => {
-                props.navigation.navigate("SupportScreen");
-              }}
-            />
-          </Drawer.Section>
-          <Drawer.Section title="Preferences">
+              <DrawerItem
+                icon={() => (
+                  <Icon name="account-outline" color="#515e5a" size={30} />
+                )}
+                label="Profile"
+                labelStyle={{ fontSize: 18, fontWeight: "bold" }}
+                onPress={() => {
+                  props.navigation.navigate("Profile");
+                }}
+              />
+              <DrawerItem
+                icon={() => (
+                  <Icon name="video-outline" color="#515e5a" size={30} />
+                )}
+                label="Videos"
+                labelStyle={{ fontSize: 18, fontWeight: "bold" }}
+                onPress={() => {
+                  props.navigation.navigate("CompleteProfileScreen");
+                }}
+              />
+              <DrawerItem
+                icon={() => (
+                  <Ionicon name="settings-outline" color="#515e5a" size={30} />
+                )}
+                label="Settings"
+                labelStyle={{ fontSize: 18, fontWeight: "bold" }}
+                onPress={() => {
+                  props.navigation.navigate("SettingsScreen");
+                }}
+              />
+              <DrawerItem
+                icon={() => (
+                  <Icon
+                    name="account-check-outline"
+                    color="#515e5a"
+                    size={30}
+                  />
+                )}
+                label="Support"
+                labelStyle={{ fontSize: 18, fontWeight: "bold" }}
+                onPress={() => {
+                  props.navigation.navigate("SupportScreen");
+                }}
+              />
+            </Drawer.Section>
+            {/* <Drawer.Section title="Preferences">
             <TouchableRipple
               onPress={() => {
                 // toggleTheme();
@@ -140,19 +196,52 @@ function DrawerContent(props) {
                 </View>
               </View>
             </TouchableRipple>
-          </Drawer.Section>
-        </View>
-      </DrawerContentScrollView>
-      <Drawer.Section style={styles.bottomDrawerSection}>
-        <DrawerItem
-          icon={() => <Icon name="exit-to-app" color="#515e5a" size={24} />}
-          label="Sign out"
-          onPress={() => {
-            logout();
+          </Drawer.Section> */}
+          </View>
+        </DrawerContentScrollView>
+        <Drawer.Section style={styles.bottomDrawerSection}>
+          <DrawerItem
+            icon={() => <Icon name="exit-to-app" color="#515e5a" size={30} />}
+            label="Sign out"
+            labelStyle={{ fontSize: 18, fontWeight: "bold" }}
+            onPress={() => {
+              logout();
+            }}
+          />
+        </Drawer.Section>
+      </View>
+
+      <View style={{ flex: 0.8 }}>
+        <View style={{ flex: 1, backgroundColor: COLORS.white }} />
+        <View style={{ flex: 1, backgroundColor: COLORS.pink }} />
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: COLORS.white,
+            borderBottomRightRadius: 70,
+            borderTopLeftRadius: 70,
           }}
         />
-      </Drawer.Section>
+      </View>
+      <View style={{ flex: 0.2, backgroundColor: COLORS.white }}>
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            borderTopLeftRadius: 70,
+            backgroundColor: COLORS.pink,
+          }}
+        />
+      </View>
     </View>
+    // </LinearGradient>
   );
 }
 
@@ -161,15 +250,16 @@ export default DrawerContent;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: COLORS.beige,
   },
   drawerContent: {
     flex: 1,
   },
   userInfoSection: {
-    paddingLeft: 20,
+    paddingLeft: 16,
   },
   title: {
-    fontSize: 16,
+    fontSize: 20,
     marginTop: 3,
     fontWeight: "bold",
   },

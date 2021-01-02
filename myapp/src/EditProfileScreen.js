@@ -599,7 +599,7 @@ const EditProfileScreen = ({ route, navigation }) => {
               <Image
                 source={
                   userInfo.imagePath
-                    ? { uri: `http://10.0.2.2:8000/${userInfo.imagePath}` }
+                    ? { uri: `http://192.168.0.106:8000/${userInfo.imagePath}` }
                     : require("../assets/images/profile2.png")
                 }
                 style={styles.image}
@@ -639,7 +639,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                 borderColor: COLORS.beige,
                 elevation: 5,
                 padding: 10,
-                marginBottom: 20,
+                marginBottom: 15,
               }}
             >
               <View>
@@ -767,7 +767,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                 borderColor: COLORS.yellow,
                 elevation: 5,
                 padding: 10,
-                marginBottom: 20,
+                marginBottom: 15,
               }}
             >
               <View>
@@ -814,7 +814,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                     borderColor: COLORS.yellow,
                     elevation: 5,
                     padding: 10,
-                    marginBottom: 20,
+                    marginBottom: 15,
                   }}
                 >
                   <View>
@@ -910,7 +910,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                     borderColor: COLORS.yellow,
                     elevation: 5,
                     padding: 10,
-                    marginBottom: 20,
+                    marginBottom: 15,
                   }}
                 >
                   <View>

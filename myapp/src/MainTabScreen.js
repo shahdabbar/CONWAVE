@@ -212,6 +212,7 @@ export default MainTabScreen;
 const HomeStackScreen = ({ navigation }) => (
   <HomeStack.Navigator
     screenOptions={{
+      // animationEnabled: false,
       headerShown: false,
       headerStyle: {
         backgroundColor: "#fff",
@@ -384,8 +385,8 @@ const HomeStackScreen = ({ navigation }) => (
       name="PaymentMethod"
       component={PaymentMethodScreen}
       options={{
-        headerShown: false,
-        title: "Payment",
+        headerShown: true,
+        title: "Add Your Credit Card",
         headerTitleStyle: {
           color: "gray",
           fontWeight: "800",
@@ -402,7 +403,7 @@ const HomeStackScreen = ({ navigation }) => (
             color="gray"
             style={{ marginLeft: 20 }}
             onPress={() => {
-              navigation.navigate("BookTime");
+              navigation.navigate("BookSession");
             }}
           />
         ),
