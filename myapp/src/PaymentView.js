@@ -47,7 +47,7 @@ const PaymentView = (props) => {
 
   const htmlContent = `
   
-          <!DOCTYPE html>
+    <!DOCTYPE html>
       <html lang="en">
       <head>
           <meta charset="UTF-8">
@@ -124,12 +124,12 @@ const PaymentView = (props) => {
           
           <!-- product info -->
           <div class="container-fluid">
-              <div class="row">
+             <!-- <div class="row">
                   <div class="products-info">
                       Product Info: ${product}
                       Amount: ${amount}
                   </div>
-              </div>
+              </div> -->
               <div class="row">
                   <label class="card-errors" id="card-errors"></label>
               </div>
@@ -177,7 +177,7 @@ const PaymentView = (props) => {
                           </div>
                       
                           <div class="pay-btn">
-                              <input type="submit" class="btn btn-info btn-lg" value="Pay Now" />
+                              <input type="submit" class="btn btn-info btn-lg" value="Add Credit Card" />
                           </div>
           
                   </form>
@@ -262,20 +262,21 @@ const PaymentView = (props) => {
                           address_state: undefined,
                           address_zip: undefined,
                       };
-      
-                      stripe.createToken(card, additionalData).then(function(result) {
+                    
+                     
+                    stripe.createToken(card, additionalData).then(function(result) {
+                        console.log(result);
+                        if (result.token) {
+                            window.postMessage(JSON.stringify(result));
+                        } else {
+                            window.postMessage(JSON.stringify(result));
+                        }
+                    });
                       
-                      console.log(result);
-                      if (result.token) {
-                          window.postMessage(JSON.stringify(result));
-                      } else {
-                          window.postMessage(JSON.stringify(result));
-                      }
-                  });
                   })
           </script>
       </body>
-      </html>
+    </html>
   `;
 
   const injectedJavaScript = `(function() {
@@ -286,7 +287,7 @@ const PaymentView = (props) => {
 
   const onMessage = (event) => {
     const { data } = event.nativeEvent;
-    console.log(data);
+    console.log("onMessage", data);
     onCheckStatus(data);
   };
 

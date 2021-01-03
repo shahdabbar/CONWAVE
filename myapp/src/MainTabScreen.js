@@ -38,8 +38,10 @@ import TutorProfileScreen from "./TutorProfileScreen";
 import BookTimeScreen from "./BookTimeScreen";
 import BookSessionScreen from "./BookSessionScreen";
 import PaymentMethodScreen from "./PaymentMethodScreen";
+import BookingSucceededScreen from "./BookingSucceededScreen";
 
 import axios from "axios";
+import StudentSessionsScreen from "./StudentSessionsScreen";
 
 const HomeStack = createStackNavigator();
 const DetailsStack = createStackNavigator();
@@ -95,117 +97,157 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
   return;
 };
 
-const MainTabScreen = () => (
-  <Tab.Navigator
-    initialRouteName="Home"
-    activeColor="#fff"
-    tabBarOptions={{
-      showLabel: false,
-      style: {
-        borderTopWidth: 0,
-        backgroundColor: "transparent",
-        elevation: 0,
-      },
-    }}
-  >
-    <Tab.Screen
-      name="Home"
-      component={HomeStackScreen}
-      options={{
-        tabBarLabel: "Home",
-        tabBarIcon: ({ focused }) => (
-          <Image
-            source={require("../assets/icons/home.png")}
-            resizeMode="contain"
-            style={{
-              width: 25,
-              height: 25,
-              tintColor: focused ? COLORS.primary : COLORS.secondary,
-            }}
-          />
-        ),
-        tabBarButton: (props) => <TabBarCustomButton {...props} />,
-      }}
-    />
+const MainTabScreen = () => {
+  const { user } = useContext(AuthContext);
+  const [userInfo, setUserInfo] = useState([]);
 
-    <Tab.Screen
-      name="Notification"
-      component={DetailsStackScreen}
-      options={{
-        tabBarLabel: "notification",
-        tabBarIcon: ({ focused }) => (
-          <Image
-            source={require("../assets/icons/notification.png")}
-            resizeMode="contain"
-            style={{
-              width: 25,
-              height: 25,
-              tintColor: focused ? COLORS.primary : COLORS.secondary,
-            }}
-          />
-        ),
-        tabBarButton: (props) => <TabBarCustomButton {...props} />,
+  useEffect(() => {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+
+    // get user name
+    axios
+      .get("api/user")
+      .then((response) => {
+        setUserInfo(response.data);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  }, []);
+  return (
+    <Tab.Navigator
+      initialRouteName="Home"
+      activeColor="#fff"
+      tabBarOptions={{
+        showLabel: false,
+        style: {
+          borderTopWidth: 0,
+          backgroundColor: "transparent",
+          elevation: 0,
+        },
       }}
-    />
-    <Tab.Screen
-      name="Sessions"
-      component={SessionsStackScreen}
-      options={{
-        tabBarLabel: "Sessions",
-        tabBarIcon: ({ focused }) => (
-          <Image
-            source={require("../assets/icons/explore.png")}
-            resizeMode="contain"
-            style={{
-              width: 25,
-              height: 25,
-              tintColor: focused ? COLORS.primary : COLORS.secondary,
-            }}
-          />
-        ),
-        tabBarButton: (props) => <TabBarCustomButton {...props} />,
-      }}
-    />
-    <Tab.Screen
-      name="Chat"
-      component={ExploreStackScreen}
-      options={{
-        tabBarLabel: "chat",
-        tabBarIcon: ({ focused }) => (
-          <Image
-            source={require("../assets/icons/chat.png")}
-            resizeMode="contain"
-            style={{
-              width: 25,
-              height: 25,
-              tintColor: focused ? COLORS.primary : COLORS.secondary,
-            }}
-          />
-        ),
-        tabBarButton: (props) => <TabBarCustomButton {...props} />,
-      }}
-    />
-    <Tab.Screen
-      name="Profile"
-      component={ProfileStackScreen}
-      options={{
-        tabBarLabel: "profile",
-        tabBarIcon: ({ focused }) => (
-          <Image
-            source={require("../assets/icons/user.png")}
-            resizeMode="contain"
-            style={{
-              width: 25,
-              height: 25,
-              tintColor: focused ? COLORS.primary : COLORS.secondary,
-            }}
-          />
-        ),
-        tabBarButton: (props) => <TabBarCustomButton {...props} />,
-      }}
-    />
-  </Tab.Navigator>
-);
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeStackScreen}
+        options={{
+          tabBarLabel: "Home",
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={icons.home}
+              resizeMode="contain"
+              style={{
+                width: 27,
+                height: 27,
+                tintColor: focused ? COLORS.pink : COLORS.secondary,
+              }}
+            />
+          ),
+          tabBarButton: (props) => <TabBarCustomButton {...props} />,
+        }}
+      />
+
+      <Tab.Screen
+        name="Notification"
+        component={DetailsStackScreen}
+        options={{
+          tabBarLabel: "notification",
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={require("../assets/icons/notification.png")}
+              resizeMode="contain"
+              style={{
+                width: 25,
+                height: 25,
+                tintColor: focused ? COLORS.pink : COLORS.secondary,
+              }}
+            />
+          ),
+          tabBarButton: (props) => <TabBarCustomButton {...props} />,
+        }}
+      />
+      {userInfo.type === "tutor" ? (
+        <Tab.Screen
+          name="Sessions"
+          component={SessionsStackScreen}
+          options={{
+            tabBarLabel: "Sessions",
+            tabBarIcon: ({ focused }) => (
+              <Image
+                source={icons.session}
+                resizeMode="contain"
+                style={{
+                  width: 27,
+                  height: 27,
+                  tintColor: focused ? COLORS.pink : COLORS.secondary,
+                }}
+              />
+            ),
+            tabBarButton: (props) => <TabBarCustomButton {...props} />,
+          }}
+        />
+      ) : (
+        <Tab.Screen
+          name="StudentSessions"
+          component={StudentSessionsScreen}
+          options={{
+            tabBarLabel: "Sessions",
+            tabBarIcon: ({ focused }) => (
+              <Image
+                source={icons.session}
+                resizeMode="contain"
+                style={{
+                  width: 27,
+                  height: 27,
+                  tintColor: focused ? COLORS.pink : COLORS.secondary,
+                }}
+              />
+            ),
+            tabBarButton: (props) => <TabBarCustomButton {...props} />,
+          }}
+        />
+      )}
+      <Tab.Screen
+        name="Chat"
+        component={ExploreStackScreen}
+        options={{
+          tabBarLabel: "chat",
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={icons.chat}
+              resizeMode="contain"
+              style={{
+                width: 25,
+                height: 25,
+                tintColor: focused ? COLORS.pink : COLORS.secondary,
+              }}
+            />
+          ),
+          tabBarButton: (props) => <TabBarCustomButton {...props} />,
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileStackScreen}
+        options={{
+          tabBarLabel: "profile",
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={require("../assets/icons/user.png")}
+              resizeMode="contain"
+              style={{
+                width: 25,
+                height: 25,
+                tintColor: focused ? COLORS.pink : COLORS.secondary,
+              }}
+            />
+          ),
+          tabBarButton: (props) => <TabBarCustomButton {...props} />,
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 export default MainTabScreen;
 
@@ -404,6 +446,34 @@ const HomeStackScreen = ({ navigation }) => (
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("BookSession");
+            }}
+          />
+        ),
+      }}
+    />
+
+    <HomeStack.Screen
+      name="BookingSucceeded"
+      component={BookingSucceededScreen}
+      options={{
+        headerShown: false,
+        title: "",
+        headerTitleStyle: {
+          color: "gray",
+          fontWeight: "800",
+          fontSize: 25,
+        },
+        headerStyle: {
+          elevation: 0, // Android
+        },
+        headerLeft: () => (
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color="gray"
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.navigate("Home");
             }}
           />
         ),

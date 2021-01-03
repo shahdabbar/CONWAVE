@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Booked_Sessions extends Model
 {
     use HasFactory;
+    protected $guarded = [];  
+
 }

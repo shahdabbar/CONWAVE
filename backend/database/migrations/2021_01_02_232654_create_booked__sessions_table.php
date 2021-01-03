@@ -15,19 +15,19 @@ class CreateBookedSessionsTable extends Migration
     {
         Schema::create('booked__sessions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('timeslots_id');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('profile_id');
             $table->unsignedBigInteger('course_id');
             $table->string('meeting_type');
-            $table->date('available_date');
-            $table->decimal('payment');
-            $table->text('location');
-            $table->string('contact')->nullable();
+            $table->date("date");
+            $table->string("payment");
+            $table->text("location");
             $table->timestamps();
 
+            $table->foreign('timeslots_id')->references('id')->on('timeslots')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('profile_id')->references('id')->on('profiles')->onDelete('cascade');
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+
         });
     }
 

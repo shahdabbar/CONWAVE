@@ -14,6 +14,7 @@ use App\Http\Controllers\DayController;
 use App\Http\Controllers\HourController;
 use App\Http\Controllers\TimeslotsController;
 use App\Http\Controllers\MeetingTypeController;
+use App\Http\Controllers\BookedSessionsController;
 
 
 
@@ -72,6 +73,9 @@ Route::middleware('auth:sanctum')->post('/tutor/courses', [TutorCoursesControlle
 Route::middleware('auth:sanctum')->get('/tutor/courses', [TutorCoursesController::class, 'index']);
 Route::middleware('auth:sanctum')->get('/course/tutors', [TutorCoursesController::class, 'courses'] );
 Route::middleware('auth:sanctum')->get('/user/tutor/courses', [TutorCoursesController::class, 'getTutorCourses']);
+
+Route::middleware('auth:sanctum')->post('/book/session', [BookedSessionsController::class, 'store']);
+Route::middleware('auth:sanctum')->get('/user/sessions', [BookedSessionsController::class, 'index']);
 
 
 

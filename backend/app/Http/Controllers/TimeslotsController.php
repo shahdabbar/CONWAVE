@@ -24,7 +24,7 @@ class TimeslotsController extends Controller
 
     public function sunday(Request $request){
 
-        $timeslots = Timeslots::where('user_id', Auth()->user()->id)
+        $timeslots = Timeslots::where('user_id', $request->user_id)
         ->where('days_id', 1)
         ->with('hours')->get();
 
@@ -33,7 +33,7 @@ class TimeslotsController extends Controller
    
     public function monday(Request $request){
 
-        $timeslots = Timeslots::where('user_id', Auth()->user()->id)
+        $timeslots = Timeslots::where('user_id',  $request->user_id)
         ->where('days_id', 2)
         ->with('hours')->get();
 
@@ -42,7 +42,7 @@ class TimeslotsController extends Controller
     
     public function tuesday(Request $request){
 
-        $timeslots = Timeslots::where('user_id', Auth()->user()->id)
+        $timeslots = Timeslots::where('user_id',  $request->user_id)
         ->where('days_id', 3)
         ->with('hours')->get();
 
@@ -51,7 +51,7 @@ class TimeslotsController extends Controller
     
     public function wednesday(Request $request){
 
-        $timeslots = Timeslots::where('user_id', Auth()->user()->id)
+        $timeslots = Timeslots::where('user_id',  $request->user_id)
         ->where('days_id', 4)
         ->with('hours')->get();
 
@@ -60,7 +60,7 @@ class TimeslotsController extends Controller
     
     public function thursday(Request $request){
 
-        $timeslots = Timeslots::where('user_id', Auth()->user()->id)
+        $timeslots = Timeslots::where('user_id',  $request->user_id)
         ->where('days_id', 5)
         ->with('hours')->get();
 
@@ -69,7 +69,7 @@ class TimeslotsController extends Controller
     
     public function friday(Request $request){
 
-        $timeslots = Timeslots::where('user_id', Auth()->user()->id)
+        $timeslots = Timeslots::where('user_id', $request->user_id)
         ->where('days_id', 6)
         ->with('hours')->get();
 
@@ -78,7 +78,7 @@ class TimeslotsController extends Controller
 
     public function saturday(Request $request){
 
-        $timeslots = Timeslots::where('user_id', Auth()->user()->id)
+        $timeslots = Timeslots::where('user_id',  $request->user_id)
         ->where('days_id', 7)
         ->with('hours')->get();
 
@@ -87,7 +87,7 @@ class TimeslotsController extends Controller
 
     public function hours(Request $request){
 
-        $timeslots = Timeslots::where('user_id', Auth()->user()->id)
+        $timeslots = Timeslots::where('user_id', $request->user_id)
         ->where('days_id', $request->days_id)
         ->with('hours')->get();
 
@@ -97,12 +97,13 @@ class TimeslotsController extends Controller
     public function update(Request $request) {
 
         $data = request()->validate([
+            'user_id' => 'required',
             'days_id' => 'required',
             'hours_id' => 'required',
             'isSelected' => 'required',
         ]);
 
-        $timeslots = Timeslots::where('user_id', Auth()->user()->id)->where('days_id', $request->days_id)
+        $timeslots = Timeslots::where('user_id', $request->user_id)->where('days_id', $request->days_id)
             ->where('hours_id', $request->hours_id)->update(['isSelected' => $request->isSelected]);
         
         return response()->json('success');

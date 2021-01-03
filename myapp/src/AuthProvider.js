@@ -64,12 +64,14 @@ export const AuthProvider = ({ children }) => {
             })
             .then((response) => {
               const userResponse = {
+                id: response.data.user.id,
                 email: response.data.user.email,
                 token: response.data.token,
               };
+              // console.log(response);
               setUser(userResponse);
               SecureStore.setItemAsync("user", JSON.stringify(userResponse));
-              console.log(userResponse.token);
+              console.log("userrrrrrrr", userResponse);
             })
             .catch((error) => {
               console.log("error", error);

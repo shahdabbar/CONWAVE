@@ -1,7 +1,7 @@
 // export const back = require("../assets/icons/back.png");
 export const user = require("../../assets/icons/user.png");
 export const code = require("../../assets/icons/code.png");
-export const chat = require("../../assets/icons/chat.png");
+export const chat = require("../../assets/icons/messenger.png");
 export const cooking = require("../../assets/icons/chef.png");
 export const explore = require("../../assets/icons/explore.png");
 export const health = require("../../assets/icons/cardiogram.png");
@@ -25,8 +25,14 @@ export const office = require("../../assets/icons/checklist.png");
 export const plus = require("../../assets/icons/add.png");
 export const check = require("../../assets/icons/check.png");
 export const dollar = require("../../assets/icons/dollar-coin.png");
+export const session = require("../../assets/icons/clock.png");
+export const fireworks = require("../../assets/icons/fireworks.png");
+export const firework = require("../../assets/icons/firework.png");
 
 export default {
+  session,
+  fireworks,
+  firework,
   user,
   computer,
   chat,

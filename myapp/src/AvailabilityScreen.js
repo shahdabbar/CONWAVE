@@ -88,10 +88,10 @@ const AvailabilityScreen = ({ route, navigation }) => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
     // get timeslots
     axios
-      .get(`api/timeslots/sunday`)
+      .get(`api/timeslots/sunday?user_id=${user.id}`)
       .then((response) => {
         days[0] = { ...days[0], hours: response.data };
-        console.log("days", days[0]);
+        // console.log("days", days[0]);
         setDays(days);
       })
       .catch((error) => {
@@ -99,60 +99,60 @@ const AvailabilityScreen = ({ route, navigation }) => {
       });
 
     axios
-      .get(`api/timeslots/monday`)
+      .get(`api/timeslots/monday?user_id=${user.id}`)
       .then((response) => {
         days[1] = { ...days[1], hours: response.data };
-        console.log("days", days[1]);
+        // console.log("days", days[1]);
         setDays(days);
       })
       .catch((error) => {
         console.log("error", error);
       });
     axios
-      .get(`api/timeslots/tuesday`)
+      .get(`api/timeslots/tuesday?user_id=${user.id}`)
       .then((response) => {
         days[2] = { ...days[2], hours: response.data };
-        console.log("days", days[2]);
+        // console.log("days", days[2]);
         setDays(days);
       })
       .catch((error) => {
         console.log("error", error);
       });
     axios
-      .get(`api/timeslots/wednesday`)
+      .get(`api/timeslots/wednesday?user_id=${user.id}`)
       .then((response) => {
         days[3] = { ...days[3], hours: response.data };
-        console.log("days", days[3]);
+        // console.log("days", days[3]);
         setDays(days);
       })
       .catch((error) => {
         console.log("error", error);
       });
     axios
-      .get(`api/timeslots/thursday`)
+      .get(`api/timeslots/thursday?user_id=${user.id}`)
       .then((response) => {
         days[4] = { ...days[4], hours: response.data };
-        console.log("days", days[4]);
+        // console.log("days", days[4]);
         setDays(days);
       })
       .catch((error) => {
         console.log("error", error);
       });
     axios
-      .get(`api/timeslots/friday`)
+      .get(`api/timeslots/friday?user_id=${user.id}`)
       .then((response) => {
         days[5] = { ...days[5], hours: response.data };
-        console.log("days", days[5]);
+        // console.log("days", days[5]);
         setDays(days);
       })
       .catch((error) => {
         console.log("error", error);
       });
     axios
-      .get(`api/timeslots/saturday`)
+      .get(`api/timeslots/saturday?user_id=${user.id}`)
       .then((response) => {
         days[6] = { ...days[6], hours: response.data };
-        console.log("days", days[6]);
+        // console.log("days", days[6]);
         setDays(days);
       })
       .catch((error) => {
@@ -235,6 +235,7 @@ const AvailabilityScreen = ({ route, navigation }) => {
 
     axios
       .post("/api/timeslots/hours/update", {
+        user_id: user.id,
         days_id: item.days_id,
         hours_id: item.hours_id,
         isSelected: !item.isSelected,
@@ -244,7 +245,7 @@ const AvailabilityScreen = ({ route, navigation }) => {
       });
 
     axios
-      .get(`/api/timeslots/hours?days_id=${item.days_id}`)
+      .get(`/api/timeslots/hours?days_id=${item.days_id}&&user_id=${user.id}`)
       .then((response) => {
         days[item.days_id - 1] = {
           ...days[item.days_id - 1],

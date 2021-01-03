@@ -21,7 +21,7 @@ import {
 } from "@react-navigation/drawer";
 
 import MainTabScreen from "../src/MainTabScreen";
-import DrawerContent from "../src/DrawerContent";
+import DrawerContent, { DRAWER_WIDTH } from "../src/DrawerContent";
 import SupportScreen from "../src/SupportScreen";
 import SettingsScreen from "../src/SettingsScreen";
 import CompleteProfileScreen from "../src/CompleteProfileScreen";
@@ -62,7 +62,10 @@ function App() {
 
   return (
     <PaperProvider theme={theme}>
-      <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
+      <Drawer.Navigator
+        drawerStyle={{ width: DRAWER_WIDTH }}
+        drawerContent={(props) => <DrawerContent {...props} />}
+      >
         <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
         <Drawer.Screen name="SupportScreen" component={SupportScreen} />
         <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />

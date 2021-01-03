@@ -72,7 +72,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <LinearGradient colors={[COLORS.white, COLORS.yellow, COLORS.primary]}>
+      <LinearGradient colors={[COLORS.beige, COLORS.rose, COLORS.pink]}>
         <SafeAreaView>
           <Modal
             visible={modal.addressModal}
@@ -291,7 +291,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
                 style={{ position: "absolute", top: 40, left: 16 }}
                 onPress={() => navigation.openDrawer()}
               /> */}
-                  <Text style={styles.name}>Hey MH!</Text>
+                  <Text style={styles.name}>Hey Miel!</Text>
                   <Text style={styles.paragraph}>
                     You're a few steps away from becoming an AWESOME tutor.
                   </Text>
@@ -468,7 +468,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   warning: {
-    // backgroundColor: "#ffd200",
+    backgroundColor: "#ffd200",
     height: 50,
     alignItems: "center",
     justifyContent: "center",

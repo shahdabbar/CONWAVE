@@ -82,10 +82,10 @@ const TutorProfileScreen = ({ route, navigation }) => {
                     resizeMode="cover"
                   />
                 </View>
-                <View style={styles.dm}>
+                {/* <View style={styles.dm}>
                   <MaterialIcon name="chat" size={26} color="#DFD8C8" />
-                </View>
-                <View style={styles.active}></View>
+                </View> */}
+                {/* <View style={styles.active}></View> */}
               </View>
               <View style={styles.infoContainer}>
                 <Text
@@ -153,12 +153,12 @@ const TutorProfileScreen = ({ route, navigation }) => {
             </View>
             <View style={{ marginHorizontal: 10, marginTop: 20 }}>
               <LinearGradient
-                colors={[COLORS.yellow, COLORS.white]}
+                colors={[COLORS.beige, COLORS.rose]}
                 style={{
                   // borderRadius: SIZES.radius / 2,
                   borderTopRightRadius: SIZES.radius,
                   borderBottomLeftRadius: SIZES.radius,
-                  borderWidth: 2,
+                  // borderWidth: 2,
                   borderColor: COLORS.yellow,
                   elevation: 5,
                   padding: 10,
@@ -166,7 +166,7 @@ const TutorProfileScreen = ({ route, navigation }) => {
                 }}
               >
                 <LinearGradient
-                  colors={[COLORS.primary, COLORS.yellow]}
+                  colors={[COLORS.yellow, COLORS.primary]}
                   style={{
                     position: "absolute",
                     top: 0,
@@ -379,7 +379,7 @@ const TutorProfileScreen = ({ route, navigation }) => {
               }
             >
               <LinearGradient
-                colors={[COLORS.beige, COLORS.beige]}
+                colors={[COLORS.white, COLORS.white]}
                 style={styles.next}
               >
                 <Text
@@ -387,6 +387,7 @@ const TutorProfileScreen = ({ route, navigation }) => {
                     ...styles.infoText,
                     fontSize: 20,
                     textAlign: "center",
+                    color: COLORS.pink,
                     textTransform: "uppercase",
                   }}
                 >
@@ -444,7 +445,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: SIZES.radius * 2,
     width: "80%",
     height: 70,
-    borderColor: COLORS.yellow,
+    borderColor: COLORS.beige,
     borderWidth: 2,
     // position: "absolute",
     elevation: 5,

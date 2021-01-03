@@ -69,6 +69,8 @@ const BookTimeScreen = ({ route, navigation }) => {
   const [course, setCourse] = useState(route.params.course);
   const [type, setType] = useState(route.params.type);
 
+  console.log("cccccccccccc", course);
+
   const [selectedDay, setSelectedDay] = useState(null);
   const [selectedHour, setSelectedHour] = useState(null);
 
@@ -121,7 +123,7 @@ const BookTimeScreen = ({ route, navigation }) => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
     // get timeslots
     axios
-      .get(`api/timeslots/sunday`)
+      .get(`api/timeslots/sunday?user_id=${course.tutor.id}`)
       .then((response) => {
         days[0] = { ...days[0], hours: response.data };
         // console.log("days", days[0]);
@@ -132,7 +134,7 @@ const BookTimeScreen = ({ route, navigation }) => {
       });
 
     axios
-      .get(`api/timeslots/monday`)
+      .get(`api/timeslots/monday?user_id=${course.tutor.id}`)
       .then((response) => {
         days[1] = { ...days[1], hours: response.data };
         // console.log("days", days[1]);
@@ -142,7 +144,7 @@ const BookTimeScreen = ({ route, navigation }) => {
         console.log("error", error);
       });
     axios
-      .get(`api/timeslots/tuesday`)
+      .get(`api/timeslots/tuesday?user_id=${course.tutor.id}`)
       .then((response) => {
         days[2] = { ...days[2], hours: response.data };
         // console.log("days", days[2]);
@@ -152,7 +154,7 @@ const BookTimeScreen = ({ route, navigation }) => {
         console.log("error", error);
       });
     axios
-      .get(`api/timeslots/wednesday`)
+      .get(`api/timeslots/wednesday?user_id=${course.tutor.id}`)
       .then((response) => {
         days[3] = { ...days[3], hours: response.data };
         // console.log("days", days[3]);
@@ -162,7 +164,7 @@ const BookTimeScreen = ({ route, navigation }) => {
         console.log("error", error);
       });
     axios
-      .get(`api/timeslots/thursday`)
+      .get(`api/timeslots/thursday?user_id=${course.tutor.id}`)
       .then((response) => {
         days[4] = { ...days[4], hours: response.data };
         // console.log("days", days[4]);
@@ -172,7 +174,7 @@ const BookTimeScreen = ({ route, navigation }) => {
         console.log("error", error);
       });
     axios
-      .get(`api/timeslots/friday`)
+      .get(`api/timeslots/friday?user_id=${course.tutor.id}`)
       .then((response) => {
         days[5] = { ...days[5], hours: response.data };
         // console.log("days", days[5]);
@@ -182,7 +184,7 @@ const BookTimeScreen = ({ route, navigation }) => {
         console.log("error", error);
       });
     axios
-      .get(`api/timeslots/saturday`)
+      .get(`api/timeslots/saturday?user_id=${course.tutor.id}`)
       .then((response) => {
         days[6] = { ...days[6], hours: response.data };
         // console.log("days", days[6]);

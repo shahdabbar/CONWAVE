@@ -474,7 +474,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "white",
     height: 70,
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     borderRadius: 35,
     // borderTopRightRadius: SIZES.radius * 4,
     // borderBottomLeftRadius: SIZES.radius * 4,

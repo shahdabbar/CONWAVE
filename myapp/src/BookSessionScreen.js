@@ -33,6 +33,9 @@ import axios from "axios";
 
 const BookSessionScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
+  axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+
+  const [status, setStatus] = useState("failed");
 
   const [data, setData] = useState({
     // day: route.params.day,
@@ -43,7 +46,36 @@ const BookSessionScreen = ({ route, navigation }) => {
     course: route.params.course,
   });
 
+  console.log("courseeeeeee", data.course);
+
   const onClick = () => {
+    if (
+      (route.params.status && route.params.status === "success") ||
+      data.type === "In-Person"
+    ) {
+      const session = {
+        user_id: user.id,
+        date: data.date,
+        timeslots_id: data.hour.id,
+        course_id: data.course.course_id,
+        meeting_type: data.type,
+        payment: data.course.rate,
+        location: "Zoom",
+      };
+
+      axios
+        .post("api/book/session", session)
+        .then((response) => {
+          console.log("i am here", response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      navigation.navigate("BookingSucceeded");
+    } else {
+      alert("Please select a payment method");
+    }
     // const newData = data.courses.map((e) => {
     //   return {
     //     ...e,
@@ -203,13 +235,8 @@ const BookSessionScreen = ({ route, navigation }) => {
                   flexDirection: "row",
                 }}
               >
-                {data.type === "Online" ? (
-                  <FontAwesome
-                    name="circle-thin"
-                    size={26}
-                    color={COLORS.black}
-                  />
-                ) : (
+                {(route.params.status && route.params.status === "success") ||
+                data.type === "In-person" ? (
                   <Image
                     source={icons.check}
                     resizeMode="contain"
@@ -217,6 +244,12 @@ const BookSessionScreen = ({ route, navigation }) => {
                       width: 25,
                       height: 25,
                     }}
+                  />
+                ) : (
+                  <FontAwesome
+                    name="circle-thin"
+                    size={26}
+                    color={COLORS.black}
                   />
                 )}
 

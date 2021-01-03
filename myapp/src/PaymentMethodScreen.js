@@ -53,27 +53,39 @@ const PaymentMethodScreen = ({ route, navigation }) => {
     let jsonResponse = JSON.parse(paymentResponse);
     // perform operation to check payment status
 
-    try {
-      const stripeResponse = await axios.post("http://localhost:8000/payment", {
-        email: "shahdabbar32@gmail.com",
-        product: cartInfo,
-        authToken: jsonResponse,
-      });
+    console.log("check", jsonResponse.token ? "Yes" : "NOOO");
 
-      if (stripeResponse) {
-        const { paid } = stripeResponse.data;
-        if (paid === true) {
-          setPaymentStatus("Payment Success");
-        } else {
-          setPaymentStatus("Payment failed due to some issue");
-        }
-      } else {
-        setPaymentStatus(" Payment failed due to some issue");
-      }
-    } catch (error) {
-      console.log(error);
-      setPaymentStatus(" Payment failed due to some issue");
+    if (jsonResponse.token) {
+      navigation.navigate("BookSession", {
+        status: "success",
+      });
+    } else {
+      navigation.navigate("BookSession", {
+        status: "failed",
+      });
     }
+
+    // try {
+    //   const stripeResponse = await axios.post("http://localhost:8000/payment", {
+    //     email: "shahdabbar32@gmail.com",
+    //     product: cartInfo,
+    //     authToken: jsonResponse,
+    //   });
+
+    //   if (stripeResponse) {
+    //     const { paid } = stripeResponse.data;
+    //     if (paid === true) {
+    //       setPaymentStatus("Payment Success");
+    //     } else {
+    //       setPaymentStatus("Payment failed due to some issue");
+    //     }
+    //   } else {
+    //     setPaymentStatus(" Payment failed due to some issue");
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    //   setPaymentStatus(" Payment failed due to some issue");
+    // }
   };
 
   const paymentUI = () => {
@@ -147,7 +159,17 @@ const PaymentMethodScreen = ({ route, navigation }) => {
     }
   };
 
-  return <View style={styles.container}>{paymentUI()}</View>;
+  return (
+    <View style={styles.container}>
+      <PaymentView
+        onCheckStatus={onCheckStatus}
+        product={cartInfo.description}
+        amount={cartInfo.amount}
+      />
+
+      {/* {paymentUI()} */}
+    </View>
+  );
 
   // return (
   //   <View styles={styles.container}>
