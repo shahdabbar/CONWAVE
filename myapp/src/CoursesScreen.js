@@ -66,84 +66,80 @@ const CoursesScreen = ({ navigation }) => {
       <View style={styles.courses}>
         <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>My Courses</Text>
       </View>
-      <ScrollView>
-        <FlatList
-          data={courses}
-          keyExtractor={(item) => `${item.id}`}
-          contentContainerStyle={{
-            paddingVertical: SIZES.padding,
-            marginBottom: 60,
-          }}
-          renderItem={({ item }) => {
-            return (
+      {/* <ScrollView> */}
+      <FlatList
+        data={courses}
+        keyExtractor={(item) => `${item.id}`}
+        contentContainerStyle={{
+          paddingVertical: SIZES.padding,
+          marginBottom: 60,
+        }}
+        renderItem={({ item }) => {
+          return (
+            <View>
               <View>
-                <View>
-                  <LinearGradient
-                    colors={["#FFFFFF", "#FFFFFF"]}
-                    style={{
-                      // borderRadius: SIZES.radius / 2,
-                      borderTopRightRadius: SIZES.radius,
-                      borderBottomLeftRadius: SIZES.radius,
-                      borderColor: "#ffd200",
-                      borderWidth: 2,
-                      elevation: 10,
-                      padding: 5,
-                      marginHorizontal: 20,
-                      height: 200,
-                      marginBottom: 20,
-                    }}
-                  >
-                    <View>
-                      <View style={{ ...styles.infoContent }}>
+                <LinearGradient
+                  colors={["#FFFFFF", "#FFFFFF"]}
+                  style={{
+                    // borderRadius: SIZES.radius / 2,
+                    borderTopRightRadius: SIZES.radius,
+                    borderBottomLeftRadius: SIZES.radius,
+                    borderColor: "#ffd200",
+                    borderWidth: 2,
+                    elevation: 10,
+                    padding: 5,
+                    marginHorizontal: 20,
+                    height: 200,
+                    marginBottom: 20,
+                  }}
+                >
+                  <View>
+                    <View style={{ ...styles.infoContent }}>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          marginBottom: 10,
+                        }}
+                      >
+                        <View>
+                          <Text style={styles.infoText}>
+                            {item.course.name}
+                          </Text>
+                        </View>
                         <View
                           style={{
                             flexDirection: "row",
                             alignItems: "center",
-                            justifyContent: "space-between",
-                            marginBottom: 10,
                           }}
                         >
-                          <View>
-                            <Text style={styles.infoText}>
-                              {item.course.name}
-                            </Text>
+                          <View style={styles.action}>
+                            <TextInput
+                              defaultValue={item.rate}
+                              textContentType="telephoneNumber"
+                              style={{ fontSize: 20 }}
+                              placeholder="Rate"
+                              placeholderTextColor="#666"
+                              onChangeText={(text) => onChangeText(item, text)}
+                              underlineColorAndroid="transparent"
+                            ></TextInput>
                           </View>
-                          <View
-                            style={{
-                              flexDirection: "row",
-                              alignItems: "center",
-                            }}
-                          >
-                            <View style={styles.action}>
-                              <TextInput
-                                defaultValue={item.rate}
-                                textContentType="telephoneNumber"
-                                style={{ fontSize: 20 }}
-                                placeholder="Rate"
-                                placeholderTextColor="#666"
-                                onChangeText={(text) =>
-                                  onChangeText(item, text)
-                                }
-                                underlineColorAndroid="transparent"
-                              ></TextInput>
-                            </View>
-                            <Text style={{ ...styles.text, color: "#34495e" }}>
-                              LBP/h
-                            </Text>
-                          </View>
+                          <Text style={{ ...styles.text, color: "#34495e" }}>
+                            LBP/h
+                          </Text>
                         </View>
-                        <Text style={styles.text}>
-                          {item.course_description}
-                        </Text>
                       </View>
+                      <Text style={styles.text}>{item.course_description}</Text>
                     </View>
-                  </LinearGradient>
-                </View>
+                  </View>
+                </LinearGradient>
               </View>
-            );
-          }}
-        />
-      </ScrollView>
+            </View>
+          );
+        }}
+      />
+      {/* </ScrollView> */}
       <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => navigation.navigate("AddCourse")}

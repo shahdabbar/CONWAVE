@@ -215,6 +215,7 @@ import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import { LinearGradient } from "expo-linear-gradient";
 
 import axios from "axios";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 // axios.defaults.baseURL = "http://10.0.2.2:8000";
 
@@ -324,7 +325,9 @@ const ProfileScreen = ({ navigation }) => {
             }}
           >
             <Text style={{ ...FONTS.h2, fontWeight: "bold" }}>My Videos</Text>
-            <Text style={{ ...FONTS.h3, color: "red" }}>View all</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Videos")}>
+              <Text style={{ ...FONTS.h3, color: "red" }}>View all</Text>
+            </TouchableOpacity>
           </View>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={styles.mediaVideoContainer}>

@@ -15,6 +15,7 @@ use App\Http\Controllers\HourController;
 use App\Http\Controllers\TimeslotsController;
 use App\Http\Controllers\MeetingTypeController;
 use App\Http\Controllers\BookedSessionsController;
+use App\Http\Controllers\VideoController;
 
 
 
@@ -65,6 +66,9 @@ Route::middleware('auth:sanctum')->get('/user/tutor', [UserController::class, 'g
 Route::middleware('auth:sanctum')->post('/user/photo', [UserController::class, 'storeImage']);
 Route::middleware('auth:sanctum')->post('/user/update', [UserController::class, 'update']);
 Route::middleware('auth:sanctum')->get('/user_profile', [UserController::class, 'getAll'] );
+
+Route::middleware('auth:sanctum')->post('/user/video', [VideoController::class, 'store'] );
+Route::middleware('auth:sanctum')->get('/user/videos', [VideoController::class, 'index'] );
 
 Route::middleware('auth:sanctum')->get('/categories', [CategoryController::class, 'index']);
 Route::middleware('auth:sanctum')->get('/courses', [CourseController::class, 'index']);

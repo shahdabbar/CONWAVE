@@ -85,5 +85,15 @@ class User extends Authenticatable
         return $this->hasOne(MeetingType::class);
     }
 
+    public function session()
+    {
+        return $this->hasMany(Booked_Sessions::class);
+    }
+
+    public function videos()
+    {
+        return $this->hasMany(Video::class);
+    }
+
   
 }

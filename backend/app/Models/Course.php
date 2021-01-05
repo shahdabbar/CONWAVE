@@ -18,4 +18,9 @@ class Course extends Model
     {
         return $this->hasMany(Tutor_Courses::class);
     }
+
+    public function bookedSessions()
+    {
+        return $this->hasMany(Booked_Sessions::class);
+    }
 }

@@ -13,4 +13,9 @@ class Days extends Model
     {
         return $this->hasMany(Timeslots::class);
     }
+
+    public function sessionDays()
+    {
+        return $this->hasMany(Booked_Sessions::class);
+    }
 }

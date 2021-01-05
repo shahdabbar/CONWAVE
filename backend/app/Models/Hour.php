@@ -13,4 +13,9 @@ class Hour extends Model
     {
         return $this->hasMany(Timeslots::class);
     }
+
+    public function sessionHours()
+    {
+        return $this->hasMany(Booked_Sessions::class);
+    }
 }

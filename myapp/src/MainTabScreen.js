@@ -24,7 +24,8 @@ import { Modal, Card } from "react-native-paper";
 import HomeScreen from "./HomeScreen";
 import DetailsScreen from "./DetailsScreen";
 import ProfileScreen from "./ProfileScreen";
-import ExploreScreen from "./ExploreScreen";
+import ChatScreen from "./ChatScreen";
+import LoginScreen from "./LoginScreen";
 import EditProfileScreen from "./EditProfileScreen";
 import CoursesScreen from "./CoursesScreen";
 import CompleteProfileScreen from "./CompleteProfileScreen";
@@ -42,11 +43,12 @@ import BookingSucceededScreen from "./BookingSucceededScreen";
 
 import axios from "axios";
 import StudentSessionsScreen from "./StudentSessionsScreen";
+import VideosScreen from "./VideosScreen";
 
 const HomeStack = createStackNavigator();
 const DetailsStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
-const ExploreStack = createStackNavigator();
+const ChatStack = createStackNavigator();
 const SessionStack = createStackNavigator();
 // const ExploreStack = createStackNavigator();
 
@@ -209,7 +211,7 @@ const MainTabScreen = () => {
       )}
       <Tab.Screen
         name="Chat"
-        component={ExploreStackScreen}
+        component={ChatStackScreen}
         options={{
           tabBarLabel: "chat",
           tabBarIcon: ({ focused }) => (
@@ -582,8 +584,44 @@ const ProfileStackScreen = ({ navigation }) => {
               color="gray"
               style={{ marginRight: 16 }}
               onPress={() => {
-                navigation.navigate("EditProfile");
+                navigation.navigate("Profile");
               }}
+            />
+          ),
+        }}
+      />
+
+      <ProfileStack.Screen
+        name="Videos"
+        component={VideosScreen}
+        options={{
+          // headerShown: false,
+          title: "My Videos",
+          headerTitleStyle: {
+            color: "gray",
+            fontWeight: "800",
+            fontSize: 20,
+            alignSelf: "center",
+          },
+
+          headerLeft: () => (
+            <MaterialIcon
+              name="arrow-back-ios"
+              size={24}
+              color="gray"
+              style={{ marginLeft: 20 }}
+              onPress={() => {
+                navigation.navigate("Profile");
+              }}
+            />
+          ),
+          headerRight: () => (
+            <MaterialCommunityIcons
+              name="account-edit"
+              size={30}
+              color="gray"
+              style={{ marginRight: 20 }}
+              onPress={() => navigation.navigate("EditProfile")}
             />
           ),
         }}
@@ -592,8 +630,8 @@ const ProfileStackScreen = ({ navigation }) => {
   );
 };
 
-const ExploreStackScreen = ({ navigation }) => (
-  <ExploreStack.Navigator
+const ChatStackScreen = ({ navigation }) => (
+  <ChatStack.Navigator
     screenOptions={{
       headerShown: false,
       headerStyle: {
@@ -605,9 +643,9 @@ const ExploreStackScreen = ({ navigation }) => (
       },
     }}
   >
-    <ExploreStack.Screen
+    <ChatStack.Screen
       name="Details"
-      component={ExploreScreen}
+      component={LoginScreen}
       options={{
         headerLeft: () => (
           <Icon.Button
@@ -620,7 +658,24 @@ const ExploreStackScreen = ({ navigation }) => (
         ),
       }}
     />
-  </ExploreStack.Navigator>
+
+    <ChatStack.Screen
+      name="Chat"
+      component={ChatScreen}
+      options={{
+        headerShown: false,
+        headerLeft: () => (
+          <Icon.Button
+            name="ios-menu"
+            size={30}
+            backgroundColor="#fff"
+            color="#000"
+            onPress={() => navigation.openDrawer()}
+          ></Icon.Button>
+        ),
+      }}
+    />
+  </ChatStack.Navigator>
 );
 
 const SessionsStackScreen = ({ navigation }) => (

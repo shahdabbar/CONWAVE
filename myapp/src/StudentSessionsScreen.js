@@ -29,6 +29,8 @@ import { AuthContext } from "./AuthProvider";
 import DrawerContent from "./DrawerContent";
 import { deleteItemAsync } from "expo-secure-store";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
+import { curveBasis } from "d3-shape";
+import Moment from "moment";
 import axios from "axios";
 
 const StudentSessionsScreen = ({ route, navigation }) => {
@@ -40,12 +42,21 @@ const StudentSessionsScreen = ({ route, navigation }) => {
       .get(`api/user/sessions?user_id=${user.id}`)
       .then((response) => {
         setSessions(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+
+  console.log("hellloooooooooooooooo", sessions);
+
+  // if (sessions != "undefined") {
+  //   let upcoming = sessions.filter((session) => {
+  //     if (session.date.getTime() === moment().getTime()) {
+  //       console.log("trueeee");
+  //     }
+  //   });
+  // }
 
   return (
     <View style={styles.container}>
@@ -70,110 +81,156 @@ const StudentSessionsScreen = ({ route, navigation }) => {
           <Text style={styles.sessions}>Sessions</Text>
         </View>
       </View>
-      <View style={{ paddingVertical: 10, marginTop: 10 }}>
-        <View
+
+      <View style={styles.statsContainer}>
+        <TouchableOpacity style={styles.statsBox}>
+          <Text style={{ ...styles.text, ...styles.subText }}>Upcoming</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
           style={{
-            backgroundColor: COLORS.white,
-            borderTopRightRadius: SIZES.radius,
-            borderBottomRightRadius: SIZES.radius,
-            elevation: 2,
-            borderLeftColor: COLORS.pink,
-            borderLeftWidth: 4,
-            marginHorizontal: SIZES.padding * 2,
+            ...styles.statsBox,
+            borderColor: "#DFDBC8",
+            borderLeftWidth: 2,
           }}
         >
-          <View style={{ paddingHorizontal: 20 }}>
-            <View
-              style={{
-                marginTop: 16,
-                flexDirection: "row",
-                alignItems: "center",
-                marginBottom: 10,
-              }}
-            >
-              <View>
-                <View style={styles.profileImage}>
-                  {/* source=
-                  {data.course.tutor.profile_photo_path
-                    ? {
-                        uri: `http://192.168.0.106:8000/${data.course.tutor.profile_photo_path}`,
-                      }
-                    : require("../assets/images/profile2.png")} */}
-                  <Image
-                    source={require("../assets/images/profile2.png")}
-                    style={styles.image}
-                    resizeMode="cover"
-                  />
-                </View>
-              </View>
-              <View style={{ left: 12 }}>
-                <View>
-                  <Text
-                    style={{
-                      ...styles.text,
-                      color: COLORS.yellow2,
-                      fontWeight: "bold",
-                      fontSize: 20,
-                      textTransform: "capitalize",
-                      marginVertical: 1,
-                    }}
-                  >
-                    Excel for beginners
-                    {/* {data.course.tutor.firstname} {data.course.tutor.lastname}. */}
-                  </Text>
-                </View>
-                <View>
-                  <Text
-                    style={{
-                      ...styles.text,
-                      color: COLORS.black,
-                      fontWeight: "800",
-                      textTransform: "capitalize",
-                      marginVertical: 1,
-                    }}
-                  >
-                    With Shahd Al-Abbar
-                    {/* {data.course.tutor.firstname} {data.course.tutor.lastname}. */}
-                  </Text>
-                </View>
-                <View>
-                  <Text
-                    style={{
-                      ...styles.text,
-                      fontWeight: "100",
-                      color: "gray",
-                      width: "90%",
-                      marginVertical: 1,
-                    }}
-                  >
-                    Sunday, Jun 03 - 19:30 till 20:30
-                    {/* {data.course.tutor.location}, Lebanon */}
-                  </Text>
-                </View>
-              </View>
-            </View>
+          <Text style={{ ...styles.text, ...styles.subText }}>Previous</Text>
+        </TouchableOpacity>
+      </View>
 
-            <View
-              style={{
-                height: 0.5,
-                width: "100%",
-                backgroundColor: "#C8C8C8",
-              }}
-            />
-            <View style={{ marginVertical: 10 }}>
-              <Text
-                style={{
-                  fontSize: 19,
-                  fontWeight: "800",
-                  color: COLORS.pink,
-                  alignSelf: "center",
-                }}
-              >
-                View Booking
-              </Text>
-            </View>
-          </View>
-        </View>
+      <View style={{ paddingVertical: 10, marginTop: 10 }}>
+        {sessions ? (
+          <FlatList
+            data={sessions["data"]}
+            keyExtractor={(item) => `${item.id}`}
+            contentContainerStyle={{
+              paddingVertical: SIZES.padding,
+              marginBottom: 60,
+            }}
+            renderItem={({ item }) => {
+              return (
+                <View
+                  style={{
+                    backgroundColor: COLORS.white,
+                    borderTopRightRadius: SIZES.radius,
+                    borderBottomRightRadius: SIZES.radius,
+                    elevation: 2,
+                    borderLeftColor: COLORS.pink,
+                    borderLeftWidth: 4,
+                    marginHorizontal: SIZES.padding * 2,
+                    marginVertical: SIZES.padding,
+                  }}
+                >
+                  {console.log("item", item)}
+                  <View style={{ paddingHorizontal: 20 }}>
+                    <View
+                      style={{
+                        marginTop: 16,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginBottom: 10,
+                      }}
+                    >
+                      <View>
+                        <View style={styles.profileImage}>
+                          <Image
+                            source={
+                              item.profile_photo_path
+                                ? {
+                                    uri: `http://192.168.0.106:8000/${item.profile_photo_path}`,
+                                  }
+                                : require("../assets/images/profile2.png")
+                            }
+                            style={styles.image}
+                            resizeMode="cover"
+                          />
+                        </View>
+                      </View>
+                      <View style={{ left: 12 }}>
+                        <View>
+                          <Text
+                            style={{
+                              ...styles.text,
+                              color: COLORS.yellow2,
+                              fontWeight: "bold",
+                              fontSize: 20,
+                              textTransform: "capitalize",
+                              marginVertical: 1,
+                            }}
+                          >
+                            {item.course_name}
+                          </Text>
+                        </View>
+                        <View>
+                          <Text
+                            style={{
+                              ...styles.text,
+                              color: COLORS.black,
+                              fontWeight: "800",
+                              textTransform: "capitalize",
+                              marginVertical: 1,
+                            }}
+                          >
+                            With {item.firstname} {item.lastname}.
+                          </Text>
+                        </View>
+                        <View>
+                          <Text
+                            style={{
+                              ...styles.text,
+                              fontWeight: "800",
+                              color: "gray",
+                              width: "90%",
+                              marginVertical: 1,
+                            }}
+                          >
+                            {Moment(item.date).format("dddd, MMM d")}
+                            {" - "}
+                            {item.hour}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+
+                    <View
+                      style={{
+                        height: 0.5,
+                        width: "100%",
+                        backgroundColor: "#C8C8C8",
+                      }}
+                    />
+                    <TouchableOpacity
+                      style={{
+                        marginVertical: 10,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <View>
+                        <FontAwesome5
+                          name="arrow-right"
+                          size={16}
+                          color={COLORS.pink}
+                        />
+                      </View>
+                      <Text
+                        style={{
+                          fontSize: 19,
+                          fontWeight: "800",
+                          color: COLORS.pink,
+                          alignSelf: "center",
+                          left: 10,
+                        }}
+                      >
+                        View Booking
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              );
+            }}
+          />
+        ) : null}
       </View>
     </View>
   );
@@ -195,6 +252,15 @@ const styles = StyleSheet.create({
   infoText: {
     fontSize: 25,
     fontWeight: "bold",
+  },
+  statsContainer: {
+    flexDirection: "row",
+    alignSelf: "center",
+    marginTop: 22,
+  },
+  statsBox: {
+    alignItems: "center",
+    flex: 1,
   },
   image: {
     flex: 1,

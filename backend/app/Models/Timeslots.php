@@ -25,4 +25,9 @@ class Timeslots extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function bookedSessions()
+    {
+        return $this->hasMany(Booked_Sessions::class);
+    }
+
 }
