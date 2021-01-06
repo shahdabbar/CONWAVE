@@ -88,8 +88,8 @@ function DrawerContent(props) {
       <View style={{ flex: 0.8 }}>
         <View style={{ flex: 1, backgroundColor: "pink" }} />
         <View style={{ flex: 1, backgroundColor: COLORS.gray }} />
-        <View
-          // source={require("../assets/images/images.jpg")}
+        <Image
+          source={require("../assets/images/bg28.jpg")}
           style={{
             position: "absolute",
             bottom: -height * 0.61,
@@ -97,7 +97,7 @@ function DrawerContent(props) {
             right: 0,
             width: DRAWER_WIDTH,
             height: height,
-            backgroundColor: "#de7500",
+            // backgroundColor: "#de7500",
           }}
         />
         <View
@@ -321,7 +321,7 @@ function DrawerContent(props) {
         height={(height * 0.61) / 1.7}
       >
         <Image
-          source={require("../assets/images/images.jpg")}
+          source={require("../assets/images/bg28.jpg")}
           style={{
             position: "absolute",
             // top: -height * (1 - 0.61),

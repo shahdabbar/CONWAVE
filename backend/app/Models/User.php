@@ -95,5 +95,10 @@ class User extends Authenticatable
         return $this->hasMany(Video::class);
     }
 
+    public function chats()
+    {
+        return $this->hasMany(Chat::class);
+    }
+
   
 }

@@ -102,7 +102,7 @@ const AvailabilityScreen = ({ route, navigation }) => {
       .get(`api/timeslots/monday?user_id=${user.id}`)
       .then((response) => {
         days[1] = { ...days[1], hours: response.data };
-        // console.log("days", days[1]);
+        // console.log(response.data);
         setDays(days);
       })
       .catch((error) => {

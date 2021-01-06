@@ -16,6 +16,8 @@ use App\Http\Controllers\TimeslotsController;
 use App\Http\Controllers\MeetingTypeController;
 use App\Http\Controllers\BookedSessionsController;
 use App\Http\Controllers\VideoController;
+use App\Http\Controllers\ChatController;
+
 
 
 
@@ -80,6 +82,9 @@ Route::middleware('auth:sanctum')->get('/user/tutor/courses', [TutorCoursesContr
 
 Route::middleware('auth:sanctum')->post('/book/session', [BookedSessionsController::class, 'store']);
 Route::middleware('auth:sanctum')->get('/user/sessions', [BookedSessionsController::class, 'index']);
+
+Route::middleware('auth:sanctum')->post('/chat/users', [ChatController::class, 'store']);
+Route::middleware('auth:sanctum')->get('/chat/users', [ChatController::class, 'index']);
 
 
 

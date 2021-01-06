@@ -9,16 +9,7 @@ class TutorCoursesController extends Controller
 {
     public function index(Request $request) {
 
-        // $courses = Tutor_Courses::where('course_id', )
         $courses = Tutor_Courses::where('user_id', Auth()->user()->id)->with('course')->get();
-        // $ids = [];
-        // $data = $courses->course;
-        // foreach ($data as $course) {
-        //     $ids = array_merge($ids, $course->category_id);
-        // }
-
-        // $categorys = Category::whereIn('id', $ids);
-        
         return response()->json($courses);
     }
 

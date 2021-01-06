@@ -11,8 +11,12 @@ import {
   StatusBar,
   TextInput,
   TouchableOpacity,
+  LogBox,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
+
+// LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 import * as Animatable from "react-native-animatable";
 import {
   MaterialIcons as MaterialIcon,
@@ -494,7 +498,7 @@ const HomeScreen = ({ navigation }) => {
     <View style={styles.container}>
       <View>
         <ImageBackground
-          source={require("../assets/images/images.jpg")}
+          source={require("../assets/images/bg28.jpg")}
           style={{ width: "100%", height: 270 }}
           imageStyle={styles.image}
         >

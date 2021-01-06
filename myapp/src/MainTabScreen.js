@@ -25,7 +25,7 @@ import HomeScreen from "./HomeScreen";
 import DetailsScreen from "./DetailsScreen";
 import ProfileScreen from "./ProfileScreen";
 import ChatScreen from "./ChatScreen";
-import LoginScreen from "./LoginScreen";
+import RoomChatScreen from "./RoomChatScreen";
 import EditProfileScreen from "./EditProfileScreen";
 import CoursesScreen from "./CoursesScreen";
 import CompleteProfileScreen from "./CompleteProfileScreen";
@@ -40,18 +40,23 @@ import BookTimeScreen from "./BookTimeScreen";
 import BookSessionScreen from "./BookSessionScreen";
 import PaymentMethodScreen from "./PaymentMethodScreen";
 import BookingSucceededScreen from "./BookingSucceededScreen";
-
-import axios from "axios";
 import StudentSessionsScreen from "./StudentSessionsScreen";
 import VideosScreen from "./VideosScreen";
+import SetAddressScreen from "./SetAddressScreen";
+import TutorCoursesScreen from "./TutorCoursesScreen";
+import ScheduleScreen from "./ScheduleScreen";
+
+import axios from "axios";
 
 const HomeStack = createStackNavigator();
 const DetailsStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const ChatStack = createStackNavigator();
 const SessionStack = createStackNavigator();
-// const ExploreStack = createStackNavigator();
+const CoursesStack = createStackNavigator();
+const ScheduleStack = createStackNavigator();
 
+// const ExploreStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
@@ -122,6 +127,7 @@ const MainTabScreen = () => {
       activeColor="#fff"
       tabBarOptions={{
         showLabel: false,
+        // labelStyle: { fontSize: 16, color: COLORS.pink },
         style: {
           borderTopWidth: 0,
           backgroundColor: "transparent",
@@ -149,65 +155,109 @@ const MainTabScreen = () => {
         }}
       />
 
-      <Tab.Screen
-        name="Notification"
-        component={DetailsStackScreen}
-        options={{
-          tabBarLabel: "notification",
-          tabBarIcon: ({ focused }) => (
-            <Image
-              source={require("../assets/icons/notification.png")}
-              resizeMode="contain"
-              style={{
-                width: 25,
-                height: 25,
-                tintColor: focused ? COLORS.pink : COLORS.secondary,
-              }}
-            />
-          ),
-          tabBarButton: (props) => <TabBarCustomButton {...props} />,
-        }}
-      />
       {userInfo.type === "tutor" ? (
-        <Tab.Screen
-          name="Sessions"
-          component={SessionsStackScreen}
-          options={{
-            tabBarLabel: "Sessions",
-            tabBarIcon: ({ focused }) => (
-              <Image
-                source={icons.session}
-                resizeMode="contain"
-                style={{
-                  width: 27,
-                  height: 27,
-                  tintColor: focused ? COLORS.pink : COLORS.secondary,
-                }}
-              />
-            ),
-            tabBarButton: (props) => <TabBarCustomButton {...props} />,
-          }}
-        />
+        <>
+          <Tab.Screen
+            name="Sessions"
+            component={SessionsStackScreen}
+            options={{
+              tabBarLabel: "Sessions",
+              tabBarIcon: ({ focused }) => (
+                <Image
+                  source={icons.session}
+                  resizeMode="contain"
+                  style={{
+                    width: 27,
+                    height: 27,
+                    tintColor: focused ? COLORS.pink : COLORS.secondary,
+                  }}
+                />
+              ),
+              tabBarButton: (props) => <TabBarCustomButton {...props} />,
+            }}
+          />
+
+          <Tab.Screen
+            name="Schedule"
+            component={ScheduleStackScreen}
+            options={{
+              tabBarLabel: "Sessions",
+              tabBarIcon: ({ focused }) => (
+                <Image
+                  source={icons.schedule}
+                  resizeMode="contain"
+                  style={{
+                    width: 27,
+                    height: 27,
+                    tintColor: focused ? COLORS.pink : COLORS.secondary,
+                  }}
+                />
+              ),
+              tabBarButton: (props) => <TabBarCustomButton {...props} />,
+            }}
+          />
+
+          <Tab.Screen
+            name="Courses"
+            component={TutorCoursesStackScreen}
+            options={{
+              tabBarLabel: "Sessions",
+              tabBarIcon: ({ focused }) => (
+                <Image
+                  source={icons.courses}
+                  resizeMode="contain"
+                  style={{
+                    width: 27,
+                    height: 27,
+                    tintColor: focused ? COLORS.pink : COLORS.secondary,
+                  }}
+                />
+              ),
+              tabBarButton: (props) => <TabBarCustomButton {...props} />,
+            }}
+          />
+        </>
       ) : (
-        <Tab.Screen
-          name="StudentSessions"
-          component={StudentSessionsScreen}
-          options={{
-            tabBarLabel: "Sessions",
-            tabBarIcon: ({ focused }) => (
-              <Image
-                source={icons.session}
-                resizeMode="contain"
-                style={{
-                  width: 27,
-                  height: 27,
-                  tintColor: focused ? COLORS.pink : COLORS.secondary,
-                }}
-              />
-            ),
-            tabBarButton: (props) => <TabBarCustomButton {...props} />,
-          }}
-        />
+        <>
+          <Tab.Screen
+            name="StudentSessions"
+            component={StudentSessionsScreen}
+            options={{
+              tabBarLabel: "Sessions",
+              tabBarIcon: ({ focused }) => (
+                <Image
+                  source={icons.session}
+                  resizeMode="contain"
+                  style={{
+                    width: 27,
+                    height: 27,
+                    tintColor: focused ? COLORS.pink : COLORS.secondary,
+                  }}
+                />
+              ),
+              tabBarButton: (props) => <TabBarCustomButton {...props} />,
+            }}
+          />
+          <Tab.Screen
+            name="Notification"
+            component={DetailsStackScreen}
+            options={{
+              tabBarLabel: "notification",
+              tabBarIcon: ({ focused }) => (
+                <Image
+                  source={require("../assets/icons/notification.png")}
+                  resizeMode="contain"
+                  style={{
+                    width: 25,
+                    height: 25,
+                    tintColor: focused ? COLORS.pink : COLORS.secondary,
+                  }}
+                />
+              ),
+              tabBarButton: (props) => <TabBarCustomButton {...props} />,
+            }}
+          />
+        </>
       )}
       <Tab.Screen
         name="Chat"
@@ -484,6 +534,37 @@ const HomeStackScreen = ({ navigation }) => (
   </HomeStack.Navigator>
 );
 
+const TutorCoursesStackScreen = ({ navigation }) => (
+  <CoursesStack.Navigator
+    screenOptions={{
+      headerShown: false,
+      headerStyle: {
+        backgroundColor: "#fff",
+      },
+      headerTintColor: "#000",
+      headerTitleStyle: {
+        fontWeight: "bold",
+      },
+    }}
+  >
+    <CoursesStack.Screen
+      name="Courses"
+      component={TutorCoursesScreen}
+      options={{
+        headerLeft: () => (
+          <Icon.Button
+            name="ios-menu"
+            size={30}
+            backgroundColor="#fff"
+            color="black"
+            onPress={() => navigation.openDrawer()}
+          ></Icon.Button>
+        ),
+      }}
+    />
+  </CoursesStack.Navigator>
+);
+
 const DetailsStackScreen = ({ navigation }) => (
   <DetailsStack.Navigator
     screenOptions={{
@@ -513,6 +594,37 @@ const DetailsStackScreen = ({ navigation }) => (
       }}
     />
   </DetailsStack.Navigator>
+);
+
+const ScheduleStackScreen = ({ navigation }) => (
+  <ScheduleStack.Navigator
+    screenOptions={{
+      headerShown: false,
+      headerStyle: {
+        backgroundColor: "#fff",
+      },
+      headerTintColor: "#000",
+      headerTitleStyle: {
+        fontWeight: "bold",
+      },
+    }}
+  >
+    <ScheduleStack.Screen
+      name="My Schedule"
+      component={ScheduleScreen}
+      options={{
+        headerLeft: () => (
+          <Icon.Button
+            name="ios-menu"
+            size={30}
+            backgroundColor="#fff"
+            color="black"
+            onPress={() => navigation.openDrawer()}
+          ></Icon.Button>
+        ),
+      }}
+    />
+  </ScheduleStack.Navigator>
 );
 
 const ProfileStackScreen = ({ navigation }) => {
@@ -611,7 +723,7 @@ const ProfileStackScreen = ({ navigation }) => {
               color="gray"
               style={{ marginLeft: 20 }}
               onPress={() => {
-                navigation.navigate("Profile");
+                navigation.navigate("ProfileScreen");
               }}
             />
           ),
@@ -644,14 +756,22 @@ const ChatStackScreen = ({ navigation }) => (
     }}
   >
     <ChatStack.Screen
-      name="Details"
-      component={LoginScreen}
+      name="Chats"
+      component={RoomChatScreen}
       options={{
+        headerShown: true,
+        headerTitleStyle: {
+          fontSize: 27,
+          fontWeight: "bold",
+          color: COLORS.pink,
+        },
+        headerStyle: { elevation: 0 },
         headerLeft: () => (
           <Icon.Button
             name="ios-menu"
             size={30}
             backgroundColor="#fff"
+            style={{ left: 10 }}
             color="#000"
             onPress={() => navigation.openDrawer()}
           ></Icon.Button>
@@ -681,6 +801,7 @@ const ChatStackScreen = ({ navigation }) => (
 const SessionsStackScreen = ({ navigation }) => (
   <SessionStack.Navigator
     screenOptions={{
+      headerShown: "false",
       headerStyle: {
         backgroundColor: "#fff",
         shadowColor: "#000", // ios
@@ -696,16 +817,32 @@ const SessionsStackScreen = ({ navigation }) => (
       name="Sessions"
       component={CompleteProfileScreen}
       options={{
+        headerTitle: "Complete Profile",
+        headerTitleStyle: {
+          fontSize: 24,
+          fontWeight: "bold",
+          color: COLORS.black,
+        },
         headerShown: false,
         headerLeft: () => (
           <Icon.Button
             name="ios-menu"
             size={30}
             backgroundColor="#fff"
-            color="black"
+            left={10}
+            color="gray"
             onPress={() => navigation.openDrawer()}
           ></Icon.Button>
         ),
+        headerRight: () => {
+          <Icon
+            name="md-ellipsis-vertical"
+            size={30}
+            color="gray"
+            style={{ marginRight: 16 }}
+            onPress={() => {}}
+          />;
+        },
       }}
     />
 
@@ -821,6 +958,31 @@ const SessionsStackScreen = ({ navigation }) => (
           color: "gray",
           fontWeight: "800",
           fontSize: 20,
+        },
+        headerLeft: () => (
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color="gray"
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.navigate("CompleteProfileScreen");
+            }}
+          />
+        ),
+      }}
+    />
+
+    <SessionStack.Screen
+      name="Address"
+      component={SetAddressScreen}
+      options={{
+        headerShown: true,
+        title: "Add Address",
+        headerTitleStyle: {
+          color: COLORS.black2,
+          fontWeight: "bold",
+          fontSize: 25,
         },
         headerLeft: () => (
           <MaterialIcon

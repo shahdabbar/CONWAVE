@@ -21,7 +21,7 @@ class BookedSessionsResources extends JsonResource
             'payment' => $this->payment,
             'location' => $this->location,
             'firstname' => $this->timeslots->users->firstname,
-            'lastname' => $this->timeslots->users->firstname,
+            'lastname' => $this->timeslots->users->lastname,
             'profile_photo_path' => $this->timeslots->users->profile_photo_path,
             'course_name' => $this->course->name,
             'day' => $this->timeslots->days->day,

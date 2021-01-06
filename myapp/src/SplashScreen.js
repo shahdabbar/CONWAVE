@@ -230,7 +230,7 @@ class MyApp extends Component {
 
     return (
       <View style={styles.container}>
-        {/* <Animated.View
+        <Animated.View
           style={{
             ...StyleSheet.absoluteFill,
             transform: [{ translateY: this.bgY }],
@@ -241,14 +241,14 @@ class MyApp extends Component {
               <Circle r={height + 50} cx={width / 2} />
             </ClipPath>
             <Image
-              href={require("../assets/images/bg.jpg")}
+              href={require("../assets/images/dark.jpg")}
               width={width}
               height={height + 50}
               preserveAspectRatio="xMidYMid slice"
               ClipPath="url(#clip)"
             />
           </Svg>
-        </Animated.View> */}
+        </Animated.View>
         <View style={styles.header}>
           <Text
             style={{
@@ -296,6 +296,7 @@ class MyApp extends Component {
                 fontWeight: "bold",
                 color: COLORS.yellow,
                 width: width,
+                // fontStyle: "italic",
               }}
             >
               <Text style={{ color: COLORS.pink }}>con</Text>
@@ -461,7 +462,7 @@ export default MyApp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.black,
+    backgroundColor: COLORS.white,
     justifyContent: "flex-end",
   },
   header: {

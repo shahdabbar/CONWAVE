@@ -28,14 +28,18 @@ export const dollar = require("../../assets/icons/dollar-coin.png");
 export const session = require("../../assets/icons/clock.png");
 export const fireworks = require("../../assets/icons/fireworks.png");
 export const firework = require("../../assets/icons/firework.png");
+export const schedule = require("../../assets/icons/schedule.png");
+export const courses = require("../../assets/icons/courses.png");
 
 export default {
   session,
   fireworks,
   firework,
   user,
+  courses,
   computer,
   chat,
+  schedule,
   code,
   cooking,
   explore,

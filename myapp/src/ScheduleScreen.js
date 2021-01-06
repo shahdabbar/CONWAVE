@@ -33,7 +33,7 @@ import { curveBasis } from "d3-shape";
 import Moment from "moment";
 import axios from "axios";
 
-const StudentSessionsScreen = ({ route, navigation }) => {
+const ScheduleScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
   const [sessions, setSessions] = useState([]);
 
@@ -235,7 +235,7 @@ const StudentSessionsScreen = ({ route, navigation }) => {
   );
 };
 
-export default StudentSessionsScreen;
+export default ScheduleScreen;
 
 const styles = StyleSheet.create({
   container: {

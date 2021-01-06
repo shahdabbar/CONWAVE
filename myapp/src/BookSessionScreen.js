@@ -46,12 +46,12 @@ const BookSessionScreen = ({ route, navigation }) => {
     course: route.params.course,
   });
 
-  console.log("courseeeeeee", data.course);
+  // console.log("type", data.type);
 
   const onClick = () => {
     if (
-      (route.params.status && route.params.status === "success") ||
-      data.type === "In-Person"
+      data.type === "In-person" ||
+      (route.params.status && route.params.status === "success")
     ) {
       const session = {
         user_id: user.id,
@@ -63,10 +63,22 @@ const BookSessionScreen = ({ route, navigation }) => {
         location: "Zoom",
       };
 
+      // axios
+      //   .post("api/book/session", session)
+      //   .then((response) => {
+      //     console.log("i am here", response.data);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
+
       axios
-        .post("api/book/session", session)
+        .post("api/chat/users", {
+          user_id: user.id,
+          tutor_id: data.course.tutor.id,
+        })
         .then((response) => {
-          console.log("i am here", response.data);
+          console.log("Yesss Chatt", response.data);
         })
         .catch((error) => {
           console.log(error);

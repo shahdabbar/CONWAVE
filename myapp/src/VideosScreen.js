@@ -39,6 +39,7 @@ const { width, height } = Dimensions.get("window");
 
 const VideosScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
+  axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
 
   const [video, setVideo] = useState(null);
 
@@ -52,10 +53,10 @@ const VideosScreen = ({ route, navigation }) => {
         type: `video/${fileType}`,
       });
     }
-    // console.log("formData", formData);
+    console.log("formData", formData);
 
     axios
-      .post("api/user/video", { formData })
+      .post("api/user/video", formData)
       .then((response) => {
         console.log(response.data);
       })

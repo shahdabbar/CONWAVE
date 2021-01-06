@@ -43,11 +43,13 @@
     "react-native-credit-card-input": "^0.4.1",
     "react-native-drop-shadow": "0.0.2",
     "react-native-dropdown-picker": "^3.7.1",
+    "react-native-geolocation-service": "^5.1.1",
     "react-native-gesture-handler": "^1.7.0",
     "react-native-get-random-values": "^1.5.0",
     "react-native-gifted-chat": "^0.16.3",
     "react-native-image-crop-picker": "^0.35.1",
     "react-native-linear-gradient": "^2.5.6",
+    "react-native-maps": "0.27.1",
     "react-native-modal": "^11.5.6",
     "react-native-modal-datetime-picker": "^9.1.0",
     "react-native-paper": "^4.4.1",
@@ -61,7 +63,8 @@
     "react-native-webview": "^10.7.0",
     "react-web-component": "^2.0.1",
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",
-    "rn-modal-picker": "^0.3.0"
+    "rn-modal-picker": "^0.3.0",
+    "expo-location": "~9.0.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"
