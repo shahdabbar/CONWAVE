@@ -7,6 +7,7 @@ import {
   Text,
   StyleSheet,
 } from "react-native";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useTheme } from "react-native-paper";
@@ -63,8 +64,23 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
   var isSelected = accessibilityState.selected;
   if (isSelected) {
     return (
-      <View style={{ flex: 1, alignItems: "center" }}>
-        <View style={{ flexDirection: "row", position: "absolute", top: 0 }}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          borderTopWidth: 4,
+          borderTopColor: COLORS.pink,
+          backgroundColor: COLORS.white,
+          height: 45,
+        }}
+      >
+        {/* <View
+          style={{
+            flexDirection: "row",
+            position: "absolute",
+            top: 0,
+          }}
+        >
           <View style={{ flex: 1, backgroundColor: COLORS.white }}></View>
           <Svg width={75} height={61} viewBox="0 0 75 61">
             <Path
@@ -73,17 +89,17 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
             />
           </Svg>
           <View style={{ flex: 1, backgroundColor: COLORS.white }}></View>
-        </View>
+        </View> */}
         <TouchableOpacity
-          style={{
-            top: -22.5,
-            justifyContent: "center",
-            alignItems: "center",
-            width: 50,
-            height: 50,
-            borderRadius: 25,
-            backgroundColor: "#FFFFFF",
-          }}
+          // style={{
+          //   // top: -22.5,
+          //   justifyContent: "center",
+          //   alignItems: "center",
+          //   width: 50,
+          //   height: 50,
+          //   borderRadius: 25,
+          //   backgroundColor: COLORS.pink,
+          // }}
           onPress={onPress}
         >
           {children}
@@ -93,7 +109,7 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
   } else {
     return (
       <TouchableOpacity
-        style={{ flex: 1, height: 60, backgroundColor: COLORS.white }}
+        style={{ flex: 1, height: 50, backgroundColor: COLORS.white }}
         activeOpacity={1}
         onPress={onPress}
       >
@@ -102,6 +118,32 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
     );
   }
   return;
+};
+
+const getTabBarVisibility = (route) => {
+  const routeName = getFocusedRouteNameFromRoute(route);
+
+  if (
+    routeName === "SessionType" ||
+    routeName === "SearchTutor" ||
+    routeName === "TutorProfile" ||
+    routeName === "BookTime" ||
+    routeName === "BookSession" ||
+    routeName === "PaymentMethod" ||
+    routeName === "BookingSucceeded" ||
+    routeName === "EditProfile" ||
+    routeName === "Videos" ||
+    routeName === "Courses" ||
+    routeName === "AddCourse" ||
+    routeName === "Availabilities" ||
+    routeName === "SetRate" ||
+    routeName === "Address" ||
+    routeName === "Chat"
+  ) {
+    return false;
+  }
+
+  return true;
 };
 
 const MainTabScreen = () => {
@@ -135,126 +177,144 @@ const MainTabScreen = () => {
         },
       }}
     >
-      <Tab.Screen
-        name="Home"
-        component={HomeStackScreen}
-        options={{
-          tabBarLabel: "Home",
-          tabBarIcon: ({ focused }) => (
-            <Image
-              source={icons.home}
-              resizeMode="contain"
-              style={{
-                width: 27,
-                height: 27,
-                tintColor: focused ? COLORS.pink : COLORS.secondary,
-              }}
-            />
-          ),
-          tabBarButton: (props) => <TabBarCustomButton {...props} />,
-        }}
-      />
-
       {userInfo.type === "tutor" ? (
         <>
           <Tab.Screen
             name="Sessions"
             component={SessionsStackScreen}
-            options={{
-              tabBarLabel: "Sessions",
-              tabBarIcon: ({ focused }) => (
-                <Image
-                  source={icons.session}
-                  resizeMode="contain"
-                  style={{
-                    width: 27,
-                    height: 27,
-                    tintColor: focused ? COLORS.pink : COLORS.secondary,
-                  }}
-                />
-              ),
-              tabBarButton: (props) => <TabBarCustomButton {...props} />,
+            options={({ route }) => {
+              return {
+                tabBarVisible: getTabBarVisibility(route),
+                tabBarLabel: "Sessions",
+                tabBarIcon: ({ focused }) => (
+                  <Image
+                    source={icons.session}
+                    resizeMode="contain"
+                    style={{
+                      width: 27,
+                      height: 27,
+                      tintColor: focused ? COLORS.pink : COLORS.secondary,
+                    }}
+                  />
+                ),
+                tabBarButton: (props) => <TabBarCustomButton {...props} />,
+              };
             }}
           />
 
           <Tab.Screen
             name="Schedule"
             component={ScheduleStackScreen}
-            options={{
-              tabBarLabel: "Sessions",
-              tabBarIcon: ({ focused }) => (
-                <Image
-                  source={icons.schedule}
-                  resizeMode="contain"
-                  style={{
-                    width: 27,
-                    height: 27,
-                    tintColor: focused ? COLORS.pink : COLORS.secondary,
-                  }}
-                />
-              ),
-              tabBarButton: (props) => <TabBarCustomButton {...props} />,
+            options={({ route }) => {
+              return {
+                tabBarVisible: getTabBarVisibility(route),
+                tabBarLabel: "Sessions",
+                tabBarIcon: ({ focused }) => (
+                  <Image
+                    source={icons.schedule}
+                    resizeMode="contain"
+                    style={{
+                      width: 27,
+                      height: 27,
+                      tintColor: focused ? COLORS.pink : COLORS.secondary,
+                    }}
+                  />
+                ),
+                tabBarButton: (props) => <TabBarCustomButton {...props} />,
+              };
             }}
           />
 
           <Tab.Screen
             name="Courses"
             component={TutorCoursesStackScreen}
-            options={{
-              tabBarLabel: "Sessions",
-              tabBarIcon: ({ focused }) => (
-                <Image
-                  source={icons.courses}
-                  resizeMode="contain"
-                  style={{
-                    width: 27,
-                    height: 27,
-                    tintColor: focused ? COLORS.pink : COLORS.secondary,
-                  }}
-                />
-              ),
-              tabBarButton: (props) => <TabBarCustomButton {...props} />,
+            options={({ route }) => {
+              return {
+                tabBarVisible: getTabBarVisibility(route),
+                tabBarLabel: "Sessions",
+                tabBarIcon: ({ focused }) => (
+                  <Image
+                    source={icons.courses}
+                    resizeMode="contain"
+                    style={{
+                      width: 27,
+                      height: 27,
+                      tintColor: focused ? COLORS.pink : COLORS.secondary,
+                    }}
+                  />
+                ),
+                tabBarButton: (props) => <TabBarCustomButton {...props} />,
+              };
             }}
           />
         </>
       ) : (
         <>
           <Tab.Screen
+            name="Home"
+            component={HomeStackScreen}
+            options={({ route }) => {
+              return {
+                tabBarVisible: getTabBarVisibility(route),
+                tabBarLabel: "Home",
+                tabBarIcon: ({ focused }) => (
+                  <Image
+                    source={icons.home}
+                    resizeMode="contain"
+                    style={{
+                      width: 27,
+                      height: 27,
+                      tintColor: focused ? COLORS.pink : COLORS.secondary,
+                    }}
+                  />
+                ),
+                tabBarButton: (props) => <TabBarCustomButton {...props} />,
+              };
+            }}
+          />
+
+          <Tab.Screen
             name="StudentSessions"
             component={StudentSessionsScreen}
-            options={{
-              tabBarLabel: "Sessions",
-              tabBarIcon: ({ focused }) => (
-                <Image
-                  source={icons.session}
-                  resizeMode="contain"
-                  style={{
-                    width: 27,
-                    height: 27,
-                    tintColor: focused ? COLORS.pink : COLORS.secondary,
-                  }}
-                />
-              ),
-              tabBarButton: (props) => <TabBarCustomButton {...props} />,
+            options={({ route }) => {
+              return {
+                tabBarVisible: getTabBarVisibility(route),
+                tabBarLabel: "Sessions",
+                tabBarIcon: ({ focused }) => (
+                  <Image
+                    source={icons.session}
+                    resizeMode="contain"
+                    style={{
+                      width: 27,
+                      height: 27,
+                      tintColor: focused ? COLORS.pink : COLORS.secondary,
+                    }}
+                  />
+                ),
+                tabBarButton: (props) => <TabBarCustomButton {...props} />,
+              };
             }}
           />
           <Tab.Screen
             name="Notification"
             component={DetailsStackScreen}
-            options={{
-              tabBarLabel: "notification",
-              tabBarIcon: ({ focused }) => (
-                <Image
-                  source={require("../assets/icons/notification.png")}
-                  resizeMode="contain"
-                  style={{
-                    width: 25,
-                    height: 25,
-                    tintColor: focused ? COLORS.pink : COLORS.secondary,
-                  }}
-                />
-              ),
-              tabBarButton: (props) => <TabBarCustomButton {...props} />,
+            options={({ route }) => {
+              return {
+                tabBarVisible: getTabBarVisibility(route),
+                tabBarLabel: "notification",
+                tabBarIcon: ({ focused }) => (
+                  <Image
+                    source={require("../assets/icons/notification.png")}
+                    resizeMode="contain"
+                    style={{
+                      width: 25,
+                      height: 25,
+                      tintColor: focused ? COLORS.pink : COLORS.secondary,
+                    }}
+                  />
+                ),
+                tabBarButton: (props) => <TabBarCustomButton {...props} />,
+              };
             }}
           />
         </>
@@ -262,39 +322,45 @@ const MainTabScreen = () => {
       <Tab.Screen
         name="Chat"
         component={ChatStackScreen}
-        options={{
-          tabBarLabel: "chat",
-          tabBarIcon: ({ focused }) => (
-            <Image
-              source={icons.chat}
-              resizeMode="contain"
-              style={{
-                width: 25,
-                height: 25,
-                tintColor: focused ? COLORS.pink : COLORS.secondary,
-              }}
-            />
-          ),
-          tabBarButton: (props) => <TabBarCustomButton {...props} />,
+        options={({ route }) => {
+          return {
+            tabBarVisible: getTabBarVisibility(route),
+            tabBarLabel: "chat",
+            tabBarIcon: ({ focused }) => (
+              <Image
+                source={icons.chat}
+                resizeMode="contain"
+                style={{
+                  width: 25,
+                  height: 25,
+                  tintColor: focused ? COLORS.pink : COLORS.secondary,
+                }}
+              />
+            ),
+            tabBarButton: (props) => <TabBarCustomButton {...props} />,
+          };
         }}
       />
       <Tab.Screen
         name="Profile"
         component={ProfileStackScreen}
-        options={{
-          tabBarLabel: "profile",
-          tabBarIcon: ({ focused }) => (
-            <Image
-              source={require("../assets/icons/user.png")}
-              resizeMode="contain"
-              style={{
-                width: 25,
-                height: 25,
-                tintColor: focused ? COLORS.pink : COLORS.secondary,
-              }}
-            />
-          ),
-          tabBarButton: (props) => <TabBarCustomButton {...props} />,
+        options={({ route }) => {
+          return {
+            tabBarVisible: getTabBarVisibility(route),
+            tabBarLabel: "profile",
+            tabBarIcon: ({ focused }) => (
+              <Image
+                source={require("../assets/icons/user.png")}
+                resizeMode="contain"
+                style={{
+                  width: 25,
+                  height: 25,
+                  tintColor: focused ? COLORS.pink : COLORS.secondary,
+                }}
+              />
+            ),
+            tabBarButton: (props) => <TabBarCustomButton {...props} />,
+          };
         }}
       />
     </Tab.Navigator>
@@ -772,7 +838,7 @@ const ChatStackScreen = ({ navigation }) => (
             size={30}
             backgroundColor="#fff"
             style={{ left: 10 }}
-            color="#000"
+            color="gray"
             onPress={() => navigation.openDrawer()}
           ></Icon.Button>
         ),
@@ -789,7 +855,7 @@ const ChatStackScreen = ({ navigation }) => (
             name="ios-menu"
             size={30}
             backgroundColor="#fff"
-            color="#000"
+            color="gray"
             onPress={() => navigation.openDrawer()}
           ></Icon.Button>
         ),

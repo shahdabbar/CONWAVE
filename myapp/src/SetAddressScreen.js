@@ -32,27 +32,34 @@ import { deleteItemAsync } from "expo-secure-store";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import MapView, { PROVIDER_GOOGLE, Marker, Callout } from "react-native-maps";
 import * as Location from "expo-location";
+import Geocoder from "react-native-geocoder";
 import axios from "axios";
-// import { Marker } from "react-native-svg";
+import { requestPermissionsAsync } from "expo-calendar";
+import { add } from "react-native-reanimated";
 
 const SetAddressScreen = ({ route, navigation }) => {
-  const [addressInfo, setAddressInfo] = useState({
-    country: "",
-    area: "",
-    street: "",
-    building: "",
-    floor: "",
-    additional_details: "",
-  });
+  const { user } = useContext(AuthContext);
+  axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+
+  const [addressInfo, setAddressInfo] = useState([]);
 
   const [state, setState] = useState({
     latitude: 0,
     longitude: 0,
-    street: "",
     error: null,
   });
 
   useEffect(() => {
+    axios
+      .get(`api/user/address?user_id=${user.id}`)
+      .then((response) => {
+        console.log(response.data);
+        setAddressInfo(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         console.log("position", position);
@@ -67,6 +74,18 @@ const SetAddressScreen = ({ route, navigation }) => {
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 20000 }
     );
   }, []);
+
+  const onClick = () => {
+    setAddressInfo({ ...addressInfo, user_id: user.id });
+    axios
+      .post("api/user/address", addressInfo)
+      .then((response) => {
+        console.log("success?", response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -88,60 +107,86 @@ const SetAddressScreen = ({ route, navigation }) => {
 
         <Callout></Callout>
       </MapView>
-      <View style={{ marginVertical: 10 }}>
-        <ScrollView>
-          <TextInput
-            placeholder="Country.."
-            placeholderTextColor={COLORS.black}
-            style={styles.textInput}
-            textContentType="countryName"
-            autoCapitalize="words"
-            onChangeText={(value) => setAddressInfo({ country: value })}
-          />
-          <TextInput
-            placeholder="Area.."
-            placeholderTextColor={COLORS.black}
-            style={styles.textInput}
-            textContentType="addressState"
-            autoCapitalize="words"
-            onChangeText={(value) => setAddressInfo({ area: value })}
-          />
-          <TextInput
-            placeholder="Street.."
-            placeholderTextColor={COLORS.black}
-            style={styles.textInput}
-            textContentType="fullStreetAddress"
-            autoCapitalize="words"
-            onChangeText={(value) => setAddressInfo({ street: value })}
-          />
-          <TextInput
-            placeholder="Building.."
-            placeholderTextColor={COLORS.black}
-            style={styles.textInput}
-            textContentType="name"
-            autoCapitalize="words"
-            onChangeText={(value) => setAddressInfo({ building: value })}
-          />
-          <TextInput
-            placeholder="Floor.."
-            placeholderTextColor={COLORS.black}
-            style={styles.textInput}
-            textContentType="oneTimeCode"
-            autoCapitalize="words"
-            onChangeText={(value) => setAddressInfo({ floor: value })}
-          />
-          <TextInput
-            placeholder="Additional Details.."
-            placeholderTextColor={COLORS.black}
-            style={styles.textInput}
-            textContentType="location"
-            autoCapitalize="words"
-            onChangeText={(value) =>
-              setAddressInfo({ additional_details: value })
-            }
-          />
-        </ScrollView>
-      </View>
+      <ScrollView>
+        <TextInput
+          placeholder="Country.."
+          defaultValue={addressInfo ? addressInfo.country : "Country.."}
+          placeholderTextColor={COLORS.gray}
+          style={styles.textInput}
+          textContentType="countryName"
+          autoCapitalize="words"
+          onChangeText={(value) =>
+            setAddressInfo({ ...addressInfo, country: value })
+          }
+        />
+        <TextInput
+          defaultValue={addressInfo ? addressInfo.area : "Area.."}
+          placeholder="Area.."
+          placeholderTextColor={COLORS.gray}
+          style={styles.textInput}
+          textContentType="addressState"
+          autoCapitalize="words"
+          onChangeText={(value) =>
+            setAddressInfo({ ...addressInfo, area: value })
+          }
+        />
+        <TextInput
+          defaultValue={addressInfo ? addressInfo.street : "Street.."}
+          placeholder="Street.."
+          placeholderTextColor={COLORS.gray}
+          style={styles.textInput}
+          textContentType="fullStreetAddress"
+          autoCapitalize="words"
+          onChangeText={(value) =>
+            setAddressInfo({ ...addressInfo, street: value })
+          }
+        />
+        <TextInput
+          defaultValue={addressInfo ? addressInfo.building : "Building.."}
+          placeholder="Building.."
+          placeholderTextColor={COLORS.gray}
+          style={styles.textInput}
+          textContentType="name"
+          autoCapitalize="words"
+          onChangeText={(value) =>
+            setAddressInfo({ ...addressInfo, building: value })
+          }
+        />
+        <TextInput
+          defaultValue={addressInfo ? addressInfo.floor : "Floor.."}
+          placeholder="Floor.."
+          placeholderTextColor={COLORS.gray}
+          style={styles.textInput}
+          textContentType="oneTimeCode"
+          autoCapitalize="words"
+          onChangeText={(value) =>
+            setAddressInfo({ ...addressInfo, floor: value })
+          }
+        />
+        <TextInput
+          defaultValue={
+            addressInfo ? addressInfo.additional_details : "Additional Details"
+          }
+          placeholder="Additional Details.."
+          placeholderTextColor={COLORS.gray}
+          style={styles.textInput}
+          textContentType="location"
+          autoCapitalize="words"
+          onChangeText={(value) =>
+            setAddressInfo({ ...addressInfo, additional_details: value })
+          }
+        />
+        <View style={{ marginTop: 5, marginHorizontal: 16 }}>
+          <TouchableOpacity onPress={() => onClick()}>
+            <LinearGradient
+              colors={[COLORS.primary, COLORS.yellow2]}
+              style={styles.next}
+            >
+              <Text style={styles.next_text}>Save Address</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -156,8 +201,24 @@ const styles = StyleSheet.create({
   map: {
     width: Dimensions.get("window").width,
     // height: Dimensions.get("window").height,
-    height: "50%",
+    height: "45%",
     justifyContent: "flex-start",
+  },
+  next: {
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: SIZES.radius,
+    width: "100%",
+    height: 70,
+    borderColor: "#ffd200",
+    borderWidth: 2,
+    // elevation: 5,
+  },
+  next_text: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "black",
   },
   action: {
     flexDirection: "row",
@@ -187,26 +248,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     paddingLeft: 16,
     borderRadius: 35,
-    color: COLORS.black2,
+    color: COLORS.gray,
     backgroundColor: COLORS.white,
-  },
-  next: {
-    marginTop: 16,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 12,
-    left: "70%",
-    borderTopLeftRadius: 40,
-    borderBottomLeftRadius: 40,
-    width: "30%",
-    height: 70,
-    borderColor: "#ffd200",
-    borderWidth: 2,
-  },
-  next_text: {
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "black",
   },
 });

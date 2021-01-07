@@ -13,11 +13,11 @@ class VideoController extends Controller
         // if($request->data['_parts'][0][1]){
         //     return "I am here";
         // }
+        return $request;
 
         $data = request()->validate([
            'video_path' => 'required',
         ]);
-
         if (request('video_path')) {
             $imagePath = request('video_path')->store('videos', 'public');            
             $image = ['video_path' => "storage/{$imagePath}"];
@@ -26,3 +26,5 @@ class VideoController extends Controller
         return response()->json('success', 200);
     }
 }
+
+

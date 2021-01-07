@@ -30,6 +30,7 @@
     "expo-image-picker": "~9.1.1",
     "expo-linear-gradient": "^8.3.1",
     "expo-localization": "^9.1.0",
+    "expo-location": "~9.0.0",
     "expo-secure-store": "~9.2.0",
     "expo-status-bar": "~1.0.2",
     "firebase": "^8.2.1",
@@ -43,6 +44,7 @@
     "react-native-credit-card-input": "^0.4.1",
     "react-native-drop-shadow": "0.0.2",
     "react-native-dropdown-picker": "^3.7.1",
+    "react-native-geocoder": "^0.5.0",
     "react-native-geolocation-service": "^5.1.1",
     "react-native-gesture-handler": "^1.7.0",
     "react-native-get-random-values": "^1.5.0",
@@ -63,8 +65,7 @@
     "react-native-webview": "^10.7.0",
     "react-web-component": "^2.0.1",
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",
-    "rn-modal-picker": "^0.3.0",
-    "expo-location": "~9.0.0"
+    "rn-modal-picker": "^0.3.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

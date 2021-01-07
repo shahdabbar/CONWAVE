@@ -23,7 +23,7 @@ import {
   Feather,
 } from "react-native-vector-icons";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
-import EditProfile from "./EditProfileScreen";
+import PaymentView from "./PaymentView";
 import axios from "axios";
 
 const CompleteProfileSCreen = ({ navigation }) => {
@@ -36,8 +36,40 @@ const CompleteProfileSCreen = ({ navigation }) => {
   });
   const [modal, setModal] = useState({
     meetingTypeModal: false,
-    addressModal: false,
+    paymentModal: false,
   });
+
+  const [response, setResponse] = useState();
+  const [makePayment, setMakePayment] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState();
+
+  const cartInfo = {
+    id: "Seruyt35eggr76476236523t3",
+    description: "T Shirt - With react Native Logo",
+    amount: 1,
+  };
+
+  const onCheckStatus = async (paymentResponse) => {
+    setPaymentStatus("Please wait while confirming your payment!");
+    setResponse(paymentResponse);
+
+    let jsonResponse = JSON.parse(paymentResponse);
+    // perform operation to check payment status
+
+    console.log("check", jsonResponse.token ? "Yes" : "NOOO");
+
+    if (jsonResponse.token) {
+      setModal({ ...modal, paymentModal: false });
+      // navigation.navigate("BookSession", {
+      //   status: "success",
+      // });
+    } else {
+      setModal({ ...modal, paymentModal: false });
+      // navigation.navigate("BookSession", {
+      //   status: "failed",
+      // });
+    }
+  };
 
   useEffect(() => {
     axios.get("/api/meetingtype").then((response) => {
@@ -72,16 +104,32 @@ const CompleteProfileSCreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          left: 20,
+        }}
+      >
+        <View>
+          <Ionicon
+            name="ios-menu"
+            size={30}
+            backgroundColor="#fff"
+            color="gray"
+            onPress={() => navigation.openDrawer()}
+          />
+        </View>
+      </View>
       <View>
         <LinearGradient colors={[COLORS.beige, COLORS.rose, COLORS.pink]}>
           <SafeAreaView>
             <Modal
-              visible={modal.addressModal}
+              visible={modal.paymentModal}
               // transparent={true}
               animationType="slide"
             >
               <View>
-                <Text>Hola!</Text>
                 <View
                   style={{
                     position: "absolute",
@@ -93,10 +141,17 @@ const CompleteProfileSCreen = ({ navigation }) => {
                   <FontAwesome
                     name="close"
                     size={24}
-                    color="gray"
+                    color="black"
                     onPress={() => {
-                      setModal({ ...modal, addressModal: false });
+                      setModal({ ...modal, paymentModal: false });
                     }}
+                  />
+                </View>
+                <View>
+                  <PaymentView
+                    onCheckStatus={onCheckStatus}
+                    product={cartInfo.description}
+                    amount={cartInfo.amount}
                   />
                 </View>
               </View>
@@ -392,11 +447,6 @@ const CompleteProfileSCreen = ({ navigation }) => {
                     <TouchableOpacity
                       style={styles.wrapper}
                       onPress={() => {
-                        // setModal({
-                        //   ...modal,
-                        //   addressModal: !modal.addressModal,
-                        // });
-
                         navigation.navigate("Address");
                       }}
                     >
@@ -425,7 +475,15 @@ const CompleteProfileSCreen = ({ navigation }) => {
                     </TouchableOpacity>
                   </View>
                   <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
-                    <TouchableOpacity style={styles.wrapper} onPress={() => {}}>
+                    <TouchableOpacity
+                      style={styles.wrapper}
+                      onPress={() => {
+                        setModal({
+                          ...modal,
+                          paymentModal: !modal.paymentModal,
+                        });
+                      }}
+                    >
                       <View style={styles.warpper_content}>
                         <Text style={styles.text}>Add your payment method</Text>
                         <Image
@@ -452,7 +510,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    paddingTop: 30,
+    paddingTop: 50,
   },
   paragraph: {
     margin: 16,

@@ -36,70 +36,39 @@ import axios from "axios";
 const ScheduleScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
   const [sessions, setSessions] = useState([]);
+  const [upcoming, setUpcoming] = useState([]);
+  const [previous, setPrevious] = useState([]);
+  const [show, setShow] = useState(true);
 
   useEffect(() => {
     axios
-      .get(`api/user/sessions?user_id=${user.id}`)
+      .get(`api/user/sessions?tutor_id=${user.id}`)
       .then((response) => {
         setSessions(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
 
-  console.log("hellloooooooooooooooo", sessions);
+    setUpcoming(
+      sessions.data
+        ? sessions.data.filter((e) => e.date >= Moment().format("YYYY-MM-DD"))
+        : null
+    );
 
-  // if (sessions != "undefined") {
-  //   let upcoming = sessions.filter((session) => {
-  //     if (session.date.getTime() === moment().getTime()) {
-  //       console.log("trueeee");
-  //     }
-  //   });
-  // }
+    setPrevious(
+      sessions.data
+        ? sessions.data.filter((e) => e.date < Moment().format("YYYY-MM-DD"))
+        : null
+    );
+  }, [sessions]);
 
-  return (
-    <View style={styles.container}>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          left: 20,
-        }}
-      >
-        <View>
-          <Ionicon
-            name="ios-menu"
-            size={30}
-            backgroundColor="#fff"
-            color="gray"
-            onPress={() => navigation.openDrawer()}
-          />
-        </View>
-        <View style={{ left: 20 }}>
-          <Text style={styles.sessions}>Sessions</Text>
-        </View>
-      </View>
-
-      <View style={styles.statsContainer}>
-        <TouchableOpacity style={styles.statsBox}>
-          <Text style={{ ...styles.text, ...styles.subText }}>Upcoming</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            ...styles.statsBox,
-            borderColor: "#DFDBC8",
-            borderLeftWidth: 2,
-          }}
-        >
-          <Text style={{ ...styles.text, ...styles.subText }}>Previous</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={{ paddingVertical: 10, marginTop: 10 }}>
+  const Upcoming = () => {
+    return (
+      <View>
         {sessions ? (
           <FlatList
-            data={sessions["data"]}
+            data={upcoming}
             keyExtractor={(item) => `${item.id}`}
             contentContainerStyle={{
               paddingVertical: SIZES.padding,
@@ -119,7 +88,6 @@ const ScheduleScreen = ({ route, navigation }) => {
                     marginVertical: SIZES.padding,
                   }}
                 >
-                  {console.log("item", item)}
                   <View style={{ paddingHorizontal: 20 }}>
                     <View
                       style={{
@@ -133,9 +101,9 @@ const ScheduleScreen = ({ route, navigation }) => {
                         <View style={styles.profileImage}>
                           <Image
                             source={
-                              item.profile_photo_path
+                              item.student_profile_photo_path
                                 ? {
-                                    uri: `http://192.168.0.106:8000/${item.profile_photo_path}`,
+                                    uri: `http://192.168.0.106:8000/${item.student_profile_photo_path}`,
                                   }
                                 : require("../assets/images/profile2.png")
                             }
@@ -169,7 +137,8 @@ const ScheduleScreen = ({ route, navigation }) => {
                               marginVertical: 1,
                             }}
                           >
-                            With {item.firstname} {item.lastname}.
+                            With {item.student_firstname}{" "}
+                            {item.student_lastname}.
                           </Text>
                         </View>
                         <View>
@@ -182,7 +151,7 @@ const ScheduleScreen = ({ route, navigation }) => {
                               marginVertical: 1,
                             }}
                           >
-                            {Moment(item.date).format("dddd, MMM d")}
+                            {Moment(item.date).format("dddd, MMM DD")}
                             {" - "}
                             {item.hour}
                           </Text>
@@ -221,7 +190,7 @@ const ScheduleScreen = ({ route, navigation }) => {
                           left: 10,
                         }}
                       >
-                        View Booking
+                        View Session Details
                       </Text>
                     </TouchableOpacity>
                   </View>
@@ -230,6 +199,223 @@ const ScheduleScreen = ({ route, navigation }) => {
             }}
           />
         ) : null}
+      </View>
+    );
+  };
+
+  const Previous = () => {
+    return (
+      <View>
+        {sessions ? (
+          <FlatList
+            data={previous}
+            keyExtractor={(item) => `${item.id}`}
+            contentContainerStyle={{
+              paddingVertical: SIZES.padding,
+              marginBottom: 60,
+            }}
+            renderItem={({ item }) => {
+              return (
+                <View
+                  style={{
+                    backgroundColor: COLORS.white,
+                    borderTopRightRadius: SIZES.radius,
+                    borderBottomRightRadius: SIZES.radius,
+                    elevation: 2,
+                    borderLeftColor: COLORS.yellow2,
+                    borderLeftWidth: 4,
+                    marginHorizontal: SIZES.padding * 2,
+                    marginVertical: SIZES.padding,
+                  }}
+                >
+                  <View style={{ paddingHorizontal: 20 }}>
+                    <View
+                      style={{
+                        marginTop: 16,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginBottom: 10,
+                      }}
+                    >
+                      <View>
+                        <View style={styles.profileImage}>
+                          <Image
+                            source={
+                              item.student_profile_photo_path
+                                ? {
+                                    uri: `http://192.168.0.106:8000/${item.student_profile_photo_path}`,
+                                  }
+                                : require("../assets/images/profile2.png")
+                            }
+                            style={styles.image}
+                            resizeMode="cover"
+                          />
+                        </View>
+                      </View>
+                      <View style={{ left: 12 }}>
+                        <View>
+                          <Text
+                            style={{
+                              ...styles.text,
+                              color: COLORS.yellow2,
+                              fontWeight: "bold",
+                              fontSize: 20,
+                              textTransform: "capitalize",
+                              marginVertical: 1,
+                            }}
+                          >
+                            {item.course_name}
+                          </Text>
+                        </View>
+                        <View>
+                          <Text
+                            style={{
+                              ...styles.text,
+                              color: COLORS.black,
+                              fontWeight: "800",
+                              textTransform: "capitalize",
+                              marginVertical: 1,
+                            }}
+                          >
+                            With {item.student_firstname}{" "}
+                            {item.student_lastname}.
+                          </Text>
+                        </View>
+                        <View>
+                          <Text
+                            style={{
+                              ...styles.text,
+                              fontWeight: "800",
+                              color: "gray",
+                              width: "90%",
+                              marginVertical: 1,
+                            }}
+                          >
+                            {Moment(item.date).format("dddd, MMM DD")}
+                            {" - "}
+                            {item.hour}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+
+                    <View
+                      style={{
+                        height: 0.5,
+                        width: "100%",
+                        backgroundColor: "#C8C8C8",
+                      }}
+                    />
+                    <TouchableOpacity
+                      style={{
+                        marginVertical: 10,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <View>
+                        <FontAwesome5
+                          name="arrow-right"
+                          size={16}
+                          color={COLORS.pink}
+                        />
+                      </View>
+                      <Text
+                        style={{
+                          fontSize: 19,
+                          fontWeight: "800",
+                          color: COLORS.pink,
+                          alignSelf: "center",
+                          left: 10,
+                        }}
+                      >
+                        View Session Details
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              );
+            }}
+          />
+        ) : null}
+      </View>
+    );
+  };
+
+  return (
+    <View style={styles.container}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          left: 20,
+        }}
+      >
+        <View>
+          <Ionicon
+            name="ios-menu"
+            size={30}
+            backgroundColor="#fff"
+            color="gray"
+            onPress={() => navigation.openDrawer()}
+          />
+        </View>
+        <View style={{ left: 20 }}>
+          <Text style={styles.sessions}>Sessions</Text>
+        </View>
+      </View>
+
+      <View style={styles.statsContainer}>
+        <TouchableOpacity
+          style={styles.statsBox}
+          onPress={() => {
+            setShow(!show);
+          }}
+        >
+          <Text
+            style={{
+              ...styles.text,
+              ...styles.subText,
+              color: show ? COLORS.primary : COLORS.black2,
+              fontWeight: show ? "bold" : "normal",
+              fontSize: show ? 22 : 20,
+              textTransform: show ? "uppercase" : "none",
+              textDecorationLine: show ? "underline" : "none",
+            }}
+          >
+            Upcoming
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setShow(!show);
+          }}
+          style={{
+            ...styles.statsBox,
+            borderColor: "#DFDBC8",
+            borderLeftWidth: 2,
+          }}
+        >
+          <Text
+            style={{
+              ...styles.text,
+              ...styles.subText,
+
+              color: !show ? COLORS.yellow2 : COLORS.black2,
+              fontWeight: !show ? "bold" : "normal",
+              fontSize: !show ? 22 : 20,
+              textTransform: !show ? "uppercase" : "none",
+              textDecorationLine: !show ? "underline" : "none",
+            }}
+          >
+            Previous
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={{ paddingVertical: 10, marginTop: 10 }}>
+        {show ? <>{Upcoming()}</> : <>{Previous()}</>}
       </View>
     </View>
   );

@@ -22,9 +22,13 @@ class ChatController extends Controller
 
     public function store(Request $request) {
 
-     
+        $data = request()->validate([
+            'users_id' => "required",
+            'tutor_id' => "required"
+        ]);
+        
         $session = Chat::firstOrCreate([
-            'users_id' => $request->user_id,
+            'users_id' => $request->users_id,
             'tutor_id' => $request->tutor_id,
         ]);
 

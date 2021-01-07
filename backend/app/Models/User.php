@@ -100,5 +100,10 @@ class User extends Authenticatable
         return $this->hasMany(Chat::class);
     }
 
+    public function address()
+    {
+        return $this->hasOne(Address::class);
+    }
+
   
 }

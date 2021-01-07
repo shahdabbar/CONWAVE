@@ -170,64 +170,6 @@ const PaymentMethodScreen = ({ route, navigation }) => {
       {/* {paymentUI()} */}
     </View>
   );
-
-  // return (
-  //   <View styles={styles.container}>
-  //     <PaymentView
-  //       onCheckStatus={onCheckStatus}
-  //       product={cartInfo.description}
-  //       amount={cartInfo.amount}
-  //     />
-  //   </View>
-  // );
-
-  // const onClick = () => {};
-
-  // return (
-  //   <View style={styles.container}>
-  //     <View
-  //       style={{
-  //         flexDirection: "row",
-  //         alignItems: "center",
-  //         marginBottom: 20,
-  //       }}
-  //     >
-  //       <View>
-  //         <MaterialIcon
-  //           name="arrow-back-ios"
-  //           size={24}
-  //           color="gray"
-  //           style={{ marginLeft: 20 }}
-  //           onPress={() => {
-  //             navigation.navigate("BookSession");
-  //           }}
-  //         />
-  //       </View>
-  //       <View style={{ left: 20 }}>
-  //         <Text style={styles.payment}>Set Your Payment</Text>
-  //       </View>
-  //     </View>
-  //     <View style={styles.action}>
-  //       <TextInput
-  //         style={{ fontSize: 20 }}
-  //         placeholder="Start Typing"
-  //         placeholderTextColor="#666"
-  //         // onChangeText={(text) => setData({ ...data, rate: text })}
-  //         underlineColorAndroid="transparent"
-  //       ></TextInput>
-  //     </View>
-  //     <View>
-  //       {/* <Text style={styles.text}>Total: {data.rate} LBP/h</Text> */}
-  //     </View>
-  //     <View>
-  //       <TouchableOpacity style={{ marginTop: 320 }} onPress={() => onClick()}>
-  //         <LinearGradient colors={["#ff01ff", "#ffd200"]} style={styles.next}>
-  //           <Text style={styles.next_text}>NEXT</Text>
-  //         </LinearGradient>
-  //       </TouchableOpacity>
-  //     </View>
-  //   </View>
-  // );
 };
 
 export default PaymentMethodScreen;

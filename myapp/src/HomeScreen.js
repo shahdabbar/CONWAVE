@@ -16,7 +16,7 @@ import {
 import { useTheme } from "@react-navigation/native";
 
 // LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
-LogBox.ignoreAllLogs(); //Ignore all log notifications
+// LogBox.ignoreAllLogs(); //Ignore all log notifications
 import * as Animatable from "react-native-animatable";
 import {
   MaterialIcons as MaterialIcon,
@@ -102,6 +102,24 @@ const HomeScreen = ({ navigation }) => {
       key: "4",
     },
   ]);
+
+  useEffect(() => {
+    console.log("search", search);
+    if (search) {
+      const newData = courses
+        ? courses.filter(function (item) {
+            const itemData = item.name
+              ? item.name.toUpperCase()
+              : "".toUpperCase();
+            const textData = search.toUpperCase();
+            return itemData.indexOf(textData) > -1;
+          })
+        : null;
+      setFilterCourses(newData);
+    } else {
+      setFilterCourses([]);
+    }
+  }, [search]);
 
   useEffect(() => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
@@ -207,7 +225,7 @@ const HomeScreen = ({ navigation }) => {
     if (text) {
       const newData = courses
         ? courses.filter(function (item) {
-            console.log(courses);
+            // console.log(courses);
 
             const itemData = item.name
               ? item.name.toUpperCase()
@@ -223,10 +241,10 @@ const HomeScreen = ({ navigation }) => {
       setSearch(text);
     }
   };
-
+  // animation = "bounceInLeft";
   function renderCategories() {
     return (
-      <Animatable.View animation="bounceInLeft">
+      <Animatable.View>
         <FlatList
           horizontal={true}
           data={categories}
@@ -299,10 +317,10 @@ const HomeScreen = ({ navigation }) => {
       </Animatable.View>
     );
   }
-
+  // animation = "bounceInDown";
   function renderCoursesList() {
     return (
-      <Animatable.View animation="bounceInDown">
+      <Animatable.View>
         {selectedCategory ? (
           <Animatable.View
             animation="pulse"
@@ -516,7 +534,11 @@ const HomeScreen = ({ navigation }) => {
               style={styles.searchBox}
               placeholder="Search Courses"
               placeholderTextColor="#666"
-              onChangeText={(text) => searchFilterFunction(text)}
+              onChangeText={(text) => {
+                console.log("value", text);
+                setSearch(text);
+              }}
+              // onChangeText={(text) => searchFilterFunction(text)}
               value={search}
               underlineColorAndroid="transparent"
             ></TextInput>
@@ -542,152 +564,103 @@ const HomeScreen = ({ navigation }) => {
           />
         </ImageBackground>
       </View>
-      <ScrollView>
-        {search ? (
-          <View>
-            <FlatList
-              data={filterCourses}
-              keyExtractor={(item, index) => index.toString()}
-              // ItemSeparatorComponent={ItemSeparatorView}
-              renderItem={ItemView}
-            />
-          </View>
-        ) : (
-          <View>
-            <Animatable.View
-              animation="pulse"
-              style={{ padding: SIZES.padding * 2 }}
-            >
-              <Text
-                style={{
-                  ...FONTS.h1,
-                  fontWeight: "bold",
-                  // fontFamily: "italic_black",
-                }}
-              >
-                Main
-              </Text>
-              <Text
-                style={{
-                  ...FONTS.h1,
-                  fontWeight: "bold",
-                  color: COLORS.pink,
-                }}
-              >
-                Categories
-              </Text>
-            </Animatable.View>
-            {renderCategories()}
-            {renderCoursesList()}
-          </View>
-        )}
-        <View>
-          <Animatable.View animation="pulse" style={{ padding: 20 }}>
-            <Text
-              style={{ ...FONTS.h1, fontWeight: "bold", color: COLORS.yellow }}
-            >
-              Top Tutors
-            </Text>
-          </Animatable.View>
-          <FlatList
-            showsHorizontalScrollIndicator={false}
-            horizontal={true}
-            data={gallery}
-            renderItem={({ item }) => {
-              return (
-                <View style={{ paddingVertical: 10, paddingLeft: 16 }}>
-                  <TouchableOpacity>
-                    <Image
-                      source={item.image}
-                      style={{
-                        width: 150,
-                        marginRight: 8,
-                        height: 200,
-                        borderRadius: 30,
-                      }}
-                    />
-                    <View style={styles.imageOverlay}></View>
-                    <MaterialIcon
-                      name="alternate-email"
-                      size={16}
-                      color="white"
-                      style={styles.imageLocationIcon}
-                    />
-                    <Text style={styles.imageText}>{item.title}</Text>
-                  </TouchableOpacity>
+      <FlatList
+        ListHeaderComponent={() => {
+          return (
+            <>
+              {search ? (
+                <View>
+                  <FlatList
+                    data={filterCourses}
+                    keyExtractor={(item, index) => index.toString()}
+                    // ItemSeparatorComponent={ItemSeparatorView}
+                    renderItem={ItemView}
+                  />
                 </View>
-              );
-            }}
-          />
-        </View>
-        <View style={{ marginBottom: 60 }}>
-          <Animatable.View animation="pulse" style={{ padding: 20 }}>
-            <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>
-              Most Popular courses
-            </Text>
-          </Animatable.View>
-          <View>{renderCourses()}</View>
-        </View>
-        {/* <View style={{ marginBottom: 60 }}>
-          <View
-            style={{
-              padding: 20,
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <Text style={styles.textSection}>Recently Viewed</Text>
-            <Text
-              style={{ fontSize: 14, fontWeight: "bold", color: "#ff2600" }}
-            >
-              View All
-            </Text>
-          </View>
-          <Image
-            source={require("../assets/images/photo.jpeg")}
-            style={{
-              width: "92%",
-              height: 250,
-              borderRadius: 10,
-              alignSelf: "center",
-            }}
-          />
-          <View style={{ position: "absolute", bottom: 0, padding: 16 }}>
-            <View style={{ flexDirection: "row" }}>
-              <Feather
-                name="map-pin"
-                color="white"
-                size={20}
-                style={{ marginLeft: 10, position: "relative", top: 4 }}
-              />
-              <Text
-                style={{
-                  fontSize: 22,
-                  color: "white",
-                  fontWeight: "normal",
-                  marginBottom: 10,
-                  marginHorizontal: 10,
-                }}
-              >
-                Venice
-              </Text>
-            </View>
-            <Text
-              style={{
-                fontSize: 14,
-                color: "white",
-                fontWeight: "normal",
-                marginBottom: 4,
-                opacity: 0.8,
-                marginLeft: 16,
-              }}
-            >
-              Venice, the capital of northen Italy's Veneto Region in the
-              Adriatic Sea
-            </Text>
-          </View>
-        </View> */}
-      </ScrollView>
+              ) : (
+                <View>
+                  <Animatable.View
+                    animation="pulse"
+                    style={{ padding: SIZES.padding * 2 }}
+                  >
+                    <Text
+                      style={{
+                        ...FONTS.h1,
+                        fontWeight: "bold",
+                        // fontFamily: "italic_black",
+                      }}
+                    >
+                      Main
+                    </Text>
+                    <Text
+                      style={{
+                        ...FONTS.h1,
+                        fontWeight: "bold",
+                        color: COLORS.pink,
+                      }}
+                    >
+                      Categories
+                    </Text>
+                  </Animatable.View>
+                  {renderCategories()}
+                  {renderCoursesList()}
+                </View>
+              )}
+              <View>
+                <Animatable.View animation="pulse" style={{ padding: 20 }}>
+                  <Text
+                    style={{
+                      ...FONTS.h1,
+                      fontWeight: "bold",
+                      color: COLORS.yellow,
+                    }}
+                  >
+                    Top Tutors
+                  </Text>
+                </Animatable.View>
+                <FlatList
+                  showsHorizontalScrollIndicator={false}
+                  horizontal={true}
+                  data={gallery}
+                  renderItem={({ item }) => {
+                    return (
+                      <View style={{ paddingVertical: 10, paddingLeft: 16 }}>
+                        <TouchableOpacity>
+                          <Image
+                            source={item.image}
+                            style={{
+                              width: 150,
+                              marginRight: 8,
+                              height: 200,
+                              borderRadius: 30,
+                            }}
+                          />
+                          <View style={styles.imageOverlay}></View>
+                          <MaterialIcon
+                            name="alternate-email"
+                            size={16}
+                            color="white"
+                            style={styles.imageLocationIcon}
+                          />
+                          <Text style={styles.imageText}>{item.title}</Text>
+                        </TouchableOpacity>
+                      </View>
+                    );
+                  }}
+                />
+              </View>
+              <View style={{ marginBottom: 60 }}>
+                <Animatable.View animation="pulse" style={{ padding: 20 }}>
+                  <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>
+                    Most Popular courses
+                  </Text>
+                </Animatable.View>
+                <View>{renderCourses()}</View>
+              </View>
+            </>
+          );
+        }}
+      />
     </View>
   );
 };

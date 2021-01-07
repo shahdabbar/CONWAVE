@@ -17,7 +17,7 @@ use App\Http\Controllers\MeetingTypeController;
 use App\Http\Controllers\BookedSessionsController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\ChatController;
-
+use App\Http\Controllers\AddressController;
 
 
 
@@ -71,6 +71,9 @@ Route::middleware('auth:sanctum')->get('/user_profile', [UserController::class, 
 
 Route::middleware('auth:sanctum')->post('/user/video', [VideoController::class, 'store'] );
 Route::middleware('auth:sanctum')->get('/user/videos', [VideoController::class, 'index'] );
+
+Route::middleware('auth:sanctum')->post('/user/address', [AddressController::class, 'store']);
+Route::middleware('auth:sanctum')->get('/user/address', [AddressController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/categories', [CategoryController::class, 'index']);
 Route::middleware('auth:sanctum')->get('/courses', [CourseController::class, 'index']);

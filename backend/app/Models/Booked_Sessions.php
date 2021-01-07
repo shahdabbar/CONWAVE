@@ -12,17 +12,13 @@ class Booked_Sessions extends Model
 
     public function tutor()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'tutor_id');
     }
 
-    public function day()
+    public function user()
     {
-        return $this->belongsTo(Days::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
-
-    public function hour()
-    {
-        return $this->belongsTo(Hour::class);    }
 
     public function timeslots()
     {
@@ -33,5 +29,4 @@ class Booked_Sessions extends Model
     {
         return $this->belongsTo(Course::class);
     }
-
 }

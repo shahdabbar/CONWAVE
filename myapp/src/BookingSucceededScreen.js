@@ -55,7 +55,7 @@ const BookingSucceededScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ flex: 0.1 }}>
+      <View style={{ flex: 0.2 }}>
         <TouchableOpacity
           style={{
             position: "absolute",
@@ -85,17 +85,19 @@ const BookingSucceededScreen = ({ route, navigation }) => {
           >
             Congrats!
           </Text>
-          <Text style={{ fontSize: 19 }}>You can now chat with your tutor</Text>
+          <Text style={{ fontSize: 19, fontStyle: "italic" }}>
+            You can now chat with your tutor
+          </Text>
         </View>
         <View>
-          <Image source={icons.fireworks} />
+          <Image source={icons.fireworks} resizeMode="center" />
         </View>
       </View>
 
-      <View style={{ flex: 0.2 }}>
+      <View style={{ flex: 0.4 }}>
         <TouchableOpacity onPress={() => {}}>
           <LinearGradient
-            colors={[COLORS.black2, COLORS.black2]}
+            colors={["#000000", "#000000"]}
             style={{ ...styles.button, borderColor: COLORS.pink }}
           >
             <Text style={styles.text}>Go to chat</Text>

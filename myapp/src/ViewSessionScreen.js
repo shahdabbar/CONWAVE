@@ -31,79 +31,9 @@ import { deleteItemAsync } from "expo-secure-store";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import axios from "axios";
 
-const BookSessionScreen = ({ route, navigation }) => {
+const ViewSessionScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
   axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
-
-  const [status, setStatus] = useState("failed");
-
-  const [data, setData] = useState({
-    // day: route.params.day,
-    date: route.params.date,
-    hour: route.params.hour,
-    // tutor: route.params.tutor,
-    type: route.params.type,
-    course: route.params.course,
-  });
-
-  // console.log("type", data.course.tutor.id);
-
-  const onClick = () => {
-    if (
-      data.type === "In-person" ||
-      (route.params.status && route.params.status === "success")
-    ) {
-      const session = {
-        user_id: user.id,
-        tutor_id: data.course.tutor.id,
-        date: data.date,
-        timeslots_id: data.hour.id,
-        course_id: data.course.course_id,
-        meeting_type: data.type,
-        payment: data.course.rate,
-      };
-
-      axios
-        .post("api/book/session", session)
-        .then((response) => {
-          console.log("i am here", response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-      axios
-        .post("api/chat/users", {
-          users_id: user.id,
-          tutor_id: data.course.tutor.id,
-        })
-        .then((response) => {
-          console.log("Yesss Chatt", response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-      navigation.navigate("BookingSucceeded");
-    } else {
-      alert("Please select a payment method");
-    }
-    // const newData = data.courses.map((e) => {
-    //   return {
-    //     ...e,
-    //     rate: data.rate,
-    //   };
-    // });
-    // axios
-    //   .post("api/tutor/courses", newData)
-    //   .then((response) => {
-    //     console.log(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    // navigation.navigate("Courses");
-  };
 
   return (
     <View style={styles.container}>
@@ -125,7 +55,7 @@ const BookSessionScreen = ({ route, navigation }) => {
           />
         </View>
         <View style={{ left: 20 }}>
-          <Text style={styles.payment}>Payment</Text>
+          <Text style={styles.payment}>Session Details</Text>
         </View>
       </View>
       <View style={{ paddingVertical: 10, marginTop: 10 }}>
@@ -373,7 +303,7 @@ const BookSessionScreen = ({ route, navigation }) => {
           </View>
         </View>
       </View>
-      <View style={{ bottom: -35, marginHorizontal: 10 }}>
+      <View style={{ marginTop: 5, marginHorizontal: 10 }}>
         <TouchableOpacity onPress={() => onClick()}>
           <LinearGradient
             colors={[COLORS.primary, COLORS.yellow2]}
@@ -387,7 +317,7 @@ const BookSessionScreen = ({ route, navigation }) => {
   );
 };
 
-export default BookSessionScreen;
+export default ViewSessionScreen;
 
 const styles = StyleSheet.create({
   container: {

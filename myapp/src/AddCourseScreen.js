@@ -493,9 +493,10 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     marginHorizontal: 20,
     marginVertical: 5,
-    borderColor: COLORS.white,
+    elevation: 5,
+    borderColor: COLORS.beige,
     paddingLeft: 10,
-    backgroundColor: COLORS.beige,
+    backgroundColor: COLORS.white,
   },
   next: {
     alignItems: "center",

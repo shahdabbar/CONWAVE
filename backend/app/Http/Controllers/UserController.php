@@ -96,7 +96,8 @@ class UserController extends Controller
             $image = ['profile_photo_path' => "storage/{$imagePath}"];
         }
         Auth()->user()->update($image);
-        return response()->json('image updated successfully', 200);
+
+        return response()->json(Auth()->user());
     }
 
     public function update(Request $request)

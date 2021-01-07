@@ -39,7 +39,7 @@ const EditProfileScreen = ({ route, navigation }) => {
   const { user, logout } = useContext(AuthContext);
   axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
 
-  const bs = React.createRef();
+  const bs = React.useRef();
   const fall = new Animated.Value(1);
 
   const [update, setUpdate] = useState({ updateName: "", updateValue: "" });
@@ -88,11 +88,20 @@ const EditProfileScreen = ({ route, navigation }) => {
       });
     }
     console.log("formData", formData);
-
+    //  {
+    //         headers: {
+    //           Accept: "application/json",
+    //           "Content-Type": "multipart/form-data",
+    //         },
+    //       }
     axios
       .post("api/user/photo", formData)
       .then((response) => {
         console.log(response.data);
+        setUserInfo({
+          ...userInfo,
+          imagePath: response.data.profile_photo_path,
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -120,7 +129,7 @@ const EditProfileScreen = ({ route, navigation }) => {
     axios
       .get("api/user")
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
 
         setUserInfo({
           ...userInfo,
@@ -137,7 +146,8 @@ const EditProfileScreen = ({ route, navigation }) => {
       .catch((error) => {
         console.log(error.response);
       });
-    console.log("image path", userInfo.imagePath);
+    // console.log("image path", userInfo.imagePath);
+
     // (async () => {
     //   if (Platform.OS !== "web") {
     //     const {
