@@ -48,6 +48,7 @@ import TutorCoursesScreen from "./TutorCoursesScreen";
 import ScheduleScreen from "./ScheduleScreen";
 
 import axios from "axios";
+import ReviewsScreen from "./ReviewsScreen";
 
 const HomeStack = createStackNavigator();
 const DetailsStack = createStackNavigator();
@@ -68,10 +69,10 @@ const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
         style={{
           flex: 1,
           alignItems: "center",
-          borderTopWidth: 4,
+          justifyContent: "center",
+          borderTopWidth: 3,
           borderTopColor: COLORS.pink,
           backgroundColor: COLORS.white,
-          height: 45,
         }}
       >
         {/* <View
@@ -138,7 +139,8 @@ const getTabBarVisibility = (route) => {
     routeName === "Availabilities" ||
     routeName === "SetRate" ||
     routeName === "Address" ||
-    routeName === "Chat"
+    routeName === "Chat" ||
+    routeName === "Reviews"
   ) {
     return false;
   }
@@ -168,7 +170,8 @@ const MainTabScreen = () => {
       initialRouteName="Home"
       activeColor="#fff"
       tabBarOptions={{
-        showLabel: false,
+        showLabel: true,
+        labelStyle: { color: "gray", fontSize: 14 },
         // labelStyle: { fontSize: 16, color: COLORS.pink },
         style: {
           borderTopWidth: 0,
@@ -186,14 +189,15 @@ const MainTabScreen = () => {
               return {
                 tabBarVisible: getTabBarVisibility(route),
                 tabBarLabel: "Sessions",
+                tabBarBadgeStyle: { colors: COLORS.black2 },
                 tabBarIcon: ({ focused }) => (
                   <Image
                     source={icons.session}
                     resizeMode="contain"
                     style={{
-                      width: 27,
-                      height: 27,
-                      tintColor: focused ? COLORS.pink : COLORS.secondary,
+                      width: 20,
+                      height: 20,
+                      tintColor: focused ? COLORS.black2 : COLORS.secondary,
                     }}
                   />
                 ),
@@ -214,9 +218,9 @@ const MainTabScreen = () => {
                     source={icons.schedule}
                     resizeMode="contain"
                     style={{
-                      width: 27,
-                      height: 27,
-                      tintColor: focused ? COLORS.pink : COLORS.secondary,
+                      width: 20,
+                      height: 20,
+                      tintColor: focused ? COLORS.black2 : COLORS.secondary,
                     }}
                   />
                 ),
@@ -237,9 +241,9 @@ const MainTabScreen = () => {
                     source={icons.courses}
                     resizeMode="contain"
                     style={{
-                      width: 27,
-                      height: 27,
-                      tintColor: focused ? COLORS.pink : COLORS.secondary,
+                      width: 20,
+                      height: 20,
+                      tintColor: focused ? COLORS.black2 : COLORS.secondary,
                     }}
                   />
                 ),
@@ -262,9 +266,9 @@ const MainTabScreen = () => {
                     source={icons.home}
                     resizeMode="contain"
                     style={{
-                      width: 27,
-                      height: 27,
-                      tintColor: focused ? COLORS.pink : COLORS.secondary,
+                      width: 20,
+                      height: 20,
+                      tintColor: focused ? COLORS.black2 : COLORS.secondary,
                     }}
                   />
                 ),
@@ -285,9 +289,9 @@ const MainTabScreen = () => {
                     source={icons.session}
                     resizeMode="contain"
                     style={{
-                      width: 27,
-                      height: 27,
-                      tintColor: focused ? COLORS.pink : COLORS.secondary,
+                      width: 20,
+                      height: 20,
+                      tintColor: focused ? COLORS.black2 : COLORS.secondary,
                     }}
                   />
                 ),
@@ -295,7 +299,7 @@ const MainTabScreen = () => {
               };
             }}
           />
-          <Tab.Screen
+          {/* <Tab.Screen
             name="Notification"
             component={DetailsStackScreen}
             options={({ route }) => {
@@ -316,7 +320,7 @@ const MainTabScreen = () => {
                 tabBarButton: (props) => <TabBarCustomButton {...props} />,
               };
             }}
-          />
+          /> */}
         </>
       )}
       <Tab.Screen
@@ -331,9 +335,9 @@ const MainTabScreen = () => {
                 source={icons.chat}
                 resizeMode="contain"
                 style={{
-                  width: 25,
-                  height: 25,
-                  tintColor: focused ? COLORS.pink : COLORS.secondary,
+                  width: 20,
+                  height: 20,
+                  tintColor: focused ? COLORS.black2 : COLORS.secondary,
                 }}
               />
             ),
@@ -353,9 +357,9 @@ const MainTabScreen = () => {
                 source={require("../assets/icons/user.png")}
                 resizeMode="contain"
                 style={{
-                  width: 25,
-                  height: 25,
-                  tintColor: focused ? COLORS.pink : COLORS.secondary,
+                  width: 20,
+                  height: 20,
+                  tintColor: focused ? COLORS.black2 : COLORS.secondary,
                 }}
               />
             ),
@@ -467,6 +471,34 @@ const HomeStackScreen = ({ navigation }) => (
         },
         headerStyle: {
           // backgroundColor: COLORS.primary,
+          elevation: 0, // Android
+        },
+        headerLeft: () => (
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color="gray"
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.navigate("SearchTutor");
+            }}
+          />
+        ),
+      }}
+    />
+
+    <HomeStack.Screen
+      name="Reviews"
+      component={ReviewsScreen}
+      options={{
+        headerShown: true,
+        title: "Reviews",
+        headerTitleStyle: {
+          color: "gray",
+          fontWeight: "800",
+          fontSize: 25,
+        },
+        headerStyle: {
           elevation: 0, // Android
         },
         headerLeft: () => (

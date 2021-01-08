@@ -23,6 +23,7 @@ class BookedSessionsResources extends JsonResource
             'student_lastname' => $this->user->lastname,
             'student_profile_photo_path' => $this->user->profile_photo_path,
             'address' => $this->tutor->address,
+            'tutor_id' => $this->tutor->id,
             'tutor_firstname' => $this->tutor->firstname,
             'tutor_lastname' => $this->tutor->lastname,
             'tutor_profile_photo_path' => $this->tutor->profile_photo_path,

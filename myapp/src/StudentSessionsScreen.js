@@ -14,6 +14,7 @@ import {
   SafeAreaView,
   Modal,
   Animated,
+  Easing,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import * as Animatable from "react-native-animatable";
@@ -38,40 +39,48 @@ import axios from "axios";
 
 const StudentSessionsScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
-  const [sessions, setSessions] = useState([]);
+  axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+
   const [upcoming, setUpcoming] = useState([]);
   const [previous, setPrevious] = useState([]);
   const [addComment, setAddComment] = useState(false);
   const [comment, setComment] = useState("");
   const [modal, setModal] = useState(false);
-  const [rating, setRating] = useState(2);
+  const [id, setId] = useState(null);
+  const [state, setState] = useState({
+    rating: 0,
+    animation: new Animated.Value(1),
+  });
   const [show, setShow] = useState(true);
 
   useEffect(() => {
     axios
       .get(`api/user/sessions?user_id=${user.id}`)
       .then((response) => {
-        setSessions(response.data);
+        console.log(response.data);
+        // setSessions(response.data);
+        setUpcoming(
+          response.data.data
+            ? response.data.data.filter(
+                (e) => e.date >= Moment().format("YYYY-MM-DD")
+              )
+            : null
+        );
+
+        setPrevious(
+          response.data.data
+            ? response.data.data.filter(
+                (e) => e.date < Moment().format("YYYY-MM-DD")
+              )
+            : null
+        );
       })
       .catch((error) => {
         console.log(error);
       });
-
-    setUpcoming(
-      sessions.data
-        ? sessions.data.filter((e) => e.date >= Moment().format("YYYY-MM-DD"))
-        : null
-    );
-
-    setPrevious(
-      sessions.data
-        ? sessions.data.filter((e) => e.date < Moment().format("YYYY-MM-DD"))
-        : null
-    );
-  }, [sessions]);
+  }, []);
 
   let stars = [];
-
   for (let x = 1; x <= 5; x++) {
     stars.push({
       x: x,
@@ -82,10 +91,63 @@ const StudentSessionsScreen = ({ route, navigation }) => {
     });
   }
 
+  const rate = (star) => {
+    setState({ ...state, rating: star });
+  };
+
+  const animate = () => {
+    Animated.timing(state.animation, {
+      toValue: 2,
+      duration: 400,
+      easing: Easing.ease,
+      useNativeDriver: true,
+    }).start(() => {
+      state.animation.setValue(1);
+    });
+  };
+
+  const animateScale = state.animation.interpolate({
+    inputRange: [1, 1.5, 2],
+    outputRange: [1, 1.4, 1],
+  });
+
+  const animateOpacity = state.animation.interpolate({
+    inputRange: [1, 1.2, 2],
+    outputRange: [1, 0.5, 1],
+  });
+
+  const animateWobble = state.animation.interpolate({
+    inputRange: [1, 1.25, 1.75, 2],
+    outputRange: ["0deg", "-3deg", "3deg", "0deg"],
+  });
+
+  const animationStyle = {
+    transform: [{ scale: animateScale }, { rotate: animateWobble }],
+    opacity: animateOpacity,
+  };
+
+  function onSubmit() {
+    let data = {
+      comment: comment,
+      rating: state.rating,
+      user_id: user.id,
+      tutor_id: id,
+    };
+    console.log(data);
+    axios
+      .post("api/user/rating", data)
+      .then((response) => {
+        console.log("success?", response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   const Upcoming = () => {
     return (
       <View>
-        {sessions ? (
+        {upcoming ? (
           <FlatList
             data={upcoming}
             keyExtractor={(item) => `${item.id}`}
@@ -113,6 +175,7 @@ const StudentSessionsScreen = ({ route, navigation }) => {
                       size={24}
                       color={COLORS.yellow}
                       onPress={() => {
+                        setId(item.tutor_id);
                         setModal(true);
                       }}
                     />
@@ -234,7 +297,7 @@ const StudentSessionsScreen = ({ route, navigation }) => {
   const Previous = () => {
     return (
       <View>
-        {sessions ? (
+        {previous ? (
           <FlatList
             data={previous}
             keyExtractor={(item) => `${item.id}`}
@@ -382,41 +445,27 @@ const StudentSessionsScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Modal visible={modal} transparent={true} animationType="slide">
+      <Modal visible={modal} transparent={true} animationType="fade">
         <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
           <View
             style={{
               backgroundColor: "#FFFFFF",
-              marginTop: "60%",
+              marginTop: "40%",
               marginHorizontal: 10,
               paddingLeft: 20,
               paddingRight: 20,
               borderRadius: 16,
               paddingBottom: 20,
               // height: 300,
+              // E0DFE1,
             }}
           >
-            <View
-              style={{
-                position: "absolute",
-                marginHorizontal: 10,
-                marginVertical: 10,
-                right: 2,
-              }}
-            >
-              <FontAwesome
-                name="close"
-                size={24}
-                color="gray"
-                onPress={() => {
-                  setModal(false);
-                }}
-              />
-            </View>
-
             <View>
               <View style={{ marginVertical: 20 }}>
-                <Text style={styles.infoText}>Rate this tutor</Text>
+                <Text style={styles.infoText}>Enjoyed the session?</Text>
+                <Text style={{ fontSize: 15, color: COLORS.gray, left: 10 }}>
+                  Please rate this tutor
+                </Text>
               </View>
               <View
                 style={{
@@ -428,10 +477,17 @@ const StudentSessionsScreen = ({ route, navigation }) => {
               >
                 {stars.map((e) => {
                   return (
-                    <TouchableOpacity key={e.x} onPress={() => {}}>
-                      <Animated.View>
+                    <TouchableOpacity
+                      key={e.x}
+                      onPress={() => {
+                        rate(e.x), animate();
+                      }}
+                    >
+                      <Animated.View
+                        style={e.x <= state.rating ? animationStyle : ""}
+                      >
                         <FontAwesome
-                          name={e.x <= 3 ? e.name : "star-o"}
+                          name={e.x <= state.rating ? e.name : "star-o"}
                           size={e.size}
                           color={e.color}
                           style={e.style}
@@ -446,40 +502,59 @@ const StudentSessionsScreen = ({ route, navigation }) => {
                   <View style={styles.action}>
                     <TextInput
                       style={styles.textinput}
-                      placeholder="Add a comment"
+                      placeholder="Leave comment"
                       placeholderTextColor="#666"
                       multiline={true}
                       numberOfLines={4}
+                      underlineColorAndroid="transparent"
                       onChangeText={(text) => {
                         setComment(text);
-                        console.log("comment", comment);
                       }}
-                      underlineColorAndroid="transparent"
                     />
-                  </View>
-                  <View>
-                    <TouchableOpacity
-                      onPress={() => setAddComment(!addComment)}
-                    >
-                      <LinearGradient
-                        colors={[COLORS.primary, COLORS.yellow2]}
-                        style={styles.next}
-                      >
-                        <Text style={styles.next_text}>Add</Text>
-                      </LinearGradient>
-                    </TouchableOpacity>
                   </View>
                 </View>
               ) : (
                 <TouchableOpacity onPress={() => setAddComment(!addComment)}>
-                  <LinearGradient
-                    colors={[COLORS.primary, COLORS.yellow2]}
-                    style={styles.next}
-                  >
-                    <Text style={styles.next_text}>Add Comment</Text>
-                  </LinearGradient>
+                  <Text style={styles.next_text}>Leave Comment</Text>
                 </TouchableOpacity>
               )}
+
+              <View style={styles.statsContainer}>
+                <TouchableOpacity
+                  style={styles.statsBox}
+                  onPress={() => {
+                    setModal(false);
+                  }}
+                >
+                  <Text
+                    style={{
+                      ...styles.text,
+                      color: COLORS.blue,
+                    }}
+                  >
+                    Cancel
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    onSubmit(), setModal(false);
+                  }}
+                  style={{
+                    ...styles.statsBox,
+                    borderColor: "#DFDBC8",
+                    borderLeftWidth: 2,
+                  }}
+                >
+                  <Text
+                    style={{
+                      ...styles.text,
+                      color: COLORS.gray,
+                    }}
+                  >
+                    Submit
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
@@ -617,9 +692,9 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   next_text: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: COLORS.white,
+    fontSize: 16,
+    color: COLORS.gray,
+    textDecorationLine: "underline",
     textAlign: "center",
   },
   // action: {
@@ -645,6 +720,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 20,
     height: 150,
+    fontStyle: "italic",
     textAlignVertical: "top",
   },
   //   text: {

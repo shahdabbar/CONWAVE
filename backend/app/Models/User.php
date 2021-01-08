@@ -105,5 +105,10 @@ class User extends Authenticatable
         return $this->hasOne(Address::class);
     }
 
+    public function ratings()
+    {
+        return $this->hasOne(Rating::class);
+    }
+
   
 }

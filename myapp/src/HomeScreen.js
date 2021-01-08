@@ -512,6 +512,102 @@ const HomeScreen = ({ navigation }) => {
     alert("Id : " + item.id + " Title : " + item.name);
   };
 
+  function flatlist() {
+    return (
+      <>
+        {search ? (
+          <View>
+            <FlatList
+              data={filterCourses}
+              keyExtractor={(item, index) => index.toString()}
+              // ItemSeparatorComponent={ItemSeparatorView}
+              renderItem={ItemView}
+            />
+          </View>
+        ) : (
+          <View>
+            <Animatable.View
+              animation="pulse"
+              style={{ padding: SIZES.padding * 2 }}
+            >
+              <Text
+                style={{
+                  ...FONTS.h1,
+                  fontWeight: "bold",
+                  // fontFamily: "italic_black",
+                }}
+              >
+                Main
+              </Text>
+              <Text
+                style={{
+                  ...FONTS.h1,
+                  fontWeight: "bold",
+                  color: COLORS.pink,
+                }}
+              >
+                Categories
+              </Text>
+            </Animatable.View>
+            {renderCategories()}
+            {renderCoursesList()}
+          </View>
+        )}
+        <View>
+          <Animatable.View animation="pulse" style={{ padding: 20 }}>
+            <Text
+              style={{
+                ...FONTS.h1,
+                fontWeight: "bold",
+                color: COLORS.yellow,
+              }}
+            >
+              Top Tutors
+            </Text>
+          </Animatable.View>
+          <FlatList
+            showsHorizontalScrollIndicator={false}
+            horizontal={true}
+            data={gallery}
+            renderItem={({ item }) => {
+              return (
+                <View style={{ paddingVertical: 10, paddingLeft: 16 }}>
+                  <TouchableOpacity>
+                    <Image
+                      source={item.image}
+                      style={{
+                        width: 150,
+                        marginRight: 8,
+                        height: 200,
+                        borderRadius: 30,
+                      }}
+                    />
+                    <View style={styles.imageOverlay}></View>
+                    <MaterialIcon
+                      name="alternate-email"
+                      size={16}
+                      color="white"
+                      style={styles.imageLocationIcon}
+                    />
+                    <Text style={styles.imageText}>{item.title}</Text>
+                  </TouchableOpacity>
+                </View>
+              );
+            }}
+          />
+        </View>
+        <View style={{ marginBottom: 60 }}>
+          <Animatable.View animation="pulse" style={{ padding: 20 }}>
+            <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>
+              Most Popular courses
+            </Text>
+          </Animatable.View>
+          <View>{renderCourses()}</View>
+        </View>
+      </>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View>
@@ -564,103 +660,7 @@ const HomeScreen = ({ navigation }) => {
           />
         </ImageBackground>
       </View>
-      <FlatList
-        ListHeaderComponent={() => {
-          return (
-            <>
-              {search ? (
-                <View>
-                  <FlatList
-                    data={filterCourses}
-                    keyExtractor={(item, index) => index.toString()}
-                    // ItemSeparatorComponent={ItemSeparatorView}
-                    renderItem={ItemView}
-                  />
-                </View>
-              ) : (
-                <View>
-                  <Animatable.View
-                    animation="pulse"
-                    style={{ padding: SIZES.padding * 2 }}
-                  >
-                    <Text
-                      style={{
-                        ...FONTS.h1,
-                        fontWeight: "bold",
-                        // fontFamily: "italic_black",
-                      }}
-                    >
-                      Main
-                    </Text>
-                    <Text
-                      style={{
-                        ...FONTS.h1,
-                        fontWeight: "bold",
-                        color: COLORS.pink,
-                      }}
-                    >
-                      Categories
-                    </Text>
-                  </Animatable.View>
-                  {renderCategories()}
-                  {renderCoursesList()}
-                </View>
-              )}
-              <View>
-                <Animatable.View animation="pulse" style={{ padding: 20 }}>
-                  <Text
-                    style={{
-                      ...FONTS.h1,
-                      fontWeight: "bold",
-                      color: COLORS.yellow,
-                    }}
-                  >
-                    Top Tutors
-                  </Text>
-                </Animatable.View>
-                <FlatList
-                  showsHorizontalScrollIndicator={false}
-                  horizontal={true}
-                  data={gallery}
-                  renderItem={({ item }) => {
-                    return (
-                      <View style={{ paddingVertical: 10, paddingLeft: 16 }}>
-                        <TouchableOpacity>
-                          <Image
-                            source={item.image}
-                            style={{
-                              width: 150,
-                              marginRight: 8,
-                              height: 200,
-                              borderRadius: 30,
-                            }}
-                          />
-                          <View style={styles.imageOverlay}></View>
-                          <MaterialIcon
-                            name="alternate-email"
-                            size={16}
-                            color="white"
-                            style={styles.imageLocationIcon}
-                          />
-                          <Text style={styles.imageText}>{item.title}</Text>
-                        </TouchableOpacity>
-                      </View>
-                    );
-                  }}
-                />
-              </View>
-              <View style={{ marginBottom: 60 }}>
-                <Animatable.View animation="pulse" style={{ padding: 20 }}>
-                  <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>
-                    Most Popular courses
-                  </Text>
-                </Animatable.View>
-                <View>{renderCourses()}</View>
-              </View>
-            </>
-          );
-        }}
-      />
+      <FlatList ListHeaderComponent={flatlist()} />
     </View>
   );
 };

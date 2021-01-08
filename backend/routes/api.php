@@ -18,7 +18,7 @@ use App\Http\Controllers\BookedSessionsController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\AddressController;
-
+use App\Http\Controllers\RatingController;
 
 
 /*
@@ -89,6 +89,8 @@ Route::middleware('auth:sanctum')->get('/user/sessions', [BookedSessionsControll
 Route::middleware('auth:sanctum')->post('/chat/users', [ChatController::class, 'store']);
 Route::middleware('auth:sanctum')->get('/chat/users', [ChatController::class, 'index']);
 
+Route::middleware('auth:sanctum')->post('/user/rating', [RatingController::class, 'store']);
+Route::middleware('auth:sanctum')->get('/user/rating', [RatingController::class, 'index']);
 
 
 
