@@ -143,7 +143,8 @@ const getTabBarVisibility = (route) => {
     routeName === "Address" ||
     routeName === "Chat" ||
     routeName === "Reviews" ||
-    routeName === "CourseDescription"
+    routeName === "CourseDescription" ||
+    routeName === "ViewSession"
   ) {
     return false;
   }
@@ -380,6 +381,7 @@ export default MainTabScreen;
 
 const HomeStackScreen = ({ navigation }) => (
   <HomeStack.Navigator
+    initialRouteName="Home"
     screenOptions={{
       // animationEnabled: false,
       headerShown: false,
@@ -701,6 +703,7 @@ const StudentSessionsStackScreen = ({ navigation }) => (
       name="ViewSession"
       component={ViewSessionScreen}
       options={{
+        headerShown: false,
         headerLeft: () => (
           <MaterialIcon
             name="arrow-back-ios"

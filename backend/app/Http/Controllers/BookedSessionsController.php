@@ -8,7 +8,7 @@ use App\Http\Resources\BookedSessionsResources;
 
 class BookedSessionsController extends Controller
 {
-     public function index(Request $request) {
+    public function index(Request $request) {
 
         if(request('user_id')){
             $sessions = Booked_Sessions::where('user_id', $request->user_id)->get();
@@ -30,6 +30,20 @@ class BookedSessionsController extends Controller
             'payment' => $request->payment,
         ]);
 
+        return response()->json("success");
+    }
+
+    public function delete(Request $request) {
+
+        Booked_Sessions::where('user_id', $request->user_id)->where('tutor_id', $request->tutor_id)
+        ->where('course_id', $request->course_id)->delete();
+        return response()->json("success");
+    }
+
+    public function update(Request $request) {
+
+        Booked_Sessions::where('user_id', $request->user_id)->where('tutor_id', $request->tutor_id)
+        ->where('course_id', $request->course_id)->update([ 'note' => $request->note ]);
         return response()->json("success");
     }
 }

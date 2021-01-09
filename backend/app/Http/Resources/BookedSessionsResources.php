@@ -28,9 +28,10 @@ class BookedSessionsResources extends JsonResource
             'tutor_lastname' => $this->tutor->lastname,
             'tutor_profile_photo_path' => $this->tutor->profile_photo_path,
             'course_name' => $this->course->name,
-            // 'review' => $this->user->ratings->where('course_id', $this->course->id),
+            'course_description' => $this->course->tutorCourses->where('user_id', $this->tutor->id),
             'review' => $this->course->ratings->where('user_id', $this->user->id)->where('tutor_id', $this->tutor->id),
             'course_id' => $this->course->id,
+            'note' => $this->note,
             'day' => $this->timeslots->days->day,
             'hour' => $this->timeslots->hours->hour,
         ];

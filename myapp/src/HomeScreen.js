@@ -245,75 +245,77 @@ const HomeScreen = ({ navigation }) => {
   function renderCategories() {
     return (
       <Animatable.View animation="bounceInLeft">
-        <FlatList
-          horizontal={true}
-          data={categories}
-          showsHorizontalScrollIndicator={false}
-          // ItemSeparatorComponent={ItemSeparatorView}
-          keyExtractor={(item) => `${item.id}`}
-          contentContainerStyle={{ paddingVertical: SIZES.padding }}
-          renderItem={({ item }) => {
-            return (
-              <View style={{ paddingVertical: 10, paddingLeft: 16 }}>
-                <TouchableOpacity
-                  style={{
-                    padding: SIZES.padding,
-                    paddingBottom: SIZES.padding * 2,
-                    backgroundColor:
-                      selectedCategory?.id == item.id
-                        ? "#ffd200"
-                        : COLORS.beige,
-                    borderRadius: SIZES.radius,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    // elevation: 10,
-                    marginRight: SIZES.padding,
-                    ...styles.shadow,
-                  }}
-                  onPress={() => onSelectCategory(item)}
-                >
-                  <View
+        {categories ? (
+          <FlatList
+            horizontal={true}
+            data={categories}
+            showsHorizontalScrollIndicator={false}
+            // ItemSeparatorComponent={ItemSeparatorView}
+            keyExtractor={(item) => `${item.id}`}
+            contentContainerStyle={{ paddingVertical: SIZES.padding }}
+            renderItem={({ item }) => {
+              return (
+                <View style={{ paddingVertical: 10, paddingLeft: 16 }}>
+                  <TouchableOpacity
                     style={{
-                      width: 55,
-                      height: 50,
-                      borderRadius: 25,
-                      alignItems: "center",
-                      justifyContent: "center",
+                      padding: SIZES.padding,
+                      paddingBottom: SIZES.padding * 2,
                       backgroundColor:
                         selectedCategory?.id == item.id
-                          ? COLORS.white
-                          : COLORS.lightGray,
+                          ? "#ffd200"
+                          : COLORS.beige,
+                      borderRadius: SIZES.radius,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      // elevation: 10,
+                      marginRight: SIZES.padding,
+                      ...styles.shadow,
                     }}
+                    onPress={() => onSelectCategory(item)}
                   >
-                    <Image
-                      source={Icon(item.name)}
-                      resizeMode="contain"
-                      imageStyle={{ borderRadius: 16 }}
+                    <View
                       style={{
-                        width: 40,
-                        height: 40,
+                        width: 55,
+                        height: 50,
+                        borderRadius: 25,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor:
+                          selectedCategory?.id == item.id
+                            ? COLORS.white
+                            : COLORS.lightGray,
                       }}
-                    />
-                  </View>
+                    >
+                      <Image
+                        source={Icon(item.name)}
+                        resizeMode="contain"
+                        imageStyle={{ borderRadius: 16 }}
+                        style={{
+                          width: 40,
+                          height: 40,
+                        }}
+                      />
+                    </View>
 
-                  <Text
-                    style={{
-                      marginHorizontal: 1,
-                      marginTop: SIZES.padding,
-                      fontWeight: "bold",
-                      color:
-                        selectedCategory?.id == item.id
-                          ? COLORS.white
-                          : COLORS.black,
-                    }}
-                  >
-                    {item.name}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            );
-          }}
-        />
+                    <Text
+                      style={{
+                        marginHorizontal: 1,
+                        marginTop: SIZES.padding,
+                        fontWeight: "bold",
+                        color:
+                          selectedCategory?.id == item.id
+                            ? COLORS.white
+                            : COLORS.black,
+                      }}
+                    >
+                      {item.name}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              );
+            }}
+          />
+        ) : null}
       </Animatable.View>
     );
   }
@@ -574,7 +576,6 @@ const HomeScreen = ({ navigation }) => {
               return (
                 <View style={{ paddingVertical: 10, paddingLeft: 16 }}>
                   <TouchableOpacity>
-                    {console.log("iteeemmmmm", item)}
                     <View>
                       <Image
                         source={

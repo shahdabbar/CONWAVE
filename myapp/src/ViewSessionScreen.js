@@ -11,9 +11,9 @@ import {
   StatusBar,
   TextInput,
   TouchableOpacity,
+  Modal,
   SafeAreaView,
 } from "react-native";
-import { useTheme } from "@react-navigation/native";
 import * as Animatable from "react-native-animatable";
 import {
   MaterialIcons as MaterialIcon,
@@ -23,11 +23,9 @@ import {
   FontAwesome5,
   Feather,
 } from "react-native-vector-icons";
-import CheckBox from "@react-native-community/checkbox";
+import moment from "moment";
 import { LinearGradient } from "expo-linear-gradient";
 import { AuthContext } from "./AuthProvider";
-import DrawerContent from "./DrawerContent";
-import { deleteItemAsync } from "expo-secure-store";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import axios from "axios";
 
@@ -35,8 +33,127 @@ const ViewSessionScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
   axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
 
+  const [data, setData] = useState({
+    type: route.params.type,
+    session: route.params.session,
+  });
+
+  const [modal, setModal] = useState(false);
+  const [note, setNote] = useState("");
+
+  function onClick() {
+    axios
+      .post("api/cancel/session", {
+        user_id: user.id,
+        tutor_id: data.session.tutor_id,
+        course_id: data.session.course_id,
+      })
+      .then((response) => {
+        navigation.navigate("StudentsSessions");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  function onSubmit() {
+    axios
+      .post("api/update/session", {
+        user_id: user.id,
+        tutor_id: data.session.tutor_id,
+        course_id: data.session.course_id,
+        note: note,
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   return (
     <View style={styles.container}>
+      <Modal visible={modal} transparent={true} animationType="fade">
+        <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
+          <View
+            style={{
+              backgroundColor: "#FFFFFF",
+              marginTop: "50%",
+              marginHorizontal: 10,
+              paddingLeft: 20,
+              paddingRight: 20,
+              borderRadius: 16,
+              paddingBottom: 20,
+            }}
+          >
+            <View>
+              <View style={{ marginVertical: 20 }}>
+                <Text
+                  style={{
+                    ...styles.infoText,
+                    alignSelf: "center",
+                  }}
+                >
+                  Add your note
+                </Text>
+              </View>
+
+              <View>
+                <View style={styles.action}>
+                  <TextInput
+                    style={styles.textinput}
+                    placeholder="Note.."
+                    placeholderTextColor="#666"
+                    multiline={true}
+                    numberOfLines={4}
+                    underlineColorAndroid="transparent"
+                    onChangeText={(text) => {
+                      setNote(text);
+                    }}
+                  />
+                </View>
+              </View>
+
+              <View style={styles.statsContainer}>
+                <TouchableOpacity
+                  style={styles.statsBox}
+                  onPress={() => {
+                    setModal(false);
+                  }}
+                >
+                  <Text
+                    style={{
+                      ...styles.text,
+                      color: COLORS.blue,
+                    }}
+                  >
+                    Cancel
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    onSubmit(), setModal(false);
+                  }}
+                  style={{
+                    ...styles.statsBox,
+                    borderColor: "#DFDBC8",
+                    borderLeftWidth: 2,
+                  }}
+                >
+                  <Text
+                    style={{
+                      ...styles.text,
+                      color: COLORS.gray,
+                    }}
+                  >
+                    Submit
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <View
         style={{
           flexDirection: "row",
@@ -50,27 +167,27 @@ const ViewSessionScreen = ({ route, navigation }) => {
             color="gray"
             style={{ marginLeft: 20 }}
             onPress={() => {
-              navigation.navigate("BookTime");
+              navigation.navigate("StudentsSessions");
             }}
           />
         </View>
         <View style={{ left: 20 }}>
-          <Text style={styles.payment}>Session Details</Text>
+          <Text style={styles.payment}>{data.type} Session</Text>
         </View>
       </View>
       <View style={{ paddingVertical: 10, marginTop: 10 }}>
         <View
           style={{
-            backgroundColor: COLORS.beige,
+            backgroundColor: COLORS.white,
             borderTopRightRadius: SIZES.radius * 1.5,
             borderBottomRightRadius: SIZES.radius * 1.5,
-            // elevation: 5,
+            elevation: 5,
             marginRight: SIZES.padding * 5,
           }}
         >
           <View style={{ padding: 20 }}>
             <View style={{ marginBottom: 10 }}>
-              <Text style={styles.infoText}>Tutor Info</Text>
+              <Text style={styles.infoText}>Session Info</Text>
             </View>
             <View
               style={{
@@ -91,9 +208,9 @@ const ViewSessionScreen = ({ route, navigation }) => {
                 <View style={styles.profileImage}>
                   <Image
                     source={
-                      data.course.tutor.profile_photo_path
+                      data.session.tutor_profile_photo_path
                         ? {
-                            uri: `http://192.168.0.106:8000/${data.course.tutor.profile_photo_path}`,
+                            uri: `http://192.168.0.106:8000/${data.session.tutor_profile_photo_path}`,
                           }
                         : require("../assets/images/profile2.png")
                     }
@@ -108,11 +225,37 @@ const ViewSessionScreen = ({ route, navigation }) => {
                     style={{
                       ...styles.text,
                       color: COLORS.black,
+                      fontWeight: "bold",
+                      textTransform: "capitalize",
+                    }}
+                  >
+                    {data.session.course_name}
+                  </Text>
+                </View>
+                <View>
+                  <Text
+                    style={{
+                      ...styles.text,
+                      color: COLORS.black,
+                      fontWeight: "800",
+                      textTransform: "capitalize",
+                      width: "100%",
+                    }}
+                  >
+                    {data.session.course_description[0].course_description}
+                  </Text>
+                </View>
+                <View>
+                  <Text
+                    style={{
+                      ...styles.text,
+                      color: COLORS.gray,
                       fontWeight: "800",
                       textTransform: "capitalize",
                     }}
                   >
-                    {data.course.tutor.firstname} {data.course.tutor.lastname}.
+                    with {data.session.tutor_firstname}{" "}
+                    {data.session.tutor_lastname}.
                   </Text>
                 </View>
                 <View>
@@ -123,19 +266,9 @@ const ViewSessionScreen = ({ route, navigation }) => {
                       color: "gray",
                     }}
                   >
-                    {data.course.tutor.location}, Lebanon
-                  </Text>
-                </View>
-                <View style={{ flexDirection: "row", top: 4 }}>
-                  <Icon name="star" size={22} color={COLORS.yellow} />
-                  <Text
-                    style={{
-                      color: COLORS.yellow,
-                      fontSize: 18,
-                      fontWeight: "bold",
-                    }}
-                  >
-                    4
+                    {moment(data.session.date).format("dddd, MMM DD")}
+                    {" - "}
+                    {data.session.hour}
                   </Text>
                 </View>
               </View>
@@ -144,175 +277,158 @@ const ViewSessionScreen = ({ route, navigation }) => {
         </View>
       </View>
 
-      <View style={{ paddingVertical: 5 }}>
+      <View style={{ paddingVertical: 10 }}>
         <View
           style={{
-            backgroundColor: COLORS.beige,
+            backgroundColor: COLORS.white,
             borderTopLeftRadius: SIZES.radius * 1.5,
             borderBottomLeftRadius: SIZES.radius * 1.5,
-            // elevation: 5,
+            elevation: 5,
             marginLeft: SIZES.radius * 1.5,
             // marginRight: SIZES.padding * 5,
           }}
         >
           <View style={{ padding: 20 }}>
-            <View style={{ marginBottom: 10 }}>
-              <Text style={styles.infoText}>Payment Method</Text>
-            </View>
             <View
               style={{
-                height: 0.5,
-                width: "100%",
-                backgroundColor: "#C8C8C8",
-              }}
-            />
-            <View
-              style={{
-                marginTop: 10,
-                marginBottom: 10,
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: "row",
-                }}
-              >
-                {(route.params.status && route.params.status === "success") ||
-                data.type === "In-person" ? (
-                  <Image
-                    source={icons.check}
-                    resizeMode="contain"
-                    style={{
-                      width: 25,
-                      height: 25,
-                    }}
-                  />
-                ) : (
-                  <FontAwesome
-                    name="circle-thin"
-                    size={26}
-                    color={COLORS.black}
-                  />
-                )}
-
-                {data.type === "Online" ? (
-                  <View
-                    style={{
-                      left: 10,
-                      flexDirection: "row",
-                      alignItems: "center",
-                      marginBottom: 10,
-                    }}
-                  >
-                    <FontAwesome name="credit-card" color="#000000" size={30} />
-                    <TouchableOpacity
-                      onPress={() => {
-                        navigation.navigate("PaymentMethod");
-                      }}
-                    >
-                      <Text style={{ left: 20, fontSize: 20, color: "blue" }}>
-                        Credit Card
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                ) : (
-                  <View
-                    style={{
-                      left: 10,
-                      flexDirection: "row",
-                      alignItems: "center",
-                      marginBottom: 10,
-                    }}
-                  >
-                    <FontAwesome name="dollar" color="#000000" size={25} />
-
-                    <Text
-                      style={{ left: 20, fontSize: 20, color: COLORS.black2 }}
-                    >
-                      Pay Cash
-                    </Text>
-                  </View>
-                )}
-              </View>
-              <View
-                style={{
-                  backgroundColor: COLORS.yellow,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: SIZES.radius / 4,
-                  padding: 5,
-                }}
-              >
-                <Text
-                  style={{
-                    fontWeight: "bold",
-                    textAlign: "center",
-                    fontSize: 16,
-                  }}
-                >
-                  You will only be charged at the end of your session
-                </Text>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
-      <View style={{ paddingVertical: 5 }}>
-        <View
-          style={{
-            backgroundColor: COLORS.beige,
-            borderTopRightRadius: SIZES.radius * 1.5,
-            borderBottomRightRadius: SIZES.radius * 1.5,
-            // elevation: 5,
-            marginRight: SIZES.padding * 5,
-          }}
-        >
-          <View style={{ padding: 20 }}>
-            <View style={{ marginBottom: 10 }}>
-              <Text style={styles.infoText}>Total</Text>
-            </View>
-            <View
-              style={{
-                height: 0.5,
-                width: "100%",
-                backgroundColor: "#C8C8C8",
-              }}
-            />
-            <View
-              style={{
-                marginTop: 16,
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "space-between",
-                // marginBottom: 10,
               }}
             >
               <View>
                 <Text
-                  style={{ ...styles.text, fontSize: 20, fontWeight: "800" }}
+                  style={{
+                    ...styles.infoText,
+                  }}
                 >
                   Total
                 </Text>
               </View>
               <View>
-                <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                  LBP {data.course.rate}
-                </Text>
+                <Text style={{ fontSize: 18 }}>LBP {data.session.payment}</Text>
               </View>
             </View>
           </View>
         </View>
       </View>
-      <View style={{ marginTop: 5, marginHorizontal: 10 }}>
-        <TouchableOpacity onPress={() => onClick()}>
-          <LinearGradient
-            colors={[COLORS.primary, COLORS.yellow2]}
-            style={styles.next}
-          >
-            <Text style={styles.next_text}>Confirm Booking</Text>
-          </LinearGradient>
-        </TouchableOpacity>
+
+      <View style={{ paddingVertical: 10 }}>
+        <View
+          style={{
+            backgroundColor: COLORS.white,
+            borderTopRightRadius: SIZES.radius * 1.5,
+            borderBottomRightRadius: SIZES.radius * 1.5,
+            elevation: 5,
+            marginRight: SIZES.padding * 5,
+          }}
+        >
+          <View style={{ padding: 20 }}>
+            <View
+              style={{
+                marginBottom: 10,
+              }}
+            >
+              <View>
+                <Text
+                  style={{
+                    ...styles.infoText,
+                    fontSize: 17,
+                  }}
+                >
+                  {data.type === "Upcoming" ? (
+                    <Text>Here's where you are going to meet</Text>
+                  ) : (
+                    <Text>Here's where you met</Text>
+                  )}
+                </Text>
+              </View>
+              <View>
+                <Text style={{ fontSize: 18, color: "blue" }}>Address</Text>
+              </View>
+            </View>
+          </View>
+        </View>
       </View>
+
+      {data.type === "Upcoming" ? (
+        <View>
+          <View style={{ paddingVertical: 10 }}>
+            <View
+              style={{
+                backgroundColor: COLORS.white,
+                borderTopLeftRadius: SIZES.radius * 1.5,
+                borderBottomLeftRadius: SIZES.radius * 1.5,
+                elevation: 5,
+                marginLeft: SIZES.radius * 1.5,
+                // marginRight: SIZES.padding * 5,
+              }}
+            >
+              <View style={{ padding: 20 }}>
+                <View
+                  style={{
+                    marginBottom: 10,
+                  }}
+                >
+                  {data.session.note || note ? (
+                    <View>
+                      <Text
+                        style={{
+                          ...styles.infoText,
+                          fontSize: 16,
+                          color: COLORS.black2,
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Text style={{ color: COLORS.yellow2 }}>Note:</Text>{" "}
+                        {data.session.note ? data.session.note : note}
+                      </Text>
+                    </View>
+                  ) : (
+                    <View>
+                      <View>
+                        <Text
+                          style={{
+                            ...styles.infoText,
+                            fontSize: 16,
+                            marginBottom: 5,
+                          }}
+                        >
+                          Anything you would like to say to{" "}
+                          {data.session.tutor_firstname}?
+                        </Text>
+                      </View>
+                      <TouchableOpacity
+                        onPress={() => {
+                          setModal(true);
+                        }}
+                      >
+                        <Text style={{ fontSize: 16, color: "blue" }}>
+                          + Add note
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                </View>
+              </View>
+            </View>
+          </View>
+
+          <View style={{ marginVertical: 40, marginHorizontal: 10 }}>
+            <TouchableOpacity onPress={() => onClick()}>
+              <Text
+                style={{
+                  alignSelf: "center",
+                  fontSize: 18,
+                  color: "blue",
+                }}
+              >
+                Cancel this session
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -339,12 +455,37 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   infoText: {
-    fontSize: 25,
-    fontWeight: "bold",
+    fontSize: 18,
   },
   text: {
     fontSize: 18,
     color: COLORS.black2,
+  },
+  action: {
+    borderRadius: 20,
+    borderWidth: 1,
+    // marginHorizontal: 20,
+    marginVertical: 5,
+    borderColor: "#ffd200",
+    // paddingLeft: 20,
+    backgroundColor: "#FFFFFF",
+    elevation: 5,
+  },
+  textinput: {
+    padding: 10,
+    fontSize: 20,
+    height: 150,
+    fontStyle: "italic",
+    textAlignVertical: "top",
+  },
+  statsContainer: {
+    flexDirection: "row",
+    alignSelf: "center",
+    marginTop: 22,
+  },
+  statsBox: {
+    alignItems: "center",
+    flex: 1,
   },
   payment: {
     fontSize: 27,

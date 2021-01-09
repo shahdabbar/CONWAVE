@@ -27,14 +27,10 @@ import {
   FontAwesome5,
   Feather,
 } from "react-native-vector-icons";
-import CheckBox from "@react-native-community/checkbox";
 import { LinearGradient } from "expo-linear-gradient";
 import { AuthContext } from "./AuthProvider";
-import DrawerContent from "./DrawerContent";
-import { deleteItemAsync } from "expo-secure-store";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
-import { curveBasis } from "d3-shape";
-import Moment from "moment";
+import moment from "moment";
 
 import axios from "axios";
 
@@ -46,6 +42,7 @@ const StudentSessionsScreen = ({ route, navigation }) => {
   const [previous, setPrevious] = useState([]);
   const [addComment, setAddComment] = useState(false);
   const [comment, setComment] = useState("");
+  const [sessions, setSessions] = useState(upcoming);
   const [modal, setModal] = useState(false);
   const [id, setId] = useState({
     tutor_id: "",
@@ -61,11 +58,10 @@ const StudentSessionsScreen = ({ route, navigation }) => {
     axios
       .get(`api/user/sessions?user_id=${user.id}`)
       .then((response) => {
-        // setSessions(response.data);
         setUpcoming(
           response.data.data
             ? response.data.data.filter(
-                (e) => e.date >= Moment().format("YYYY-MM-DD")
+                (e) => e.date >= moment().format("YYYY-MM-DD")
               )
             : null
         );
@@ -73,7 +69,7 @@ const StudentSessionsScreen = ({ route, navigation }) => {
         setPrevious(
           response.data.data
             ? response.data.data.filter(
-                (e) => e.date < Moment().format("YYYY-MM-DD")
+                (e) => e.date < moment().format("YYYY-MM-DD")
               )
             : null
         );
@@ -81,7 +77,7 @@ const StudentSessionsScreen = ({ route, navigation }) => {
       .catch((error) => {
         console.log(error);
       });
-  }, [show]);
+  }, [show, sessions]);
 
   let stars = [];
   for (let x = 1; x <= 5; x++) {
@@ -234,7 +230,7 @@ const StudentSessionsScreen = ({ route, navigation }) => {
                               marginVertical: 1,
                             }}
                           >
-                            {Moment(item.date).format("dddd, MMM DD")}
+                            {moment(item.date).format("dddd, MMM DD")}
                             {" - "}
                             {item.hour}
                           </Text>
@@ -258,8 +254,8 @@ const StudentSessionsScreen = ({ route, navigation }) => {
                       }}
                       onPress={() => {
                         navigation.navigate("ViewSession", {
-                          type: "upcoming",
-                          data: item,
+                          type: "Upcoming",
+                          session: item,
                         });
                       }}
                     >
@@ -318,7 +314,6 @@ const StudentSessionsScreen = ({ route, navigation }) => {
                   }}
                 >
                   <View style={{ position: "absolute", top: 5, right: 10 }}>
-                    {console.log("hello", item.review)}
                     {item.review.lenght < 1 ? (
                       <Text
                         style={{
@@ -405,7 +400,7 @@ const StudentSessionsScreen = ({ route, navigation }) => {
                               marginVertical: 1,
                             }}
                           >
-                            {Moment(item.date).format("dddd, MMM DD")}
+                            {moment(item.date).format("dddd, MMM DD")}
                             {" - "}
                             {item.hour}
                           </Text>
@@ -428,7 +423,10 @@ const StudentSessionsScreen = ({ route, navigation }) => {
                         justifyContent: "center",
                       }}
                       onPress={() => {
-                        navigation.navigate("ViewSession");
+                        navigation.navigate("ViewSession", {
+                          type: "Previous",
+                          session: item,
+                        });
                       }}
                     >
                       <View>

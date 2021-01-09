@@ -104,7 +104,13 @@ const BookingSucceededScreen = ({ route, navigation }) => {
           </LinearGradient>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("StudentSessionsStackScreen", {
+              screen: "StudentsSessions",
+            });
+          }}
+        >
           <LinearGradient
             colors={[COLORS.white, COLORS.white]}
             style={{

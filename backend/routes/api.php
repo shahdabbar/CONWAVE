@@ -85,6 +85,8 @@ Route::middleware('auth:sanctum')->get('/user/tutor/courses', [TutorCoursesContr
 
 Route::middleware('auth:sanctum')->post('/book/session', [BookedSessionsController::class, 'store']);
 Route::middleware('auth:sanctum')->get('/user/sessions', [BookedSessionsController::class, 'index']);
+Route::middleware('auth:sanctum')->post('/cancel/session', [BookedSessionsController::class, 'delete']);
+Route::middleware('auth:sanctum')->post('/update/session', [BookedSessionsController::class, 'update']);
 
 Route::middleware('auth:sanctum')->post('/chat/users', [ChatController::class, 'store']);
 Route::middleware('auth:sanctum')->get('/chat/users', [ChatController::class, 'index']);
