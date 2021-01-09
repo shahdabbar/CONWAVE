@@ -23,4 +23,9 @@ class Course extends Model
     {
         return $this->hasMany(Booked_Sessions::class);
     }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
 }

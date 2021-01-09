@@ -16,7 +16,7 @@ import {
 import { useTheme } from "@react-navigation/native";
 
 // LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
-// LogBox.ignoreAllLogs(); //Ignore all log notifications
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 import * as Animatable from "react-native-animatable";
 import {
   MaterialIcons as MaterialIcon,
@@ -67,7 +67,7 @@ const HomeScreen = ({ navigation }) => {
   const [filterCourses, setFilterCourses] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const [profiles, setProfiles] = useState(null);
+  const [tutors, setTutors] = useState([]);
   const [gallery, setgallery] = useState([
     {
       image: {
@@ -104,7 +104,6 @@ const HomeScreen = ({ navigation }) => {
   ]);
 
   useEffect(() => {
-    console.log("search", search);
     if (search) {
       const newData = courses
         ? courses.filter(function (item) {
@@ -141,7 +140,8 @@ const HomeScreen = ({ navigation }) => {
     axios
       .get("api/user_profile")
       .then((response) => {
-        setProfiles(response.data);
+        setTutors(response.data);
+        // console.log(response.data);
       })
       .catch((error) => {
         console.log("error", error);
@@ -241,10 +241,10 @@ const HomeScreen = ({ navigation }) => {
       setSearch(text);
     }
   };
-  // animation = "bounceInLeft";
+
   function renderCategories() {
     return (
-      <Animatable.View>
+      <Animatable.View animation="bounceInLeft">
         <FlatList
           horizontal={true}
           data={categories}
@@ -566,22 +566,33 @@ const HomeScreen = ({ navigation }) => {
             </Text>
           </Animatable.View>
           <FlatList
+            data={tutors}
             showsHorizontalScrollIndicator={false}
+            keyExtractor={(item) => `${item.id}`}
             horizontal={true}
-            data={gallery}
             renderItem={({ item }) => {
               return (
                 <View style={{ paddingVertical: 10, paddingLeft: 16 }}>
                   <TouchableOpacity>
-                    <Image
-                      source={item.image}
-                      style={{
-                        width: 150,
-                        marginRight: 8,
-                        height: 200,
-                        borderRadius: 30,
-                      }}
-                    />
+                    {console.log("iteeemmmmm", item)}
+                    <View>
+                      <Image
+                        source={
+                          item.profile_photo_path
+                            ? {
+                                uri: `http://192.168.0.106:8000/${item.profile_photo_path}`,
+                              }
+                            : require("../assets/images/profile2.png")
+                        }
+                        resizeMode="cover"
+                        style={{
+                          width: 150,
+                          marginRight: 8,
+                          height: 200,
+                          borderRadius: 30,
+                        }}
+                      />
+                    </View>
                     <View style={styles.imageOverlay}></View>
                     <MaterialIcon
                       name="alternate-email"
@@ -589,7 +600,9 @@ const HomeScreen = ({ navigation }) => {
                       color="white"
                       style={styles.imageLocationIcon}
                     />
-                    <Text style={styles.imageText}>{item.title}</Text>
+                    <Text style={styles.imageText}>
+                      {item.firstname} {item.lastname}
+                    </Text>
                   </TouchableOpacity>
                 </View>
               );
@@ -703,6 +716,17 @@ const styles = StyleSheet.create({
     paddingTop: 100,
     paddingLeft: 16,
   },
+  image: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+  },
+  profileImage: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    overflow: "hidden",
+  },
   userGreet: {
     fontSize: 35,
     fontWeight: "bold",
@@ -725,7 +749,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     position: "absolute",
     backgroundColor: "#000",
-    opacity: 0.5,
+    opacity: 0.3,
   },
   imageLocationIcon: {
     position: "absolute",

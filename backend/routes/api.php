@@ -67,7 +67,7 @@ Route::middleware('auth:sanctum')->post('/profile/update', [ProfileController::c
 Route::middleware('auth:sanctum')->get('/user/tutor', [UserController::class, 'getTutor']);
 Route::middleware('auth:sanctum')->post('/user/photo', [UserController::class, 'storeImage']);
 Route::middleware('auth:sanctum')->post('/user/update', [UserController::class, 'update']);
-Route::middleware('auth:sanctum')->get('/user_profile', [UserController::class, 'getAll'] );
+Route::middleware('auth:sanctum')->get('/user_profile', [UserController::class, 'tutors'] );
 
 Route::middleware('auth:sanctum')->post('/user/video', [VideoController::class, 'store'] );
 Route::middleware('auth:sanctum')->get('/user/videos', [VideoController::class, 'index'] );

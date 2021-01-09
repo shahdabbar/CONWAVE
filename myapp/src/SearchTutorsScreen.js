@@ -135,9 +135,6 @@ const SearchTutorsScreen = ({ route, navigation }) => {
                     style={{
                       borderTopRightRadius: SIZES.radius,
                       borderBottomLeftRadius: SIZES.radius,
-                      // borderColor: "#ffd200",
-                      // borderWidth: 2,
-                      // elevation: 1,
                       marginHorizontal: 10,
                       height: 200,
                       marginBottom: 20,
@@ -146,6 +143,7 @@ const SearchTutorsScreen = ({ route, navigation }) => {
                       navigation.navigate("TutorProfile", {
                         item: item,
                         type: data.type,
+                        course_id: data.course.id,
                       });
                     }}
                   >
@@ -168,6 +166,7 @@ const SearchTutorsScreen = ({ route, navigation }) => {
                           top: 0,
                           right: 0,
                           height: 50,
+                          // paddingHorizontal: 5,
                           width: SIZES.width * 0.3,
                           backgroundColor: COLORS.yellow,
                           borderTopRightRadius: SIZES.radius,
@@ -178,7 +177,7 @@ const SearchTutorsScreen = ({ route, navigation }) => {
                         }}
                       >
                         <View>
-                          <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                          <Text style={{ fontSize: 14, fontWeight: "bold" }}>
                             LBP {item.rate}
                           </Text>
                         </View>
@@ -256,27 +255,6 @@ const SearchTutorsScreen = ({ route, navigation }) => {
                           </View>
                         </View>
                       </View>
-                      {/* <View
-                        style={{
-                          position: "absolute",
-                          bottom: 0,
-                          right: 0,
-                          height: "40%",
-                          width: "80%",
-                          backgroundColor: COLORS.white,
-                          // borderBottomRightRadius: SIZES.radius * 2,
-                          borderTopLeftRadius: SIZES.radius * 2,
-                          alignItems: "center",
-                          justifyContent: "center",
-                          ...styles.shadow,
-                        }}
-                      >
-                        <View style={{ paddingLeft: 10 }}>
-                          <Text style={styles.text}>
-                            {item.course_description}
-                          </Text>
-                        </View>
-                      </View> */}
                     </LinearGradient>
                   </TouchableOpacity>
                 </View>

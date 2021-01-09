@@ -129,11 +129,10 @@ class UserController extends Controller
 
     }
 
-    public function getAll(Request $request)
+    public function tutors(Request $request)
     {
-        return response()->json('success', 200);
-        // $users = User::all()->where(type, "tutor");
-        // return respose()->json($users);
+        $users = User::where('type', "tutor")->get();
+        return response()->json($users);
     }
 
     public function getTutor(Request $request) {

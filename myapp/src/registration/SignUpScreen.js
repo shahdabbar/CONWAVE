@@ -17,6 +17,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 import { AuthContext } from "../AuthProvider";
+import { COLORS } from "../constants";
 
 const SignInScreen = ({ route, navigation }) => {
   const { width, height } = Dimensions.get("screen");
@@ -290,7 +291,7 @@ const SignInScreen = ({ route, navigation }) => {
                 }
               >
                 <LinearGradient
-                  colors={["#c6b893", "#d02860"]}
+                  colors={[COLORS.pink, COLORS.yellow2]}
                   style={styles.button}
                 >
                   <Text style={styles.textSign}>SIGN UP</Text>
@@ -408,7 +409,7 @@ const styles = StyleSheet.create({
     marginLeft: 30,
   },
   textSign: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
   },
 });

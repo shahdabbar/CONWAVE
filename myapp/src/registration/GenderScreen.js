@@ -12,6 +12,7 @@ import Svg, { Image, Circle, ClipPath } from "react-native-svg";
 import Animated, { block, Easing } from "react-native-reanimated";
 import * as Animatable from "react-native-animatable";
 import { LinearGradient } from "expo-linear-gradient";
+import { COLORS } from "../constants";
 
 function GenderScreen({ route, navigation }) {
   const { width, height } = Dimensions.get("screen");
@@ -63,7 +64,7 @@ function GenderScreen({ route, navigation }) {
               }}
             >
               <LinearGradient
-                colors={["#c6b893", "#d02860"]}
+                colors={[COLORS.pink, COLORS.yellow2]}
                 style={styles.button}
               >
                 <Text style={styles.textSign}>Male</Text>
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
   },
 
   textSign: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
   },
 });

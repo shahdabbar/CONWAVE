@@ -21,14 +21,18 @@ const ReviewsScreen = ({ route, navigation }) => {
   axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
 
   const [reviews, setReviews] = useState([]);
+  const [sumRatings, setsumRatings] = useState([]);
 
   useEffect(() => {
     // get all reviews
     axios
-      .get(`api/user/rating?tutor_id=${route.params.tutor_id}`)
+      .get(
+        `api/user/rating?tutor_id=${route.params.tutor_id}&course_id=${route.params.course_id}`
+      )
       .then((response) => {
-        setReviews(response.data);
-        console.log("reviews", response.data);
+        setReviews(response.data[0]);
+        setsumRatings(response.data[1]);
+        // console.log("reviews", response.data[1]);
       })
       .catch((error) => {
         console.log(error);
@@ -60,6 +64,16 @@ const ReviewsScreen = ({ route, navigation }) => {
     }
   }
 
+  let sum = 0;
+  sumRatings.map((e) => {
+    sum = sum + e["rating"] * e["count(rating)"];
+  });
+
+  console.log(sum / 5);
+  // let sumRatings =
+  //   state.a * 1 + state.b * 2 + state.c * 3 + state.d * 4 + state.e * 5;
+  // const avg = sumRatings ? sumRatings / 5 : 0;
+
   function flatlist() {
     return (
       <View>
@@ -78,7 +92,7 @@ const ReviewsScreen = ({ route, navigation }) => {
                 padding: 20,
               }}
             >
-              <Star score={4.7} style={styles.starStyle} />
+              <Star score={4.2} style={styles.starStyle} />
               <View>
                 <Text style={styles.name}>Very Good</Text>
               </View>

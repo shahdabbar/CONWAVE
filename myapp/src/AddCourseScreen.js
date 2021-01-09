@@ -529,7 +529,7 @@ const styles = StyleSheet.create({
     width: "30%",
     height: 70,
     position: "absolute",
-    bottom: 10,
+    bottom: 40,
     alignSelf: "flex-end",
 
     // borderRadius: 25,

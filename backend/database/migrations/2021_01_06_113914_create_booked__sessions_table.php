@@ -42,3 +42,5 @@ class CreateBookedSessionsTable extends Migration
         Schema::dropIfExists('booked__sessions');
     }
 }
+
+

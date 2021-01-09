@@ -28,12 +28,12 @@ import { LinearGradient } from "expo-linear-gradient";
 import { AuthContext } from "./AuthProvider";
 import DrawerContent from "./DrawerContent";
 import { deleteItemAsync } from "expo-secure-store";
-import { COLORS, SIZES, FONTS, icons } from "../src/constants";
+import { COLORS, SIZES, FONTS, icons } from "./constants";
 import { curveBasis } from "d3-shape";
 import Moment from "moment";
 import axios from "axios";
 
-const RoomChatScreen = ({ navigation }) => {
+const ChatRoomsScreen = ({ navigation }) => {
   const { user } = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState([]);
   const [chat, setChat] = useState([]);
@@ -93,8 +93,6 @@ const RoomChatScreen = ({ navigation }) => {
               return (
                 <TouchableOpacity
                   style={{
-                    borderBottomColor: "lightgray",
-                    borderBottomWidth: 1,
                     marginHorizontal: 20,
                   }}
                   onPress={() => {
@@ -113,7 +111,6 @@ const RoomChatScreen = ({ navigation }) => {
                     style={{
                       flexDirection: "row",
                       alignItems: "center",
-                      paddingHorizontal: 10,
                       marginVertical: 10,
                     }}
                   >
@@ -165,6 +162,14 @@ const RoomChatScreen = ({ navigation }) => {
                       </Text>
                     </View>
                   </View>
+                  <View
+                    style={{
+                      height: 0.5,
+                      width: "70%",
+                      left: 100,
+                      backgroundColor: "lightgray",
+                    }}
+                  />
                 </TouchableOpacity>
               );
             }}
@@ -175,7 +180,7 @@ const RoomChatScreen = ({ navigation }) => {
   );
 };
 
-export default RoomChatScreen;
+export default ChatRoomsScreen;
 
 const styles = StyleSheet.create({
   container: {

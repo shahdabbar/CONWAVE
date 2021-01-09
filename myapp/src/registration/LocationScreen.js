@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   textSign: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
   },
 

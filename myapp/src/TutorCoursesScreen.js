@@ -82,14 +82,14 @@ const TutorCourses = ({ navigation }) => {
               <View>
                 <View>
                   <LinearGradient
-                    colors={["#FFFFFF", "#FFFFFF"]}
+                    colors={[COLORS.beige, COLORS.beige]}
                     style={{
                       // borderRadius: SIZES.radius / 2,
                       borderTopRightRadius: SIZES.radius,
                       borderBottomLeftRadius: SIZES.radius,
-                      borderColor: "#ffd200",
-                      borderWidth: 2,
-                      elevation: 10,
+                      // borderColor: COLORS.beige,
+                      // borderWidth: 2,
+                      elevation: 1,
                       padding: 5,
                       marginHorizontal: 20,
                       height: 200,
@@ -149,7 +149,7 @@ const TutorCourses = ({ navigation }) => {
                         style={{
                           fontSize: 19,
                           fontWeight: "800",
-                          color: "blue",
+                          color: COLORS.pink,
                           alignSelf: "center",
                         }}
                       >
@@ -160,7 +160,7 @@ const TutorCourses = ({ navigation }) => {
                           name="arrow-right"
                           size={16}
                           style={{ left: 10 }}
-                          color="blue"
+                          color={COLORS.pink}
                         />
                       </View>
                     </TouchableOpacity>
@@ -181,7 +181,7 @@ const TutorCourses = ({ navigation }) => {
                       }}
                     >
                       <View>
-                        <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                        <Text style={{ fontSize: 14, fontWeight: "bold" }}>
                           LBP {item.rate}
                         </Text>
                       </View>
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: "white",
-    paddingTop: 35,
+    paddingTop: 50,
   },
   courses: { marginHorizontal: 20, marginVertical: 10, fontWeight: "100" },
   button: {
@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   infoText: {
-    fontSize: 27,
+    fontSize: 24,
     fontWeight: "bold",
   },
   text: {
@@ -245,48 +245,7 @@ const styles = StyleSheet.create({
   image: {
     borderBottomRightRadius: 65,
   },
-  action: {
-    flexDirection: "row",
-    height: 40,
-    // borderRadius: 15,
-    borderBottomRightRadius: SIZES.radius,
-    borderTopLeftRadius: SIZES.radius,
-    // borderTopRightRadius: SIZES.radius,
-    // borderBottomLeftRadius: SIZES.radius,
-    borderWidth: 1,
-    marginHorizontal: 10,
-    marginVertical: 5,
-    borderColor: "#ff01ff",
-    paddingHorizontal: 5,
-    backgroundColor: "#FFFFFF",
-    elevation: 2,
-  },
-  DarkOverlay: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    left: 0,
-    height: 270,
-    backgroundColor: "#000",
-    opacity: 0.5,
-    borderBottomRightRadius: 65,
-  },
-  searchBox: {
-    marginTop: 16,
-    backgroundColor: "#fff",
-    paddingLeft: 24,
-    padding: 12,
-    borderTopRightRadius: 40,
-    borderBottomRightRadius: 40,
-    width: "90%",
-    height: 60,
-    borderColor: "#ffd200",
-    borderWidth: 2,
-  },
-  searchContainer: {
-    paddingTop: 100,
-    paddingLeft: 16,
-  },
+
   userGreet: {
     fontSize: 35,
     fontWeight: "bold",
@@ -333,6 +292,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.5,
     shadowRadius: 3,
-    elevation: 10,
+    elevation: 3,
   },
 });

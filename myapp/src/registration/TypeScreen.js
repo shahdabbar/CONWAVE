@@ -12,7 +12,7 @@ import Svg, { Image, Circle, ClipPath } from "react-native-svg";
 import Animated, { block, Easing } from "react-native-reanimated";
 import * as Animatable from "react-native-animatable";
 import { LinearGradient } from "expo-linear-gradient";
-import { LearnMoreLinks } from "react-native/Libraries/NewAppScreen";
+import { COLORS } from "../constants";
 
 function TypeScreen({ navigation }) {
   const { width, height } = Dimensions.get("screen");
@@ -59,7 +59,7 @@ function TypeScreen({ navigation }) {
               }}
             >
               <LinearGradient
-                colors={["#c6b893", "#d02860"]}
+                colors={[COLORS.pink, COLORS.yellow2]}
                 style={styles.button}
               >
                 <Text style={styles.textSign}>I want to learn</Text>
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   },
 
   textSign: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
   },
 });

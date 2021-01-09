@@ -37,6 +37,7 @@ const TutorProfileScreen = ({ route, navigation }) => {
   const [tutor, setTutor] = useState([]);
   const [item, setItem] = useState(route.params.item);
   const [type, seType] = useState(route.params.type);
+  const [course_id, setcourse_id] = useState(route.params.course_id);
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
@@ -128,14 +129,14 @@ const TutorProfileScreen = ({ route, navigation }) => {
               </View>
             </View>
             <View style={styles.statsContainer}>
-              <View style={styles.statsBox}>
+              <TouchableOpacity style={styles.statsBox}>
                 <Text style={{ ...styles.text, fontSize: 24 }}>
                   {tutor[0].profile.hours_tutored}
                 </Text>
                 <Text style={{ ...styles.text, ...styles.subText }}>
                   Tutoring Courses
                 </Text>
-              </View>
+              </TouchableOpacity>
               <View
                 style={{
                   ...styles.statsBox,
@@ -156,11 +157,12 @@ const TutorProfileScreen = ({ route, navigation }) => {
                 onPress={() =>
                   navigation.navigate("Reviews", {
                     tutor_id: tutor[0].id,
+                    course_id: course_id,
                   })
                 }
               >
                 <LinearGradient
-                  colors={[COLORS.beige, COLORS.rose]}
+                  colors={[COLORS.beige, COLORS.beige]}
                   style={{
                     borderBottomRightRadius: SIZES.radius,
                     borderTopLeftRadius: SIZES.radius,
@@ -176,48 +178,49 @@ const TutorProfileScreen = ({ route, navigation }) => {
                       style={{
                         fontSize: 20,
                         // fontWeight: "bold",
-                        color: "blue",
+                        color: COLORS.black2,
                         // textDecorationLine: "underline",
                         textDecorationColor: "blue",
                       }}
                     >
                       Reviews by students
                     </Text>
+                    <Text style={{ left: 1, color: COLORS.gray }}>
+                      Based on 3 ratings
+                    </Text>
                   </View>
                 </LinearGradient>
               </TouchableOpacity>
 
               <LinearGradient
-                colors={[COLORS.beige, COLORS.rose]}
+                colors={[COLORS.beige, COLORS.beige]}
                 style={{
                   // borderRadius: SIZES.radius / 2,
                   borderTopRightRadius: SIZES.radius,
                   borderBottomLeftRadius: SIZES.radius,
                   // borderWidth: 2,
-                  borderColor: COLORS.yellow,
+                  // borderColor: COLORS.beige,
                   elevation: 5,
                   padding: 10,
                   marginBottom: 10,
                 }}
               >
                 <LinearGradient
-                  colors={[COLORS.yellow, COLORS.primary]}
+                  colors={[COLORS.yellow2, COLORS.primary]}
                   style={{
                     position: "absolute",
                     top: 0,
                     right: 0,
                     height: 50,
                     width: SIZES.width * 0.3,
-                    // backgroundColor: COLORS.yellow,
                     borderTopRightRadius: SIZES.radius,
                     borderBottomLeftRadius: SIZES.radius,
                     alignItems: "center",
                     justifyContent: "center",
-                    // ...styles.shadow,
                   }}
                 >
                   <View>
-                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                    <Text style={{ fontSize: 14, fontWeight: "bold" }}>
                       LBP {item.rate}
                     </Text>
                   </View>
@@ -256,7 +259,6 @@ const TutorProfileScreen = ({ route, navigation }) => {
 
                       <Text
                         style={{
-                          ...styles.infoText,
                           fontSize: 20,
                           textAlign: "center",
                         }}
@@ -280,7 +282,6 @@ const TutorProfileScreen = ({ route, navigation }) => {
 
                       <Text
                         style={{
-                          ...styles.infoText,
                           fontSize: 20,
                           textAlign: "center",
                         }}
@@ -526,7 +527,7 @@ const styles = StyleSheet.create({
   //     alignSelf: "flex-end",
   //   },
   infoText: {
-    fontSize: 27,
+    fontSize: 24,
     fontWeight: "bold",
   },
   text: {

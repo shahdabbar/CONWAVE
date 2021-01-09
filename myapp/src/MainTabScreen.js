@@ -26,7 +26,7 @@ import HomeScreen from "./HomeScreen";
 import DetailsScreen from "./DetailsScreen";
 import ProfileScreen from "./ProfileScreen";
 import ChatScreen from "./ChatScreen";
-import RoomChatScreen from "./RoomChatScreen";
+import ChatRoomsScreen from "./ChatRoomsScreen";
 import EditProfileScreen from "./EditProfileScreen";
 import CoursesScreen from "./CoursesScreen";
 import CompleteProfileScreen from "./CompleteProfileScreen";
@@ -46,6 +46,7 @@ import VideosScreen from "./VideosScreen";
 import SetAddressScreen from "./SetAddressScreen";
 import TutorCoursesScreen from "./TutorCoursesScreen";
 import ScheduleScreen from "./ScheduleScreen";
+import ViewSessionScreen from "./ViewSessionScreen";
 
 import axios from "axios";
 import ReviewsScreen from "./ReviewsScreen";
@@ -57,6 +58,7 @@ const ChatStack = createStackNavigator();
 const SessionStack = createStackNavigator();
 const CoursesStack = createStackNavigator();
 const ScheduleStack = createStackNavigator();
+const StudentSessionsStack = createStackNavigator();
 
 // const ExploreStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -140,7 +142,8 @@ const getTabBarVisibility = (route) => {
     routeName === "SetRate" ||
     routeName === "Address" ||
     routeName === "Chat" ||
-    routeName === "Reviews"
+    routeName === "Reviews" ||
+    routeName === "CourseDescription"
   ) {
     return false;
   }
@@ -180,6 +183,32 @@ const MainTabScreen = () => {
         },
       }}
     >
+      <Tab.Screen
+        name="Home"
+        component={HomeStackScreen}
+        options={({ route }) => {
+          return {
+            tabBarVisible: getTabBarVisibility(route),
+            tabBarLabel: "Home",
+            tabBarOptions: {
+              activeTintColor: COLORS.black2,
+              inactiveTintColor: COLORS.secondary,
+            },
+            tabBarIcon: ({ focused }) => (
+              <Image
+                source={icons.home}
+                resizeMode="contain"
+                style={{
+                  width: 20,
+                  height: 20,
+                  tintColor: focused ? COLORS.black2 : COLORS.secondary,
+                }}
+              />
+            ),
+            tabBarButton: (props) => <TabBarCustomButton {...props} />,
+          };
+        }}
+      />
       {userInfo.type === "tutor" ? (
         <>
           <Tab.Screen
@@ -189,7 +218,6 @@ const MainTabScreen = () => {
               return {
                 tabBarVisible: getTabBarVisibility(route),
                 tabBarLabel: "Sessions",
-                tabBarBadgeStyle: { colors: COLORS.black2 },
                 tabBarIcon: ({ focused }) => (
                   <Image
                     source={icons.session}
@@ -212,7 +240,7 @@ const MainTabScreen = () => {
             options={({ route }) => {
               return {
                 tabBarVisible: getTabBarVisibility(route),
-                tabBarLabel: "Sessions",
+                tabBarLabel: "Schedule",
                 tabBarIcon: ({ focused }) => (
                   <Image
                     source={icons.schedule}
@@ -235,7 +263,7 @@ const MainTabScreen = () => {
             options={({ route }) => {
               return {
                 tabBarVisible: getTabBarVisibility(route),
-                tabBarLabel: "Sessions",
+                tabBarLabel: "Courses",
                 tabBarIcon: ({ focused }) => (
                   <Image
                     source={icons.courses}
@@ -255,31 +283,8 @@ const MainTabScreen = () => {
       ) : (
         <>
           <Tab.Screen
-            name="Home"
-            component={HomeStackScreen}
-            options={({ route }) => {
-              return {
-                tabBarVisible: getTabBarVisibility(route),
-                tabBarLabel: "Home",
-                tabBarIcon: ({ focused }) => (
-                  <Image
-                    source={icons.home}
-                    resizeMode="contain"
-                    style={{
-                      width: 20,
-                      height: 20,
-                      tintColor: focused ? COLORS.black2 : COLORS.secondary,
-                    }}
-                  />
-                ),
-                tabBarButton: (props) => <TabBarCustomButton {...props} />,
-              };
-            }}
-          />
-
-          <Tab.Screen
             name="StudentSessions"
-            component={StudentSessionsScreen}
+            component={StudentSessionsStackScreen}
             options={({ route }) => {
               return {
                 tabBarVisible: getTabBarVisibility(route),
@@ -508,7 +513,7 @@ const HomeStackScreen = ({ navigation }) => (
             color="gray"
             style={{ marginLeft: 20 }}
             onPress={() => {
-              navigation.navigate("SearchTutor");
+              navigation.navigate("TutorProfile");
             }}
           />
         ),
@@ -663,6 +668,55 @@ const TutorCoursesStackScreen = ({ navigation }) => (
   </CoursesStack.Navigator>
 );
 
+const StudentSessionsStackScreen = ({ navigation }) => (
+  <StudentSessionsStack.Navigator
+    screenOptions={{
+      headerShown: false,
+      headerStyle: {
+        backgroundColor: "#fff",
+      },
+      headerTintColor: "#000",
+      headerTitleStyle: {
+        fontWeight: "bold",
+      },
+    }}
+  >
+    <StudentSessionsStack.Screen
+      name="StudentsSessions"
+      component={StudentSessionsScreen}
+      options={{
+        headerLeft: () => (
+          <Icon.Button
+            name="ios-menu"
+            size={30}
+            backgroundColor="#fff"
+            color="black"
+            onPress={() => navigation.openDrawer()}
+          ></Icon.Button>
+        ),
+      }}
+    />
+
+    <StudentSessionsStack.Screen
+      name="ViewSession"
+      component={ViewSessionScreen}
+      options={{
+        headerLeft: () => (
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color="gray"
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.navigate("StudentsSessions");
+            }}
+          />
+        ),
+      }}
+    />
+  </StudentSessionsStack.Navigator>
+);
+
 const DetailsStackScreen = ({ navigation }) => (
   <DetailsStack.Navigator
     screenOptions={{
@@ -708,7 +762,7 @@ const ScheduleStackScreen = ({ navigation }) => (
     }}
   >
     <ScheduleStack.Screen
-      name="My Schedule"
+      name="MySchedule"
       component={ScheduleScreen}
       options={{
         headerLeft: () => (
@@ -719,6 +773,24 @@ const ScheduleStackScreen = ({ navigation }) => (
             color="black"
             onPress={() => navigation.openDrawer()}
           ></Icon.Button>
+        ),
+      }}
+    />
+
+    <ScheduleStack.Screen
+      name="ViewSession"
+      component={ScheduleScreen}
+      options={{
+        headerLeft: () => (
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color="gray"
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.navigate("MySchedule");
+            }}
+          />
         ),
       }}
     />
@@ -783,7 +855,7 @@ const ProfileStackScreen = ({ navigation }) => {
               color="gray"
               style={{ marginLeft: 20 }}
               onPress={() => {
-                navigation.navigate("ProfileScreen");
+                navigation.navigate("Profile");
               }}
             />
           ),
@@ -855,7 +927,7 @@ const ChatStackScreen = ({ navigation }) => (
   >
     <ChatStack.Screen
       name="Chats"
-      component={RoomChatScreen}
+      component={ChatRoomsScreen}
       options={{
         headerShown: true,
         headerTitleStyle: {
@@ -881,15 +953,23 @@ const ChatStackScreen = ({ navigation }) => (
       name="Chat"
       component={ChatScreen}
       options={{
-        headerShown: false,
+        headerShown: true,
+        title: "Chat",
+        headerTitleStyle: {
+          color: "gray",
+          fontWeight: "bold",
+          fontSize: 25,
+        },
         headerLeft: () => (
-          <Icon.Button
-            name="ios-menu"
-            size={30}
-            backgroundColor="#fff"
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
             color="gray"
-            onPress={() => navigation.openDrawer()}
-          ></Icon.Button>
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.navigate("Chats");
+            }}
+          />
         ),
       }}
     />

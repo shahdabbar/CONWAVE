@@ -44,29 +44,32 @@ const ScheduleScreen = ({ route, navigation }) => {
     axios
       .get(`api/user/sessions?tutor_id=${user.id}`)
       .then((response) => {
-        setSessions(response.data);
+        // setSessions(response.data);
+        setUpcoming(
+          response.data.data
+            ? response.data.data.filter(
+                (e) => e.date >= Moment().format("YYYY-MM-DD")
+              )
+            : null
+        );
+
+        setPrevious(
+          response.data.data
+            ? response.data.data.filter(
+                (e) => e.date < Moment().format("YYYY-MM-DD")
+              )
+            : null
+        );
       })
       .catch((error) => {
         console.log(error);
       });
-
-    setUpcoming(
-      sessions.data
-        ? sessions.data.filter((e) => e.date >= Moment().format("YYYY-MM-DD"))
-        : null
-    );
-
-    setPrevious(
-      sessions.data
-        ? sessions.data.filter((e) => e.date < Moment().format("YYYY-MM-DD"))
-        : null
-    );
-  }, [sessions]);
+  }, [show]);
 
   const Upcoming = () => {
     return (
       <View>
-        {sessions ? (
+        {upcoming ? (
           <FlatList
             data={upcoming}
             keyExtractor={(item) => `${item.id}`}
@@ -173,6 +176,9 @@ const ScheduleScreen = ({ route, navigation }) => {
                         alignItems: "center",
                         justifyContent: "center",
                       }}
+                      onPress={() => {
+                        navigation.navigate("ViewSession");
+                      }}
                     >
                       <View>
                         <FontAwesome5
@@ -206,7 +212,7 @@ const ScheduleScreen = ({ route, navigation }) => {
   const Previous = () => {
     return (
       <View>
-        {sessions ? (
+        {previous ? (
           <FlatList
             data={previous}
             keyExtractor={(item) => `${item.id}`}
@@ -414,8 +420,8 @@ const ScheduleScreen = ({ route, navigation }) => {
         </TouchableOpacity>
       </View>
 
-      <View style={{ paddingVertical: 10, marginTop: 10 }}>
-        {show ? <>{Upcoming()}</> : <>{Previous()}</>}
+      <View style={{ paddingVertical: 10, marginTop: 10, marginBottom: 30 }}>
+        <FlatList ListHeaderComponent={show ? Upcoming() : Previous()} />
       </View>
     </View>
   );

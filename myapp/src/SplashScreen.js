@@ -241,7 +241,7 @@ class MyApp extends Component {
               <Circle r={height + 50} cx={width / 2} />
             </ClipPath>
             <Image
-              href={require("../assets/images/dark.jpg")}
+              href={require("../assets/images/bg43.jpg")}
               width={width}
               height={height + 50}
               preserveAspectRatio="xMidYMid slice"

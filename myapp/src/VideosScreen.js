@@ -58,7 +58,7 @@ const VideosScreen = ({ route, navigation }) => {
     axios
       .post(
         "api/user/video",
-        video
+        formData
         // , {
         //   headers: {
         //     "Content-Type": "multipart/form-data",

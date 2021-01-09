@@ -15,6 +15,7 @@ import {
   Modal,
   Animated,
   Easing,
+  ColorPropType,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import * as Animatable from "react-native-animatable";
@@ -46,7 +47,10 @@ const StudentSessionsScreen = ({ route, navigation }) => {
   const [addComment, setAddComment] = useState(false);
   const [comment, setComment] = useState("");
   const [modal, setModal] = useState(false);
-  const [id, setId] = useState(null);
+  const [id, setId] = useState({
+    tutor_id: "",
+    course_id: "",
+  });
   const [state, setState] = useState({
     rating: 0,
     animation: new Animated.Value(1),
@@ -57,7 +61,6 @@ const StudentSessionsScreen = ({ route, navigation }) => {
     axios
       .get(`api/user/sessions?user_id=${user.id}`)
       .then((response) => {
-        console.log(response.data);
         // setSessions(response.data);
         setUpcoming(
           response.data.data
@@ -78,7 +81,7 @@ const StudentSessionsScreen = ({ route, navigation }) => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [show]);
 
   let stars = [];
   for (let x = 1; x <= 5; x++) {
@@ -131,9 +134,9 @@ const StudentSessionsScreen = ({ route, navigation }) => {
       comment: comment,
       rating: state.rating,
       user_id: user.id,
-      tutor_id: id,
+      tutor_id: id.tutor_id,
+      course_id: id.course_id,
     };
-    console.log(data);
     axios
       .post("api/user/rating", data)
       .then((response) => {
@@ -169,17 +172,6 @@ const StudentSessionsScreen = ({ route, navigation }) => {
                     marginVertical: SIZES.padding,
                   }}
                 >
-                  <View style={{ position: "absolute", top: 5, right: 10 }}>
-                    <MaterialIcon
-                      name="star-rate"
-                      size={24}
-                      color={COLORS.yellow}
-                      onPress={() => {
-                        setId(item.tutor_id);
-                        setModal(true);
-                      }}
-                    />
-                  </View>
                   <View style={{ paddingHorizontal: 20 }}>
                     <View
                       style={{
@@ -263,6 +255,12 @@ const StudentSessionsScreen = ({ route, navigation }) => {
                         flexDirection: "row",
                         alignItems: "center",
                         justifyContent: "center",
+                      }}
+                      onPress={() => {
+                        navigation.navigate("ViewSession", {
+                          type: "upcoming",
+                          data: item,
+                        });
                       }}
                     >
                       <View>
@@ -320,14 +318,30 @@ const StudentSessionsScreen = ({ route, navigation }) => {
                   }}
                 >
                   <View style={{ position: "absolute", top: 5, right: 10 }}>
-                    <MaterialIcon
-                      name="star-rate"
-                      size={24}
-                      color={COLORS.yellow}
-                      onPress={() => {
-                        setModal(true);
-                      }}
-                    />
+                    {console.log("hello", item.review)}
+                    {item.review.lenght < 1 ? (
+                      <Text
+                        style={{
+                          color: COLORS.yellow,
+                          right: 5,
+                          fontSize: 16,
+                        }}
+                        onPress={() => {
+                          setId({
+                            ...id,
+                            tutor_id: item.tutor_id,
+                            course_id: item.course_id,
+                          });
+                          setModal(true);
+                        }}
+                      >
+                        Rate
+                      </Text>
+                    ) : (
+                      <View>
+                        <Text>{item.review.rating}</Text>
+                      </View>
+                    )}
                   </View>
                   <View style={{ paddingHorizontal: 20 }}>
                     <View
@@ -412,6 +426,9 @@ const StudentSessionsScreen = ({ route, navigation }) => {
                         flexDirection: "row",
                         alignItems: "center",
                         justifyContent: "center",
+                      }}
+                      onPress={() => {
+                        navigation.navigate("ViewSession");
                       }}
                     >
                       <View>

@@ -25,6 +25,9 @@ class VideoController extends Controller
         Video::create($image);
         return response()->json('success', 200);
     }
+
+
+   
 }
 
 

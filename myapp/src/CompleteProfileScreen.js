@@ -25,6 +25,7 @@ import {
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import PaymentView from "./PaymentView";
 import axios from "axios";
+import { FlatList } from "react-native-gesture-handler";
 
 const CompleteProfileSCreen = ({ navigation }) => {
   const { user } = useContext(AuthContext);
@@ -102,404 +103,381 @@ const CompleteProfileSCreen = ({ navigation }) => {
     }
   };
 
-  return (
-    <View style={styles.container}>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          left: 20,
-        }}
-      >
-        <View>
-          <Ionicon
-            name="ios-menu"
-            size={30}
-            backgroundColor="#fff"
-            color="gray"
-            onPress={() => navigation.openDrawer()}
-          />
+  function flatList() {
+    return (
+      <View style={{ backgroundColor: "pink" }}>
+        <View
+          style={{
+            marginTop: 10,
+            paddingTop: 20,
+            marginBottom: 70,
+            borderTopLeftRadius: 70,
+            backgroundColor: COLORS.white,
+          }}
+        >
+          <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
+            <TouchableOpacity
+              style={styles.wrapper}
+              onPress={() => {
+                navigation.navigate("EditProfile");
+              }}
+            >
+              <View style={styles.warpper_content}>
+                <Text style={styles.text}>Complete your profile</Text>
+                <Image
+                  source={icons.right}
+                  resizeMode="contain"
+                  style={styles.image}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
+            <TouchableOpacity
+              style={styles.wrapper}
+              onPress={() => {
+                navigation.navigate("Courses");
+              }}
+            >
+              <View style={styles.warpper_content}>
+                <Text style={styles.text}>Add Course Offer</Text>
+                <Image
+                  source={icons.right}
+                  resizeMode="contain"
+                  style={styles.image}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
+            <TouchableOpacity
+              style={styles.wrapper}
+              onPress={() => {
+                navigation.navigate("Availabilities");
+              }}
+            >
+              <View style={styles.warpper_content}>
+                <Text style={styles.text}>Add your availability</Text>
+                <Image
+                  source={icons.right}
+                  resizeMode="contain"
+                  style={styles.image}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
+            <TouchableOpacity
+              style={styles.wrapper}
+              onPress={() => {
+                setModal({ ...modal, meetingTypeModal: true });
+              }}
+            >
+              <View style={styles.warpper_content}>
+                <Text style={styles.text}>Prefered meeting type</Text>
+                <Image
+                  source={icons.right}
+                  resizeMode="contain"
+                  style={styles.image}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
+            <TouchableOpacity
+              style={styles.wrapper}
+              onPress={() => {
+                navigation.navigate("Address");
+              }}
+            >
+              <View style={styles.warpper_content}>
+                <Text style={styles.text}>Default meeting address</Text>
+                <Image
+                  source={icons.right}
+                  resizeMode="contain"
+                  style={styles.image}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
+            <TouchableOpacity style={styles.wrapper} onPress={() => {}}>
+              <View style={styles.warpper_content}>
+                <Text style={styles.text}>Upload your transcripts/CV</Text>
+                <Image
+                  source={icons.right}
+                  resizeMode="contain"
+                  style={styles.image}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
+            <TouchableOpacity
+              style={styles.wrapper}
+              onPress={() => {
+                setModal({
+                  ...modal,
+                  paymentModal: !modal.paymentModal,
+                });
+              }}
+            >
+              <View style={styles.warpper_content}>
+                <Text style={styles.text}>Add your payment method</Text>
+                <Image
+                  source={icons.right}
+                  resizeMode="contain"
+                  style={styles.image}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
       <View>
-        <LinearGradient colors={[COLORS.beige, COLORS.rose, COLORS.pink]}>
-          <SafeAreaView>
-            <Modal
-              visible={modal.paymentModal}
-              // transparent={true}
-              animationType="slide"
+        <Modal
+          visible={modal.paymentModal}
+          transparent={true}
+          animationType="slide"
+        >
+          <View>
+            <View
+              style={{
+                position: "absolute",
+                marginHorizontal: 10,
+                marginVertical: 10,
+                right: 2,
+              }}
             >
-              <View>
-                <View
-                  style={{
-                    position: "absolute",
-                    marginHorizontal: 10,
-                    marginVertical: 10,
-                    right: 2,
+              <FontAwesome
+                name="close"
+                size={24}
+                color="black"
+                onPress={() => {
+                  setModal({ ...modal, paymentModal: false });
+                }}
+              />
+            </View>
+            <View>
+              <PaymentView
+                onCheckStatus={onCheckStatus}
+                product={cartInfo.description}
+                amount={cartInfo.amount}
+              />
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          visible={modal.meetingTypeModal}
+          transparent={true}
+          animationType="slide"
+        >
+          <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
+            <View
+              style={{
+                backgroundColor: "#FFFFFF",
+                marginTop: "60%",
+                marginHorizontal: 10,
+                paddingTop: 20,
+                paddingLeft: 20,
+                paddingRight: 20,
+                borderRadius: 16,
+              }}
+            >
+              <View
+                style={{
+                  position: "absolute",
+                  marginHorizontal: 10,
+                  marginVertical: 5,
+                  right: 2,
+                }}
+              >
+                <FontAwesome
+                  name="close"
+                  size={24}
+                  color="gray"
+                  onPress={() => {
+                    setModal({ ...modal, meetingTypeModal: false });
                   }}
-                >
-                  <FontAwesome
-                    name="close"
-                    size={24}
-                    color="black"
-                    onPress={() => {
-                      setModal({ ...modal, paymentModal: false });
-                    }}
-                  />
-                </View>
-                <View>
-                  <PaymentView
-                    onCheckStatus={onCheckStatus}
-                    product={cartInfo.description}
-                    amount={cartInfo.amount}
-                  />
-                </View>
+                />
               </View>
-            </Modal>
-            <Modal
-              visible={modal.meetingTypeModal}
-              transparent={true}
-              animationType="slide"
-            >
-              <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
-                <View
-                  style={{
-                    backgroundColor: "#FFFFFF",
-                    marginTop: "60%",
-                    marginHorizontal: 10,
-                    paddingTop: 20,
-                    paddingLeft: 20,
-                    paddingRight: 20,
-                    borderRadius: 16,
-                  }}
-                >
-                  <View
+              <View>
+                <View>
+                  <TouchableOpacity
                     style={{
-                      position: "absolute",
-                      marginHorizontal: 10,
-                      marginVertical: 5,
-                      right: 2,
+                      marginBottom: 10,
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                    onPress={() => {
+                      setMeetingType({
+                        ...meetingType,
+                        inperson: !meetingType.inperson,
+                      });
                     }}
                   >
-                    <FontAwesome
-                      name="close"
-                      size={24}
-                      color="gray"
-                      onPress={() => {
-                        setModal({ ...modal, meetingTypeModal: false });
-                      }}
-                    />
-                  </View>
-                  <View>
-                    <View>
-                      <TouchableOpacity
-                        style={{
-                          marginBottom: 10,
-                          flexDirection: "row",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                        onPress={() => {
-                          setMeetingType({
-                            ...meetingType,
-                            inperson: !meetingType.inperson,
-                          });
-                        }}
-                      >
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <View>
-                            <Feather
-                              name="users"
-                              size={30}
-                              color={COLORS.black}
-                            />
-                          </View>
-                          <View style={{ left: 10 }}>
-                            <Text style={styles.text}>In-Person Session</Text>
-                            <Text style={styles.subtext}>
-                              Meet your student face to face
-                            </Text>
-                          </View>
-                        </View>
-                        {meetingType.inperson ? (
-                          <View>
-                            <Ionicon
-                              name="checkmark-sharp"
-                              size={40}
-                              color={COLORS.black}
-                            />
-                          </View>
-                        ) : null}
-                      </TouchableOpacity>
-                      <View
-                        style={{
-                          height: 0.5,
-                          width: "100%",
-                          backgroundColor: "#C8C8C8",
-                        }}
-                      />
-                      <TouchableOpacity
-                        style={{
-                          marginBottom: 10,
-                          flexDirection: "row",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                        onPress={() => {
-                          setMeetingType({
-                            ...meetingType,
-                            online: !meetingType.online,
-                          });
-                        }}
-                      >
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            alignItems: "center",
-                          }}
-                        >
-                          <View>
-                            <FontAwesome
-                              name="tv"
-                              size={25}
-                              color={COLORS.black}
-                            />
-                          </View>
-                          <View style={{ left: 10 }}>
-                            <Text style={styles.text}>Online Session</Text>
-                            <Text style={styles.subtext}>
-                              Have a video call session
-                            </Text>
-                          </View>
-                        </View>
-                        {meetingType.online ? (
-                          <View>
-                            <Ionicon
-                              name="checkmark-sharp"
-                              size={40}
-                              color={COLORS.black}
-                            />
-                          </View>
-                        ) : null}
-                      </TouchableOpacity>
-                    </View>
                     <View
                       style={{
                         flexDirection: "row",
-                        justifyContent: "center",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <View>
+                        <Feather name="users" size={30} color={COLORS.black} />
+                      </View>
+                      <View style={{ left: 10 }}>
+                        <Text style={styles.text}>In-Person Session</Text>
+                        <Text style={styles.subtext}>
+                          Meet your student face to face
+                        </Text>
+                      </View>
+                    </View>
+                    {meetingType.inperson ? (
+                      <View>
+                        <Ionicon
+                          name="checkmark-sharp"
+                          size={40}
+                          color={COLORS.black}
+                        />
+                      </View>
+                    ) : null}
+                  </TouchableOpacity>
+                  <View
+                    style={{
+                      height: 0.5,
+                      width: "100%",
+                      backgroundColor: "#C8C8C8",
+                    }}
+                  />
+                  <TouchableOpacity
+                    style={{
+                      marginBottom: 10,
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                    onPress={() => {
+                      setMeetingType({
+                        ...meetingType,
+                        online: !meetingType.online,
+                      });
+                    }}
+                  >
+                    <View
+                      style={{
+                        flexDirection: "row",
                         alignItems: "center",
                       }}
                     >
-                      <View style={styles.button}>
-                        <TouchableOpacity
-                          style={styles.signIn}
-                          onPress={() => {
-                            setModal({ ...modal, meetingTypeModal: false });
-                            save();
-                          }}
-                        >
-                          <LinearGradient
-                            colors={["#ff01ff", "#d0d610"]}
-                            style={styles.signIn}
-                          >
-                            <Text
-                              style={[styles.textSign, { color: "#000000" }]}
-                            >
-                              Save
-                            </Text>
-                          </LinearGradient>
-                        </TouchableOpacity>
+                      <View>
+                        <FontAwesome name="tv" size={25} color={COLORS.black} />
                       </View>
-                      <View style={styles.button}>
-                        <TouchableOpacity
-                          style={styles.signIn}
-                          onPress={() => {
-                            setModal({ ...modal, meetingTypeModal: false });
-                          }}
-                        >
-                          <LinearGradient
-                            colors={["#d0d610", "#ff01ff"]}
-                            style={styles.signIn}
-                          >
-                            <Text
-                              style={[styles.textSign, { color: "#000000" }]}
-                            >
-                              Cancel
-                            </Text>
-                          </LinearGradient>
-                        </TouchableOpacity>
+                      <View style={{ left: 10 }}>
+                        <Text style={styles.text}>Online Session</Text>
+                        <Text style={styles.subtext}>
+                          Have a video call session
+                        </Text>
                       </View>
                     </View>
-                  </View>
+                    {meetingType.online ? (
+                      <View>
+                        <Ionicon
+                          name="checkmark-sharp"
+                          size={40}
+                          color={COLORS.black}
+                        />
+                      </View>
+                    ) : null}
+                  </TouchableOpacity>
                 </View>
-              </View>
-            </Modal>
-            <ScrollView>
-              <View>
-                <View>
-                  <Card>
-                    {/* <View style={styles.titleBar}>
-                      <Feather
-                        name="menu"
-                        size={24}
-                        color="gray"
-                        style={{ marginLeft: 16 }}
-                        onPress={() => navigation.openDrawer()}
-                      />
-                      <Text style={styles.text}>PROFILE SETTINGS</Text>
-                      <Ionicon
-                        name="md-ellipsis-vertical"
-                        size={30}
-                        color="gray"
-                        style={{ marginRight: 16 }}
-                        onPress={() => {
-                          setModalOpen({ ...modalOpen, modal3: true });
-                        }}
-                      />
-                    </View> */}
-                    <Text style={styles.name}>Hey Miel!</Text>
-                    <Text style={styles.paragraph}>
-                      You're a few steps away from becoming an AWESOME tutor.
-                    </Text>
-                  </Card>
-                </View>
-                <View style={styles.warning}>
-                  <Text style={styles.paragraph}>
-                    You Need to fill out all info to be able to continue
-                  </Text>
-                </View>
-                <View style={{ marginTop: 10, marginBottom: 30 }}>
-                  <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <View style={styles.button}>
                     <TouchableOpacity
-                      style={styles.wrapper}
+                      style={styles.signIn}
                       onPress={() => {
-                        navigation.navigate("EditProfile");
+                        setModal({ ...modal, meetingTypeModal: false });
+                        save();
                       }}
                     >
-                      <View style={styles.warpper_content}>
-                        <Text style={styles.text}>Complete your profile</Text>
-                        <Image
-                          source={icons.right}
-                          resizeMode="contain"
-                          style={styles.image}
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
-                    <TouchableOpacity
-                      style={styles.wrapper}
-                      onPress={() => {
-                        navigation.navigate("Courses");
-                      }}
-                    >
-                      <View style={styles.warpper_content}>
-                        <Text style={styles.text}>Add Course Offer</Text>
-                        <Image
-                          source={icons.right}
-                          resizeMode="contain"
-                          style={styles.image}
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
-                    <TouchableOpacity
-                      style={styles.wrapper}
-                      onPress={() => {
-                        navigation.navigate("Availabilities");
-                      }}
-                    >
-                      <View style={styles.warpper_content}>
-                        <Text style={styles.text}>Add your availability</Text>
-                        <Image
-                          source={icons.right}
-                          resizeMode="contain"
-                          style={styles.image}
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
-                    <TouchableOpacity
-                      style={styles.wrapper}
-                      onPress={() => {
-                        setModal({ ...modal, meetingTypeModal: true });
-                      }}
-                    >
-                      <View style={styles.warpper_content}>
-                        <Text style={styles.text}>Prefered meeting type</Text>
-                        <Image
-                          source={icons.right}
-                          resizeMode="contain"
-                          style={styles.image}
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
-                    <TouchableOpacity
-                      style={styles.wrapper}
-                      onPress={() => {
-                        navigation.navigate("Address");
-                      }}
-                    >
-                      <View style={styles.warpper_content}>
-                        <Text style={styles.text}>Default meeting address</Text>
-                        <Image
-                          source={icons.right}
-                          resizeMode="contain"
-                          style={styles.image}
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
-                    <TouchableOpacity style={styles.wrapper} onPress={() => {}}>
-                      <View style={styles.warpper_content}>
-                        <Text style={styles.text}>
-                          Upload your transcripts/CV
+                      <LinearGradient
+                        colors={["#ff01ff", "#d0d610"]}
+                        style={styles.signIn}
+                      >
+                        <Text style={[styles.textSign, { color: "#000000" }]}>
+                          Save
                         </Text>
-                        <Image
-                          source={icons.right}
-                          resizeMode="contain"
-                          style={styles.image}
-                        />
-                      </View>
+                      </LinearGradient>
                     </TouchableOpacity>
                   </View>
-                  <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
+                  <View style={styles.button}>
                     <TouchableOpacity
-                      style={styles.wrapper}
+                      style={styles.signIn}
                       onPress={() => {
-                        setModal({
-                          ...modal,
-                          paymentModal: !modal.paymentModal,
-                        });
+                        setModal({ ...modal, meetingTypeModal: false });
                       }}
                     >
-                      <View style={styles.warpper_content}>
-                        <Text style={styles.text}>Add your payment method</Text>
-                        <Image
-                          source={icons.right}
-                          resizeMode="contain"
-                          style={styles.image}
-                        />
-                      </View>
+                      <LinearGradient
+                        colors={["#d0d610", "#ff01ff"]}
+                        style={styles.signIn}
+                      >
+                        <Text style={[styles.textSign, { color: "#000000" }]}>
+                          Cancel
+                        </Text>
+                      </LinearGradient>
                     </TouchableOpacity>
                   </View>
                 </View>
               </View>
-            </ScrollView>
-          </SafeAreaView>
-        </LinearGradient>
+            </View>
+          </View>
+        </Modal>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            left: 20,
+          }}
+        >
+          <View>
+            <Ionicon
+              name="ios-menu"
+              size={30}
+              backgroundColor="#fff"
+              color="gray"
+              onPress={() => navigation.openDrawer()}
+            />
+          </View>
+        </View>
+        <View>
+          <Text style={styles.name}>Hey Miel!</Text>
+          <Text style={styles.paragraph}>
+            You're a few steps away from becoming an AWESOME tutor.
+          </Text>
+        </View>
+        {/* <View style={styles.warning}>
+          <Text style={styles.paragraph}>
+            You Need to fill out all info to be able to continue
+          </Text>
+        </View> */}
       </View>
+      <LinearGradient colors={[COLORS.white, COLORS.white]}>
+        <View>
+          <FlatList ListHeaderComponent={flatList()} />
+        </View>
+      </LinearGradient>
     </View>
   );
 };
@@ -509,8 +487,8 @@ export default CompleteProfileSCreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
-    paddingTop: 50,
+    backgroundColor: "pink",
+    paddingTop: 40,
   },
   paragraph: {
     margin: 16,
@@ -523,7 +501,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     height: 70,
     marginHorizontal: 5,
-    borderRadius: 35,
+    borderRadius: 40,
     alignItems: "center",
     justifyContent: "center",
     marginVertical: 5,
@@ -557,14 +535,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   warning: {
-    backgroundColor: "#ffd200",
+    // backgroundColor: "#ffd200",
     height: 50,
     alignItems: "center",
     justifyContent: "center",
   },
   wrapper: {
-    backgroundColor: "#f5f5f5",
-    borderRadius: SIZES.radius / 2,
+    backgroundColor: "#FFFFFF",
+    borderWidth: 2,
+    borderColor: COLORS.beige,
+    borderRadius: SIZES.radius,
     elevation: 10,
     marginRight: SIZES.padding * 2,
   },
@@ -572,14 +552,14 @@ const styles = StyleSheet.create({
     padding: 10,
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
   },
   text: {
     marginHorizontal: 5,
     marginTop: 4,
-    fontWeight: "800",
     color: "#000000",
     fontWeight: "bold",
-    ...FONTS.h2,
+    ...FONTS.h3,
   },
   subtext: {
     marginHorizontal: 5,
@@ -587,7 +567,7 @@ const styles = StyleSheet.create({
     color: "gray",
   },
   image: {
-    width: 20,
-    height: 44,
+    width: 15,
+    height: 40,
   },
 });
