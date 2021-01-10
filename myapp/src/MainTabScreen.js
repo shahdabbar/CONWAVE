@@ -498,7 +498,7 @@ const HomeStackScreen = ({ navigation }) => (
       name="Reviews"
       component={ReviewsScreen}
       options={{
-        headerShown: true,
+        headerShown: false,
         title: "Reviews",
         headerTitleStyle: {
           color: "gray",
@@ -636,6 +636,14 @@ const HomeStackScreen = ({ navigation }) => (
         ),
       }}
     />
+
+    <HomeStack.Screen
+      name="StudentsSessions"
+      component={StudentSessionsScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
   </HomeStack.Navigator>
 );
 
@@ -653,7 +661,7 @@ const TutorCoursesStackScreen = ({ navigation }) => (
     }}
   >
     <CoursesStack.Screen
-      name="Courses"
+      name="TutorCourses"
       component={TutorCoursesScreen}
       options={{
         headerLeft: () => (
@@ -665,6 +673,14 @@ const TutorCoursesStackScreen = ({ navigation }) => (
             onPress={() => navigation.openDrawer()}
           ></Icon.Button>
         ),
+      }}
+    />
+
+    <CoursesStack.Screen
+      name="Reviews"
+      component={ReviewsScreen}
+      options={{
+        headerShown: false,
       }}
     />
   </CoursesStack.Navigator>

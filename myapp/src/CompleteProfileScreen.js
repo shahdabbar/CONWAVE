@@ -474,7 +474,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
         </View> */}
       </View>
       <LinearGradient colors={[COLORS.white, COLORS.white]}>
-        <View>
+        <View style={{ marginBottom: 80 }}>
           <FlatList ListHeaderComponent={flatList()} />
         </View>
       </LinearGradient>

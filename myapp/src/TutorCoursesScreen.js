@@ -24,14 +24,13 @@ import {
 } from "react-native-vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { AuthContext } from "./AuthProvider";
-import DrawerContent from "./DrawerContent";
-import { deleteItemAsync } from "expo-secure-store";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import axios from "axios";
 
 const TutorCourses = ({ navigation }) => {
   const { user } = useContext(AuthContext);
   const [courses, setCourses] = useState([]);
+
   useEffect(() => {
     // get all tutor courses
     axios
@@ -44,22 +43,6 @@ const TutorCourses = ({ navigation }) => {
         console.log(error);
       });
   }, []);
-
-  const onChangeText = (item, text) => {
-    const newData = courses.map((e) => {
-      if (e.id === item.id) {
-        return {
-          ...e,
-          rate: text,
-        };
-      }
-      return {
-        ...e,
-        rate: e.rate,
-      };
-    });
-    setCourses(newData);
-  };
 
   return (
     <View style={styles.container}>
@@ -144,6 +127,12 @@ const TutorCourses = ({ navigation }) => {
                         alignItems: "center",
                         justifyContent: "flex-end",
                       }}
+                      onPress={() =>
+                        navigation.navigate("Reviews", {
+                          tutor_id: item.user_id,
+                          course_id: item.course_id,
+                        })
+                      }
                     >
                       <Text
                         style={{

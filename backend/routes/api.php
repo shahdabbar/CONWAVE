@@ -93,6 +93,7 @@ Route::middleware('auth:sanctum')->get('/chat/users', [ChatController::class, 'i
 
 Route::middleware('auth:sanctum')->post('/user/rating', [RatingController::class, 'store']);
 Route::middleware('auth:sanctum')->get('/user/rating', [RatingController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/tutor/ratings', [RatingController::class, 'ratings']);
 
 
 

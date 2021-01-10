@@ -46,6 +46,15 @@ const SearchTutorsScreen = ({ route, navigation }) => {
   });
 
   useEffect(() => {
+    axios
+      .get(`api/course/rating?course_id=${data.course.id}`)
+      .then((response) => {
+        console.log("coursessssssssssssssss", response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     // get all tutor courses
     axios
       .get(`api/course/tutors?course_id=${data.course.id}`)
@@ -192,7 +201,6 @@ const SearchTutorsScreen = ({ route, navigation }) => {
                           >
                             <View>
                               <View style={styles.profileImage}>
-                                {console.log(item.tutor)}
                                 <Image
                                   source={
                                     item.tutor.profile_photo_path

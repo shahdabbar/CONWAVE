@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Rating;
+use Illuminate\Support\Facades\Redis;
 
 class RatingController extends Controller
 {
@@ -15,6 +16,14 @@ class RatingController extends Controller
         ->where('tutor_id', $request->tutor_id)->where('course_id', $request->course_id)->get();
         
         return response()->json(array($ratings, $sum));
+    }
+
+    public function ratings(Request $request) {
+        
+        $sum = Rating::groupBy('rating')->selectRaw('rating, count(rating)')
+        ->where('tutor_id', $request->tutor_id)->where('course_id', $request->course_id)->get();
+
+        return response()->json($sum);
     }
 
     public function store(Request $request) {

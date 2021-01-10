@@ -420,8 +420,9 @@ const ScheduleScreen = ({ route, navigation }) => {
         </TouchableOpacity>
       </View>
 
-      <View style={{ paddingVertical: 10, marginTop: 10, marginBottom: 30 }}>
-        <FlatList ListHeaderComponent={show ? Upcoming() : Previous()} />
+      <View style={{ paddingVertical: 10, marginBottom: 70 }}>
+        {/* <FlatList ListHeaderComponent= /> */}
+        {show ? Upcoming() : Previous()}
       </View>
     </View>
   );

@@ -51,28 +51,24 @@ const ReviewsScreen = ({ route, navigation }) => {
   }
 
   function status(rating) {
-    if (rating === 5) {
+    if (rating >= 5) {
       return "Excellent";
-    } else if (rating === 4) {
+    } else if (rating >= 4) {
       return "Very Good";
-    } else if (rating === 3) {
+    } else if (rating >= 3) {
       return "Good";
-    } else if (rating === 2) {
+    } else if (rating >= 2) {
       return "Bad";
-    } else if (rating === 1) {
+    } else if (rating >= 1) {
       return "Very Bad";
     }
   }
 
   let sum = 0;
+  let num = 0;
   sumRatings.map((e) => {
-    sum = sum + e["rating"] * e["count(rating)"];
+    (num = num + 1), (sum = sum + e["rating"] * e["count(rating)"]);
   });
-
-  console.log(sum / 5);
-  // let sumRatings =
-  //   state.a * 1 + state.b * 2 + state.c * 3 + state.d * 4 + state.e * 5;
-  // const avg = sumRatings ? sumRatings / 5 : 0;
 
   function flatlist() {
     return (
@@ -92,9 +88,9 @@ const ReviewsScreen = ({ route, navigation }) => {
                 padding: 20,
               }}
             >
-              <Star score={4.2} style={styles.starStyle} />
+              <Star score={sum / num} style={styles.starStyle} />
               <View>
-                <Text style={styles.name}>Very Good</Text>
+                <Text style={styles.name}>{status(sum / num)}</Text>
               </View>
               <View>
                 <Text
@@ -103,7 +99,7 @@ const ReviewsScreen = ({ route, navigation }) => {
                     marginVertical: 2,
                   }}
                 >
-                  Based on 3 ratings
+                  Based on {num} ratings
                 </Text>
               </View>
             </View>
@@ -198,7 +194,30 @@ const ReviewsScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <FlatList ListHeaderComponent={flatlist} />
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <View>
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color="gray"
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          />
+        </View>
+        <View style={{ left: 20 }}>
+          <Text style={styles.payment}>Reviews</Text>
+        </View>
+      </View>
+      <View style={{ marginBottom: 70 }}>
+        <FlatList ListHeaderComponent={flatlist} />
+      </View>
     </View>
   );
 };
@@ -209,9 +228,15 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: "white",
+    paddingTop: 60,
   },
   header: {
     // backgroundColor: COLORS.lightGray4,
+  },
+  payment: {
+    fontSize: 27,
+    fontWeight: "bold",
+    color: COLORS.pink,
   },
   starStyle: {
     width: 150,

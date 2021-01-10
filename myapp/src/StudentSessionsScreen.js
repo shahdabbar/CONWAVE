@@ -145,7 +145,7 @@ const StudentSessionsScreen = ({ route, navigation }) => {
 
   const Upcoming = () => {
     return (
-      <View>
+      <>
         {upcoming ? (
           <FlatList
             data={upcoming}
@@ -284,7 +284,7 @@ const StudentSessionsScreen = ({ route, navigation }) => {
             }}
           />
         ) : null}
-      </View>
+      </>
     );
   };
 
@@ -314,7 +314,8 @@ const StudentSessionsScreen = ({ route, navigation }) => {
                   }}
                 >
                   <View style={{ position: "absolute", top: 5, right: 10 }}>
-                    {item.review.lenght < 1 ? (
+                    {console.log("review", item.review)}
+                    {item.review ? (
                       <Text
                         style={{
                           color: COLORS.yellow,
@@ -460,191 +461,194 @@ const StudentSessionsScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Modal visible={modal} transparent={true} animationType="fade">
-        <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
-          <View
-            style={{
-              backgroundColor: "#FFFFFF",
-              marginTop: "40%",
-              marginHorizontal: 10,
-              paddingLeft: 20,
-              paddingRight: 20,
-              borderRadius: 16,
-              paddingBottom: 20,
-              // height: 300,
-              // E0DFE1,
-            }}
-          >
-            <View>
-              <View style={{ marginVertical: 20 }}>
-                <Text style={styles.infoText}>Enjoyed the session?</Text>
-                <Text style={{ fontSize: 15, color: COLORS.gray, left: 10 }}>
-                  Please rate this tutor
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginVertical: 5,
-                }}
-              >
-                {stars.map((e) => {
-                  return (
-                    <TouchableOpacity
-                      key={e.x}
-                      onPress={() => {
-                        rate(e.x), animate();
+      <View>
+        <Modal visible={modal} transparent={true} animationType="fade">
+          <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
+            <View
+              style={{
+                backgroundColor: "#FFFFFF",
+                marginTop: "40%",
+                marginHorizontal: 10,
+                paddingLeft: 20,
+                paddingRight: 20,
+                borderRadius: 16,
+                paddingBottom: 20,
+                // height: 300,
+                // E0DFE1,
+              }}
+            >
+              <View>
+                <View style={{ marginVertical: 20 }}>
+                  <Text style={styles.infoText}>Enjoyed the session?</Text>
+                  <Text style={{ fontSize: 15, color: COLORS.gray, left: 10 }}>
+                    Please rate this tutor
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginVertical: 5,
+                  }}
+                >
+                  {stars.map((e) => {
+                    return (
+                      <TouchableOpacity
+                        key={e.x}
+                        onPress={() => {
+                          rate(e.x), animate();
+                        }}
+                      >
+                        <Animated.View
+                          style={e.x <= state.rating ? animationStyle : ""}
+                        >
+                          <FontAwesome
+                            name={e.x <= state.rating ? e.name : "star-o"}
+                            size={e.size}
+                            color={e.color}
+                            style={e.style}
+                          />
+                        </Animated.View>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+                {addComment ? (
+                  <View>
+                    <View style={styles.action}>
+                      <TextInput
+                        style={styles.textinput}
+                        placeholder="Leave comment"
+                        placeholderTextColor="#666"
+                        multiline={true}
+                        numberOfLines={4}
+                        underlineColorAndroid="transparent"
+                        onChangeText={(text) => {
+                          setComment(text);
+                        }}
+                      />
+                    </View>
+                  </View>
+                ) : (
+                  <TouchableOpacity onPress={() => setAddComment(!addComment)}>
+                    <Text style={styles.next_text}>Leave Comment</Text>
+                  </TouchableOpacity>
+                )}
+
+                <View style={styles.statsContainer}>
+                  <TouchableOpacity
+                    style={styles.statsBox}
+                    onPress={() => {
+                      setModal(false);
+                      setAddComment(!addComment);
+                    }}
+                  >
+                    <Text
+                      style={{
+                        ...styles.text,
+                        color: COLORS.blue,
                       }}
                     >
-                      <Animated.View
-                        style={e.x <= state.rating ? animationStyle : ""}
-                      >
-                        <FontAwesome
-                          name={e.x <= state.rating ? e.name : "star-o"}
-                          size={e.size}
-                          color={e.color}
-                          style={e.style}
-                        />
-                      </Animated.View>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
-              {addComment ? (
-                <View>
-                  <View style={styles.action}>
-                    <TextInput
-                      style={styles.textinput}
-                      placeholder="Leave comment"
-                      placeholderTextColor="#666"
-                      multiline={true}
-                      numberOfLines={4}
-                      underlineColorAndroid="transparent"
-                      onChangeText={(text) => {
-                        setComment(text);
+                      Cancel
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      onSubmit(), setModal(false);
+                    }}
+                    style={{
+                      ...styles.statsBox,
+                      borderColor: "#DFDBC8",
+                      borderLeftWidth: 2,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        ...styles.text,
+                        color: COLORS.gray,
                       }}
-                    />
-                  </View>
+                    >
+                      Submit
+                    </Text>
+                  </TouchableOpacity>
                 </View>
-              ) : (
-                <TouchableOpacity onPress={() => setAddComment(!addComment)}>
-                  <Text style={styles.next_text}>Leave Comment</Text>
-                </TouchableOpacity>
-              )}
-
-              <View style={styles.statsContainer}>
-                <TouchableOpacity
-                  style={styles.statsBox}
-                  onPress={() => {
-                    setModal(false);
-                  }}
-                >
-                  <Text
-                    style={{
-                      ...styles.text,
-                      color: COLORS.blue,
-                    }}
-                  >
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    onSubmit(), setModal(false);
-                  }}
-                  style={{
-                    ...styles.statsBox,
-                    borderColor: "#DFDBC8",
-                    borderLeftWidth: 2,
-                  }}
-                >
-                  <Text
-                    style={{
-                      ...styles.text,
-                      color: COLORS.gray,
-                    }}
-                  >
-                    Submit
-                  </Text>
-                </TouchableOpacity>
               </View>
             </View>
           </View>
-        </View>
-      </Modal>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          left: 20,
-        }}
-      >
-        <View>
-          <Ionicon
-            name="ios-menu"
-            size={30}
-            backgroundColor="#fff"
-            color="gray"
-            onPress={() => navigation.openDrawer()}
-          />
-        </View>
-        <View style={{ left: 20 }}>
-          <Text style={styles.sessions}>Sessions</Text>
-        </View>
-      </View>
-
-      <View style={styles.statsContainer}>
-        <TouchableOpacity
-          style={styles.statsBox}
-          onPress={() => {
-            setShow(!show);
-          }}
-        >
-          <Text
-            style={{
-              ...styles.text,
-              ...styles.subText,
-              color: show ? COLORS.primary : COLORS.black2,
-              fontWeight: show ? "bold" : "normal",
-              fontSize: show ? 22 : 20,
-              textTransform: show ? "uppercase" : "none",
-              textDecorationLine: show ? "underline" : "none",
-            }}
-          >
-            Upcoming
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            setShow(!show);
-          }}
+        </Modal>
+        <View
           style={{
-            ...styles.statsBox,
-            borderColor: "#DFDBC8",
-            borderLeftWidth: 2,
+            flexDirection: "row",
+            alignItems: "center",
+            left: 20,
           }}
         >
-          <Text
-            style={{
-              ...styles.text,
-              ...styles.subText,
+          <View>
+            <Ionicon
+              name="ios-menu"
+              size={30}
+              backgroundColor="#fff"
+              color="gray"
+              onPress={() => navigation.openDrawer()}
+            />
+          </View>
+          <View style={{ left: 20 }}>
+            <Text style={styles.sessions}>Sessions</Text>
+          </View>
+        </View>
 
-              color: !show ? COLORS.yellow2 : COLORS.black2,
-              fontWeight: !show ? "bold" : "normal",
-              fontSize: !show ? 22 : 20,
-              textTransform: !show ? "uppercase" : "none",
-              textDecorationLine: !show ? "underline" : "none",
+        <View style={styles.statsContainer}>
+          <TouchableOpacity
+            style={styles.statsBox}
+            onPress={() => {
+              setShow(!show);
             }}
           >
-            Previous
-          </Text>
-        </TouchableOpacity>
+            <Text
+              style={{
+                ...styles.text,
+                ...styles.subText,
+                color: show ? COLORS.primary : COLORS.black2,
+                fontWeight: show ? "bold" : "normal",
+                fontSize: show ? 22 : 20,
+                textTransform: show ? "uppercase" : "none",
+                textDecorationLine: show ? "underline" : "none",
+              }}
+            >
+              Upcoming
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setShow(!show);
+            }}
+            style={{
+              ...styles.statsBox,
+              borderColor: "#DFDBC8",
+              borderLeftWidth: 2,
+            }}
+          >
+            <Text
+              style={{
+                ...styles.text,
+                ...styles.subText,
+
+                color: !show ? COLORS.yellow2 : COLORS.black2,
+                fontWeight: !show ? "bold" : "normal",
+                fontSize: !show ? 22 : 20,
+                textTransform: !show ? "uppercase" : "none",
+                textDecorationLine: !show ? "underline" : "none",
+              }}
+            >
+              Previous
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
-      <View style={{ paddingVertical: 10, marginTop: 10 }}>
-        {show ? <>{Upcoming()}</> : <>{Previous()}</>}
+      <View style={{ paddingVertical: 10, marginBottom: 70 }}>
+        {show ? Upcoming() : Previous()}
       </View>
     </View>
   );

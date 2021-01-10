@@ -38,6 +38,7 @@ const TutorProfileScreen = ({ route, navigation }) => {
   const [item, setItem] = useState(route.params.item);
   const [type, seType] = useState(route.params.type);
   const [course_id, setcourse_id] = useState(route.params.course_id);
+  const [sumRatings, setsumRatings] = useState([]);
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
@@ -53,6 +54,17 @@ const TutorProfileScreen = ({ route, navigation }) => {
       });
 
     axios
+      .get(
+        `api/tutor/ratings?tutor_id=${item.user_id}&course_id=${route.params.course_id}`
+      )
+      .then((response) => {
+        setsumRatings(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    axios
       .get(`api/user/tutor/courses?user_id=${item.user_id}`)
       .then((response) => {
         setCourses(response.data);
@@ -62,6 +74,12 @@ const TutorProfileScreen = ({ route, navigation }) => {
         console.log(error);
       });
   }, []);
+
+  let sum = 0;
+  let num = 0;
+  sumRatings.map((e) => {
+    (num = num + 1), (sum = sum + e["rating"] * e["count(rating)"]);
+  });
 
   return (
     <View style={styles.container}>
@@ -123,7 +141,7 @@ const TutorProfileScreen = ({ route, navigation }) => {
                       fontWeight: "bold",
                     }}
                   >
-                    4.5
+                    {Number((sum / num).toFixed(1))}
                   </Text>
                 </View>
               </View>
@@ -186,7 +204,7 @@ const TutorProfileScreen = ({ route, navigation }) => {
                       Reviews by students
                     </Text>
                     <Text style={{ left: 1, color: COLORS.gray }}>
-                      Based on 3 ratings
+                      Based on {num} ratings
                     </Text>
                   </View>
                 </LinearGradient>
