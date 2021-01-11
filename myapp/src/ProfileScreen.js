@@ -213,6 +213,7 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import Ionicon from "react-native-vector-icons/Ionicons";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import { LinearGradient } from "expo-linear-gradient";
+import { Video } from "expo-av";
 
 import axios from "axios";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -331,24 +332,55 @@ const ProfileScreen = ({ navigation }) => {
           </View>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={styles.mediaVideoContainer}>
-              <Image
-                source={require("../assets/images/pexels.jpeg")}
-                style={styles.image}
+              <Video
+                source={require("../assets/images/video3.mp4")}
+                rate={1.0}
+                volume={1.0}
+                isMuted={false}
                 resizeMode="cover"
+                shouldPlay={false}
+                isLooping={false}
+                useNativeControls
+                style={styles.image}
               />
             </View>
             <View style={styles.mediaVideoContainer}>
-              <Image
-                source={require("../assets/images/photo.jpeg")}
-                style={styles.image}
+              <Video
+                source={require("../assets/images/video1.mp4")}
+                rate={1.0}
+                volume={1.0}
+                isMuted={false}
                 resizeMode="cover"
+                shouldPlay={false}
+                isLooping={false}
+                useNativeControls
+                style={styles.image}
               />
             </View>
             <View style={styles.mediaVideoContainer}>
-              <Image
-                source={require("../assets/images/image.jpg")}
-                style={styles.image}
+              <Video
+                source={require("../assets/images/video4.mp4")}
+                rate={1.0}
+                volume={1.0}
+                isMuted={false}
                 resizeMode="cover"
+                shouldPlay={false}
+                isLooping={false}
+                useNativeControls
+                style={styles.image}
+              />
+            </View>
+            <View style={styles.mediaVideoContainer}>
+              <Video
+                source={require("../assets/images/se_intro.mp4")}
+                rate={1.0}
+                volume={1.0}
+                isMuted={false}
+                resizeMode="cover"
+                shouldPlay={false}
+                isLooping={false}
+                useNativeControls
+                style={styles.image}
               />
             </View>
           </ScrollView>
@@ -359,7 +391,7 @@ const ProfileScreen = ({ navigation }) => {
                 { fontSize: 24, color: "#DFD8C8", fontWeight: "300" },
               ]}
             >
-              3
+              4
             </Text>
             <Text
               style={[

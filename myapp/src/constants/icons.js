@@ -30,6 +30,7 @@ export const fireworks = require("../../assets/icons/fireworks.png");
 export const firework = require("../../assets/icons/firework.png");
 export const schedule = require("../../assets/icons/schedule.png");
 export const courses = require("../../assets/icons/courses.png");
+export const red_pin = require("../../assets/icons/red_pin.png");
 
 export default {
   session,
@@ -45,6 +46,7 @@ export default {
   explore,
   health,
   home,
+  red_pin,
   languages,
   msg,
   direction,

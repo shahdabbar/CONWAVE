@@ -47,9 +47,11 @@ import SetAddressScreen from "./SetAddressScreen";
 import TutorCoursesScreen from "./TutorCoursesScreen";
 import ScheduleScreen from "./ScheduleScreen";
 import ViewSessionScreen from "./ViewSessionScreen";
+import ViewSessionDetails from "./ViewSessionDetails";
 
 import axios from "axios";
 import ReviewsScreen from "./ReviewsScreen";
+import MeetingAddressScreen from "./MeetingAddressScreen";
 
 const HomeStack = createStackNavigator();
 const DetailsStack = createStackNavigator();
@@ -144,7 +146,8 @@ const getTabBarVisibility = (route) => {
     routeName === "Chat" ||
     routeName === "Reviews" ||
     routeName === "CourseDescription" ||
-    routeName === "ViewSession"
+    routeName === "ViewSession" ||
+    routeName === "MeetingAddress"
   ) {
     return false;
   }
@@ -733,6 +736,25 @@ const StudentSessionsStackScreen = ({ navigation }) => (
         ),
       }}
     />
+
+    <StudentSessionsStack.Screen
+      name="MeetingAddress"
+      component={MeetingAddressScreen}
+      options={{
+        headerShown: false,
+        headerLeft: () => (
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color="gray"
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.navigate("StudentsSessions");
+            }}
+          />
+        ),
+      }}
+    />
   </StudentSessionsStack.Navigator>
 );
 
@@ -781,7 +803,7 @@ const ScheduleStackScreen = ({ navigation }) => (
     }}
   >
     <ScheduleStack.Screen
-      name="MySchedule"
+      name="tutorSchedule"
       component={ScheduleScreen}
       options={{
         headerLeft: () => (
@@ -797,8 +819,8 @@ const ScheduleStackScreen = ({ navigation }) => (
     />
 
     <ScheduleStack.Screen
-      name="ViewSession"
-      component={ScheduleScreen}
+      name="ViewSessionDetails"
+      component={ViewSessionDetails}
       options={{
         headerLeft: () => (
           <MaterialIcon
@@ -807,24 +829,31 @@ const ScheduleStackScreen = ({ navigation }) => (
             color="gray"
             style={{ marginLeft: 20 }}
             onPress={() => {
-              navigation.navigate("MySchedule");
+              navigation.navigate("tutorSchedule");
             }}
           />
         ),
+      }}
+    />
+
+    <ScheduleStack.Screen
+      name="MeetingAddress"
+      component={MeetingAddressScreen}
+      options={{
+        headerShown: false,
       }}
     />
   </ScheduleStack.Navigator>
 );
 
 const ProfileStackScreen = ({ navigation }) => {
-  const { colors } = useTheme();
   return (
     <ProfileStack.Navigator
       screenOptions={{
+        headerShown: true,
         headerStyle: {
           backgroundColor: "#fff",
           shadowColor: "#000", // ios
-          elevation: 0, // Android
         },
         headerTintColor: "black",
       }}
@@ -833,7 +862,9 @@ const ProfileStackScreen = ({ navigation }) => {
         name="Profile"
         component={ProfileScreen}
         options={{
-          // headerShown: false,
+          headerStyle: {
+            elevation: 0, // Android
+          },
           title: "",
           headerLeft: () => (
             <Icon
@@ -855,6 +886,31 @@ const ProfileStackScreen = ({ navigation }) => {
           ),
         }}
       />
+
+      <ProfileStack.Screen
+        name="Videos"
+        component={VideosScreen}
+        options={{
+          title: "My Videos",
+          headerTitleStyle: {
+            color: "gray",
+            fontWeight: "800",
+            fontSize: 20,
+          },
+          headerLeft: () => (
+            <MaterialIcon
+              name="arrow-back-ios"
+              size={24}
+              color="gray"
+              style={{ marginLeft: 20 }}
+              onPress={() => {
+                navigation.navigate("Profile");
+              }}
+            />
+          ),
+        }}
+      />
+
       <ProfileStack.Screen
         name="EditProfile"
         component={EditProfileScreen}
@@ -891,42 +947,6 @@ const ProfileStackScreen = ({ navigation }) => {
           ),
         }}
       />
-
-      <ProfileStack.Screen
-        name="Videos"
-        component={VideosScreen}
-        options={{
-          // headerShown: false,
-          title: "My Videos",
-          headerTitleStyle: {
-            color: "gray",
-            fontWeight: "800",
-            fontSize: 20,
-            alignSelf: "center",
-          },
-
-          headerLeft: () => (
-            <MaterialIcon
-              name="arrow-back-ios"
-              size={24}
-              color="gray"
-              style={{ marginLeft: 20 }}
-              onPress={() => {
-                navigation.navigate("ProfileScreen");
-              }}
-            />
-          ),
-          headerRight: () => (
-            <MaterialCommunityIcons
-              name="account-edit"
-              size={30}
-              color="gray"
-              style={{ marginRight: 20 }}
-              onPress={() => navigation.navigate("EditProfile")}
-            />
-          ),
-        }}
-      />
     </ProfileStack.Navigator>
   );
 };
@@ -934,7 +954,7 @@ const ProfileStackScreen = ({ navigation }) => {
 const ChatStackScreen = ({ navigation }) => (
   <ChatStack.Navigator
     screenOptions={{
-      headerShown: false,
+      headerShown: true,
       headerStyle: {
         backgroundColor: "#fff",
       },
@@ -948,18 +968,17 @@ const ChatStackScreen = ({ navigation }) => (
       name="Chats"
       component={ChatRoomsScreen}
       options={{
-        headerShown: true,
         headerTitleStyle: {
           fontSize: 27,
           fontWeight: "bold",
           color: COLORS.pink,
         },
-        headerStyle: { elevation: 0 },
+
         headerLeft: () => (
           <Icon.Button
             name="ios-menu"
             size={30}
-            backgroundColor="#fff"
+            backgroundColor="#FFFFFF"
             style={{ left: 10 }}
             color="gray"
             onPress={() => navigation.openDrawer()}
@@ -972,7 +991,6 @@ const ChatStackScreen = ({ navigation }) => (
       name="Chat"
       component={ChatScreen}
       options={{
-        headerShown: true,
         title: "Chat",
         headerTitleStyle: {
           color: "gray",

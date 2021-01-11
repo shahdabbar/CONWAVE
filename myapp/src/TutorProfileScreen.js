@@ -125,25 +125,27 @@ const TutorProfileScreen = ({ route, navigation }) => {
                 >
                   {tutor[0].location} Lebanon
                 </Text>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    top: 4,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Icon name="star" size={22} color={COLORS.yellow} />
-                  <Text
+                {num > 0 ? (
+                  <View
                     style={{
-                      color: COLORS.yellow,
-                      fontSize: 18,
-                      fontWeight: "bold",
+                      flexDirection: "row",
+                      top: 4,
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
                   >
-                    {Number((sum / num).toFixed(1))}
-                  </Text>
-                </View>
+                    <Icon name="star" size={22} color={COLORS.yellow} />
+                    <Text
+                      style={{
+                        color: COLORS.yellow,
+                        fontSize: 18,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {Number((sum / num).toFixed(1))}
+                    </Text>
+                  </View>
+                ) : null}
               </View>
             </View>
             <View style={styles.statsContainer}>
@@ -170,45 +172,48 @@ const TutorProfileScreen = ({ route, navigation }) => {
                 </Text>
               </View>
             </View>
+
             <View style={{ marginHorizontal: 10, marginTop: 25 }}>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("Reviews", {
-                    tutor_id: tutor[0].id,
-                    course_id: course_id,
-                  })
-                }
-              >
-                <LinearGradient
-                  colors={[COLORS.beige, COLORS.beige]}
-                  style={{
-                    borderBottomRightRadius: SIZES.radius,
-                    borderTopLeftRadius: SIZES.radius,
-                    // borderWidth: 2,
-                    borderColor: COLORS.beige,
-                    // elevation: 5,
-                    padding: 10,
-                    marginBottom: 20,
-                  }}
+              {num > 0 ? (
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("Reviews", {
+                      tutor_id: tutor[0].id,
+                      course_id: course_id,
+                    })
+                  }
                 >
-                  <View style={{ marginLeft: 5 }}>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        // fontWeight: "bold",
-                        color: COLORS.black2,
-                        // textDecorationLine: "underline",
-                        textDecorationColor: "blue",
-                      }}
-                    >
-                      Reviews by students
-                    </Text>
-                    <Text style={{ left: 1, color: COLORS.gray }}>
-                      Based on {num} ratings
-                    </Text>
-                  </View>
-                </LinearGradient>
-              </TouchableOpacity>
+                  <LinearGradient
+                    colors={[COLORS.beige, COLORS.beige]}
+                    style={{
+                      borderBottomRightRadius: SIZES.radius,
+                      borderTopLeftRadius: SIZES.radius,
+                      // borderWidth: 2,
+                      borderColor: COLORS.beige,
+                      // elevation: 5,
+                      padding: 10,
+                      marginBottom: 20,
+                    }}
+                  >
+                    <View style={{ marginLeft: 5 }}>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          // fontWeight: "bold",
+                          color: COLORS.black2,
+                          // textDecorationLine: "underline",
+                          textDecorationColor: "blue",
+                        }}
+                      >
+                        Reviews by students
+                      </Text>
+                      <Text style={{ left: 1, color: COLORS.gray }}>
+                        Based on {num} ratings
+                      </Text>
+                    </View>
+                  </LinearGradient>
+                </TouchableOpacity>
+              ) : null}
 
               <LinearGradient
                 colors={[COLORS.beige, COLORS.beige]}

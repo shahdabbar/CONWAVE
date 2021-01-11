@@ -33,12 +33,11 @@ const ViewSessionScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
   axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
 
-  const [addressInfo, setAddressInfo] = useState([]);
   const [data, setData] = useState({
     type: route.params.type,
     session: route.params.session,
   });
-
+  const [addressInfo, setAddressInfo] = useState([]);
   const [modal, setModal] = useState(false);
   const [note, setNote] = useState("");
 
@@ -47,126 +46,14 @@ const ViewSessionScreen = ({ route, navigation }) => {
       .get(`api/user/address?user_id=${data.session.tutor_id}`)
       .then((response) => {
         setAddressInfo(response.data);
-        // console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
 
-  function onClick() {
-    axios
-      .post("api/cancel/session", {
-        user_id: user.id,
-        tutor_id: data.session.tutor_id,
-        course_id: data.session.course_id,
-      })
-      .then((response) => {
-        navigation.navigate("StudentsSessions");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  function onSubmit() {
-    axios
-      .post("api/update/session", {
-        user_id: user.id,
-        tutor_id: data.session.tutor_id,
-        course_id: data.session.course_id,
-        note: note,
-      })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
   return (
     <View style={styles.container}>
-      <Modal visible={modal} transparent={true} animationType="fade">
-        <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
-          <View
-            style={{
-              backgroundColor: "#FFFFFF",
-              marginTop: "50%",
-              marginHorizontal: 10,
-              paddingLeft: 20,
-              paddingRight: 20,
-              borderRadius: 16,
-              paddingBottom: 20,
-            }}
-          >
-            <View>
-              <View style={{ marginVertical: 20 }}>
-                <Text
-                  style={{
-                    ...styles.infoText,
-                    alignSelf: "center",
-                  }}
-                >
-                  Add your note
-                </Text>
-              </View>
-
-              <View>
-                <View style={styles.action}>
-                  <TextInput
-                    style={styles.textinput}
-                    placeholder="Note.."
-                    placeholderTextColor="#666"
-                    multiline={true}
-                    numberOfLines={4}
-                    underlineColorAndroid="transparent"
-                    onChangeText={(text) => {
-                      setNote(text);
-                    }}
-                  />
-                </View>
-              </View>
-
-              <View style={styles.statsContainer}>
-                <TouchableOpacity
-                  style={styles.statsBox}
-                  onPress={() => {
-                    setModal(false);
-                  }}
-                >
-                  <Text
-                    style={{
-                      ...styles.text,
-                      color: COLORS.blue,
-                    }}
-                  >
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    onSubmit(), setModal(false);
-                  }}
-                  style={{
-                    ...styles.statsBox,
-                    borderColor: "#DFDBC8",
-                    borderLeftWidth: 2,
-                  }}
-                >
-                  <Text
-                    style={{
-                      ...styles.text,
-                      color: COLORS.gray,
-                    }}
-                  >
-                    Submit
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </View>
-      </Modal>
       <View
         style={{
           flexDirection: "row",
@@ -180,7 +67,7 @@ const ViewSessionScreen = ({ route, navigation }) => {
             color="gray"
             style={{ marginLeft: 20 }}
             onPress={() => {
-              navigation.navigate("StudentsSessions");
+              navigation.navigate("tutorSchedule");
             }}
           />
         </View>
@@ -221,9 +108,9 @@ const ViewSessionScreen = ({ route, navigation }) => {
                 <View style={styles.profileImage}>
                   <Image
                     source={
-                      data.session.tutor_profile_photo_path
+                      data.session.student_profile_photo_path
                         ? {
-                            uri: `http://192.168.0.106:8000/${data.session.tutor_profile_photo_path}`,
+                            uri: `http://192.168.0.106:8000/${data.session.student_profile_photo_path}`,
                           }
                         : require("../assets/images/profile2.png")
                     }
@@ -267,8 +154,8 @@ const ViewSessionScreen = ({ route, navigation }) => {
                       textTransform: "capitalize",
                     }}
                   >
-                    with {data.session.tutor_firstname}{" "}
-                    {data.session.tutor_lastname}.
+                    with {data.session.student_firstname}{" "}
+                    {data.session.student_lastname}.
                   </Text>
                 </View>
                 <View>
@@ -381,7 +268,8 @@ const ViewSessionScreen = ({ route, navigation }) => {
                         fontWeight: "800",
                       }}
                     >
-                      The tutor will share with you a zoom link for the session
+                      Make sure to share with your student the zoom link for the
+                      session
                     </Text>
                   </View>
                 ) : (
@@ -397,7 +285,7 @@ const ViewSessionScreen = ({ route, navigation }) => {
         </View>
       </View>
 
-      {data.type === "Upcoming" ? (
+      {data.session.note ? (
         <View>
           <View style={{ paddingVertical: 10 }}>
             <View
@@ -416,62 +304,22 @@ const ViewSessionScreen = ({ route, navigation }) => {
                     marginBottom: 10,
                   }}
                 >
-                  {data.session.note || note ? (
-                    <View>
-                      <Text
-                        style={{
-                          ...styles.infoText,
-                          fontSize: 16,
-                          color: COLORS.black2,
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Text style={{ color: COLORS.yellow2 }}>Note:</Text>{" "}
-                        {data.session.note ? data.session.note : note}
-                      </Text>
-                    </View>
-                  ) : (
-                    <View>
-                      <View>
-                        <Text
-                          style={{
-                            ...styles.infoText,
-                            fontSize: 16,
-                            marginBottom: 5,
-                          }}
-                        >
-                          Anything you would like to say to{" "}
-                          {data.session.tutor_firstname}?
-                        </Text>
-                      </View>
-                      <TouchableOpacity
-                        onPress={() => {
-                          setModal(true);
-                        }}
-                      >
-                        <Text style={{ fontSize: 16, color: "blue" }}>
-                          + Add note
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  )}
+                  <View>
+                    <Text
+                      style={{
+                        ...styles.infoText,
+                        fontSize: 16,
+                        color: COLORS.black2,
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Text style={{ color: COLORS.yellow2 }}>Note:</Text>{" "}
+                      {data.session.note ? data.session.note : note}
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
-
-          <View style={{ marginVertical: 40, marginHorizontal: 10 }}>
-            <TouchableOpacity onPress={() => onClick()}>
-              <Text
-                style={{
-                  alignSelf: "center",
-                  fontSize: 18,
-                  color: "blue",
-                }}
-              >
-                Cancel this session
-              </Text>
-            </TouchableOpacity>
           </View>
         </View>
       ) : null}

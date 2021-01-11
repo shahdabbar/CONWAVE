@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Booked_Sessions;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BookingMail;
 use App\Http\Resources\BookedSessionsResources;
 
 class BookedSessionsController extends Controller
@@ -20,7 +23,8 @@ class BookedSessionsController extends Controller
     }
 
     public function store(Request $request) {
-        Booked_Sessions::create([
+
+        $booked = Booked_Sessions::create([
             'user_id' => $request->user_id,
             'tutor_id' => $request->tutor_id,
             'date' => $request->date,
@@ -29,6 +33,25 @@ class BookedSessionsController extends Controller
             'meeting_type' => $request->meeting_type,
             'payment' => $request->payment,
         ]);
+
+        $student_email = User::where('id', $request->user_id)->pluck('email');
+        $tutor_email = User::where('id', $request->tutor_id)->pluck('email');
+
+        $data = array(
+            'date' => $request->date,
+            'course_name' => $booked->course->name,
+            'course_description' => $booked->course->tutorCourses->where('user_id', $booked->tutor_id),
+            'tutor_firstname' => $booked->tutor->firstname,
+            'tutor_lastname' => $booked->tutor->lastname,
+            'student_firstname' => $booked->user->firstname,
+            'student_lastname' => $booked->user->lastname,
+            'hour' => $booked->timeslots->hours->hour,
+            'day' => $booked->timeslots->days->day,
+
+        );
+
+        Mail::to($student_email)->send(new BookingMail($data));
+        Mail::to($tutor_email)->send(new BookingMail($data));
 
         return response()->json("success");
     }

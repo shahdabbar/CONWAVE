@@ -7,27 +7,11 @@ use App\Models\Video;
 
 class VideoController extends Controller
 {
-    public function store(Request $request)
+    public function index(Request $request)
     {
-
-        // if($request->data['_parts'][0][1]){
-        //     return "I am here";
-        // }
-        return $request;
-
-        $data = request()->validate([
-           'video_path' => 'required',
-        ]);
-        if (request('video_path')) {
-            $imagePath = request('video_path')->store('videos', 'public');            
-            $image = ['video_path' => "storage/{$imagePath}"];
-        }
-        Video::create($image);
-        return response()->json('success', 200);
+        $videos = Video::where('user_id', 1)->get();
+        return response()->json($videos);
     }
-
-
-   
 }
 
 

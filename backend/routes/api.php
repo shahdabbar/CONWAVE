@@ -69,7 +69,6 @@ Route::middleware('auth:sanctum')->post('/user/photo', [UserController::class, '
 Route::middleware('auth:sanctum')->post('/user/update', [UserController::class, 'update']);
 Route::middleware('auth:sanctum')->get('/user_profile', [UserController::class, 'tutors'] );
 
-Route::middleware('auth:sanctum')->post('/user/video', [VideoController::class, 'store'] );
 Route::middleware('auth:sanctum')->get('/user/videos', [VideoController::class, 'index'] );
 
 Route::middleware('auth:sanctum')->post('/user/address', [AddressController::class, 'store']);

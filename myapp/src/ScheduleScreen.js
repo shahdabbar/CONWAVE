@@ -177,7 +177,10 @@ const ScheduleScreen = ({ route, navigation }) => {
                         justifyContent: "center",
                       }}
                       onPress={() => {
-                        navigation.navigate("ViewSession");
+                        navigation.navigate("ViewSessionDetails", {
+                          type: "Upcoming",
+                          session: item,
+                        });
                       }}
                     >
                       <View>
@@ -318,6 +321,12 @@ const ScheduleScreen = ({ route, navigation }) => {
                         flexDirection: "row",
                         alignItems: "center",
                         justifyContent: "center",
+                      }}
+                      onPress={() => {
+                        navigation.navigate("ViewSessionDetails", {
+                          type: "Previous",
+                          session: item,
+                        });
                       }}
                     >
                       <View>
