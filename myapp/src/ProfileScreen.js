@@ -249,193 +249,294 @@ const ProfileScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView showsHorizontalScrollIndicator={false}>
-        {/* <View style={styles.titleBar}>
+      <View style={{ backgroundColor: COLORS.yellow2 }}>
+        <View style={styles.titleBar}>
           <Ionicon
             name="ios-menu"
             size={30}
-            color="#41444B"
+            color={COLORS.white}
+            style={{ marginLeft: 16 }}
             onPress={() => navigation.openDrawer()}
           />
+
           <Icon
             name="account-edit"
             size={30}
-            color="#41444B"
-            onPress={() =>
-              navigation.navigate("EditProfile", { data: userInfo })
-            }
+            color={COLORS.white}
+            style={{ marginRight: 20 }}
+            onPress={() => navigation.navigate("EditProfile")}
           />
-        </View> */}
-        <View style={{ alignSelf: "center" }}>
-          <View style={styles.profileImage}>
-            <Image
-              source={
-                userInfo.profile_photo_path
-                  ? {
-                      uri: `http://192.168.0.106:8000/${userInfo.profile_photo_path}`,
-                    }
-                  : require("../assets/images/profile2.png")
-              }
-              style={styles.image}
-              resizeMode="cover"
-            />
-          </View>
-          <View style={styles.dm}>
-            <MaterialIcon name="chat" size={26} color="#DFD8C8" />
-          </View>
-          <View style={styles.active}></View>
         </View>
-        <View style={styles.infoContainer}>
-          <Text style={{ ...styles.text, fontWeight: "200", fontSize: 30 }}>
-            {userInfo.firstname} {userInfo.lastname}
-          </Text>
-          <Text style={{ ...styles.text, color: "#AEB5BC", fontSize: 14 }}>
-            @{userInfo.type}
-          </Text>
-        </View>
-        <View style={styles.statsContainer}>
-          <View style={styles.statsBox}>
-            <Text style={{ ...styles.text, fontSize: 24 }}>
-              {profile.hours_tutored}
-            </Text>
-            <Text style={{ ...styles.text, ...styles.subText }}>
-              Hours Tutored
-            </Text>
-          </View>
+      </View>
+      <View style={{ flex: 0.09, backgroundColor: COLORS.yellow2 }}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: COLORS.white,
+            borderTopLeftRadius: SIZES.radius * 4,
+            borderTopRightRadius: SIZES.radius * 4,
+          }}
+        ></View>
+
+        <View style={{ backgroundColor: COLORS.yellow2 }}></View>
+      </View>
+      <View style={{ flex: 0.9 }}>
+        <View>
           <View
             style={{
-              ...styles.statsBox,
-              borderColor: "#DFDBC8",
-              borderLeftWidth: 1,
-            }}
-          >
-            <Text style={{ ...styles.text, fontSize: 24 }}>
-              {profile.students_tutored}
-            </Text>
-            <Text style={{ ...styles.text, ...styles.subText }}>
-              Students Tutored
-            </Text>
-          </View>
-        </View>
-        <View style={{ marginTop: 5 }}>
-          <View
-            style={{
-              padding: 20,
               flexDirection: "row",
               justifyContent: "space-between",
+              marginHorizontal: 10,
             }}
           >
-            <Text style={{ ...FONTS.h2, fontWeight: "bold" }}>My Videos</Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Videos")}>
-              <Text style={{ ...FONTS.h3, color: "red" }}>View all</Text>
-            </TouchableOpacity>
-          </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View style={styles.mediaVideoContainer}>
-              <Video
-                source={require("../assets/images/video3.mp4")}
-                rate={1.0}
-                volume={1.0}
-                isMuted={false}
-                resizeMode="cover"
-                shouldPlay={false}
-                isLooping={false}
-                useNativeControls
-                style={styles.image}
-              />
-            </View>
-            <View style={styles.mediaVideoContainer}>
-              <Video
-                source={require("../assets/images/video1.mp4")}
-                rate={1.0}
-                volume={1.0}
-                isMuted={false}
-                resizeMode="cover"
-                shouldPlay={false}
-                isLooping={false}
-                useNativeControls
-                style={styles.image}
-              />
-            </View>
-            <View style={styles.mediaVideoContainer}>
-              <Video
-                source={require("../assets/images/video4.mp4")}
-                rate={1.0}
-                volume={1.0}
-                isMuted={false}
-                resizeMode="cover"
-                shouldPlay={false}
-                isLooping={false}
-                useNativeControls
-                style={styles.image}
-              />
-            </View>
-            <View style={styles.mediaVideoContainer}>
-              <Video
-                source={require("../assets/images/se_intro.mp4")}
-                rate={1.0}
-                volume={1.0}
-                isMuted={false}
-                resizeMode="cover"
-                shouldPlay={false}
-                isLooping={false}
-                useNativeControls
-                style={styles.image}
-              />
-            </View>
-          </ScrollView>
-          <View style={styles.mediaCount}>
-            <Text
-              style={[
-                styles.text,
-                { fontSize: 24, color: "#DFD8C8", fontWeight: "300" },
-              ]}
-            >
-              4
-            </Text>
-            <Text
-              style={[
-                styles.text,
-                {
-                  fontSize: 14,
-                  color: "#DFD8C8",
-                  textTransform: "uppercase",
-                },
-              ]}
-            >
-              Videos
-            </Text>
-          </View>
-        </View>
-        <Text style={[styles.subText, styles.recent]}>About</Text>
-        <View style={{ alignItems: "center", marginBottom: 30 }}>
-          {/* <View style={styles.recentItem}>
-            <View style={styles.activityIndicator}></View>
-            <View style={{ width: 250 }}>
-              <Text
-                style={[styles.text, { color: "#41444B", fontWeight: "300" }]}
-              >
-                Started following{" "}
-                <Text style={{ fontWeight: "400" }}>Jake Challeahe</Text> and{" "}
-                <Text style={{ fontWeight: "400" }}>Luis Poteer</Text>
+            <View style={styles.infoContainer}>
+              <Text style={styles.header_text}>Hello,</Text>
+              <Text style={{ fontWeight: "bold", fontSize: 30, left: 22 }}>
+                {userInfo.firstname}!
               </Text>
+            </View>
+            <View style={{ alignSelf: "center" }}>
+              <View style={styles.profileImage}>
+                <Image
+                  source={
+                    userInfo.profile_photo_path
+                      ? {
+                          uri: `http://192.168.0.106:8000/${userInfo.profile_photo_path}`,
+                        }
+                      : require("../assets/images/profile2.png")
+                  }
+                  style={styles.image}
+                  resizeMode="cover"
+                />
+              </View>
+              {/* <View style={styles.dm}>
+                <MaterialIcon name="chat" size={26} color="#DFD8C8" />
+              </View>
+              <View style={styles.active}></View> */}
+            </View>
+          </View>
+          <Text style={[styles.subText, styles.recent]}>About</Text>
+          <View style={{ alignItems: "center" }}>
+            <View style={styles.recentItem}>
+              <View style={styles.activityIndicator}></View>
+              <View style={{ width: 320 }}>
+                <Text
+                  style={[styles.text, { color: "#41444B", fontWeight: "300" }]}
+                >
+                  <Text>{profile.bio}</Text>
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.statsContainer}>
+            <View style={styles.statsBox}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("TutorCourses")}
+              >
+                <Image
+                  source={icons.star}
+                  resizeMode="contain"
+                  style={{
+                    width: 22,
+                    height: 22,
+                    marginBottom: 5,
+                    alignSelf: "center",
+                  }}
+                />
+                <Text
+                  style={{
+                    ...styles.subText,
+                    color: "#000000",
+                    textTransform: "none",
+                  }}
+                >
+                  Reviews
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                ...styles.statsBox,
+                borderColor: "#DFDBC8",
+                borderLeftWidth: 1,
+              }}
+            >
+              <TouchableOpacity onPress={() => navigation.navigate("Reviews")}>
+                <Image
+                  source={icons.notifications}
+                  resizeMode="contain"
+                  style={{
+                    width: 22,
+                    height: 22,
+                    marginBottom: 5,
+                    alignSelf: "center",
+                  }}
+                />
+                <Text
+                  style={{
+                    ...styles.subText,
+                    color: "#000000",
+                    textTransform: "none",
+                  }}
+                >
+                  Notifications
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                ...styles.statsBox,
+                borderColor: "#DFDBC8",
+                borderLeftWidth: 1,
+              }}
+            >
+              <TouchableOpacity onPress={() => {}}>
+                <Image
+                  source={icons.settings}
+                  resizeMode="contain"
+                  style={{
+                    width: 24,
+                    height: 24,
+                    marginBottom: 5,
+                    alignSelf: "center",
+                  }}
+                />
+                <Text
+                  style={{
+                    ...styles.subText,
+                    color: "#000000",
+                    textTransform: "none",
+                  }}
+                >
+                  Settings
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View>
+            <View
+              style={{
+                padding: 20,
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text style={{ ...FONTS.h2, fontWeight: "bold" }}>My Videos</Text>
+              <TouchableOpacity onPress={() => navigation.navigate("Videos")}>
+                <Text style={{ ...FONTS.h3, color: COLORS.pink }}>
+                  View all
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              <View style={styles.mediaVideoContainer}>
+                <Video
+                  source={require("../assets/images/video3.mp4")}
+                  rate={1.0}
+                  volume={1.0}
+                  isMuted={false}
+                  resizeMode="cover"
+                  shouldPlay={false}
+                  isLooping={false}
+                  useNativeControls
+                  style={styles.image}
+                />
+              </View>
+              <View style={styles.mediaVideoContainer}>
+                <Video
+                  source={require("../assets/images/video1.mp4")}
+                  rate={1.0}
+                  volume={1.0}
+                  isMuted={false}
+                  resizeMode="cover"
+                  shouldPlay={false}
+                  isLooping={false}
+                  useNativeControls
+                  style={styles.image}
+                />
+              </View>
+              <View style={styles.mediaVideoContainer}>
+                <Video
+                  source={require("../assets/images/video4.mp4")}
+                  rate={1.0}
+                  volume={1.0}
+                  isMuted={false}
+                  resizeMode="cover"
+                  shouldPlay={false}
+                  isLooping={false}
+                  useNativeControls
+                  style={styles.image}
+                />
+              </View>
+              <View style={styles.mediaVideoContainer}>
+                <Video
+                  source={require("../assets/images/se_intro.mp4")}
+                  rate={1.0}
+                  volume={1.0}
+                  isMuted={false}
+                  resizeMode="cover"
+                  shouldPlay={false}
+                  isLooping={false}
+                  useNativeControls
+                  style={styles.image}
+                />
+              </View>
+            </ScrollView>
+            <View style={styles.mediaCount}>
+              <Text
+                style={[
+                  styles.text,
+                  { fontSize: 24, color: "#DFD8C8", fontWeight: "300" },
+                ]}
+              >
+                4
+              </Text>
+              <Text
+                style={[
+                  styles.text,
+                  {
+                    fontSize: 14,
+                    color: "#DFD8C8",
+                    textTransform: "uppercase",
+                  },
+                ]}
+              >
+                Videos
+              </Text>
+            </View>
+          </View>
+          {/* <Text style={[styles.subText, styles.recent]}>About</Text> */}
+          {/* <View style={{ alignItems: "center", marginBottom: 30 }}> */}
+          {/* <View style={styles.recentItem}>
+              <View style={styles.activityIndicator}></View>
+              <View style={{ width: 250 }}>
+                <Text
+                  style={[styles.text, { color: "#41444B", fontWeight: "300" }]}
+                >
+                  Started following{" "}
+                  <Text style={{ fontWeight: "400" }}>Jake Challeahe</Text> and{" "}
+                  <Text style={{ fontWeight: "400" }}>Luis Poteer</Text>
+                </Text>
+              </View>
+            </View> */}
+
+          {/* <View style={styles.recentItem}>
+              <View style={styles.activityIndicator}></View>
+              <View style={{ width: 250 }}>
+                <Text
+                  style={[styles.text, { color: "#41444B", fontWeight: "300" }]}
+                >
+                  <Text>{profile.bio}</Text>
+               
+                </Text>
+              </View>
             </View>
           </View> */}
-
-          <View style={styles.recentItem}>
-            <View style={styles.activityIndicator}></View>
-            <View style={{ width: 250 }}>
-              <Text
-                style={[styles.text, { color: "#41444B", fontWeight: "300" }]}
-              >
-                <Text>{profile.bio}</Text>
-                {/* Started following{" "}
-                <Text style={{ fontWeight: "400" }}>Luke Harper</Text> */}
-              </Text>
-            </View>
-          </View>
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -447,8 +548,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFFFF",
   },
+  header_text: {
+    color: "#41444B",
+    fontSize: 32,
+  },
   text: {
-    // fontFamily: "HelveticaNeue",
     color: "#41444B",
   },
   subText: {
@@ -467,17 +571,19 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   profileImage: {
-    width: 200,
-    height: 200,
+    width: 170,
+    height: 170,
     borderRadius: 100,
     overflow: "hidden",
+    right: 10,
   },
   titleBar: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 50,
-    marginHorizontal: 20,
+    marginBottom: 10,
+    marginHorizontal: 10,
   },
   title: {
     fontSize: 24,
@@ -518,16 +624,19 @@ const styles = StyleSheet.create({
   infoContainer: {
     alignSelf: "center",
     alignItems: "center",
-    marginTop: 5,
+    left: 10,
+    // marginTop: 5,
   },
   statsContainer: {
     flexDirection: "row",
     alignSelf: "center",
-    marginTop: 22,
+    marginTop: 20,
   },
   statsBox: {
     alignItems: "center",
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   mediaVideoContainer: {
     width: 200,
@@ -554,15 +663,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
   },
   recent: {
-    marginLeft: 78,
-    marginTop: 32,
+    marginLeft: 55,
+    // marginTop: 20,
     marginBottom: 6,
     fontSize: 14,
   },
   recentItem: {
     flexDirection: "row",
     alignItems: "flex-start",
-    marginBottom: 16,
+    // marginBottom: 16,
   },
   activityIndicator: {
     backgroundColor: "#CABFAB",

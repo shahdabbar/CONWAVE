@@ -80,13 +80,13 @@ function DrawerContent(props) {
             right: 0,
             bottom: 0,
             borderBottomRightRadius: 70,
-            backgroundColor: "pink",
+            backgroundColor: COLORS.rose,
           }}
         ></View>
       </View>
 
       <View style={{ flex: 0.8 }}>
-        <View style={{ flex: 1, backgroundColor: "pink" }} />
+        <View style={{ flex: 1, backgroundColor: COLORS.rose }} />
         <View style={{ flex: 1, backgroundColor: COLORS.gray }} />
         <Image
           source={require("../assets/images/bg28.jpg")}
@@ -126,18 +126,6 @@ function DrawerContent(props) {
               overflow: "hidden",
             }}
           >
-            {/* <Avatar.Image
-              source={
-                userInfo.profile_photo_path
-                  ? {
-                      uri: `http://192.168.0.106:8000/${userInfo.profile_photo_path}`,
-                    }
-                  : require("../assets/images/profile2.png")
-              }
-              size={100}
-              style={{ backgroundColor: COLORS.white }}
-            /> */}
-
             <Image
               source={
                 userInfo.profile_photo_path
@@ -219,7 +207,7 @@ function DrawerContent(props) {
             label="Videos"
             labelStyle={{ fontSize: 18, fontWeight: "bold" }}
             onPress={() => {
-              props.navigation.navigate("CompleteProfileScreen");
+              props.navigation.navigate("VideosScreen");
             }}
           />
           <DrawerItem
@@ -311,7 +299,6 @@ function DrawerContent(props) {
               logout();
             }}
           />
-          {/* </DrawerContentScrollView> */}
         </View>
       </View>
       <View

@@ -88,12 +88,7 @@ const EditProfileScreen = ({ route, navigation }) => {
       });
     }
     console.log("formData", formData);
-    //  {
-    //         headers: {
-    //           Accept: "application/json",
-    //           "Content-Type": "multipart/form-data",
-    //         },
-    //       }
+
     axios
       .post("api/user/photo", formData)
       .then((response) => {
@@ -146,18 +141,6 @@ const EditProfileScreen = ({ route, navigation }) => {
       .catch((error) => {
         console.log(error.response);
       });
-    // console.log("image path", userInfo.imagePath);
-
-    // (async () => {
-    //   if (Platform.OS !== "web") {
-    //     const {
-    //       status,
-    //     } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    //     if (status !== "granted") {
-    //       alert("Sorry, we need camera roll permissions to make this work!");
-    //     }
-    //   }
-    // })();
   }, []);
 
   const pickImage = async () => {
@@ -242,7 +225,7 @@ const EditProfileScreen = ({ route, navigation }) => {
       </View>
       <TouchableOpacity>
         <LinearGradient
-          colors={["#c6b893", "#d02860"]}
+          colors={[COLORS.pink, COLORS.yellow2]}
           style={styles.panelButton}
         >
           <Text style={styles.panelButtonTitle}>Take Photo</Text>
@@ -250,7 +233,7 @@ const EditProfileScreen = ({ route, navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity onPress={pickImage}>
         <LinearGradient
-          colors={["#c6b893", "#d02860"]}
+          colors={[COLORS.yellow2, "#d02860"]}
           style={styles.panelButton}
         >
           <Text style={styles.panelButtonTitle}>Choose From Library</Text>
@@ -262,7 +245,7 @@ const EditProfileScreen = ({ route, navigation }) => {
         }}
       >
         <LinearGradient
-          colors={["#c6b893", "#d02860"]}
+          colors={["#d02860", COLORS.yellow2]}
           style={styles.panelButton}
         >
           <Text style={styles.panelButtonTitle}>Cancel</Text>
@@ -525,10 +508,12 @@ const EditProfileScreen = ({ route, navigation }) => {
                       }}
                     >
                       <LinearGradient
-                        colors={["#FFFFFF", "#CABFAB"]}
-                        style={styles.signIn}
+                        colors={[COLORS.pink, COLORS.pink]}
+                        style={{ ...styles.signIn, elevation: 5 }}
                       >
-                        <Text style={[styles.textSign, { color: "#000000" }]}>
+                        <Text
+                          style={[styles.textSign, { color: COLORS.white2 }]}
+                        >
                           Update
                         </Text>
                       </LinearGradient>
@@ -545,10 +530,15 @@ const EditProfileScreen = ({ route, navigation }) => {
                       }}
                     >
                       <LinearGradient
-                        colors={["#FFFFFF", "#CABFAB"]}
-                        style={styles.signIn}
+                        colors={[COLORS.white, COLORS.white2]}
+                        style={{
+                          ...styles.signIn,
+                          borderColor: COLORS.beige,
+                          borderWidth: 2,
+                          elevation: 5,
+                        }}
                       >
-                        <Text style={[styles.textSign, { color: "#000000" }]}>
+                        <Text style={[styles.textSign, { color: COLORS.pink }]}>
                           Cancel
                         </Text>
                       </LinearGradient>
@@ -616,7 +606,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                 resizeMode="cover"
               />
             </View>
-            <View style={styles.active}></View>
+            {/* <View style={styles.active}></View> */}
             <View style={styles.add}>
               <Ionicon
                 name="camera"
@@ -642,10 +632,9 @@ const EditProfileScreen = ({ route, navigation }) => {
             <LinearGradient
               colors={[COLORS.white, COLORS.white]}
               style={{
-                // borderRadius: SIZES.radius / 2,
                 borderTopRightRadius: SIZES.radius,
                 borderBottomLeftRadius: SIZES.radius,
-                borderWidth: 2,
+                borderWidth: 3,
                 borderColor: COLORS.beige,
                 elevation: 10,
                 padding: 10,
@@ -671,6 +660,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                   <Icon
                     name="pencil"
                     size={20}
+                    color={COLORS.pink}
                     onPress={() => {
                       setModalOpen({ ...modalOpen, modal1: !modalOpen.modal1 });
                       setUpdate({
@@ -696,6 +686,7 @@ const EditProfileScreen = ({ route, navigation }) => {
 
                   <Icon
                     name="pencil"
+                    color={COLORS.pink}
                     size={20}
                     onPress={() => {
                       setModalOpen({ ...modalOpen, modal1: !modalOpen.modal1 });
@@ -723,6 +714,7 @@ const EditProfileScreen = ({ route, navigation }) => {
 
                   <Icon
                     name="pencil"
+                    color={COLORS.pink}
                     size={20}
                     onPress={() => {
                       setModalOpen({ ...modalOpen, modal1: !modalOpen.modal1 });
@@ -754,6 +746,7 @@ const EditProfileScreen = ({ route, navigation }) => {
 
                   <Icon
                     name="pencil"
+                    color={COLORS.pink}
                     size={20}
                     onPress={() => {
                       setModalOpen({ ...modalOpen, modal1: !modalOpen.modal1 });
@@ -768,13 +761,13 @@ const EditProfileScreen = ({ route, navigation }) => {
               </View>
             </LinearGradient>
             <LinearGradient
-              colors={[COLORS.beige, "pink"]}
+              colors={[COLORS.white, COLORS.white]}
               style={{
                 // borderRadius: SIZES.radius / 2,
                 borderBottomRightRadius: SIZES.radius,
                 borderTopLeftRadius: SIZES.radius,
-                // borderWidth: 2,
-                borderColor: COLORS.white,
+                borderWidth: 3,
+                borderColor: COLORS.beige,
                 elevation: 5,
                 padding: 10,
                 marginBottom: 15,
@@ -799,6 +792,7 @@ const EditProfileScreen = ({ route, navigation }) => {
 
                   <Icon
                     name="pencil"
+                    color={COLORS.pink}
                     size={20}
                     onPress={() => {
                       setModalOpen({ ...modalOpen, modal1: !modalOpen.modal1 });
@@ -815,13 +809,13 @@ const EditProfileScreen = ({ route, navigation }) => {
             {userInfo.type === "tutor" ? (
               <View>
                 <LinearGradient
-                  colors={[COLORS.beige, "pink"]}
+                  colors={[COLORS.white, COLORS.white]}
                   style={{
                     // borderRadius: SIZES.radius / 2,
                     borderTopRightRadius: SIZES.radius,
                     borderBottomLeftRadius: SIZES.radius,
-                    // borderWidth: 2,
-                    borderColor: COLORS.white,
+                    borderWidth: 3,
+                    borderColor: COLORS.beige,
                     elevation: 5,
                     padding: 10,
                     marginBottom: 15,
@@ -858,6 +852,7 @@ const EditProfileScreen = ({ route, navigation }) => {
 
                       <Icon
                         name="pencil"
+                        color={COLORS.pink}
                         size={20}
                         onPress={() => {
                           setModalOpen({ ...modalOpen, modal2: true });
@@ -896,6 +891,7 @@ const EditProfileScreen = ({ route, navigation }) => {
 
                       <Icon
                         name="pencil"
+                        color={COLORS.pink}
                         size={20}
                         onPress={() => {
                           setModalOpen({ ...modalOpen, modal2: true });
@@ -911,13 +907,13 @@ const EditProfileScreen = ({ route, navigation }) => {
                 </LinearGradient>
 
                 <LinearGradient
-                  colors={[COLORS.beige, "pink"]}
+                  colors={[COLORS.white, COLORS.white]}
                   style={{
                     // borderRadius: SIZES.radius / 2,
                     borderBottomRightRadius: SIZES.radius,
                     borderTopLeftRadius: SIZES.radius,
-                    // borderWidth: 2,
-                    borderColor: COLORS.white,
+                    borderWidth: 3,
+                    borderColor: COLORS.beige,
                     elevation: 5,
                     padding: 10,
                     marginBottom: 15,
@@ -954,6 +950,7 @@ const EditProfileScreen = ({ route, navigation }) => {
 
                       <Icon
                         name="pencil"
+                        color={COLORS.pink}
                         size={20}
                         onPress={() => {
                           setModalOpen({ ...modalOpen, modal2: true });
@@ -1136,10 +1133,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   panelButton: {
+    height: 60,
     padding: 13,
     borderRadius: 30,
-    backgroundColor: "#FF6347",
+    // backgroundColor: "#FF6347",
     alignItems: "center",
+    justifyContent: "center",
     marginVertical: 7,
   },
   panelButtonTitle: {

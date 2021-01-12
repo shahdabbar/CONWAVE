@@ -12,13 +12,16 @@ export const COLORS = {
   darkblue: "#00444b",
   orange: "#fe9901",
   // d6db8b
+  black3: "#000000",
 
   // colors
   black: "#1E1F20",
   white: "#FFFFFF",
   dark: "#1E1F20",
   gary: "#202020",
+  // pink: "#147e6c",
   pink: "#ff35a2",
+
   pink2: "#eb5691",
   beige: "#fff7f0",
   yellow2: "#e8af01",

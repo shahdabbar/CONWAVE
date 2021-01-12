@@ -105,24 +105,49 @@ const CompleteProfileSCreen = ({ navigation }) => {
 
   function flatList() {
     return (
-      <View style={{ backgroundColor: "pink" }}>
+      <View>
+        <View style={styles.warning}>
+          <Text style={styles.paragraph}>
+            You Need to fill out all info to be able to continue
+          </Text>
+        </View>
         <View
           style={{
-            marginTop: 10,
-            paddingTop: 20,
+            paddingTop: 10,
             marginBottom: 70,
             borderTopLeftRadius: 70,
             backgroundColor: COLORS.white,
           }}
         >
-          <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
+          <View style={{ paddingVertical: 5, marginHorizontal: 10 }}>
             <TouchableOpacity
-              style={styles.wrapper}
+              style={{
+                ...styles.wrapper,
+                backgroundColor: "#50ABF1",
+                justifyContent: "center",
+                paddingHorizontal: 10,
+              }}
               onPress={() => {
                 navigation.navigate("EditProfile");
               }}
             >
               <View style={styles.warpper_content}>
+                <View
+                  style={{
+                    width: 55,
+                    height: 55,
+                    borderRadius: 25,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: COLORS.white,
+                  }}
+                >
+                  <Image
+                    source={icons.maleandfemale}
+                    resizeMode="contain"
+                    style={styles.icon}
+                  />
+                </View>
                 <Text style={styles.text}>Complete your profile</Text>
                 <Image
                   source={icons.right}
@@ -132,14 +157,35 @@ const CompleteProfileSCreen = ({ navigation }) => {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
+          <View style={{ paddingVertical: 5, marginHorizontal: 10 }}>
             <TouchableOpacity
-              style={styles.wrapper}
+              style={{
+                ...styles.wrapper,
+                backgroundColor: "#e7ce82",
+                justifyContent: "center",
+                paddingHorizontal: 10,
+              }}
               onPress={() => {
                 navigation.navigate("Courses");
               }}
             >
               <View style={styles.warpper_content}>
+                <View
+                  style={{
+                    width: 55,
+                    height: 55,
+                    borderRadius: 25,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: COLORS.white,
+                  }}
+                >
+                  <Image
+                    source={icons.course}
+                    resizeMode="contain"
+                    style={styles.icon}
+                  />
+                </View>
                 <Text style={styles.text}>Add Course Offer</Text>
                 <Image
                   source={icons.right}
@@ -149,14 +195,37 @@ const CompleteProfileSCreen = ({ navigation }) => {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
+          <View style={{ paddingVertical: 5, marginHorizontal: 10 }}>
             <TouchableOpacity
-              style={styles.wrapper}
+              style={{
+                ...styles.wrapper,
+                backgroundColor: "#f08ea0",
+                // backgroundColor: "#2CB9B0",
+
+                justifyContent: "center",
+                paddingHorizontal: 10,
+              }}
               onPress={() => {
                 navigation.navigate("Availabilities");
               }}
             >
               <View style={styles.warpper_content}>
+                <View
+                  style={{
+                    width: 55,
+                    height: 55,
+                    borderRadius: 25,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: COLORS.white,
+                  }}
+                >
+                  <Image
+                    source={icons.available}
+                    resizeMode="contain"
+                    style={styles.icon}
+                  />
+                </View>
                 <Text style={styles.text}>Add your availability</Text>
                 <Image
                   source={icons.right}
@@ -166,14 +235,35 @@ const CompleteProfileSCreen = ({ navigation }) => {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
+          <View style={{ paddingVertical: 5, marginHorizontal: 10 }}>
             <TouchableOpacity
-              style={styles.wrapper}
+              style={{
+                ...styles.wrapper,
+                backgroundColor: "#e397f8",
+                justifyContent: "center",
+                paddingHorizontal: 10,
+              }}
               onPress={() => {
                 setModal({ ...modal, meetingTypeModal: true });
               }}
             >
               <View style={styles.warpper_content}>
+                <View
+                  style={{
+                    width: 55,
+                    height: 55,
+                    borderRadius: 25,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: COLORS.white,
+                  }}
+                >
+                  <Image
+                    source={icons.meeting}
+                    resizeMode="contain"
+                    style={styles.icon}
+                  />
+                </View>
                 <Text style={styles.text}>Prefered meeting type</Text>
                 <Image
                   source={icons.right}
@@ -183,14 +273,35 @@ const CompleteProfileSCreen = ({ navigation }) => {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
+          <View style={{ paddingVertical: 5, marginHorizontal: 10 }}>
             <TouchableOpacity
-              style={styles.wrapper}
+              style={{
+                ...styles.wrapper,
+                backgroundColor: "#64dbba",
+                justifyContent: "center",
+                paddingHorizontal: 10,
+              }}
               onPress={() => {
                 navigation.navigate("Address");
               }}
             >
               <View style={styles.warpper_content}>
+                <View
+                  style={{
+                    width: 55,
+                    height: 55,
+                    borderRadius: 25,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: COLORS.white,
+                  }}
+                >
+                  <Image
+                    source={icons.address2}
+                    resizeMode="contain"
+                    style={styles.icon}
+                  />
+                </View>
                 <Text style={styles.text}>Default meeting address</Text>
                 <Image
                   source={icons.right}
@@ -200,10 +311,34 @@ const CompleteProfileSCreen = ({ navigation }) => {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
-            <TouchableOpacity style={styles.wrapper} onPress={() => {}}>
+          <View style={{ paddingVertical: 5, marginHorizontal: 10 }}>
+            <TouchableOpacity
+              style={{
+                ...styles.wrapper,
+                backgroundColor: "#ff8a8a",
+                justifyContent: "center",
+                paddingHorizontal: 10,
+              }}
+              onPress={() => {}}
+            >
               <View style={styles.warpper_content}>
-                <Text style={styles.text}>Upload your transcripts/CV</Text>
+                <View
+                  style={{
+                    width: 55,
+                    height: 55,
+                    borderRadius: 25,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: COLORS.white,
+                  }}
+                >
+                  <Image
+                    source={icons.cv}
+                    resizeMode="contain"
+                    style={styles.icon}
+                  />
+                </View>
+                <Text style={styles.text}>Upload your CV</Text>
                 <Image
                   source={icons.right}
                   resizeMode="contain"
@@ -212,9 +347,14 @@ const CompleteProfileSCreen = ({ navigation }) => {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{ paddingVertical: 10, paddingLeft: 18 }}>
+          <View style={{ paddingVertical: 5, marginHorizontal: 10 }}>
             <TouchableOpacity
-              style={styles.wrapper}
+              style={{
+                ...styles.wrapper,
+                backgroundColor: "#9dca82",
+                justifyContent: "center",
+                paddingHorizontal: 10,
+              }}
               onPress={() => {
                 setModal({
                   ...modal,
@@ -223,6 +363,22 @@ const CompleteProfileSCreen = ({ navigation }) => {
               }}
             >
               <View style={styles.warpper_content}>
+                <View
+                  style={{
+                    width: 55,
+                    height: 55,
+                    borderRadius: 25,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: COLORS.white,
+                  }}
+                >
+                  <Image
+                    source={icons.payment}
+                    resizeMode="contain"
+                    style={styles.icon}
+                  />
+                </View>
                 <Text style={styles.text}>Add your payment method</Text>
                 <Image
                   source={icons.right}
@@ -467,14 +623,9 @@ const CompleteProfileSCreen = ({ navigation }) => {
             You're a few steps away from becoming an AWESOME tutor.
           </Text>
         </View>
-        {/* <View style={styles.warning}>
-          <Text style={styles.paragraph}>
-            You Need to fill out all info to be able to continue
-          </Text>
-        </View> */}
       </View>
       <LinearGradient colors={[COLORS.white, COLORS.white]}>
-        <View style={{ marginBottom: 80 }}>
+        <View style={{ marginBottom: 90 }}>
           <FlatList ListHeaderComponent={flatList()} />
         </View>
       </LinearGradient>
@@ -487,7 +638,7 @@ export default CompleteProfileSCreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "pink",
+    backgroundColor: "white",
     paddingTop: 40,
   },
   paragraph: {
@@ -535,18 +686,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   warning: {
-    // backgroundColor: "#ffd200",
+    backgroundColor: COLORS.yellow2,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
   },
   wrapper: {
-    backgroundColor: "#FFFFFF",
-    borderWidth: 2,
-    borderColor: COLORS.beige,
+    height: 100,
     borderRadius: SIZES.radius,
     elevation: 10,
-    marginRight: SIZES.padding * 2,
   },
   warpper_content: {
     padding: 10,
@@ -569,5 +717,9 @@ const styles = StyleSheet.create({
   image: {
     width: 15,
     height: 40,
+  },
+  icon: {
+    width: 50,
+    height: 50,
   },
 });

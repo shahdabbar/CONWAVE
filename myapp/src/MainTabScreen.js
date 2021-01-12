@@ -261,7 +261,7 @@ const MainTabScreen = () => {
             }}
           />
 
-          <Tab.Screen
+          {/* <Tab.Screen
             name="Courses"
             component={TutorCoursesStackScreen}
             options={({ route }) => {
@@ -282,7 +282,7 @@ const MainTabScreen = () => {
                 tabBarButton: (props) => <TabBarCustomButton {...props} />,
               };
             }}
-          />
+          /> */}
         </>
       ) : (
         <>
@@ -308,7 +308,7 @@ const MainTabScreen = () => {
               };
             }}
           />
-          {/* <Tab.Screen
+          <Tab.Screen
             name="Notification"
             component={DetailsStackScreen}
             options={({ route }) => {
@@ -329,7 +329,7 @@ const MainTabScreen = () => {
                 tabBarButton: (props) => <TabBarCustomButton {...props} />,
               };
             }}
-          /> */}
+          />
         </>
       )}
       <Tab.Screen
@@ -850,7 +850,7 @@ const ProfileStackScreen = ({ navigation }) => {
   return (
     <ProfileStack.Navigator
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         headerStyle: {
           backgroundColor: "#fff",
           shadowColor: "#000", // ios
@@ -862,7 +862,9 @@ const ProfileStackScreen = ({ navigation }) => {
         name="Profile"
         component={ProfileScreen}
         options={{
+          headerShown: false,
           headerStyle: {
+            backgroundColor: COLORS.pink,
             elevation: 0, // Android
           },
           title: "",
@@ -870,7 +872,7 @@ const ProfileStackScreen = ({ navigation }) => {
             <Icon
               name="ios-menu"
               size={30}
-              color="gray"
+              color="#000000"
               style={{ marginLeft: 16 }}
               onPress={() => navigation.openDrawer()}
             />
@@ -879,7 +881,7 @@ const ProfileStackScreen = ({ navigation }) => {
             <MaterialCommunityIcons
               name="account-edit"
               size={30}
-              color="gray"
+              color="#000000-p;'"
               style={{ marginRight: 20 }}
               onPress={() => navigation.navigate("EditProfile")}
             />
@@ -891,6 +893,7 @@ const ProfileStackScreen = ({ navigation }) => {
         name="Videos"
         component={VideosScreen}
         options={{
+          headerShown: false,
           title: "My Videos",
           headerTitleStyle: {
             color: "gray",
@@ -945,6 +948,37 @@ const ProfileStackScreen = ({ navigation }) => {
               }}
             />
           ),
+        }}
+      />
+
+      <ProfileStack.Screen
+        name="TutorCourses"
+        component={TutorCoursesScreen}
+        options={{
+          headerShown: true,
+          headerTitle: "Reviews Per Course",
+          headerStyle: {
+            elevation: 0,
+          },
+          headerLeft: () => (
+            <MaterialIcon
+              name="arrow-back-ios"
+              size={24}
+              color="gray"
+              style={{ marginLeft: 20 }}
+              onPress={() => {
+                navigation.navigate("Profile");
+              }}
+            />
+          ),
+        }}
+      />
+
+      <ProfileStack.Screen
+        name="Reviews"
+        component={ReviewsScreen}
+        options={{
+          headerShown: false,
         }}
       />
     </ProfileStack.Navigator>
@@ -1016,48 +1050,15 @@ const ChatStackScreen = ({ navigation }) => (
 const SessionsStackScreen = ({ navigation }) => (
   <SessionStack.Navigator
     screenOptions={{
-      headerShown: "false",
-      headerStyle: {
-        backgroundColor: "#fff",
-        shadowColor: "#000", // ios
-        elevation: 0, // Android
-      },
-      headerTintColor: "#000",
-      headerTitleStyle: {
-        fontWeight: "bold",
-      },
+      initialRouteName: "Sessions",
+      headerShown: "true",
     }}
   >
     <SessionStack.Screen
-      name="Sessions"
+      name="TutorSessions"
       component={CompleteProfileScreen}
       options={{
-        headerTitle: "Complete Profile",
-        headerTitleStyle: {
-          fontSize: 24,
-          fontWeight: "bold",
-          color: COLORS.black,
-        },
         headerShown: false,
-        headerLeft: () => (
-          <Icon.Button
-            name="ios-menu"
-            size={30}
-            backgroundColor="#fff"
-            left={10}
-            color="gray"
-            onPress={() => navigation.openDrawer()}
-          ></Icon.Button>
-        ),
-        headerRight: () => {
-          <Icon
-            name="md-ellipsis-vertical"
-            size={30}
-            color="gray"
-            style={{ marginRight: 16 }}
-            onPress={() => {}}
-          />;
-        },
       }}
     />
 
@@ -1080,7 +1081,7 @@ const SessionsStackScreen = ({ navigation }) => (
             color="gray"
             style={{ marginLeft: 20 }}
             onPress={() => {
-              navigation.navigate("CompleteProfileScreen");
+              navigation.navigate("TutorSessions");
             }}
           />
         ),
@@ -1102,15 +1103,6 @@ const SessionsStackScreen = ({ navigation }) => (
       component={AddCourseScreen}
       options={{
         headerShown: false,
-        headerLeft: () => (
-          <Icon.Button
-            name="ios-menu"
-            size={30}
-            backgroundColor="#fff"
-            color="black"
-            onPress={() => navigation.openDrawer()}
-          ></Icon.Button>
-        ),
       }}
     />
 
@@ -1181,7 +1173,7 @@ const SessionsStackScreen = ({ navigation }) => (
             color="gray"
             style={{ marginLeft: 20 }}
             onPress={() => {
-              navigation.navigate("CompleteProfileScreen");
+              navigation.navigate("TutorSessions");
             }}
           />
         ),
@@ -1206,7 +1198,7 @@ const SessionsStackScreen = ({ navigation }) => (
             color="gray"
             style={{ marginLeft: 20 }}
             onPress={() => {
-              navigation.navigate("CompleteProfileScreen");
+              navigation.navigate("TutorSessions");
             }}
           />
         ),

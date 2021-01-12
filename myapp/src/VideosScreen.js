@@ -40,6 +40,25 @@ const VideosScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.titleBar}>
+        <MaterialIcon
+          name="arrow-back-ios"
+          size={24}
+          color="gray"
+          style={{ marginLeft: 20 }}
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
+        <Text style={styles.text}>videos</Text>
+        <Ionicon
+          name="md-ellipsis-vertical"
+          size={30}
+          color="gray"
+          style={{ marginRight: 16 }}
+          onPress={() => {}}
+        />
+      </View>
       <ScrollView showsHorizontalScrollIndicator={false}>
         <View style={styles.mediaVideoContainer}>
           <Video
@@ -106,6 +125,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  titleBar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 65,
+    marginBottom: 10,
+    marginHorizontal: 5,
+  },
+  text: {
+    fontSize: 19,
+    color: COLORS.pink,
+    textTransform: "uppercase",
   },
   video: {
     width: width,

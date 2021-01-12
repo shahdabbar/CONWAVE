@@ -46,66 +46,48 @@ const TutorCourses = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.courses}>
-        <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>My Courses</Text>
-      </View>
-      <View
-        style={{
-          marginBottom: 100,
-        }}
-      >
+      <View>
         <FlatList
           data={courses}
           keyExtractor={(item) => `${item.id}`}
           contentContainerStyle={{
-            paddingVertical: SIZES.padding,
+            paddingVertical: SIZES.padding * 2,
           }}
           renderItem={({ item }) => {
             return (
               <View>
                 <View>
                   <LinearGradient
-                    colors={[COLORS.beige, COLORS.beige]}
+                    colors={[COLORS.white, COLORS.white]}
                     style={{
-                      // borderRadius: SIZES.radius / 2,
-                      borderTopRightRadius: SIZES.radius,
-                      borderBottomLeftRadius: SIZES.radius,
-                      // borderColor: COLORS.beige,
-                      // borderWidth: 2,
-                      elevation: 1,
+                      borderRadius: SIZES.radius,
+                      borderColor: COLORS.beige,
+                      borderWidth: 2,
+                      elevation: 5,
                       padding: 5,
                       marginHorizontal: 20,
-                      height: 200,
+                      height: 150,
                       marginBottom: 20,
                     }}
                   >
                     <View>
                       <View style={{ ...styles.infoContent }}>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            marginBottom: 10,
-                          }}
-                        >
+                        <View style={{ marginBottom: 10 }}>
                           <View>
                             <Text style={styles.infoText}>
                               {item.course.name}
                             </Text>
                           </View>
-                          <View
-                            style={{
-                              flexDirection: "row",
-                              alignItems: "center",
-                            }}
-                          ></View>
                         </View>
                         <Text style={styles.text}>
                           {item.course_description}
                         </Text>
 
-                        <View style={{ marginVertical: 10 }}>
+                        <View
+                          style={{
+                            marginVertical: 10,
+                          }}
+                        >
                           <View
                             style={{
                               height: 0.3,
@@ -118,14 +100,15 @@ const TutorCourses = ({ navigation }) => {
                     </View>
                     <TouchableOpacity
                       style={{
-                        position: "absolute",
+                        // position: "absolute",
                         marginHorizontal: 20,
                         marginVertical: 5,
                         bottom: 0,
                         right: 0,
                         flexDirection: "row",
                         alignItems: "center",
-                        justifyContent: "flex-end",
+                        // justifyContent: "flex-end",
+                        justifyContent: "center",
                       }}
                       onPress={() =>
                         navigation.navigate("Reviews", {
@@ -154,7 +137,7 @@ const TutorCourses = ({ navigation }) => {
                       </View>
                     </TouchableOpacity>
                     <LinearGradient
-                      colors={[COLORS.primary, COLORS.yellow]}
+                      colors={[COLORS.rose, COLORS.rose]}
                       style={{
                         position: "absolute",
                         top: 0,
@@ -170,7 +153,13 @@ const TutorCourses = ({ navigation }) => {
                       }}
                     >
                       <View>
-                        <Text style={{ fontSize: 14, fontWeight: "bold" }}>
+                        <Text
+                          style={{
+                            fontSize: 14,
+                            fontWeight: "bold",
+                            color: COLORS.white,
+                          }}
+                        >
                           LBP {item.rate}
                         </Text>
                       </View>
@@ -191,8 +180,7 @@ export default TutorCourses;
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: "white",
-    paddingTop: 50,
+    backgroundColor: COLORS.white,
   },
   courses: { marginHorizontal: 20, marginVertical: 10, fontWeight: "100" },
   button: {
@@ -225,7 +213,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   infoText: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "bold",
   },
   text: {

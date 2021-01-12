@@ -241,7 +241,7 @@ class MyApp extends Component {
               <Circle r={height + 50} cx={width / 2} />
             </ClipPath>
             <Image
-              href={require("../assets/images/bg43.jpg")}
+              href={require("../assets/images/dark.jpg")}
               width={width}
               height={height + 50}
               preserveAspectRatio="xMidYMid slice"
@@ -254,38 +254,37 @@ class MyApp extends Component {
             style={{
               ...styles.title,
               textTransform: "uppercase",
-              fontSize: 50,
+              fontSize: 30,
               color: COLORS.white2,
-              // textAlign: "center",
               textShadowColor: COLORS.primary,
-              lineHeight: 50,
+              lineHeight: 55,
             }}
           >
             <Text
               style={{
-                fontSize: 50,
-                fontWeight: "100",
-                width: width,
-              }}
-            >
-              Stay
-            </Text>
-            {"\n"}
-            <Text
-              style={{
-                fontSize: 60,
-                color: "#ffa3b2",
+                fontSize: 30,
                 fontWeight: "bold",
                 width: width,
               }}
             >
-              <Text style={{ color: COLORS.pink }}>con</Text>
-              nected
+              Stay
             </Text>{" "}
             <Text
               style={{
-                fontSize: 50,
+                fontSize: 30,
+                color: COLORS.white,
+                // color: "#ffa3b2",
+                fontWeight: "bold",
                 width: width,
+              }}
+            >
+              connected
+            </Text>{" "}
+            <Text
+              style={{
+                fontSize: 30,
+                width: width,
+                fontWeight: "bold",
               }}
             >
               with
@@ -294,15 +293,13 @@ class MyApp extends Component {
               style={{
                 fontSize: 65,
                 fontWeight: "bold",
-                color: COLORS.yellow,
+                color: COLORS.pink,
                 width: width,
-                // fontStyle: "italic",
               }}
             >
-              <Text style={{ color: COLORS.pink }}>con</Text>
-              wave
+              <Text style={{ color: COLORS.primary }}>con</Text>
+              wave!
             </Text>
-            !
           </Text>
           <Text style={styles.ttt}>Sign in with account</Text>
         </View>
@@ -317,10 +314,16 @@ class MyApp extends Component {
               <View>
                 <TouchableOpacity>
                   <LinearGradient
-                    colors={["#c6b893", "#ffba00"]}
-                    style={styles.button}
+                    colors={[COLORS.black, COLORS.black]}
+                    style={{
+                      ...styles.button,
+                      // borderWidth: 3,
+                      // borderColor: COLORS.beige,
+                    }}
                   >
-                    <Text style={styles.text}>SIGN IN</Text>
+                    <Text style={{ ...styles.text, color: COLORS.white }}>
+                      SIGN IN
+                    </Text>
                   </LinearGradient>
                 </TouchableOpacity>
               </View>
@@ -338,7 +341,7 @@ class MyApp extends Component {
               >
                 {/* d02860 */}
                 <LinearGradient
-                  colors={["#ff01ff", "#ffba00"]}
+                  colors={[COLORS.primary, COLORS.yellow2]}
                   style={styles.button}
                 >
                   <Text style={styles.text}>CREATE AN ACCOUNT</Text>
@@ -377,7 +380,7 @@ class MyApp extends Component {
                 name="envelope"
                 size={20}
                 style={styles.icon}
-                color={COLORS.yellow}
+                color="grey"
               />
               <TextInput
                 placeholder="email"
@@ -403,7 +406,7 @@ class MyApp extends Component {
                 name="lock"
                 size={25}
                 style={styles.icon}
-                color={COLORS.yellow}
+                color="grey"
               />
               <TextInput
                 placeholder="password"
@@ -462,18 +465,18 @@ export default MyApp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // backgroundColor: "#DC8200",
     backgroundColor: COLORS.white,
     justifyContent: "flex-end",
   },
   header: {
-    marginVertical: 60,
+    marginVertical: 100,
   },
   footer: {
     height: height / 3,
     justifyContent: "center",
   },
   button: {
-    backgroundColor: "white",
     height: 70,
     marginHorizontal: 10,
     borderRadius: 35,
@@ -485,7 +488,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
     shadowColor: "black",
     shadowOpacity: 0.2,
-    // elevation: 100,
   },
   ttt: {
     color: "gray",
@@ -545,7 +547,7 @@ const styles = StyleSheet.create({
   textInput: {
     flex: 1,
     paddingLeft: 10,
-    color: COLORS.white2,
+    color: "grey",
   },
   errorMsg: {
     color: "#d80000",

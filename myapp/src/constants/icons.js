@@ -31,8 +31,35 @@ export const firework = require("../../assets/icons/firework.png");
 export const schedule = require("../../assets/icons/schedule.png");
 export const courses = require("../../assets/icons/courses.png");
 export const red_pin = require("../../assets/icons/red_pin.png");
+export const address = require("../../assets/icons/address.png");
+export const address2 = require("../../assets/icons/placeholder.png");
+export const course = require("../../assets/icons/audio-course.png");
+export const available = require("../../assets/icons/availability.png");
+export const book = require("../../assets/icons/contact-book.png");
+export const payment = require("../../assets/icons/credit-card.png");
+export const cv = require("../../assets/icons/cv.png");
+export const meeting = require("../../assets/icons/meeting.png");
+export const maleandfemale = require("../../assets/icons/male-and-female.png");
+export const onlinecourse = require("../../assets/icons/online-course.png");
+export const settings = require("../../assets/icons/settings.png");
+export const star = require("../../assets/icons/star.png");
+export const notifications = require("../../assets/icons/notification.png");
 
 export default {
+  address,
+  address2,
+  notifications,
+  course,
+  settings,
+  payment,
+  star,
+  onlinecourse,
+  maleandfemale,
+  onlinecourse,
+  meeting,
+  cv,
+  book,
+  available,
   session,
   fireworks,
   firework,

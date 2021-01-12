@@ -160,13 +160,9 @@ const AvailabilityScreen = ({ route, navigation }) => {
       });
   }, []);
 
-  const onSavePress = () => {
-    console.log(days);
-  };
-
   const renderHours = () => {
     return (
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <View style={{ marginBottom: 300 }}>
         {selectedDay ? (
           <FlatList
             horizontal={false}
@@ -174,15 +170,13 @@ const AvailabilityScreen = ({ route, navigation }) => {
             showsVerticalScrollIndicator={false}
             keyExtractor={(item) => `${item.id}`}
             contentContainerStyle={{
-              paddingVertical: SIZES.padding,
+              paddingVertical: SIZES.padding * 2,
               paddingHorizontal: SIZES.padding,
-              marginBottom: 400,
             }}
             renderItem={({ item }) => {
               return (
                 <View style={styles.content}>
                   <TouchableOpacity
-                    // disabled={item.isSelected ? true : false}
                     style={{
                       elevation: 10,
                       ...styles.wrapper_content,
@@ -213,7 +207,7 @@ const AvailabilityScreen = ({ route, navigation }) => {
             }}
           />
         ) : null}
-      </ScrollView>
+      </View>
     );
   };
 
@@ -261,60 +255,62 @@ const AvailabilityScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.wrapper}>
-        <View style={styles.header}>
-          <Text style={styles.text}>Availabilites</Text>
-          <TouchableOpacity
-            onPress={() => {
-              onSavePress();
-            }}
-          >
-            <Text style={styles.subText}>Save</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <FlatList
-            horizontal={true}
-            data={days}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item) => `${item.id}`}
-            contentContainerStyle={{
-              paddingVertical: SIZES.padding,
-            }}
-            renderItem={({ item }) => {
-              return (
-                <View style={styles.content}>
-                  <TouchableOpacity
-                    style={{
-                      ...styles.days,
-                      elevation: 5,
-                      backgroundColor:
-                        selectedDay?.id === item.id
-                          ? COLORS.lightblue
-                          : COLORS.white,
-                      borderColor:
-                        selectedDay?.id === item.id
-                          ? COLORS.primary
-                          : COLORS.yellow,
-                    }}
-                    onPress={() => {
-                      //   onDayPress(item);
-                      onDaySelected(item);
-                    }}
-                  >
-                    <View>
-                      <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                        {item.name}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              );
-            }}
-          />
-        </View>
-
-        <View style={styles.hours}>{renderHours()}</View>
+      <View style={styles.header}>
+        <Text style={styles.text}>Availabilites</Text>
+      </View>
+      <View style={{ marginBottom: 20 }}>
+        <FlatList
+          horizontal={true}
+          data={days}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item) => `${item.id}`}
+          contentContainerStyle={{
+            paddingVertical: SIZES.padding,
+          }}
+          renderItem={({ item }) => {
+            return (
+              <View style={styles.content}>
+                <TouchableOpacity
+                  style={{
+                    ...styles.days,
+                    elevation: 5,
+                    backgroundColor:
+                      selectedDay?.id === item.id
+                        ? COLORS.lightblue
+                        : COLORS.white,
+                    borderColor:
+                      selectedDay?.id === item.id
+                        ? COLORS.primary
+                        : COLORS.yellow,
+                  }}
+                  onPress={() => {
+                    //   onDayPress(item);
+                    onDaySelected(item);
+                  }}
+                >
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: "bold",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {item.name}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            );
+          }}
+        />
+      </View>
+      <View>
+        <FlatList
+          contentContainerStyle={styles.hours}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={renderHours()}
+        />
       </View>
     </View>
   );
