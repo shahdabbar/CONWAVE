@@ -11,32 +11,43 @@ class ProfileController extends Controller
 {
     public function index(Request $request)
     {
-        // return response()->json("i am here, hola!");
-        $profile = Auth::user()->profile;
+        $profile = Profile::with('university', 'major', 'degree')->where('user_id', Auth()->user()->id)->get();
         return response()->json($profile);
     }
 
     public function update(Request $request)
     {
+
         if (request("bio")){
             $data = request()->validate([
                 'bio' => 'required',
             ]);
-        } else if (request("university")){
-            $data = request()->validate([
-                'university' => 'required',
+
+            Profile::updateOrCreate(['user_id' => Auth()->user()->id],
+            [
+                'user_id' => Auth()->user()->id,
+                'bio' => $data['bio'],
             ]);
-        } else if (request("major")){
+
+        } else if (request("university_id")){
             $data = request()->validate([
-                'major' => 'required',
-            ]);
-        } else if (request("graduation_date")){
-            $data = request()->validate([
-                'graduation_date' => 'required',
+            'university_id' => 'required',
+            'major_id' => 'required',
+            'degree_id' => 'required',
+            'graduation_date' => 'required',
+        ]);
+
+            Profile::updateOrCreate(['user_id' => Auth()->user()->id],
+            [
+                'user_id' => Auth()->user()->id,
+                'university_id' => $data['university_id'],
+                'major_id' =>  $data['major_id'],
+                'degree_id' =>  $data['degree_id'],
+                'graduation_date' =>  $data['graduation_date'],
             ]);
         } 
 
-        Auth()->user()->profile()->insertOrUpdate($data);
+       
         return response()->json('success', 200);
 
     }

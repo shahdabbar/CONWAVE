@@ -240,7 +240,7 @@ const ProfileScreen = ({ navigation }) => {
     axios
       .get("api/profile")
       .then((response) => {
-        setProfile(response.data);
+        setProfile(response.data[0]);
       })
       .catch((error) => {
         console.log(error);
@@ -319,7 +319,7 @@ const ProfileScreen = ({ navigation }) => {
           <View style={{ alignItems: "center" }}>
             <View style={styles.recentItem}>
               <View style={styles.activityIndicator}></View>
-              <View style={{ width: 320 }}>
+              <View style={{ width: 300 }}>
                 <Text
                   style={[styles.text, { color: "#41444B", fontWeight: "300" }]}
                 >

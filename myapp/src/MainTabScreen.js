@@ -706,6 +706,7 @@ const StudentSessionsStackScreen = ({ navigation }) => (
       name="StudentsSessions"
       component={StudentSessionsScreen}
       options={{
+        headerShown: false,
         headerLeft: () => (
           <Icon.Button
             name="ios-menu"

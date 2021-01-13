@@ -21,19 +21,15 @@ import {
 } from "react-native-vector-icons";
 import { AuthContext } from "./AuthProvider";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
-import {
-  Checkbox,
-  useTheme,
-  Card,
-  CardItem,
-  CardHeader,
-} from "react-native-paper";
+import { Checkbox } from "react-native-paper";
+import { Picker } from "@react-native-picker/picker";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated, { Easing } from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 import * as ImagePicker from "expo-image-picker";
-
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import axios from "axios";
+import { useFocusEffect } from "@react-navigation/native";
 
 const EditProfileScreen = ({ route, navigation }) => {
   const { user, logout } = useContext(AuthContext);
@@ -43,11 +39,22 @@ const EditProfileScreen = ({ route, navigation }) => {
   const fall = new Animated.Value(1);
 
   const [update, setUpdate] = useState({ updateName: "", updateValue: "" });
-  const [updatePro, setUpdatePro] = useState({
-    updateName: "",
-    updateValue: "",
+  const [isVisible, setIsVisible] = useState(false);
+
+  const [state, setState] = useState({
+    universities: [],
+    majors: [],
+    university: "",
+    university_id: 0,
+    major: "",
+    major_id: 0,
+    degree: "",
+    degree_id: 0,
+    graduation_date: "",
+    bio: "",
   });
 
+  const [modaltype, setModaltype] = useState("");
   const [modalOpen, setModalOpen] = useState({
     modal1: false,
     modal2: false,
@@ -65,15 +72,7 @@ const EditProfileScreen = ({ route, navigation }) => {
     imagePath: "",
   });
 
-  const [profileInfo, setProfileInfo] = useState({
-    bio: "",
-    university: "",
-    major: "",
-    degree: "",
-    hours_tutored: "",
-    students_tutored: "",
-    graduation_date: "",
-  });
+  const [profileInfo, setProfileInfo] = useState([]);
 
   const [image, setImage] = useState(null);
 
@@ -107,16 +106,7 @@ const EditProfileScreen = ({ route, navigation }) => {
     axios
       .get("api/profile")
       .then((response) => {
-        setProfileInfo({
-          ...profileInfo,
-          bio: response.data.bio,
-          university: response.data.university,
-          major: response.data.major,
-          degree: response.data.degree,
-          hours_tutored: response.data.hours_tutored,
-          students_tutored: response.data.students_tutored,
-          graduation_date: response.data.graduation_date,
-        });
+        setProfileInfo(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -140,6 +130,21 @@ const EditProfileScreen = ({ route, navigation }) => {
       })
       .catch((error) => {
         console.log(error.response);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("api/universities/majors")
+      .then((response) => {
+        setState({
+          ...state,
+          universities: response.data[0],
+          majors: response.data[1],
+        });
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }, []);
 
@@ -180,42 +185,50 @@ const EditProfileScreen = ({ route, navigation }) => {
     axios
       .post("api/user/update", data)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const updateProfile = () => {
-    var data = "";
-    if (updatePro.updateName === "bio") {
-      data = { bio: updatePro.updateValue };
-      setProfileInfo({ ...profileInfo, bio: updatePro.updateValue });
-    } else if (updatePro.updateName === "university") {
-      data = { university: updatePro.updateValue };
-      setProfileInfo({ ...profileInfo, university: updatePro.updateValue });
-    } else if (updatePro.updateName === "major") {
-      data = { major: updatePro.updateValue };
-      setProfileInfo({ ...profileInfo, major: updatePro.updateValue });
-    } else if (updatePro.updateName === "graduation_date") {
-      data = { graduation_date: updatePro.updateValue };
-      setProfileInfo({
-        ...profileInfo,
-        graduation_date: updatePro.updateValue,
-      });
+  function updateProfile(type) {
+    if (type === "education") {
+      setModalOpen({ ...modalOpen, modal2: false });
+
+      let data = {
+        university_id: state.university_id
+          ? state.university_id
+          : profileInfo[0].university_id,
+        major_id: state.major_id ? state.major_id : profileInfo[0].major_id,
+        degree_id: state.degree_id ? state.degree_id : profileInfo[0].degree_id,
+        graduation_date: state.graduation_date
+          ? state.graduation_date
+          : profileInfo[0].graduation_date,
+      };
+      axios
+        .post("api/profile/update", data)
+        .then((response) => {
+          // console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      setProfileInfo;
+    } else {
+      setModalOpen({ ...modalOpen, modal2: false });
+
+      axios
+        .post("api/profile/update", { bio: state.bio })
+        .then((response) => {
+          // console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-
-    axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
-    axios
-      .post("api/profile/update", data)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  }
 
   const renderInner = () => (
     <View style={styles.panel}>
@@ -331,44 +344,187 @@ const EditProfileScreen = ({ route, navigation }) => {
           <View
             style={{
               backgroundColor: "#FFFFFF",
-              marginTop: "60%",
+              marginTop: "45%",
               marginHorizontal: 10,
-              paddingTop: 20,
-              paddingLeft: 20,
-              paddingRight: 20,
-              borderRadius: 16,
+              paddingVertical: 20,
+              borderRadius: SIZES.radius / 2,
             }}
           >
-            <View
-              style={{
-                position: "absolute",
-                marginHorizontal: 10,
-                marginVertical: 10,
-                right: 2,
-              }}
-            >
-              <FontAwesome
-                name="close"
-                size={24}
-                color="gray"
-                onPress={() => {
-                  setModalOpen({ ...modalOpen, modal2: false });
-                }}
-              />
-            </View>
             <View>
-              <TextInput
-                defaultValue={updatePro.updateValue}
-                autoCorrect={false}
-                style={{
-                  ...styles.updateText,
-                  ...styles.action,
-                  color: "#000000",
-                }}
-                onChangeText={(value) => {
-                  setUpdatePro({ ...updatePro, updateValue: value });
-                }}
-              />
+              {modaltype === "education" ? (
+                <View>
+                  <View
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginBottom: 10,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: 22,
+                        color: COLORS.pink,
+                      }}
+                    >
+                      Edit Education
+                    </Text>
+                  </View>
+                  <View style={{ marginVertical: 5 }}>
+                    <Picker
+                      selectedValue={
+                        profileInfo.university
+                          ? profileInfo.university
+                          : state.university
+                      }
+                      style={styles.pickerStyle}
+                      onValueChange={(itemValue, itemIndex) => {
+                        if (itemValue) {
+                          setState({
+                            ...state,
+                            university: itemValue,
+                            university_id: itemIndex,
+                          });
+                        } else {
+                        }
+                      }}
+                    >
+                      <Picker.Item label="University" value="" />
+                      {state.universities.map((e) => {
+                        return (
+                          <Picker.Item
+                            label={e.name}
+                            key={e.id}
+                            value={e.name}
+                          />
+                        );
+                      })}
+                    </Picker>
+                  </View>
+                  <View style={{ marginVertical: 5 }}>
+                    <Picker
+                      selectedValue={profileInfo.university}
+                      style={styles.pickerStyle}
+                      onValueChange={(itemValue, itemIndex) => {
+                        if (itemValue) {
+                          setState({
+                            ...state,
+                            major: itemValue,
+                            major_id: itemIndex,
+                          });
+                        } else {
+                        }
+                      }}
+                    >
+                      <Picker.Item label="Major" value="" />
+                      {state.majors.map((e) => {
+                        return (
+                          <Picker.Item label={e.name} key={e.id} value={e.id} />
+                        );
+                      })}
+                    </Picker>
+                  </View>
+                  <View style={{ marginVertical: 5 }}>
+                    <Picker
+                      selectedValue={profileInfo.university}
+                      style={styles.pickerStyle}
+                      onValueChange={(itemValue, itemIndex) => {
+                        if (itemValue) {
+                          setState({
+                            ...state,
+                            degree: itemValue,
+                            degree_id: itemIndex,
+                          });
+                        } else {
+                        }
+                      }}
+                    >
+                      <Picker.Item label="Degree" value="" />
+                      <Picker.Item label="Associate Degree" value="1" />
+                      <Picker.Item label="Bachelor Degree" value="2" />
+                      <Picker.Item label="Masters Degree" value="3" />
+                      <Picker.Item label="Doctoral Degree" value="4" />
+                    </Picker>
+                  </View>
+                  <View
+                    style={{
+                      paddingHorizontal: 20,
+                      marginVertical: 5,
+                    }}
+                  >
+                    <TouchableOpacity
+                      style={{
+                        backgroundColor: COLORS.white,
+                        elevation: 10,
+                        height: 50,
+                        justifyContent: "center",
+                      }}
+                      onPress={() => {
+                        setIsVisible(true);
+                      }}
+                    >
+                      <View style={{ marginLeft: 5 }}>
+                        <Text
+                          style={{
+                            color: COLORS.black3,
+                            fontSize: 16,
+                          }}
+                        >
+                          Graduation Date
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+
+                    <DateTimePickerModal
+                      isVisible={isVisible}
+                      onConfirm={(date) => {
+                        setState({
+                          ...state,
+                          graduation_date:
+                            date.getFullYear() +
+                            "-" +
+                            (date.getMonth() + 1) +
+                            "-" +
+                            date.getDate(),
+                        });
+                        setIsVisible(false);
+                      }}
+                      onCancel={() => {
+                        setIsVisible(false);
+                      }}
+                      mode="date"
+                    />
+                  </View>
+                </View>
+              ) : (
+                <View>
+                  <View style={{ paddingHorizontal: 20 }}>
+                    <Text
+                      style={{
+                        fontSize: 22,
+                        fontWeight: "bold",
+                        color: COLORS.pink,
+                        alignSelf: "center",
+                      }}
+                    >
+                      About
+                    </Text>
+                    <View style={styles.inputaction}>
+                      <TextInput
+                        style={styles.textinput}
+                        placeholder="Talk little about yourseld and your experince"
+                        placeholderTextColor="#666"
+                        multiline={true}
+                        numberOfLines={4}
+                        underlineColorAndroid="transparent"
+                        onChangeText={(text) => {
+                          setState({ ...state, bio: text });
+                        }}
+                      />
+                    </View>
+                  </View>
+                </View>
+              )}
               <View
                 style={{
                   flexDirection: "row",
@@ -376,39 +532,44 @@ const EditProfileScreen = ({ route, navigation }) => {
                   alignItems: "center",
                 }}
               >
-                <View style={styles.button}>
+                <View style={styles.statsContainer}>
                   <TouchableOpacity
-                    style={styles.signIn}
+                    style={styles.statsBox}
                     onPress={() => {
                       setModalOpen({ ...modalOpen, modal2: false });
-                      updateProfile();
                     }}
                   >
-                    <LinearGradient
-                      colors={["#c01f92", "#d0d610"]}
-                      style={styles.signIn}
+                    <Text
+                      style={{
+                        ...styles.modaltext,
+                        color: COLORS.blue,
+                      }}
                     >
-                      <Text style={[styles.textSign, { color: "#000000" }]}>
-                        Update
-                      </Text>
-                    </LinearGradient>
+                      Cancel
+                    </Text>
                   </TouchableOpacity>
-                </View>
-                <View style={styles.button}>
                   <TouchableOpacity
-                    style={styles.signIn}
                     onPress={() => {
-                      setModalOpen({ ...modalOpen, modal2: false });
+                      if (modaltype === "education") {
+                        updateProfile("education");
+                      } else {
+                        updateProfile("bio");
+                      }
+                    }}
+                    style={{
+                      ...styles.statsBox,
+                      borderColor: "#DFDBC8",
+                      borderLeftWidth: 2,
                     }}
                   >
-                    <LinearGradient
-                      colors={["#d0d610", "#c01f92"]}
-                      style={styles.signIn}
+                    <Text
+                      style={{
+                        ...styles.modaltext,
+                        color: COLORS.gray,
+                      }}
                     >
-                      <Text style={[styles.textSign, { color: "#000000" }]}>
-                        Cancel
-                      </Text>
-                    </LinearGradient>
+                      Save
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -428,30 +589,12 @@ const EditProfileScreen = ({ route, navigation }) => {
               backgroundColor: "#FFFFFF",
               marginTop: "70%",
               marginHorizontal: 10,
-              paddingTop: 20,
-              paddingLeft: 20,
-              paddingRight: 20,
-              borderRadius: 16,
+              paddingVertical: 20,
+              paddingHorizontal: 20,
+              borderRadius: SIZES.radius / 2,
               // flex: 1,
             }}
           >
-            <View
-              style={{
-                position: "absolute",
-                marginHorizontal: 10,
-                marginVertical: 10,
-                right: 2,
-              }}
-            >
-              <FontAwesome
-                name="close"
-                size={24}
-                color="gray"
-                onPress={() => {
-                  setModalOpen({ ...modalOpen, modal1: !modalOpen.modal1 });
-                }}
-              />
-            </View>
             {update.updateName === "gender" ? (
               <View style={{ marginBottom: 20 }}>
                 <Checkbox
@@ -476,7 +619,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                 </Checkbox>
               </View>
             ) : (
-              <View>
+              <View style={{ marginTop: 5 }}>
                 <TextInput
                   defaultValue={update.updateValue}
                   autoCorrect={false}
@@ -494,11 +637,29 @@ const EditProfileScreen = ({ route, navigation }) => {
                     flexDirection: "row",
                     justifyContent: "center",
                     alignItems: "center",
+                    paddingHorizontal: 10,
                   }}
                 >
-                  <View style={styles.button}>
+                  <View style={styles.statsContainer}>
                     <TouchableOpacity
-                      style={styles.signIn}
+                      style={styles.statsBox}
+                      onPress={() => {
+                        setModalOpen({
+                          ...modalOpen,
+                          modal1: !modalOpen.modal1,
+                        });
+                      }}
+                    >
+                      <Text
+                        style={{
+                          ...styles.modaltext,
+                          color: COLORS.blue,
+                        }}
+                      >
+                        Cancel
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
                       onPress={() => {
                         setModalOpen({
                           ...modalOpen,
@@ -506,52 +667,22 @@ const EditProfileScreen = ({ route, navigation }) => {
                         });
                         updateUser();
                       }}
-                    >
-                      <LinearGradient
-                        colors={[COLORS.pink, COLORS.pink]}
-                        style={{ ...styles.signIn, elevation: 5 }}
-                      >
-                        <Text
-                          style={[styles.textSign, { color: COLORS.white2 }]}
-                        >
-                          Update
-                        </Text>
-                      </LinearGradient>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={styles.button}>
-                    <TouchableOpacity
-                      style={styles.signIn}
-                      onPress={() => {
-                        setModalOpen({
-                          ...modalOpen,
-                          modal1: !modalOpen.modal1,
-                        });
+                      style={{
+                        ...styles.statsBox,
+                        borderColor: "#DFDBC8",
+                        borderLeftWidth: 2,
                       }}
                     >
-                      <LinearGradient
-                        colors={[COLORS.white, COLORS.white2]}
+                      <Text
                         style={{
-                          ...styles.signIn,
-                          borderColor: COLORS.beige,
-                          borderWidth: 2,
-                          elevation: 5,
+                          ...styles.modaltext,
+                          color: COLORS.gray,
                         }}
                       >
-                        <Text style={[styles.textSign, { color: COLORS.pink }]}>
-                          Cancel
-                        </Text>
-                      </LinearGradient>
+                        Save
+                      </Text>
                     </TouchableOpacity>
                   </View>
-                  {/* <Ionicon
-                    name="ios-checkmark-circle"
-                    size={40}
-                    onPress={() => {
-                      setModalOpen({ ...modalOpen, modal1: !modalOpen.modal1 });
-                      updateUser();
-                    }}
-                  /> */}
                 </View>
               </View>
             )}
@@ -839,9 +970,9 @@ const EditProfileScreen = ({ route, navigation }) => {
                           size={20}
                           color={COLORS.dark}
                         />
-                        {profileInfo.university ? (
+                        {profileInfo[0].university ? (
                           <Text style={styles.infoText}>
-                            {profileInfo.university}
+                            {profileInfo[0].university.name}
                           </Text>
                         ) : (
                           <Text style={{ ...styles.infoText, color: "gray" }}>
@@ -855,12 +986,8 @@ const EditProfileScreen = ({ route, navigation }) => {
                         color={COLORS.pink}
                         size={20}
                         onPress={() => {
+                          setModaltype("education");
                           setModalOpen({ ...modalOpen, modal2: true });
-                          setUpdatePro({
-                            ...updatePro,
-                            updateName: "university",
-                            updateValue: profileInfo.university,
-                          });
                         }}
                       />
                     </View>
@@ -878,9 +1005,9 @@ const EditProfileScreen = ({ route, navigation }) => {
                           size={22}
                           color={COLORS.dark}
                         />
-                        {profileInfo.major ? (
+                        {profileInfo[0].major ? (
                           <Text style={styles.infoText}>
-                            {profileInfo.major}
+                            {profileInfo[0].major.name}
                           </Text>
                         ) : (
                           <Text style={{ ...styles.infoText, color: "gray" }}>
@@ -894,12 +1021,8 @@ const EditProfileScreen = ({ route, navigation }) => {
                         color={COLORS.pink}
                         size={20}
                         onPress={() => {
+                          setModaltype("education");
                           setModalOpen({ ...modalOpen, modal2: true });
-                          setUpdatePro({
-                            ...updatePro,
-                            updateName: "major",
-                            updateValue: profileInfo.major,
-                          });
                         }}
                       />
                     </View>
@@ -937,9 +1060,9 @@ const EditProfileScreen = ({ route, navigation }) => {
                           size={22}
                           color={COLORS.dark}
                         />
-                        {profileInfo.bio ? (
+                        {profileInfo[0].bio ? (
                           <Text style={{ ...styles.infoText, width: "88%" }}>
-                            {profileInfo.bio}
+                            {profileInfo[0].bio}
                           </Text>
                         ) : (
                           <Text style={{ ...styles.infoText, color: "gray" }}>
@@ -953,12 +1076,8 @@ const EditProfileScreen = ({ route, navigation }) => {
                         color={COLORS.pink}
                         size={20}
                         onPress={() => {
+                          setModaltype("bio");
                           setModalOpen({ ...modalOpen, modal2: true });
-                          setUpdatePro({
-                            ...updatePro,
-                            updateName: "bio",
-                            updateValue: profileInfo.bio,
-                          });
                         }}
                       />
                     </View>
@@ -988,9 +1107,22 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginHorizontal: 5,
   },
+  statsContainer: {
+    flexDirection: "row",
+    alignSelf: "center",
+    marginTop: 22,
+  },
+  statsBox: {
+    alignItems: "center",
+    flex: 1,
+  },
   edit: {
     color: "gray",
     fontWeight: "800",
+  },
+  modaltext: {
+    fontSize: 18,
+    color: COLORS.black2,
   },
   text: {
     // fontFamily: "HelveticaNeue",
@@ -1022,11 +1154,41 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
+  inputaction: {
+    borderRadius: 20,
+    borderWidth: 1,
+    // marginHorizontal: 20,
+    marginVertical: 5,
+    borderColor: "#ffd200",
+    // paddingLeft: 20,
+    backgroundColor: "#FFFFFF",
+    elevation: 5,
+  },
+  textinput: {
+    padding: 10,
+    fontSize: 20,
+    height: 150,
+    fontStyle: "italic",
+    textAlignVertical: "top",
+  },
   profileImage: {
     width: 200,
     height: 200,
     borderRadius: 100,
     overflow: "hidden",
+  },
+  pickerStyle: {
+    marginHorizontal: 20,
+    elevation: 10,
+    shadowOpacity: 1.0,
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    borderWidth: 1,
+    backgroundColor: "rgba(255,255,255,1)",
+    shadowColor: "#d3d3d3",
+    // flexDirection: "row",
   },
   dm: {
     backgroundColor: "#41444B",
@@ -1147,12 +1309,16 @@ const styles = StyleSheet.create({
     color: "black",
   },
   action: {
-    flexDirection: "row",
-    marginTop: 10,
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "gray",
+    // borderBottomWidth: 1,
+    // borderBottomColor: "gray",
+    justifyContent: "center",
     paddingBottom: 5,
+    borderWidth: 2,
+    height: 60,
+    borderColor: COLORS.beige,
+    borderRadius: SIZES.radius,
+    backgroundColor: COLORS.white,
+    elevation: 5,
   },
   actionError: {
     flexDirection: "row",
@@ -1165,10 +1331,12 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     fontSize: 20,
     paddingLeft: 10,
+    color: COLORS.black3,
   },
   updateText: {
     fontWeight: "800",
     fontSize: 20,
+    paddingLeft: 20,
   },
   infoContent: {
     marginBottom: 5,

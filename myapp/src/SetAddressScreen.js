@@ -34,7 +34,6 @@ import MapView, { PROVIDER_GOOGLE, Marker, Callout } from "react-native-maps";
 import * as Location from "expo-location";
 import Geocoder from "react-native-geocoder";
 import axios from "axios";
-import { requestPermissionsAsync } from "expo-calendar";
 import { add } from "react-native-reanimated";
 
 const SetAddressScreen = ({ route, navigation }) => {
@@ -42,6 +41,19 @@ const SetAddressScreen = ({ route, navigation }) => {
   axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
 
   const [addressInfo, setAddressInfo] = useState([]);
+  const [address, setAddress] = useState({
+    user_id: user.id,
+    country: "",
+    area: "",
+    street: "",
+    building: "",
+    floor: "",
+    additional_details: "",
+    latitude: "",
+    longitude: "",
+  });
+  const [geocode, setGeocode] = useState(null);
+  const [marker, setMarker] = useState(null);
 
   const [state, setState] = useState({
     latitude: 0,
@@ -53,8 +65,7 @@ const SetAddressScreen = ({ route, navigation }) => {
     axios
       .get(`api/user/address?user_id=${user.id}`)
       .then((response) => {
-        console.log(response.data);
-        setAddressInfo(response.data);
+        setAddressInfo(response.data[0]);
       })
       .catch((error) => {
         console.log(error);
@@ -62,9 +73,7 @@ const SetAddressScreen = ({ route, navigation }) => {
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log("position", position);
         setState({
-          street: position.streetName,
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
           error: null,
@@ -75,71 +84,111 @@ const SetAddressScreen = ({ route, navigation }) => {
     );
   }, []);
 
-  const onClick = () => {
-    setAddressInfo({ ...addressInfo, user_id: user.id });
+  function onClick() {
+    setAddress({
+      ...address,
+      country: geocode.country ? geocode.country : addressInfo.country,
+      area: geocode.subregion ? geocode.subregion : addressInfo.area,
+      street: geocode.street ? geocode.street : addressInfo.street,
+      building: address.building ? address.building : addressInfo.building,
+      floor: address.floor ? address.floor : addressInfo.floor,
+      additional_details: address.additional_details
+        ? address.additional_details
+        : addressInfo.additional_details,
+      latitude: marker.latitude ? marker.latitude : addressInfo.latitude,
+      longitude: marker.longitude ? marker.longitude : addressInfo.longitude,
+    });
+    console.log(address);
     axios
-      .post("api/user/address", addressInfo)
+      .post("api/user/address", address)
       .then((response) => {
         console.log("success?", response.data);
       })
       .catch((error) => {
         console.log(error);
       });
+  }
+  const onPress = async (e) => {
+    setMarker(e.nativeEvent.coordinate);
+    let result = await Location.reverseGeocodeAsync(e.nativeEvent.coordinate);
+    await setGeocode(result[0]);
   };
 
+  console.log(addressInfo);
+  console.log(
+    geocode ? geocode.country : addressInfo ? addressInfo.country : "Country.."
+  );
   return (
     <View style={styles.container}>
       <MapView
         provider={PROVIDER_GOOGLE}
         style={styles.map}
+        showsUserLocation={true}
+        showsCompass={true}
+        rotateEnabled={false}
         region={{
-          latitude: state.latitude,
-          longitude: state.longitude,
+          latitude: 33.8846975,
+          longitude: 35.5053606,
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
         }}
+        onPress={(event) => onPress(event)}
       >
-        <Marker
-          coordinate={state}
-          title="My Location"
-          description="Here i am"
-        />
-
-        <Callout></Callout>
+        {marker && (
+          <Marker
+            coordinate={marker}
+            title="My Location"
+            description="Here I am"
+          />
+        )}
       </MapView>
       <ScrollView>
         <TextInput
           placeholder="Country.."
-          defaultValue={addressInfo ? addressInfo.country : "Country.."}
+          defaultValue={
+            geocode
+              ? geocode.country
+              : addressInfo
+              ? addressInfo.country
+              : "Country.."
+          }
           placeholderTextColor={COLORS.gray}
           style={styles.textInput}
           textContentType="countryName"
           autoCapitalize="words"
-          onChangeText={(value) =>
-            setAddressInfo({ ...addressInfo, country: value })
-          }
+          onChangeText={(value) => setGeocode({ ...geocode, country: value })}
         />
         <TextInput
-          defaultValue={addressInfo ? addressInfo.area : "Area.."}
-          placeholder="Area.."
+          defaultValue={
+            geocode
+              ? geocode.subregion
+              : addressInfo
+              ? addressInfo.area
+              : "Region.."
+          }
+          // defaultValue={addressInfo ? addressInfo.area : "Region.."}
+          placeholder="Region.."
           placeholderTextColor={COLORS.gray}
           style={styles.textInput}
           textContentType="addressState"
           autoCapitalize="words"
-          onChangeText={(value) =>
-            setAddressInfo({ ...addressInfo, area: value })
-          }
+          onChangeText={(value) => setGeocode({ ...geocode, subregion: value })}
         />
         <TextInput
-          defaultValue={addressInfo ? addressInfo.street : "Street.."}
+          defaultValue={
+            geocode
+              ? geocode.street
+              : addressInfo
+              ? addressInfo.street
+              : "Street.."
+          }
+          // defaultValue={addressInfo ? addressInfo.street : "Street.."}
           placeholder="Street.."
           placeholderTextColor={COLORS.gray}
           style={styles.textInput}
           textContentType="fullStreetAddress"
           autoCapitalize="words"
-          onChangeText={(value) =>
-            setAddressInfo({ ...addressInfo, street: value })
-          }
+          onChangeText={(value) => setGeocode({ ...geocode, street: value })}
         />
         <TextInput
           defaultValue={addressInfo ? addressInfo.building : "Building.."}
@@ -148,9 +197,7 @@ const SetAddressScreen = ({ route, navigation }) => {
           style={styles.textInput}
           textContentType="name"
           autoCapitalize="words"
-          onChangeText={(value) =>
-            setAddressInfo({ ...addressInfo, building: value })
-          }
+          onChangeText={(value) => setAddress({ ...address, building: value })}
         />
         <TextInput
           defaultValue={addressInfo ? addressInfo.floor : "Floor.."}
@@ -159,9 +206,7 @@ const SetAddressScreen = ({ route, navigation }) => {
           style={styles.textInput}
           textContentType="oneTimeCode"
           autoCapitalize="words"
-          onChangeText={(value) =>
-            setAddressInfo({ ...addressInfo, floor: value })
-          }
+          onChangeText={(value) => setAddress({ ...address, floor: value })}
         />
         <TextInput
           defaultValue={
@@ -173,10 +218,10 @@ const SetAddressScreen = ({ route, navigation }) => {
           textContentType="location"
           autoCapitalize="words"
           onChangeText={(value) =>
-            setAddressInfo({ ...addressInfo, additional_details: value })
+            setAddress({ ...address, additional_details: value })
           }
         />
-        <View style={{ marginTop: 5, marginHorizontal: 16 }}>
+        <View style={{ marginTop: 5, marginBottom: 20, marginHorizontal: 16 }}>
           <TouchableOpacity onPress={() => onClick()}>
             <LinearGradient
               colors={[COLORS.primary, COLORS.yellow2]}

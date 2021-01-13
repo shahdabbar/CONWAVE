@@ -46,8 +46,7 @@ const ViewSessionScreen = ({ route, navigation }) => {
     axios
       .get(`api/user/address?user_id=${data.session.tutor_id}`)
       .then((response) => {
-        setAddressInfo(response.data);
-        // console.log(response.data);
+        setAddressInfo(response.data[0]);
       })
       .catch((error) => {
         console.log(error);

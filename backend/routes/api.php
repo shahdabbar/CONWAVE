@@ -19,6 +19,7 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\UniversityController;
 
 
 /*
@@ -93,6 +94,8 @@ Route::middleware('auth:sanctum')->get('/chat/users', [ChatController::class, 'i
 Route::middleware('auth:sanctum')->post('/user/rating', [RatingController::class, 'store']);
 Route::middleware('auth:sanctum')->get('/user/rating', [RatingController::class, 'index']);
 Route::middleware('auth:sanctum')->get('/tutor/ratings', [RatingController::class, 'ratings']);
+
+Route::middleware('auth:sanctum')->get('/universities/majors', [UniversityController::class, 'index']);
 
 
 

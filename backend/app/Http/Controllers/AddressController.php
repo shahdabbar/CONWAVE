@@ -9,7 +9,8 @@ class AddressController extends Controller
 {
 
     public function index(Request $request) {
-        $address = Address::findOrFail($request->user_id);
+
+        $address = Address::where('user_id', $request->user_id)->get();
         return response()->json($address);
     }
 
@@ -22,11 +23,14 @@ class AddressController extends Controller
             'street' => 'required',
             'building' => 'required',
             'floor' => 'required',
-            'additional_details' => 'required',
-
+            'latitude' => 'required',
+            'longitude' => 'required',
         ]);
       
-        $session = Address::updateOrCreate([
+        // return $request;
+
+        $session = Address::updateOrCreate(['user_id' => $request->user_id],
+        [
             'user_id' => $request->user_id,
             'country' => $request->country,
             'area' => $request->area,
@@ -34,7 +38,8 @@ class AddressController extends Controller
             'building' => $request->building,
             'floor' => $request->floor,
             'additional_details' => $request->additional_details,
-
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
         ]);
 
         return response()->json("success");

@@ -16,6 +16,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Icon from "react-native-vector-icons/Ionicons";
 import { Picker } from "@react-native-picker/picker";
+import { COLORS, SIZES } from "../constants";
 
 function LocationScreen({ route, navigation }) {
   const { width, height } = Dimensions.get("screen");
@@ -125,11 +126,12 @@ function LocationScreen({ route, navigation }) {
 
           <Picker
             selectedValue={state.location}
-            style={{
-              height: "50%",
-              width: "90%",
-              marginHorizontal: 20,
-            }}
+            style={styles.pickerStyle}
+            // style={{
+            //   height: "50%",
+            //   width: "90%",
+            //   marginHorizontal: 20,
+            // }}
             onValueChange={(itemValue, itemIndex) => {
               if (itemValue) {
                 setState({
@@ -316,21 +318,21 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   pickerStyle: {
-    marginLeft: 18,
+    marginHorizontal: 10,
     elevation: 3,
     paddingRight: 25,
-    marginRight: 10,
-    marginBottom: 2,
+    marginVertical: 20,
     shadowOpacity: 1.0,
     shadowOffset: {
       width: 1,
       height: 1,
     },
-    borderWidth: 1,
+    borderWidth: 3,
     shadowRadius: 10,
+    borderRadius: SIZES.radius,
     backgroundColor: "rgba(255,255,255,1)",
+    // backgroundColor: COLORS.transparent,
     shadowColor: "#d3d3d3",
-    borderRadius: 5,
     flexDirection: "row",
   },
 });

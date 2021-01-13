@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Degree extends Model
 {
     use HasFactory;
+
+    public function profile()
+    {
+        return $this->hasMany(Profile::class);
+    }
 }

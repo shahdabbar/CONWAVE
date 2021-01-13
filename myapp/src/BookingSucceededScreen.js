@@ -97,7 +97,9 @@ const BookingSucceededScreen = ({ route, navigation }) => {
       <View style={{ flex: 0.4 }}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Chats");
+            navigation.navigate("Chat", {
+              screen: "Chats",
+            });
           }}
         >
           <LinearGradient
@@ -110,7 +112,9 @@ const BookingSucceededScreen = ({ route, navigation }) => {
 
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("StudentsSessions");
+            navigation.navigate("StudentSessions", {
+              screen: "StudentsSessions",
+            });
           }}
         >
           <LinearGradient

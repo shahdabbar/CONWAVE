@@ -57,26 +57,13 @@ const CompleteProfileSCreen = ({ navigation }) => {
     let jsonResponse = JSON.parse(paymentResponse);
     // perform operation to check payment status
 
-    console.log("check", jsonResponse.token ? "Yes" : "NOOO");
-
-    if (jsonResponse.token) {
-      setModal({ ...modal, paymentModal: false });
-      // navigation.navigate("BookSession", {
-      //   status: "success",
-      // });
-    } else {
-      setModal({ ...modal, paymentModal: false });
-      // navigation.navigate("BookSession", {
-      //   status: "failed",
-      // });
-    }
+    setModal({ ...modal, paymentModal: false });
   };
 
   useEffect(() => {
     axios.get("/api/meetingtype").then((response) => {
       if (response.data === "both") {
-        setMeetingType({ ...meetingType, inperson: true });
-        setMeetingType({ ...meetingType, online: true });
+        setMeetingType({ ...meetingType, inperson: true, online: true });
       } else if (response.data === "inperson") {
         setMeetingType({ ...meetingType, inperson: true });
       } else if (response.data === "online") {
@@ -439,13 +426,12 @@ const CompleteProfileSCreen = ({ navigation }) => {
                 backgroundColor: "#FFFFFF",
                 marginTop: "60%",
                 marginHorizontal: 10,
-                paddingTop: 20,
-                paddingLeft: 20,
-                paddingRight: 20,
+                paddingVertical: 20,
+                paddingHorizontal: 20,
                 borderRadius: 16,
               }}
             >
-              <View
+              {/* <View
                 style={{
                   position: "absolute",
                   marginHorizontal: 10,
@@ -461,7 +447,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
                     setModal({ ...modal, meetingTypeModal: false });
                   }}
                 />
-              </View>
+              </View> */}
               <View>
                 <View>
                   <TouchableOpacity
@@ -560,7 +546,44 @@ const CompleteProfileSCreen = ({ navigation }) => {
                     alignItems: "center",
                   }}
                 >
-                  <View style={styles.button}>
+                  <View style={styles.statsContainer}>
+                    <TouchableOpacity
+                      style={styles.statsBox}
+                      onPress={() => {
+                        setModal({ ...modal, meetingTypeModal: false });
+                      }}
+                    >
+                      <Text
+                        style={{
+                          ...styles.text,
+                          color: COLORS.blue,
+                        }}
+                      >
+                        Cancel
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setModal({ ...modal, meetingTypeModal: false });
+                        save();
+                      }}
+                      style={{
+                        ...styles.statsBox,
+                        borderColor: "#DFDBC8",
+                        borderLeftWidth: 2,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          ...styles.text,
+                          color: COLORS.gray,
+                        }}
+                      >
+                        Save
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  {/* <View style={styles.button}>
                     <TouchableOpacity
                       style={styles.signIn}
                       onPress={() => {
@@ -594,7 +617,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
                         </Text>
                       </LinearGradient>
                     </TouchableOpacity>
-                  </View>
+                  </View> */}
                 </View>
               </View>
             </View>
@@ -659,6 +682,15 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
     shadowColor: "black",
     shadowOpacity: 0.2,
+  },
+  statsContainer: {
+    flexDirection: "row",
+    alignSelf: "center",
+    marginTop: 22,
+  },
+  statsBox: {
+    alignItems: "center",
+    flex: 1,
   },
   signIn: {
     width: 170,
