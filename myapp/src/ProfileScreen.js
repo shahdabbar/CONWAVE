@@ -240,7 +240,9 @@ const ProfileScreen = ({ navigation }) => {
     axios
       .get("api/profile")
       .then((response) => {
-        setProfile(response.data[0]);
+        if (response.data[0]) {
+          setProfile(response.data[0]);
+        }
       })
       .catch((error) => {
         console.log(error);

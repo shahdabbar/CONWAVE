@@ -72,8 +72,6 @@ const EditProfileScreen = ({ route, navigation }) => {
     imagePath: "",
   });
 
-  const [profileInfo, setProfileInfo] = useState([]);
-
   const [image, setImage] = useState(null);
 
   const HandleSubmit = () => {
@@ -91,7 +89,7 @@ const EditProfileScreen = ({ route, navigation }) => {
     axios
       .post("api/user/photo", formData)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setUserInfo({
           ...userInfo,
           imagePath: response.data.profile_photo_path,
@@ -106,7 +104,18 @@ const EditProfileScreen = ({ route, navigation }) => {
     axios
       .get("api/profile")
       .then((response) => {
-        setProfileInfo(response.data);
+        if (response.data[0]) {
+          setState({
+            ...state,
+            university: response.data[0].university.name,
+            major: response.data[0].major.name,
+            degree: response.data[0].degree.name,
+            bio: response.data[0].bio,
+          });
+
+          console.log("i am here");
+          console.log(state.university);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -197,14 +206,10 @@ const EditProfileScreen = ({ route, navigation }) => {
       setModalOpen({ ...modalOpen, modal2: false });
 
       let data = {
-        university_id: state.university_id
-          ? state.university_id
-          : profileInfo[0].university_id,
-        major_id: state.major_id ? state.major_id : profileInfo[0].major_id,
-        degree_id: state.degree_id ? state.degree_id : profileInfo[0].degree_id,
-        graduation_date: state.graduation_date
-          ? state.graduation_date
-          : profileInfo[0].graduation_date,
+        university_id: state.university_id,
+        major_id: state.major_id,
+        degree_id: state.degree_id,
+        graduation_date: state.graduation_date,
       };
       axios
         .post("api/profile/update", data)
@@ -214,8 +219,6 @@ const EditProfileScreen = ({ route, navigation }) => {
         .catch((error) => {
           console.log(error);
         });
-
-      setProfileInfo;
     } else {
       setModalOpen({ ...modalOpen, modal2: false });
 
@@ -372,11 +375,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                   </View>
                   <View style={{ marginVertical: 5 }}>
                     <Picker
-                      selectedValue={
-                        profileInfo.university
-                          ? profileInfo.university
-                          : state.university
-                      }
+                      selectedValue={state.university}
                       style={styles.pickerStyle}
                       onValueChange={(itemValue, itemIndex) => {
                         if (itemValue) {
@@ -403,7 +402,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                   </View>
                   <View style={{ marginVertical: 5 }}>
                     <Picker
-                      selectedValue={profileInfo.university}
+                      selectedValue={state.major}
                       style={styles.pickerStyle}
                       onValueChange={(itemValue, itemIndex) => {
                         if (itemValue) {
@@ -426,7 +425,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                   </View>
                   <View style={{ marginVertical: 5 }}>
                     <Picker
-                      selectedValue={profileInfo.university}
+                      selectedValue={state.degree}
                       style={styles.pickerStyle}
                       onValueChange={(itemValue, itemIndex) => {
                         if (itemValue) {
@@ -970,9 +969,9 @@ const EditProfileScreen = ({ route, navigation }) => {
                           size={20}
                           color={COLORS.dark}
                         />
-                        {profileInfo[0].university ? (
-                          <Text style={styles.infoText}>
-                            {profileInfo[0].university.name}
+                        {state.university ? (
+                          <Text style={{ ...styles.infoText, width: "88%" }}>
+                            {state.university}
                           </Text>
                         ) : (
                           <Text style={{ ...styles.infoText, color: "gray" }}>
@@ -1005,10 +1004,8 @@ const EditProfileScreen = ({ route, navigation }) => {
                           size={22}
                           color={COLORS.dark}
                         />
-                        {profileInfo[0].major ? (
-                          <Text style={styles.infoText}>
-                            {profileInfo[0].major.name}
-                          </Text>
+                        {state.major ? (
+                          <Text style={styles.infoText}>{state.major}</Text>
                         ) : (
                           <Text style={{ ...styles.infoText, color: "gray" }}>
                             + Add Your Major
@@ -1060,9 +1057,9 @@ const EditProfileScreen = ({ route, navigation }) => {
                           size={22}
                           color={COLORS.dark}
                         />
-                        {profileInfo[0].bio ? (
+                        {state.bio ? (
                           <Text style={{ ...styles.infoText, width: "88%" }}>
-                            {profileInfo[0].bio}
+                            {state.bio}
                           </Text>
                         ) : (
                           <Text style={{ ...styles.infoText, color: "gray" }}>

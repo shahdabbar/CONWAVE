@@ -304,25 +304,27 @@ const BookSessionScreen = ({ route, navigation }) => {
                   </View>
                 )}
               </View>
-              <View
-                style={{
-                  backgroundColor: COLORS.yellow,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: SIZES.radius / 4,
-                  padding: 5,
-                }}
-              >
-                <Text
+              {data.type === "Online" ? (
+                <View
                   style={{
-                    fontWeight: "bold",
-                    textAlign: "center",
-                    fontSize: 16,
+                    backgroundColor: COLORS.yellow,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: SIZES.radius / 4,
+                    padding: 5,
                   }}
                 >
-                  You will only be charged at the end of your session
-                </Text>
-              </View>
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      fontSize: 16,
+                    }}
+                  >
+                    You will only be charged at the end of your session
+                  </Text>
+                </View>
+              ) : null}
             </View>
           </View>
         </View>
@@ -373,10 +375,10 @@ const BookSessionScreen = ({ route, navigation }) => {
           </View>
         </View>
       </View>
-      <View style={{ bottom: -35, marginHorizontal: 10 }}>
-        <TouchableOpacity onPress={() => onClick()}>
+      <View style={{ bottom: -100, marginHorizontal: 10 }}>
+        <TouchableOpacity style={styles.next} onPress={() => onClick()}>
           <LinearGradient
-            colors={[COLORS.primary, COLORS.yellow2]}
+            colors={[COLORS.darkpink, COLORS.primary]}
             style={styles.next}
           >
             <Text style={styles.next_text}>Confirm Booking</Text>
@@ -409,7 +411,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   infoText: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: "bold",
   },
   text: {
@@ -422,19 +424,20 @@ const styles = StyleSheet.create({
     color: COLORS.pink,
   },
   next: {
-    backgroundColor: "#fff",
+    marginHorizontal: 20,
+    position: "absolute",
     alignItems: "center",
+    top: 20,
+    bottom: 0,
+    alignSelf: "center",
     justifyContent: "center",
     borderRadius: SIZES.radius,
-    width: "100%",
+    width: "90%",
     height: 70,
-    borderColor: "#ffd200",
-    borderWidth: 2,
-    // elevation: 5,
   },
   next_text: {
     fontSize: 25,
     fontWeight: "bold",
-    color: "black",
+    color: COLORS.black3,
   },
 });

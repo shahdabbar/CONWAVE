@@ -121,6 +121,7 @@ export const AuthProvider = ({ children }) => {
             .then((response) => {
               if (response.status === 201) {
                 const userResponse = {
+                  id: response.data.user.id,
                   email: response.data.user.email,
                   token: response.data.token,
                 };

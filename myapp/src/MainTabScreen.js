@@ -473,12 +473,8 @@ const HomeStackScreen = ({ navigation }) => (
       component={TutorProfileScreen}
       options={{
         headerShown: true,
-        title: "Tutor Prfile",
-        headerTitleStyle: {
-          color: "gray",
-          fontWeight: "800",
-          fontSize: 25,
-        },
+        title: "Tutor Profile",
+
         headerStyle: {
           // backgroundColor: COLORS.primary,
           elevation: 0, // Android

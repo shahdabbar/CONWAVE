@@ -12,8 +12,6 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { useTheme } from "@react-navigation/native";
-import * as Animatable from "react-native-animatable";
 import {
   MaterialIcons as MaterialIcon,
   Ionicons as Ionicon,
@@ -22,24 +20,451 @@ import {
   FontAwesome5,
   Feather,
 } from "react-native-vector-icons";
+import { Video } from "expo-av";
 import { LinearGradient } from "expo-linear-gradient";
 import { AuthContext } from "./AuthProvider";
-import DrawerContent from "./DrawerContent";
-import { deleteItemAsync } from "expo-secure-store";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { COLORS, SIZES, FONTS, icons } from "./constants";
+import Star from "react-native-star-view";
 import axios from "axios";
-import { block, color } from "react-native-reanimated";
+import moment from "moment";
+import { block } from "react-native-reanimated";
 
-const TutorProfileScreen = ({ route, navigation }) => {
+const Tab = createMaterialTopTabNavigator();
+
+function MyTabs({ route, navigation }) {
+  const [item, setItem] = useState(route.params.item);
+  const [type, seType] = useState(route.params.type);
+  const [course_id, setcourse_id] = useState(route.params.course_id);
+
+  return (
+    <Tab.Navigator
+      initialRouteName="Profile"
+      tabBarOptions={{
+        labelStyle: { fontSize: 16 },
+        indicatorStyle: { backgroundColor: COLORS.pink },
+      }}
+    >
+      <Tab.Screen
+        name="Profile"
+        component={TutorProfileScreen}
+        initialParams={{ item: item, type: type, course_id: course_id }}
+      />
+      <Tab.Screen
+        name="Courses"
+        component={Courses}
+        initialParams={{ item: item }}
+      />
+      <Tab.Screen
+        name="Reviews"
+        component={Reviews}
+        initialParams={{ course_id: course_id, item: item }}
+      />
+    </Tab.Navigator>
+  );
+}
+
+export default MyTabs;
+
+const Courses = ({ route, navigation }) => {
+  const [courses, setCourses] = useState([]);
+  const [item, setItem] = useState(route.params.item);
+
+  useEffect(() => {
+    axios
+      .get(`api/user/tutor/courses?user_id=${item.user_id}`)
+      .then((response) => {
+        setCourses(response.data);
+        // console.log("couuuu", response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  return (
+    <View style={styles.container}>
+      <View
+        style={{
+          padding: 20,
+        }}
+      >
+        <View style={{ marginBottom: 20 }}>
+          <Text
+            style={{
+              ...FONTS.h2,
+              fontWeight: "bold",
+              color: COLORS.black,
+            }}
+          >
+            Courses
+          </Text>
+        </View>
+        {courses.map((e) => (
+          <View style={{ marginHorizontal: 25 }} key={e.id}>
+            <View style={styles.recentItem}>
+              <View style={styles.activityIndicator}></View>
+              <View style={{ width: "70%" }}>
+                <Text
+                  style={[styles.text, { color: "#41444B", fontWeight: "300" }]}
+                >
+                  <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                    {e.course.name}
+                    {", "}
+                  </Text>
+                </Text>
+                <Text style={{ fontWeight: "400" }}>
+                  {e.course_description}
+                </Text>
+              </View>
+              <View style={styles.action}>
+                <Text>LBP {e.rate}</Text>
+              </View>
+            </View>
+          </View>
+        ))}
+      </View>
+      <View style={{ marginBottom: 50 }}>
+        <View
+          style={{
+            paddingHorizontal: 20,
+            paddingVertical: 10,
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Text style={{ ...FONTS.h2, fontWeight: "bold" }}>Videos</Text>
+          {/* <Text style={{ ...FONTS.h3, color: "red" }}>View all</Text> */}
+        </View>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          <View style={styles.mediaVideoContainer}>
+            <Video
+              source={require("../assets/images/video3.mp4")}
+              rate={1.0}
+              volume={1.0}
+              isMuted={false}
+              resizeMode="cover"
+              shouldPlay={false}
+              isLooping={false}
+              useNativeControls
+              style={styles.image}
+            />
+          </View>
+          <View style={styles.mediaVideoContainer}>
+            <Video
+              source={require("../assets/images/video1.mp4")}
+              rate={1.0}
+              volume={1.0}
+              isMuted={false}
+              resizeMode="cover"
+              shouldPlay={false}
+              isLooping={false}
+              useNativeControls
+              style={styles.image}
+            />
+          </View>
+          <View style={styles.mediaVideoContainer}>
+            <Video
+              source={require("../assets/images/video4.mp4")}
+              rate={1.0}
+              volume={1.0}
+              isMuted={false}
+              resizeMode="cover"
+              shouldPlay={false}
+              isLooping={false}
+              useNativeControls
+              style={styles.image}
+            />
+          </View>
+          <View style={styles.mediaVideoContainer}>
+            <Video
+              source={require("../assets/images/se_intro.mp4")}
+              rate={1.0}
+              volume={1.0}
+              isMuted={false}
+              resizeMode="cover"
+              shouldPlay={false}
+              isLooping={false}
+              useNativeControls
+              style={styles.image}
+            />
+          </View>
+        </ScrollView>
+        <View style={styles.mediaCount}>
+          <Text
+            style={[
+              styles.text,
+              { fontSize: 24, color: "#DFD8C8", fontWeight: "300" },
+            ]}
+          >
+            4
+          </Text>
+          <Text
+            style={[
+              styles.text,
+              {
+                fontSize: 14,
+                color: "#DFD8C8",
+                textTransform: "uppercase",
+              },
+            ]}
+          >
+            Videos
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const Reviews = ({ route, navigation }) => {
+  const { user } = useContext(AuthContext);
+  axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+
+  const [reviews, setReviews] = useState([]);
+  const [sumRatings, setsumRatings] = useState([]);
+  const [item, setItem] = useState(route.params.item);
+
+  useEffect(() => {
+    // get all reviews
+    axios
+      .get(
+        `api/user/rating?tutor_id=${route.params.item.user_id}&course_id=${route.params.course_id}`
+      )
+      .then((response) => {
+        setReviews(response.data[0]);
+        setsumRatings(response.data[1]);
+        // console.log("reviews", response.data[1]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  let stars = [];
+  for (let x = 1; x <= 5; x++) {
+    stars.push({
+      x: x,
+      name: "star",
+      color: COLORS.yellow,
+      size: 20,
+      style: { marginHorizontal: 2 },
+    });
+  }
+
+  function status(rating) {
+    if (rating >= 5) {
+      return "Excellent";
+    } else if (rating >= 4) {
+      return "Very Good";
+    } else if (rating >= 3) {
+      return "Good";
+    } else if (rating >= 2) {
+      return "Bad";
+    } else if (rating >= 1) {
+      return "Very Bad";
+    }
+  }
+
+  let sum = 0;
+  let num = 0;
+  sumRatings.map((e) => {
+    (num = num + 1), (sum = sum + e["rating"] * e["count(rating)"]);
+  });
+
+  function flatlist() {
+    return (
+      <View>
+        <View style={{ paddingVertical: 16, marginHorizontal: 20 }}>
+          <View
+            style={{
+              backgroundColor: COLORS.white,
+              borderRadius: SIZES.radius / 2,
+              // borderWidth: 2,
+              // borderColor: COLORS.beige,
+              elevation: 10,
+            }}
+          >
+            <View
+              style={{
+                marginVertical: 10,
+                marginHorizontal: 16,
+              }}
+            >
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Text
+                  style={{
+                    ...styles.starText,
+                    color: COLORS.orange,
+                    bottom: 3,
+                  }}
+                >
+                  {sum / num}
+                </Text>
+                <Star score={sum / num} style={styles.starStyle} />
+              </View>
+
+              <View>
+                <Text style={styles.name}>{status(sum / num)}</Text>
+              </View>
+              <View>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    marginVertical: 2,
+                    color: COLORS.lightgray,
+                  }}
+                >
+                  Based on {num} ratings
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+
+        <View>
+          <Text style={{ fontSize: 20, left: 30, color: COLORS.lightgray }}>
+            Reviews
+          </Text>
+        </View>
+        <FlatList
+          data={reviews}
+          keyExtractor={(item) => `${item.id}`}
+          contentContainerStyle={{
+            paddingBottom: 30,
+          }}
+          renderItem={({ item }) => {
+            return (
+              <View style={{ paddingVertical: 10, marginHorizontal: 20 }}>
+                <View
+                  style={{
+                    backgroundColor: COLORS.white,
+                    borderRadius: SIZES.radius / 2,
+                    // borderWidth: 2,
+                    // borderColor: COLORS.beige,
+                    elevation: 10,
+                  }}
+                >
+                  <View
+                    style={{
+                      marginVertical: 10,
+                      marginHorizontal: 16,
+                    }}
+                  >
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <View style={{ flexDirection: "row" }}>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                          }}
+                        >
+                          {stars.map((e) => {
+                            return (
+                              <View
+                                key={e.x}
+                                onPress={() => {
+                                  rate(e.x);
+                                }}
+                              >
+                                <FontAwesome
+                                  name={e.x <= item.rating ? e.name : "star-o"}
+                                  size={e.size}
+                                  color={e.color}
+                                  style={e.style}
+                                />
+                              </View>
+                            );
+                          })}
+
+                          {/* <Star
+                          score={item.rating}
+                          style={styles.starStyle}
+                        /> */}
+                        </View>
+                        <View style={{ left: 3, bottom: 3 }}>
+                          <Text
+                            style={{
+                              fontSize: 14,
+                              color: "gray",
+                              marginVertical: 2,
+                            }}
+                          >
+                            <Text
+                              style={{
+                                fontSize: 20,
+                                fontWeight: "bold",
+                              }}
+                            >
+                              .
+                            </Text>
+                            By {item.users.firstname} {item.users.lastname}
+                            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                              .
+                            </Text>
+                          </Text>
+                        </View>
+                      </View>
+
+                      <View>
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            color: "gray",
+                            marginVertical: 2,
+                          }}
+                        >
+                          {moment(item.created_at).format("MMM DD, YYYY")}
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={{ marginVertical: 3 }}>
+                      <Text style={styles.name}>{status(item.rating)}</Text>
+                    </View>
+
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: 16,
+                          marginVertical: 2,
+                        }}
+                      >
+                        {item.comment}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            );
+          }}
+        />
+      </View>
+    );
+  }
+  // style={{ marginBottom: 70 }}
+  return (
+    <View style={styles.container}>
+      <View>
+        <FlatList ListHeaderComponent={flatlist} />
+      </View>
+    </View>
+  );
+};
+
+function TutorProfileScreen({ route, navigation }) {
   const { user } = useContext(AuthContext);
   axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
 
   const [tutor, setTutor] = useState([]);
   const [item, setItem] = useState(route.params.item);
   const [type, seType] = useState(route.params.type);
-  const [course_id, setcourse_id] = useState(route.params.course_id);
   const [sumRatings, setsumRatings] = useState([]);
-  const [courses, setCourses] = useState([]);
 
   useEffect(() => {
     // get user tutor
@@ -63,16 +488,6 @@ const TutorProfileScreen = ({ route, navigation }) => {
       .catch((error) => {
         console.log(error);
       });
-
-    axios
-      .get(`api/user/tutor/courses?user_id=${item.user_id}`)
-      .then((response) => {
-        setCourses(response.data);
-        // console.log("couuuu", response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   }, []);
 
   let sum = 0;
@@ -83,30 +498,19 @@ const TutorProfileScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ flex: 0.9 }}>
-        {tutor.length != 0 ? (
-          <View>
-            <ScrollView showsHorizontalScrollIndicator={false}>
-              <View>
-                <View style={styles.wrapper}>
-                  <View style={styles.profileImage}>
-                    <Image
-                      source={
-                        item.tutor.profile_photo_path
-                          ? {
-                              uri: `http://192.168.0.106:8000/${item.tutor.profile_photo_path}`,
-                            }
-                          : require("../assets/images/profile2.png")
-                      }
-                      style={styles.image}
-                      resizeMode="cover"
-                    />
-                  </View>
-                  {/* <View style={styles.dm}>
-                  <MaterialIcon name="chat" size={26} color="#DFD8C8" />
-                </View> */}
-                  {/* <View style={styles.active}></View> */}
-                </View>
+      {tutor.length != 0 ? (
+        <View>
+          <ScrollView showsHorizontalScrollIndicator={false}>
+            <View style={{ marginBottom: 100 }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginHorizontal: 30,
+                  marginTop: 20,
+                }}
+              >
                 <View style={styles.infoContainer}>
                   <Text
                     style={{
@@ -115,7 +519,16 @@ const TutorProfileScreen = ({ route, navigation }) => {
                       textTransform: "capitalize",
                     }}
                   >
-                    {tutor[0].firstname} {tutor[0].lastname}
+                    {tutor[0].firstname}
+                  </Text>
+                  <Text
+                    style={{
+                      ...styles.infoText,
+                      color: COLORS.black,
+                      textTransform: "capitalize",
+                    }}
+                  >
+                    {tutor[0].lastname}
                   </Text>
                   <Text
                     style={{
@@ -131,7 +544,7 @@ const TutorProfileScreen = ({ route, navigation }) => {
                       style={{
                         flexDirection: "row",
                         top: 4,
-                        justifyContent: "center",
+                        // justifyContent: "center",
                         alignItems: "center",
                       }}
                     >
@@ -147,6 +560,21 @@ const TutorProfileScreen = ({ route, navigation }) => {
                       </Text>
                     </View>
                   ) : null}
+                </View>
+                <View style={styles.wrapper}>
+                  <View style={styles.profileImage}>
+                    <Image
+                      source={
+                        item.tutor.profile_photo_path
+                          ? {
+                              uri: `http://192.168.0.106:8000/${item.tutor.profile_photo_path}`,
+                            }
+                          : require("../assets/images/profile2.png")
+                      }
+                      style={styles.image}
+                      resizeMode="cover"
+                    />
+                  </View>
                 </View>
               </View>
               <View style={styles.statsContainer}>
@@ -174,8 +602,8 @@ const TutorProfileScreen = ({ route, navigation }) => {
                 </View>
               </View>
 
-              <View style={{ marginHorizontal: 10, marginTop: 25 }}>
-                {num > 0 ? (
+              <View style={{ marginHorizontal: 0, marginTop: 35 }}>
+                {/* {num > 0 ? (
                   <TouchableOpacity
                     onPress={() =>
                       navigation.navigate("Reviews", {
@@ -185,13 +613,12 @@ const TutorProfileScreen = ({ route, navigation }) => {
                     }
                   >
                     <LinearGradient
-                      colors={[COLORS.beige, COLORS.beige]}
+                      colors={[COLORS.white, COLORS.white]}
                       style={{
-                        borderBottomRightRadius: SIZES.radius,
-                        borderTopLeftRadius: SIZES.radius,
+                        // borderBottomRightRadius: SIZES.radius,
+                        // borderTopLeftRadius: SIZES.radius,
                         // borderWidth: 2,
-                        borderColor: COLORS.beige,
-                        // elevation: 5,
+                        elevation: 10,
                         padding: 10,
                         marginBottom: 20,
                       }}
@@ -214,45 +641,54 @@ const TutorProfileScreen = ({ route, navigation }) => {
                       </View>
                     </LinearGradient>
                   </TouchableOpacity>
-                ) : null}
+                ) : null} */}
 
                 <LinearGradient
-                  colors={[COLORS.beige, COLORS.beige]}
+                  colors={[COLORS.white, COLORS.white]}
                   style={{
-                    // borderRadius: SIZES.radius / 2,
-                    borderTopRightRadius: SIZES.radius,
-                    borderBottomLeftRadius: SIZES.radius,
+                    borderRadius: SIZES.radius,
+                    // borderTopRightRadius: SIZES.radius,
+                    // borderBottomLeftRadius: SIZES.radius,
                     // borderWidth: 2,
                     // borderColor: COLORS.beige,
-                    elevation: 5,
+                    elevation: 10,
+
                     padding: 10,
                     marginBottom: 10,
                   }}
                 >
                   <LinearGradient
-                    colors={[COLORS.yellow2, COLORS.primary]}
+                    colors={[COLORS.yellow2, COLORS.yellow2]}
                     style={{
                       position: "absolute",
                       top: 0,
                       right: 0,
                       height: 50,
                       width: SIZES.width * 0.3,
-                      borderTopRightRadius: SIZES.radius,
+                      // borderTopRightRadius: SIZES.radius,
                       borderBottomLeftRadius: SIZES.radius,
                       alignItems: "center",
                       justifyContent: "center",
                     }}
                   >
                     <View>
-                      <Text style={{ fontSize: 14, fontWeight: "bold" }}>
+                      <Text
+                        style={{
+                          fontSize: 14,
+                          fontWeight: "bold",
+                          color: COLORS.black3,
+                        }}
+                      >
                         LBP {item.rate}
                       </Text>
                     </View>
                   </LinearGradient>
-                  <View style={{ marginLeft: 5 }}>
+                  <View style={{ padding: 5 }}>
                     <View>
                       <View style={{ marginBottom: 10 }}>
-                        <Text style={{ ...styles.infoText }}>Why hire me</Text>
+                        <Text style={{ ...styles.content_text }}>
+                          Why hire me
+                        </Text>
                       </View>
                       <View>
                         <Text style={{ fontSize: 17, fontWeight: "800" }}>
@@ -261,8 +697,8 @@ const TutorProfileScreen = ({ route, navigation }) => {
                       </View>
                     </View>
 
-                    <View style={{ marginBottom: 10, marginTop: 16 }}>
-                      <Text style={{ ...styles.infoText, fontSize: 22 }}>
+                    <View style={{ marginBottom: 20, marginTop: 16 }}>
+                      <Text style={{ ...styles.content_text }}>
                         Educational Background
                       </Text>
                     </View>
@@ -271,14 +707,14 @@ const TutorProfileScreen = ({ route, navigation }) => {
                       <View
                         style={{
                           width: "50%",
-                          justifyContent: "center",
+                          justifyContent: "space-around",
                           alignItems: "center",
                         }}
                       >
                         <FontAwesome
                           name="university"
                           size={20}
-                          color={COLORS.dark}
+                          color={COLORS.black3}
                         />
 
                         <Text
@@ -288,20 +724,19 @@ const TutorProfileScreen = ({ route, navigation }) => {
                           }}
                         >
                           Lebanese Internationl University
-                          {/* {tutor[0].profile.university} */}
                         </Text>
                       </View>
                       <View
                         style={{
                           width: "50%",
-                          justifyContent: "center",
+                          justifyContent: "space-around",
                           alignItems: "center",
                         }}
                       >
                         <FontAwesome
                           name="graduation-cap"
                           size={22}
-                          color={COLORS.dark}
+                          color={COLORS.black3}
                         />
 
                         <Text
@@ -311,259 +746,123 @@ const TutorProfileScreen = ({ route, navigation }) => {
                           }}
                         >
                           Computer Science
-                          {/* {tutor[0].profile.major} */}
                         </Text>
                       </View>
                     </View>
                   </View>
                 </LinearGradient>
               </View>
-
-              <View
-                style={{
-                  padding: 20,
-                }}
+            </View>
+          </ScrollView>
+          <View
+            style={{
+              position: "absolute",
+              bottom: 20,
+              right: 0,
+              left: 0,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <TouchableOpacity
+              style={styles.buttonContainer}
+              onPress={() =>
+                navigation.navigate("BookTime", {
+                  course: item,
+                  type: type,
+                })
+              }
+            >
+              <LinearGradient
+                colors={[COLORS.black3, COLORS.black3]}
+                style={styles.next}
               >
-                <View style={{ marginBottom: 20 }}>
-                  <Text
-                    style={{
-                      ...FONTS.h2,
-                      fontWeight: "bold",
-                      color: COLORS.black,
-                      alignSelf: "center",
-                    }}
-                  >
-                    My Courses
-                  </Text>
-                </View>
-                {/* <Text style={[styles.subText, styles.recent]}>My Courses</Text> */}
-                {courses.map((e) => (
-                  <View key={e.id}>
-                    <View style={styles.recentItem}>
-                      <View style={styles.activityIndicator}></View>
-                      <View style={{ width: "70%" }}>
-                        <Text
-                          style={[
-                            styles.text,
-                            { color: "#41444B", fontWeight: "300" },
-                          ]}
-                        >
-                          <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                            {e.course.name}
-                            {", "}
-                          </Text>
-                          <Text style={{ fontWeight: "400" }}>
-                            {e.course_description}
-                          </Text>{" "}
-                        </Text>
-                      </View>
-                      <View style={styles.action}>
-                        <Text>{e.rate}</Text>
-                      </View>
-                    </View>
-                  </View>
-                ))}
-              </View>
-              <View style={{ marginBottom: 50 }}>
-                <View
+                <Text
                   style={{
-                    paddingHorizontal: 20,
-                    paddingVertical: 10,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
+                    ...styles.infoText,
+                    fontSize: 20,
+                    textAlign: "center",
+                    color: COLORS.white,
+                    textTransform: "uppercase",
                   }}
                 >
-                  <Text style={{ ...FONTS.h2, fontWeight: "bold" }}>
-                    My Videos
-                  </Text>
-                  <Text style={{ ...FONTS.h3, color: "red" }}>View all</Text>
-                </View>
-                <ScrollView
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                >
-                  <View style={styles.mediaVideoContainer}>
-                    <Image
-                      source={require("../assets/images/pexels.jpeg")}
-                      style={styles.image}
-                      resizeMode="cover"
-                    />
-                  </View>
-                  <View style={styles.mediaVideoContainer}>
-                    <Image
-                      source={require("../assets/images/photo.jpeg")}
-                      style={styles.image}
-                      resizeMode="cover"
-                    />
-                  </View>
-                  <View style={styles.mediaVideoContainer}>
-                    <Image
-                      source={require("../assets/images/image.jpg")}
-                      style={styles.image}
-                      resizeMode="cover"
-                    />
-                  </View>
-                </ScrollView>
-                <View style={styles.mediaCount}>
-                  <Text
-                    style={[
-                      styles.text,
-                      { fontSize: 24, color: "#DFD8C8", fontWeight: "300" },
-                    ]}
-                  >
-                    3
-                  </Text>
-                  <Text
-                    style={[
-                      styles.text,
-                      {
-                        fontSize: 14,
-                        color: "#DFD8C8",
-                        textTransform: "uppercase",
-                      },
-                    ]}
-                  >
-                    Videos
-                  </Text>
-                </View>
-              </View>
-            </ScrollView>
+                  Book a session - LBP {item.rate}/h
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
           </View>
-        ) : null}
-      </View>
-      <View style={{ flex: 0.05, backgroundColor: "#000000" }}>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: COLORS.white,
-            borderBottomLeftRadius: 30,
-            borderBottomRightRadius: 30,
-          }}
-        ></View>
-
-        <View style={{ backgroundColor: "#000000" }}></View>
-      </View>
-      <View
-        style={{
-          flex: 0.12,
-          backgroundColor: "#000000",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <TouchableOpacity
-          style={styles.buttonContainer}
-          onPress={() =>
-            navigation.navigate("BookTime", {
-              course: item,
-              type: type,
-            })
-          }
-        >
-          <LinearGradient
-            colors={[COLORS.white, COLORS.white]}
-            style={styles.next}
-          >
-            <Text
-              style={{
-                ...styles.infoText,
-                fontSize: 20,
-                textAlign: "center",
-                color: COLORS.pink,
-                textTransform: "uppercase",
-              }}
-            >
-              Book a session - LBP {item.rate}/h
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>
-      </View>
+        </View>
+      ) : null}
     </View>
   );
-};
-
-export default TutorProfileScreen;
+}
 
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: "white",
+    // backgroundColor: "white",
   },
   wrapper: {
     alignSelf: "center",
     marginTop: 10,
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: "bold",
   },
   image: {
     flex: 1,
     width: "100%",
     height: "100%",
   },
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 100,
-    // backgroundColor: "gray",
-    overflow: "hidden",
-    elevation: 5,
-    borderWidth: 2,
-    borderColor: COLORS.white,
-  },
+  // profileImage: {
+  //   width: 100,
+  //   height: 100,
+  //   borderRadius: 100,
+  //   // backgroundColor: "gray",
+  //   overflow: "hidden",
+  //   elevation: 5,
+  //   borderWidth: 2,
+  //   borderColor: COLORS.white,
+  // },
   buttonContainer: {
     width: "80%",
-    borderTopRightRadius: SIZES.radius * 2,
-    borderTopLeftRadius: SIZES.radius * 2,
     alignSelf: "center",
+    elevation: 10,
+    borderRadius: 30,
   },
   next: {
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 30,
-    width: "80%",
-    height: 50,
-    borderColor: COLORS.beige,
-    borderWidth: 2,
-    elevation: 5,
+    borderRadius: SIZES.radius,
+    width: "100%",
+    height: 70,
     alignSelf: "center",
   },
+  starStyle: {
+    width: 120,
+    height: 25,
+    marginBottom: 5,
+    left: 10,
+  },
   action: {
-    // borderRadius: 15,
-    // borderBottomRightRadius: SIZES.radius,
-    borderTopLeftRadius: SIZES.radius,
-    borderTopRightRadius: SIZES.radius,
-    borderBottomLeftRadius: SIZES.radius,
-    borderWidth: 1,
+    borderRadius: SIZES.radius / 2,
     marginHorizontal: 10,
     marginVertical: 5,
-    borderColor: "#ff01ff",
+    paddingHorizontal: 10,
+    paddingVertical: 10,
     backgroundColor: "#FFFFFF",
     elevation: 2,
   },
-  //   button: {
-  //     height: 75,
-  //     width: "100%",
-  //     borderColor: "#ffd200",
-  //     borderWidth: 2,
-  //     borderRadius: 50,
-  //     alignItems: "center",
-  //     justifyContent: "center",
-  //     marginVertical: 5,
-  //     // elevation: 5,
-  //     position: "absolute",
-  //     alignSelf: "flex-end",
-  //   },
-  //   buttonContainer: {
-  //     height: 75,
-  //     width: "20%",
-  //     left: 300,
-  //     borderRadius: 50,
-  //     alignItems: "center",
-  //     justifyContent: "center",
-  //     marginVertical: 5,
-  //     elevation: 5,
-  //     position: "absolute",
-  //     bottom: 0,
-  //     alignSelf: "flex-end",
-  //   },
+  content_text: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: COLORS.primary,
+  },
+  starText: {
+    fontWeight: "bold",
+    fontSize: 24,
+  },
   infoText: {
     fontSize: 24,
     fontWeight: "bold",
@@ -573,16 +872,6 @@ const styles = StyleSheet.create({
     color: "#202020",
   },
 
-  //   DarkOverlay: {
-  //     position: "absolute",
-  //     top: 0,
-  //     right: 0,
-  //     left: 0,
-  //     height: 270,
-  //     backgroundColor: "#000",
-  //     opacity: 0.5,
-  //     borderBottomRightRadius: 65,
-  //   },
   shadow: {
     shadowColor: "#000",
     shadowOffset: {
@@ -615,10 +904,11 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   profileImage: {
-    width: 200,
-    height: 200,
+    width: 160,
+    height: 160,
     borderRadius: 100,
     overflow: "hidden",
+    elevation: 10,
   },
   titleBar: {
     flexDirection: "row",
@@ -664,8 +954,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   infoContainer: {
-    alignSelf: "center",
-    alignItems: "center",
+    // alignSelf: "center",
+    // alignItems: "center",
     marginTop: 5,
   },
   statsContainer: {
@@ -709,11 +999,13 @@ const styles = StyleSheet.create({
   },
   recentItem: {
     flexDirection: "row",
-    alignItems: "flex-start",
+    justifyContent: "center",
+    left: 10,
     marginBottom: 16,
   },
   activityIndicator: {
-    backgroundColor: "#CABFAB",
+    // backgroundColor: "#CABFAB",
+    backgroundColor: COLORS.pink,
     padding: 4,
     height: 12,
     width: 12,

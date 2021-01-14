@@ -479,7 +479,7 @@ const styles = StyleSheet.create({
   button: {
     height: 70,
     marginHorizontal: 10,
-    borderRadius: 35,
+    borderRadius: SIZES.radius,
     // borderTopRightRadius: SIZES.radius * 4,
     // borderBottomLeftRadius: SIZES.radius * 4,
     alignItems: "center",

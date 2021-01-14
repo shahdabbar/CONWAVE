@@ -52,7 +52,7 @@ const SetAddressScreen = ({ route, navigation }) => {
     latitude: "",
     longitude: "",
   });
-  const [geocode, setGeocode] = useState(null);
+
   const [marker, setMarker] = useState(null);
 
   const [state, setState] = useState({
@@ -65,7 +65,9 @@ const SetAddressScreen = ({ route, navigation }) => {
     axios
       .get(`api/user/address?user_id=${user.id}`)
       .then((response) => {
-        setAddressInfo(response.data[0]);
+        if (response.data[0]) {
+          setAddressInfo(response.data[0]);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -84,40 +86,33 @@ const SetAddressScreen = ({ route, navigation }) => {
     );
   }, []);
 
-  function onClick() {
-    setAddress({
-      ...address,
-      country: geocode.country ? geocode.country : addressInfo.country,
-      area: geocode.subregion ? geocode.subregion : addressInfo.area,
-      street: geocode.street ? geocode.street : addressInfo.street,
-      building: address.building ? address.building : addressInfo.building,
-      floor: address.floor ? address.floor : addressInfo.floor,
-      additional_details: address.additional_details
-        ? address.additional_details
-        : addressInfo.additional_details,
-      latitude: marker.latitude ? marker.latitude : addressInfo.latitude,
-      longitude: marker.longitude ? marker.longitude : addressInfo.longitude,
+  async function onClick() {
+    setAddressInfo({
+      ...addressInfo,
+      latitude: marker ? marker.latitude : addressInfo.latitude,
+      longitude: marker ? marker.longitude : addressInfo.longitude,
     });
-    console.log(address);
-    axios
-      .post("api/user/address", address)
-      .then((response) => {
-        console.log("success?", response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+
+    console.log(addressInfo);
+    try {
+      const response = await axios.post("api/user/address", addressInfo);
+      console.log("success?", response.data);
+    } catch (error) {
+      console.log(error);
+    }
   }
   const onPress = async (e) => {
     setMarker(e.nativeEvent.coordinate);
     let result = await Location.reverseGeocodeAsync(e.nativeEvent.coordinate);
-    await setGeocode(result[0]);
+    console.log("result", result);
+    await setAddressInfo({
+      country: result[0].country,
+      area: result[0].subregion,
+      street: result[0].street,
+      user_id: user.id,
+    });
   };
 
-  console.log(addressInfo);
-  console.log(
-    geocode ? geocode.country : addressInfo ? addressInfo.country : "Country.."
-  );
   return (
     <View style={styles.container}>
       <MapView
@@ -127,8 +122,8 @@ const SetAddressScreen = ({ route, navigation }) => {
         showsCompass={true}
         rotateEnabled={false}
         region={{
-          latitude: 33.8846975,
-          longitude: 35.5053606,
+          latitude: state.latitude,
+          longitude: state.longitude,
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
         }}
@@ -143,85 +138,81 @@ const SetAddressScreen = ({ route, navigation }) => {
         )}
       </MapView>
       <ScrollView>
+        <Text style={styles.text}>Country:</Text>
         <TextInput
-          placeholder="Country.."
-          defaultValue={
-            geocode
-              ? geocode.country
-              : addressInfo
-              ? addressInfo.country
-              : "Country.."
-          }
+          // placeholder="Country.."
+          defaultValue={addressInfo.country}
           placeholderTextColor={COLORS.gray}
           style={styles.textInput}
           textContentType="countryName"
           autoCapitalize="words"
-          onChangeText={(value) => setGeocode({ ...geocode, country: value })}
-        />
-        <TextInput
-          defaultValue={
-            geocode
-              ? geocode.subregion
-              : addressInfo
-              ? addressInfo.area
-              : "Region.."
+          onChangeText={(value) =>
+            setAddressInfo({ ...addressInfo, country: value })
           }
-          // defaultValue={addressInfo ? addressInfo.area : "Region.."}
-          placeholder="Region.."
+        />
+        <Text style={styles.text}>Region:</Text>
+        <TextInput
+          defaultValue={addressInfo.area ? addressInfo.area : ""}
+          // placeholder="Region.."
           placeholderTextColor={COLORS.gray}
           style={styles.textInput}
           textContentType="addressState"
           autoCapitalize="words"
-          onChangeText={(value) => setGeocode({ ...geocode, subregion: value })}
-        />
-        <TextInput
-          defaultValue={
-            geocode
-              ? geocode.street
-              : addressInfo
-              ? addressInfo.street
-              : "Street.."
+          onChangeText={(value) =>
+            setAddressInfo({ ...addressInfo, subregion: value })
           }
-          // defaultValue={addressInfo ? addressInfo.street : "Street.."}
-          placeholder="Street.."
+        />
+        <Text style={styles.text}>Street:</Text>
+        <TextInput
+          defaultValue={addressInfo.street ? addressInfo.street : ""}
+          // placeholder="Street.."
           placeholderTextColor={COLORS.gray}
           style={styles.textInput}
           textContentType="fullStreetAddress"
           autoCapitalize="words"
-          onChangeText={(value) => setGeocode({ ...geocode, street: value })}
+          onChangeText={(value) =>
+            setAddressInfo({ ...addressInfo, street: value })
+          }
         />
+        <Text style={styles.text}>Building:</Text>
         <TextInput
-          defaultValue={addressInfo ? addressInfo.building : "Building.."}
-          placeholder="Building.."
+          defaultValue={addressInfo.building ? addressInfo.building : ""}
+          // placeholder="Building.."
           placeholderTextColor={COLORS.gray}
           style={styles.textInput}
           textContentType="name"
           autoCapitalize="words"
-          onChangeText={(value) => setAddress({ ...address, building: value })}
+          onChangeText={(value) =>
+            setAddressInfo({ ...addressInfo, building: value })
+          }
         />
+        <Text style={styles.text}>Floor:</Text>
         <TextInput
-          defaultValue={addressInfo ? addressInfo.floor : "Floor.."}
-          placeholder="Floor.."
+          defaultValue={addressInfo.floor ? addressInfo.floor : ""}
+          // placeholder="Floor.."
           placeholderTextColor={COLORS.gray}
           style={styles.textInput}
           textContentType="oneTimeCode"
           autoCapitalize="words"
-          onChangeText={(value) => setAddress({ ...address, floor: value })}
+          onChangeText={(value) =>
+            setAddressInfo({ ...addressInfo, floor: value })
+          }
         />
+        <Text style={styles.text}>Additional Details:</Text>
         <TextInput
           defaultValue={
-            addressInfo ? addressInfo.additional_details : "Additional Details"
+            addressInfo.additional_details ? addressInfo.additional_details : ""
           }
-          placeholder="Additional Details.."
+          // placeholder="Additional Details.."
           placeholderTextColor={COLORS.gray}
           style={styles.textInput}
           textContentType="location"
           autoCapitalize="words"
           onChangeText={(value) =>
-            setAddress({ ...address, additional_details: value })
+            setAddressInfo({ ...addressInfo, additional_details: value })
           }
         />
-        <View style={{ marginTop: 5, marginBottom: 20, marginHorizontal: 16 }}>
+        <View style={{ marginTop: 16, marginBottom: 20, marginHorizontal: 16 }}>
           <TouchableOpacity onPress={() => onClick()}>
             <LinearGradient
               colors={[COLORS.primary, COLORS.yellow2]}
@@ -278,21 +269,23 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   text: {
-    margin: 30,
-    fontSize: 30,
-    fontWeight: "bold",
+    fontSize: 18,
+    color: COLORS.black3,
+    marginHorizontal: 33,
+    marginTop: 10,
+    // fontWeight: "bold",
   },
   textInput: {
     marginHorizontal: 20,
-    marginVertical: 12,
-    height: 60,
+    marginVertical: 2,
+    height: 70,
     borderColor: COLORS.beige,
     borderWidth: 2,
     elevation: 5,
     fontSize: 20,
     paddingBottom: 5,
     paddingLeft: 16,
-    borderRadius: 35,
+    borderRadius: SIZES.radius,
     color: COLORS.gray,
     backgroundColor: COLORS.white,
   },

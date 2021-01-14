@@ -80,13 +80,13 @@ function DrawerContent(props) {
             right: 0,
             bottom: 0,
             borderBottomRightRadius: 70,
-            backgroundColor: COLORS.rose,
+            backgroundColor: COLORS.darkpink,
           }}
         ></View>
       </View>
 
       <View style={{ flex: 0.8 }}>
-        <View style={{ flex: 1, backgroundColor: COLORS.rose }} />
+        <View style={{ flex: 1, backgroundColor: COLORS.darkpink }} />
         <View style={{ flex: 1, backgroundColor: COLORS.gray }} />
         <Image
           source={require("../assets/images/bg28.jpg")}

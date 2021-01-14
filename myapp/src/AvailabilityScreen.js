@@ -3,39 +3,19 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
-  ImageBackground,
-  ScrollView,
   FlatList,
-  Button,
-  StatusBar,
-  TextInput,
   TouchableOpacity,
-  SafeAreaView,
 } from "react-native";
-import { useTheme } from "@react-navigation/native";
-import * as Animatable from "react-native-animatable";
-import {
-  MaterialIcons as MaterialIcon,
-  Ionicons as Ionicon,
-  MaterialCommunityIcons as Icon,
-  FontAwesome,
-  FontAwesome5,
-  Feather,
-} from "react-native-vector-icons";
-import CheckBox from "@react-native-community/checkbox";
-import { LinearGradient } from "expo-linear-gradient";
+
 import { AuthContext } from "./AuthProvider";
-import DrawerContent from "./DrawerContent";
-import { deleteItemAsync } from "expo-secure-store";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import axios from "axios";
-import { cos } from "react-native-reanimated";
 
 const AvailabilityScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
   axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
 
+  console.log(user);
   const [selectedDay, setSelectedDay] = useState(null);
   const [hours, setHours] = useState([]);
 
@@ -85,13 +65,12 @@ const AvailabilityScreen = ({ route, navigation }) => {
   ]);
 
   useEffect(() => {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
     // get timeslots
     axios
       .get(`api/timeslots/sunday?user_id=${user.id}`)
       .then((response) => {
         days[0] = { ...days[0], hours: response.data };
-        // console.log("days", days[0]);
+        console.log("days", days[0]);
         setDays(days);
       })
       .catch((error) => {

@@ -41,7 +41,7 @@ function LocationScreen({ route, navigation }) {
             <Circle r={height + 50} cx={width / 2} />
           </ClipPath>
           <Image
-            href={require("../../assets/images/bg.jpg")}
+            href={require("../../assets/images/dark.jpg")}
             width={width}
             height={height + 50}
             preserveAspectRatio="xMidYMid slice"
@@ -53,7 +53,7 @@ function LocationScreen({ route, navigation }) {
         <MaterialIcons
           style={styles.arrow_icon}
           name="arrow-back"
-          color="#000"
+          color={COLORS.white}
           size={30}
           onPress={() => navigation.goBack()}
         />
@@ -160,7 +160,7 @@ function LocationScreen({ route, navigation }) {
               }}
             >
               <LinearGradient
-                colors={["#c6b893", "orange"]}
+                colors={[COLORS.darkpink, COLORS.primary]}
                 style={styles.button}
               >
                 <Text style={styles.textSign}>NEXT</Text>
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   text_header: {
-    color: "#000",
+    color: COLORS.white,
     fontSize: 30,
     fontWeight: "bold",
     flex: 1,
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: 70,
     marginHorizontal: 5,
-    borderRadius: 35,
+    borderRadius: SIZES.radius,
     alignItems: "center",
     justifyContent: "center",
     shadowOffset: { width: 2, height: 2 },
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
   action: {
     flexDirection: "row",
     height: 70,
-    borderRadius: 35,
+    borderRadius: SIZES.radius,
     borderWidth: 2,
     marginHorizontal: 5,
     marginVertical: 5,

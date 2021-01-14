@@ -94,7 +94,9 @@ const CompleteProfileSCreen = ({ navigation }) => {
     return (
       <View>
         <View style={styles.warning}>
-          <Text style={styles.paragraph}>
+          <Text
+            style={{ fontSize: 16, fontWeight: "bold", color: COLORS.black3 }}
+          >
             You Need to fill out all info to be able to continue
           </Text>
         </View>
@@ -103,14 +105,15 @@ const CompleteProfileSCreen = ({ navigation }) => {
             paddingTop: 10,
             marginBottom: 70,
             borderTopLeftRadius: 70,
-            backgroundColor: COLORS.white,
+            // backgroundColor: COLORS.pink,
           }}
         >
           <View style={{ paddingVertical: 5, marginHorizontal: 10 }}>
             <TouchableOpacity
               style={{
                 ...styles.wrapper,
-                backgroundColor: "#50ABF1",
+                // backgroundColor: "#50ABF1",
+                backgroundColor: COLORS.beige,
                 justifyContent: "center",
                 paddingHorizontal: 10,
               }}
@@ -148,7 +151,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
             <TouchableOpacity
               style={{
                 ...styles.wrapper,
-                backgroundColor: "#e7ce82",
+                backgroundColor: COLORS.beige,
                 justifyContent: "center",
                 paddingHorizontal: 10,
               }}
@@ -186,7 +189,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
             <TouchableOpacity
               style={{
                 ...styles.wrapper,
-                backgroundColor: "#f08ea0",
+                backgroundColor: COLORS.beige,
                 // backgroundColor: "#2CB9B0",
 
                 justifyContent: "center",
@@ -226,7 +229,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
             <TouchableOpacity
               style={{
                 ...styles.wrapper,
-                backgroundColor: "#e397f8",
+                backgroundColor: COLORS.beige,
                 justifyContent: "center",
                 paddingHorizontal: 10,
               }}
@@ -264,7 +267,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
             <TouchableOpacity
               style={{
                 ...styles.wrapper,
-                backgroundColor: "#64dbba",
+                backgroundColor: COLORS.beige,
                 justifyContent: "center",
                 paddingHorizontal: 10,
               }}
@@ -302,7 +305,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
             <TouchableOpacity
               style={{
                 ...styles.wrapper,
-                backgroundColor: "#ff8a8a",
+                backgroundColor: COLORS.beige,
                 justifyContent: "center",
                 paddingHorizontal: 10,
               }}
@@ -338,7 +341,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
             <TouchableOpacity
               style={{
                 ...styles.wrapper,
-                backgroundColor: "#9dca82",
+                backgroundColor: COLORS.beige,
                 justifyContent: "center",
                 paddingHorizontal: 10,
               }}
@@ -431,23 +434,6 @@ const CompleteProfileSCreen = ({ navigation }) => {
                 borderRadius: 16,
               }}
             >
-              {/* <View
-                style={{
-                  position: "absolute",
-                  marginHorizontal: 10,
-                  marginVertical: 5,
-                  right: 2,
-                }}
-              >
-                <FontAwesome
-                  name="close"
-                  size={24}
-                  color="gray"
-                  onPress={() => {
-                    setModal({ ...modal, meetingTypeModal: false });
-                  }}
-                />
-              </View> */}
               <View>
                 <View>
                   <TouchableOpacity
@@ -583,41 +569,6 @@ const CompleteProfileSCreen = ({ navigation }) => {
                       </Text>
                     </TouchableOpacity>
                   </View>
-                  {/* <View style={styles.button}>
-                    <TouchableOpacity
-                      style={styles.signIn}
-                      onPress={() => {
-                        setModal({ ...modal, meetingTypeModal: false });
-                        save();
-                      }}
-                    >
-                      <LinearGradient
-                        colors={["#ff01ff", "#d0d610"]}
-                        style={styles.signIn}
-                      >
-                        <Text style={[styles.textSign, { color: "#000000" }]}>
-                          Save
-                        </Text>
-                      </LinearGradient>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={styles.button}>
-                    <TouchableOpacity
-                      style={styles.signIn}
-                      onPress={() => {
-                        setModal({ ...modal, meetingTypeModal: false });
-                      }}
-                    >
-                      <LinearGradient
-                        colors={["#d0d610", "#ff01ff"]}
-                        style={styles.signIn}
-                      >
-                        <Text style={[styles.textSign, { color: "#000000" }]}>
-                          Cancel
-                        </Text>
-                      </LinearGradient>
-                    </TouchableOpacity>
-                  </View> */}
                 </View>
               </View>
             </View>
@@ -661,7 +612,7 @@ export default CompleteProfileSCreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: COLORS.white,
     paddingTop: 40,
   },
   paragraph: {
@@ -719,7 +670,7 @@ const styles = StyleSheet.create({
   },
   warning: {
     backgroundColor: COLORS.yellow2,
-    height: 50,
+    height: 30,
     alignItems: "center",
     justifyContent: "center",
   },

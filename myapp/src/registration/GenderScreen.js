@@ -12,7 +12,7 @@ import Svg, { Image, Circle, ClipPath } from "react-native-svg";
 import Animated, { block, Easing } from "react-native-reanimated";
 import * as Animatable from "react-native-animatable";
 import { LinearGradient } from "expo-linear-gradient";
-import { COLORS } from "../constants";
+import { COLORS, SIZES } from "../constants";
 
 function GenderScreen({ route, navigation }) {
   const { width, height } = Dimensions.get("screen");
@@ -31,7 +31,7 @@ function GenderScreen({ route, navigation }) {
             <Circle r={height + 50} cx={width / 2} />
           </ClipPath>
           <Image
-            href={require("../../assets/images/bg.jpg")}
+            href={require("../../assets/images/dark.jpg")}
             width={width}
             height={height + 50}
             preserveAspectRatio="xMidYMid slice"
@@ -43,7 +43,7 @@ function GenderScreen({ route, navigation }) {
         <MaterialIcons
           style={styles.icon}
           name="arrow-back"
-          color="#000"
+          color={COLORS.white}
           size={30}
           onPress={() => navigation.goBack()}
         />
@@ -64,7 +64,7 @@ function GenderScreen({ route, navigation }) {
               }}
             >
               <LinearGradient
-                colors={[COLORS.pink, COLORS.yellow2]}
+                colors={[COLORS.primary, COLORS.yellow2]}
                 style={styles.button}
               >
                 <Text style={styles.textSign}>Male</Text>
@@ -89,7 +89,7 @@ function GenderScreen({ route, navigation }) {
               }}
             >
               <LinearGradient
-                colors={["#c6b893", "orange"]}
+                colors={[COLORS.darkpink, COLORS.primary]}
                 style={styles.button}
               >
                 <Text style={styles.textSign}>Female</Text>
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   text_header: {
-    color: "#000",
+    color: COLORS.white,
     fontSize: 30,
     fontWeight: "bold",
   },
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     height: 70,
     marginHorizontal: 10,
-    borderRadius: 35,
+    borderRadius: SIZES.radius,
     alignItems: "center",
     justifyContent: "center",
     marginVertical: 5,

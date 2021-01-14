@@ -17,7 +17,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 import { AuthContext } from "../AuthProvider";
-import { COLORS } from "../constants";
+import { COLORS, SIZES } from "../constants";
 
 const SignInScreen = ({ route, navigation }) => {
   const { width, height } = Dimensions.get("screen");
@@ -121,7 +121,7 @@ const SignInScreen = ({ route, navigation }) => {
             <Circle r={height + 50} cx={width / 2} />
           </ClipPath>
           <Image
-            href={require("../../assets/images/bg.jpg")}
+            href={require("../../assets/images/dark.jpg")}
             width={width}
             height={height + 50}
             preserveAspectRatio="xMidYMid slice"
@@ -133,7 +133,7 @@ const SignInScreen = ({ route, navigation }) => {
         <MaterialIcons
           style={styles.arrow_icon}
           name="arrow-back"
-          color="#000"
+          color={COLORS.white}
           size={30}
           onPress={() => navigation.goBack()}
         />
@@ -156,6 +156,7 @@ const SignInScreen = ({ route, navigation }) => {
           />
           <TextInput
             placeholder="email"
+            keyboardType="email-address"
             style={styles.textInput}
             autoCapitalize="none"
             onChangeText={(value) => textInputChange(value)}
@@ -242,11 +243,11 @@ const SignInScreen = ({ route, navigation }) => {
             )}
           </TouchableOpacity>
         </View>
-        <View>
+        {/* <View>
           <Text style={styles.text_footer}>
             We need your number to send you a verfivation code.
           </Text>
-        </View>
+        </View> */}
         <View style={styles.action}>
           <FontAwesome
             name="phone"
@@ -258,6 +259,7 @@ const SignInScreen = ({ route, navigation }) => {
             placeholder="71 123 456"
             style={styles.textInput}
             textContentType="telephoneNumber"
+            keyboardType="number-pad"
             autoCapitalize="none"
             onChangeText={(value) => textNumberChange(value)}
           />
@@ -291,7 +293,7 @@ const SignInScreen = ({ route, navigation }) => {
                 }
               >
                 <LinearGradient
-                  colors={[COLORS.pink, COLORS.yellow2]}
+                  colors={[COLORS.darkpink, COLORS.primary]}
                   style={styles.button}
                 >
                   <Text style={styles.textSign}>SIGN UP</Text>
@@ -308,7 +310,7 @@ const SignInScreen = ({ route, navigation }) => {
           >
             <Text style={{ color: "#474747" }}>Already have an account?</Text>
             <Text
-              style={{ color: "blue", marginLeft: 4 }}
+              style={{ color: COLORS.pink, marginLeft: 4 }}
               onPress={() => navigation.navigate("SplashScreen")}
             >
               Sign In
@@ -339,7 +341,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   text_header: {
-    color: "#000",
+    color: COLORS.white,
     fontSize: 30,
     fontWeight: "bold",
   },
@@ -353,7 +355,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     height: 70,
     marginHorizontal: 5,
-    borderRadius: 35,
+    borderRadius: SIZES.radius,
     alignItems: "center",
     justifyContent: "center",
     marginVertical: 5,
@@ -371,7 +373,7 @@ const styles = StyleSheet.create({
   action: {
     flexDirection: "row",
     height: 70,
-    borderRadius: 40,
+    borderRadius: SIZES.radius,
     borderWidth: 2,
     marginHorizontal: 5,
     marginVertical: 5,
@@ -387,9 +389,9 @@ const styles = StyleSheet.create({
   },
   textInput: {
     // marginBottom: 30,
-
     flex: 1,
-    color: "#05375a",
+    fontSize: 16,
+    color: COLORS.black3,
     paddingLeft: 10,
   },
   arrow_icon: {

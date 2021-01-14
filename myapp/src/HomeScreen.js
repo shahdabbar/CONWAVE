@@ -407,7 +407,7 @@ const HomeScreen = ({ navigation }) => {
                   style={{
                     padding: SIZES.padding,
                     paddingBottom: SIZES.padding * 2,
-                    backgroundColor: COLORS.yellow2,
+                    backgroundColor: COLORS.darkpink,
                     borderRadius: SIZES.radius / 2,
                     alignItems: "center",
                     justifyContent: "center",
@@ -534,7 +534,7 @@ const HomeScreen = ({ navigation }) => {
             >
               <Text
                 style={{
-                  ...FONTS.h1,
+                  fontSize: 25,
                   fontWeight: "bold",
                   // fontFamily: "italic_black",
                 }}
@@ -543,7 +543,7 @@ const HomeScreen = ({ navigation }) => {
               </Text>
               <Text
                 style={{
-                  ...FONTS.h1,
+                  fontSize: 25,
                   fontWeight: "bold",
                   color: COLORS.pink,
                 }}
@@ -559,12 +559,12 @@ const HomeScreen = ({ navigation }) => {
           <Animatable.View animation="pulse" style={{ padding: 20 }}>
             <Text
               style={{
-                ...FONTS.h1,
+                fontSize: 25,
                 fontWeight: "bold",
                 color: COLORS.yellow,
               }}
             >
-              Top Tutors
+              <Text style={{ color: COLORS.black3 }}>Top</Text> Tutors
             </Text>
           </Animatable.View>
           <FlatList
@@ -583,7 +583,7 @@ const HomeScreen = ({ navigation }) => {
                             ? {
                                 uri: `http://192.168.0.106:8000/${item.profile_photo_path}`,
                               }
-                            : require("../assets/images/profile2.png")
+                            : require("../assets/images/profile4.png")
                         }
                         resizeMode="cover"
                         style={{
@@ -612,7 +612,7 @@ const HomeScreen = ({ navigation }) => {
         </View>
         <View style={{ marginBottom: 60 }}>
           <Animatable.View animation="pulse" style={{ padding: 20 }}>
-            <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>
+            <Text style={{ fontSize: 25, fontWeight: "bold" }}>
               Most Popular courses
             </Text>
           </Animatable.View>
@@ -626,9 +626,13 @@ const HomeScreen = ({ navigation }) => {
     <View style={styles.container}>
       <View>
         <ImageBackground
+          style={{
+            width: "100%",
+            height: 270,
+            borderBottomRightRadius: SIZES.radius * 2,
+          }}
+          resizeMode="cover"
           source={require("../assets/images/bg28.jpg")}
-          style={{ width: "100%", height: 270 }}
-          imageStyle={styles.image}
         >
           <View style={styles.DarkOverlay}></View>
           <View style={styles.searchContainer}>
@@ -688,7 +692,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   image: {
-    borderBottomRightRadius: 65,
+    borderBottomRightRadius: SIZES.radius * 2,
   },
   DarkOverlay: {
     position: "absolute",

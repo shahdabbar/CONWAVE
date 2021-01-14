@@ -13,7 +13,7 @@ export const COLORS = {
   orange: "#fe9901",
   // d6db8b
   black3: "#000000",
-
+  darkpink: "#e91e63",
   // colors
   black: "#1E1F20",
   white: "#FFFFFF",
@@ -31,6 +31,7 @@ export const COLORS = {
   lightgray: "#5c6d7b",
   rose: "#ffa3b2",
 
+  grey: "#474747",
   lightGray: "#F5F5F6",
   lightGray2: "#F6F6F7",
   lightGray3: "#EFEFF1",
