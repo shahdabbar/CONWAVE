@@ -85,7 +85,7 @@ class User extends Authenticatable
         return $this->hasOne(MeetingType::class);
     }
 
-    public function session()
+    public function sessions()
     {
         return $this->hasMany(Booked_Sessions::class);
     }

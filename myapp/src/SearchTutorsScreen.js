@@ -145,7 +145,7 @@ const SearchTutorsScreen = ({ route, navigation }) => {
                       borderTopRightRadius: SIZES.radius,
                       borderBottomLeftRadius: SIZES.radius,
                       marginHorizontal: 10,
-                      height: 200,
+                      elevation: 5,
                       marginBottom: 20,
                     }}
                     onPress={() => {
@@ -161,11 +161,7 @@ const SearchTutorsScreen = ({ route, navigation }) => {
                       style={{
                         borderTopRightRadius: SIZES.radius,
                         borderBottomLeftRadius: SIZES.radius,
-                        // borderColor: "#ffd200",
-                        // borderWidth: 2,
                         padding: 5,
-                        height: 200,
-                        marginBottom: 20,
                       }}
                     >
                       <LinearGradient
@@ -175,7 +171,6 @@ const SearchTutorsScreen = ({ route, navigation }) => {
                           top: 0,
                           right: 0,
                           height: 50,
-                          // paddingHorizontal: 5,
                           width: SIZES.width * 0.3,
                           backgroundColor: COLORS.yellow,
                           borderTopRightRadius: SIZES.radius,
@@ -205,7 +200,7 @@ const SearchTutorsScreen = ({ route, navigation }) => {
                                   source={
                                     item.tutor.profile_photo_path
                                       ? {
-                                          uri: `http://192.168.0.106:8000/${item.tutor.profile_photo_path}`,
+                                          uri: `http://192.168.0.107:8000/${item.tutor.profile_photo_path}`,
                                         }
                                       : require("../assets/images/profile2.png")
                                   }
@@ -301,9 +296,8 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 100,
-    // backgroundColor: "gray",
     overflow: "hidden",
-    elevation: 5,
+    elevation: 50,
     borderWidth: 2,
     borderColor: COLORS.white,
   },
@@ -428,6 +422,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.5,
     shadowRadius: 3,
-    elevation: 10,
+    elevation: 20,
   },
 });

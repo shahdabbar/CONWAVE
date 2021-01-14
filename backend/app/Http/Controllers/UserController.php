@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-
+use App\Http\Resources\TutorResources;
 
 class UserController extends Controller
 {
@@ -136,7 +136,7 @@ class UserController extends Controller
     }
 
     public function getTutor(Request $request) {
-        $tutor = User::with('profile')->where('id', $request->user_id)->get();
-        return response()->json($tutor);
+        $tutor = User::where('id', $request->user_id)->get();
+        return TutorResources::collection($tutor);
     }
 }       

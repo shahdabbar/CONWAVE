@@ -38,6 +38,7 @@ const MeetingAddressScreen = ({ route, navigation }) => {
   axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
 
   const [addressInfo, setAddressInfo] = useState(route.params.addressInfo);
+  console.log(addressInfo);
 
   function renderHeader() {
     return (

@@ -471,8 +471,8 @@ function TutorProfileScreen({ route, navigation }) {
     axios
       .get(`api/user/tutor?user_id=${item.user_id}`)
       .then((response) => {
-        setTutor(response.data);
-        // console.log(response.data);
+        setTutor(response.data.data[0]);
+        console.log(response.data.data[0]);
       })
       .catch((error) => {
         console.log(error);
@@ -519,7 +519,7 @@ function TutorProfileScreen({ route, navigation }) {
                       textTransform: "capitalize",
                     }}
                   >
-                    {tutor[0].firstname}
+                    {tutor.firstname}
                   </Text>
                   <Text
                     style={{
@@ -528,7 +528,7 @@ function TutorProfileScreen({ route, navigation }) {
                       textTransform: "capitalize",
                     }}
                   >
-                    {tutor[0].lastname}
+                    {tutor.lastname}
                   </Text>
                   <Text
                     style={{
@@ -537,7 +537,7 @@ function TutorProfileScreen({ route, navigation }) {
                       color: "gray",
                     }}
                   >
-                    {tutor[0].location} Lebanon
+                    {tutor.location} Lebanon
                   </Text>
                   {num > 0 ? (
                     <View
@@ -567,7 +567,7 @@ function TutorProfileScreen({ route, navigation }) {
                       source={
                         item.tutor.profile_photo_path
                           ? {
-                              uri: `http://192.168.0.106:8000/${item.tutor.profile_photo_path}`,
+                              uri: `http://192.168.0.107:8000/${item.tutor.profile_photo_path}`,
                             }
                           : require("../assets/images/profile2.png")
                       }
@@ -580,10 +580,10 @@ function TutorProfileScreen({ route, navigation }) {
               <View style={styles.statsContainer}>
                 <TouchableOpacity style={styles.statsBox}>
                   <Text style={{ ...styles.text, fontSize: 24 }}>
-                    {tutor[0].profile.hours_tutored}
+                    {tutor.courses.length}
                   </Text>
                   <Text style={{ ...styles.text, ...styles.subText }}>
-                    Tutoring Courses
+                    Courses Offering
                   </Text>
                 </TouchableOpacity>
                 <View
@@ -594,7 +594,7 @@ function TutorProfileScreen({ route, navigation }) {
                   }}
                 >
                   <Text style={{ ...styles.text, fontSize: 24 }}>
-                    {tutor[0].profile.students_tutored}
+                    {/* {tutor[0].profile.students_tutored} */}
                   </Text>
                   <Text style={{ ...styles.text, ...styles.subText }}>
                     Students Tutored
@@ -692,7 +692,7 @@ function TutorProfileScreen({ route, navigation }) {
                       </View>
                       <View>
                         <Text style={{ fontSize: 17, fontWeight: "800" }}>
-                          {tutor[0].profile.bio}
+                          {tutor.bio}
                         </Text>
                       </View>
                     </View>
@@ -723,7 +723,7 @@ function TutorProfileScreen({ route, navigation }) {
                             textAlign: "center",
                           }}
                         >
-                          Lebanese Internationl University
+                          {tutor.university}
                         </Text>
                       </View>
                       <View
@@ -745,7 +745,7 @@ function TutorProfileScreen({ route, navigation }) {
                             textAlign: "center",
                           }}
                         >
-                          Computer Science
+                          {tutor.major}
                         </Text>
                       </View>
                     </View>
@@ -849,6 +849,7 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.radius / 2,
     marginHorizontal: 10,
     marginVertical: 5,
+    height: 40,
     paddingHorizontal: 10,
     paddingVertical: 10,
     backgroundColor: "#FFFFFF",

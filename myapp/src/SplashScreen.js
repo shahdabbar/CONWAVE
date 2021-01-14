@@ -203,28 +203,6 @@ class MyApp extends Component {
     }
   };
 
-  // loginHandle = () => {
-  //   this.props.navigation.navigate("MainTabScreen");
-  //   // const foundUser = Users.filter((item) => {
-  //   //   return username == item.username && password == item.password;
-  //   // });
-  //   // if (this.state.username.length == 0 || this.state.password.length == 0) {
-  //   //   Alert.alert(
-  //   //     "Wrong Input!",
-  //   //     "Username or password field cannot be empty.",
-  //   //     [{ text: "Okay" }]
-  //   //   );
-  //   //   return;
-  //   // }
-  //   // if (foundUser.length == 0) {
-  //   //   Alert.alert("Invalid User!", "Username or password is incorrect", [
-  //   //     { text: "Okay" },
-  //   //   ]);
-  //   //   return;
-  //   // }
-  //   // signIn();
-  // };
-
   render() {
     const { login, error } = this.context;
 
@@ -237,16 +215,22 @@ class MyApp extends Component {
           }}
         >
           <Svg height={height + 50} width={width + 50}>
-            <ClipPath id="clip">
-              <Circle r={height + 50} cx={width / 2} />
-            </ClipPath>
+            {/* <ClipPath id="image"> */}
+            <Circle
+              id="image"
+              r={height + 50}
+              cx={width / 2}
+              // fill={COLORS.yellow2}
+            />
+            {/* </ClipPath> */}
             <Image
               href={require("../assets/images/dark.jpg")}
               width={width}
               height={height + 50}
               preserveAspectRatio="xMidYMid slice"
-              ClipPath="url(#clip)"
+              ClipPath="url(#image)"
             />
+            {/* <Circle r={height + 50} cx={width / 2} /> */}
           </Svg>
         </Animated.View>
         <View style={styles.header}>
@@ -538,7 +522,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
-    top: -35,
+    top: -65,
     left: width / 2 - 20,
     shadowOffset: { width: 2, height: 2 },
     shadowColor: "black",

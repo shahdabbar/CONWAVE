@@ -8,7 +8,6 @@ use App\Models\Tutor_Courses;
 class TutorCoursesController extends Controller
 {
     public function index(Request $request) {
-
         $courses = Tutor_Courses::where('user_id', Auth()->user()->id)->with('course')->get();
         return response()->json($courses);
     }

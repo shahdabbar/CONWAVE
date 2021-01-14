@@ -65,7 +65,9 @@ function App() {
   return (
     <PaperProvider theme={theme}>
       <Drawer.Navigator
+        openByDefault={false}
         drawerStyle={{ width: DRAWER_WIDTH }}
+        initialRouteName="HomeDrawer"
         drawerContent={(props) => <DrawerContent {...props} />}
       >
         <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />

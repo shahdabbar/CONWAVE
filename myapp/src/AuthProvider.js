@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://192.168.0.106:8000";
+axios.defaults.baseURL = "http://192.168.0.107:8000";
 export const AuthContext = React.createContext({});
 
 export const AuthProvider = ({ children }) => {

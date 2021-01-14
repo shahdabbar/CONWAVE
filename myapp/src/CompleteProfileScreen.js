@@ -676,7 +676,7 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     height: 100,
-    borderRadius: SIZES.radius,
+    borderRadius: SIZES.radius / 2,
     elevation: 10,
   },
   warpper_content: {

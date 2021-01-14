@@ -581,7 +581,7 @@ const HomeScreen = ({ navigation }) => {
                         source={
                           item.profile_photo_path
                             ? {
-                                uri: `http://192.168.0.106:8000/${item.profile_photo_path}`,
+                                uri: `http://192.168.0.107:8000/${item.profile_photo_path}`,
                               }
                             : require("../assets/images/profile4.png")
                         }

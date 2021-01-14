@@ -117,7 +117,7 @@ const VideosScreen = ({ route, navigation }) => {
   );
 };
 
-//  source={{ uri: `http://192.168.0.106:8000/${video.video_path}` }}
+//  source={{ uri: `http://192.168.0.107:8000/${video.video_path}` }}
 
 export default VideosScreen;
 

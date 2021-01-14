@@ -63,10 +63,6 @@ const CoursesScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.courses}>
-        <Text style={{ ...FONTS.h1, fontWeight: "bold" }}>My Courses</Text>
-      </View>
-      {/* <ScrollView> */}
       <FlatList
         data={courses}
         keyExtractor={(item) => `${item.id}`}
@@ -84,12 +80,11 @@ const CoursesScreen = ({ navigation }) => {
                     // borderRadius: SIZES.radius / 2,
                     borderTopRightRadius: SIZES.radius,
                     borderBottomLeftRadius: SIZES.radius,
-                    borderColor: "#ffd200",
+                    borderColor: COLORS.beige,
                     borderWidth: 2,
                     elevation: 10,
                     padding: 5,
                     marginHorizontal: 20,
-                    height: 200,
                     marginBottom: 20,
                   }}
                 >
@@ -100,17 +95,17 @@ const CoursesScreen = ({ navigation }) => {
                           flexDirection: "row",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          marginBottom: 10,
+                          // marginBottom: 10,
                         }}
                       >
                         <View>
-                          <Text style={styles.infoText}>
+                          <Text style={{ ...styles.infoText, bottom: 16 }}>
                             {item.course.name}
                           </Text>
                         </View>
                         <View
                           style={{
-                            flexDirection: "row",
+                            // flexDirection: "row",
                             alignItems: "center",
                           }}
                         >
@@ -118,7 +113,7 @@ const CoursesScreen = ({ navigation }) => {
                             <TextInput
                               defaultValue={item.rate}
                               textContentType="telephoneNumber"
-                              style={{ fontSize: 20 }}
+                              style={{ fontSize: 20, fontWeight: "bold" }}
                               placeholder="Rate"
                               placeholderTextColor="#666"
                               onChangeText={(text) => onChangeText(item, text)}
@@ -139,7 +134,6 @@ const CoursesScreen = ({ navigation }) => {
           );
         }}
       />
-      {/* </ScrollView> */}
       <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => navigation.navigate("AddCourse")}
@@ -165,40 +159,34 @@ export default CoursesScreen;
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: "white",
+    backgroundColor: COLORS.yellow2,
   },
   courses: { marginHorizontal: 20, marginVertical: 10, fontWeight: "100" },
   button: {
     height: 75,
     width: "100%",
-    borderColor: "#ffd200",
-    borderWidth: 2,
     borderRadius: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: 5,
-    elevation: 5,
     position: "absolute",
     alignSelf: "flex-end",
   },
   buttonContainer: {
+    position: "absolute",
+    right: 25,
+    bottom: 0,
+    elevation: 10,
+    justifyContent: "flex-end",
     height: 75,
     width: "20%",
-    left: 300,
     borderRadius: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 5,
-    elevation: 5,
-    position: "absolute",
-    bottom: 60,
-    alignSelf: "flex-end",
+    marginVertical: 20,
   },
   infoContent: {
     margin: 10,
   },
   infoText: {
-    fontSize: 27,
+    fontSize: 22,
     fontWeight: "bold",
   },
   text: {
@@ -210,14 +198,10 @@ const styles = StyleSheet.create({
   action: {
     flexDirection: "row",
     height: 40,
-    // borderRadius: 15,
-    borderBottomRightRadius: SIZES.radius,
-    borderTopLeftRadius: SIZES.radius,
-    // borderTopRightRadius: SIZES.radius,
-    // borderBottomLeftRadius: SIZES.radius,
+    borderRadius: SIZES.radius / 2,
     borderWidth: 1,
     marginHorizontal: 10,
-    marginVertical: 5,
+    // marginVertical: 5,
     borderColor: "#ff01ff",
     paddingHorizontal: 5,
     backgroundColor: "#FFFFFF",

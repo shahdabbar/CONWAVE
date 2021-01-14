@@ -45,7 +45,7 @@ const ViewSessionScreen = ({ route, navigation }) => {
     axios
       .get(`api/user/address?user_id=${data.session.tutor_id}`)
       .then((response) => {
-        setAddressInfo(response.data);
+        setAddressInfo(response.data[0]);
       })
       .catch((error) => {
         console.log(error);
@@ -110,7 +110,7 @@ const ViewSessionScreen = ({ route, navigation }) => {
                     source={
                       data.session.student_profile_photo_path
                         ? {
-                            uri: `http://192.168.0.106:8000/${data.session.student_profile_photo_path}`,
+                            uri: `http://192.168.0.107:8000/${data.session.student_profile_photo_path}`,
                           }
                         : require("../assets/images/profile2.png")
                     }

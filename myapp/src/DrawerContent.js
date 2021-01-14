@@ -80,13 +80,13 @@ function DrawerContent(props) {
             right: 0,
             bottom: 0,
             borderBottomRightRadius: 70,
-            backgroundColor: COLORS.darkpink,
+            backgroundColor: COLORS.yellow2,
           }}
         ></View>
       </View>
 
       <View style={{ flex: 0.8 }}>
-        <View style={{ flex: 1, backgroundColor: COLORS.darkpink }} />
+        <View style={{ flex: 1, backgroundColor: COLORS.yellow2 }} />
         <View style={{ flex: 1, backgroundColor: COLORS.gray }} />
         <Image
           source={require("../assets/images/bg28.jpg")}
@@ -130,7 +130,7 @@ function DrawerContent(props) {
               source={
                 userInfo.profile_photo_path
                   ? {
-                      uri: `http://192.168.0.106:8000/${userInfo.profile_photo_path}`,
+                      uri: `http://192.168.0.107:8000/${userInfo.profile_photo_path}`,
                     }
                   : require("../assets/images/profile2.png")
               }
@@ -323,120 +323,6 @@ function DrawerContent(props) {
         />
       </View>
     </View>
-
-    // <View>
-    //   <DrawerContentScrollView {...props}>
-    //     <View style={styles.drawerContent}>
-    //       <View style={styles.userInfoSection}>
-    //         <View style={{ flexDirection: "row", marginTop: 15 }}>
-    //           <Avatar.Image
-    //             source={require("../assets/images/profile2.png")}
-    //             size={75}
-    //             style={{ backgroundColor: COLORS.white }}
-    //           />
-    //           <View style={{ marginLeft: 15, flexDirection: "column" }}>
-    //             <Title style={styles.title}>
-    //               {userInfo.firstname} {userInfo.lastname}
-    //             </Title>
-    //             <Caption style={styles.caption}>@{userInfo.type}</Caption>
-    //           </View>
-    //         </View>
-    //         <View style={styles.row}>
-    //           <View style={styles.section}>
-    //             <Paragraph style={[styles.paragraph, styles.caption]}>
-    //               @
-    //             </Paragraph>
-    //             <Caption style={styles.caption}>
-    //               shahdabbar32@gmail.com
-    //             </Caption>
-    //           </View>
-    //         </View>
-    //       </View>
-    //       <Drawer.Section style={styles.drawerSection}>
-    //         <DrawerItem
-    //           icon={() => (
-    //             <Icon name="home-outline" color="#515e5a" size={30} />
-    //           )}
-    //           label="Home"
-    //           labelStyle={{ fontSize: 18, fontWeight: "bold" }}
-    //           onPress={() => {
-    //             props.navigation.navigate("Home");
-    //           }}
-    //         />
-    //         <DrawerItem
-    //           icon={() => (
-    //             <Icon name="account-outline" color="#515e5a" size={30} />
-    //           )}
-    //           label="Profile"
-    //           labelStyle={{ fontSize: 18, fontWeight: "bold" }}
-    //           onPress={() => {
-    //             props.navigation.navigate("Profile");
-    //           }}
-    //         />
-    //         <DrawerItem
-    //           icon={() => (
-    //             <Icon name="video-outline" color="#515e5a" size={30} />
-    //           )}
-    //           label="Videos"
-    //           labelStyle={{ fontSize: 18, fontWeight: "bold" }}
-    //           onPress={() => {
-    //             props.navigation.navigate("CompleteProfileScreen");
-    //           }}
-    //         />
-    //         <DrawerItem
-    //           icon={() => (
-    //             <Ionicon name="settings-outline" color="#515e5a" size={30} />
-    //           )}
-    //           label="Settings"
-    //           labelStyle={{ fontSize: 18, fontWeight: "bold" }}
-    //           onPress={() => {
-    //             props.navigation.navigate("SettingsScreen");
-    //           }}
-    //         />
-    //         <DrawerItem
-    //           icon={() => (
-    //             <Icon
-    //               name="account-check-outline"
-    //               color="#515e5a"
-    //               size={30}
-    //             />
-    //           )}
-    //           label="Support"
-    //           labelStyle={{ fontSize: 18, fontWeight: "bold" }}
-    //           onPress={() => {
-    //             props.navigation.navigate("SupportScreen");
-    //           }}
-    //         />
-    //       </Drawer.Section>
-    //    <Drawer.Section title="Preferences">
-    //   <TouchableRipple
-    //     onPress={() => {
-    //       // toggleTheme();
-    //     }}
-    //   >
-    //     <View style={styles.preferences}>
-    //       <Text>Dark Theme</Text>
-    //       <View pointerEvents="none">
-    //         <Switch value={paperTheme.dark} />
-    //       </View>
-    //     </View>
-    //   </TouchableRipple>
-    // </Drawer.Section>
-    //     </View>
-    //   </DrawerContentScrollView>
-    //   <Drawer.Section style={styles.bottomDrawerSection}>
-    //     <DrawerItem
-    //       icon={() => <Icon name="exit-to-app" color="#515e5a" size={30} />}
-    //       label="Sign out"
-    //       labelStyle={{ fontSize: 18, fontWeight: "bold" }}
-    //       onPress={() => {
-    //         logout();
-    //       }}
-    //     />
-    //   </Drawer.Section>
-    // </View>
-
-    // </LinearGradient>
   );
 }
 

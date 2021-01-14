@@ -729,7 +729,7 @@ const EditProfileScreen = ({ route, navigation }) => {
               <Image
                 source={
                   userInfo.imagePath
-                    ? { uri: `http://192.168.0.106:8000/${userInfo.imagePath}` }
+                    ? { uri: `http://192.168.0.107:8000/${userInfo.imagePath}` }
                     : require("../assets/images/profile2.png")
                 }
                 style={styles.image}

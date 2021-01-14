@@ -174,12 +174,11 @@ const MainTabScreen = () => {
   }, []);
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName={userInfo.type === "tutor" ? "Sessions" : "Home"}
       activeColor="#fff"
       tabBarOptions={{
         showLabel: true,
         labelStyle: { color: "gray", fontSize: 14 },
-        // labelStyle: { fontSize: 16, color: COLORS.pink },
         style: {
           borderTopWidth: 0,
           backgroundColor: "transparent",
@@ -187,35 +186,10 @@ const MainTabScreen = () => {
         },
       }}
     >
-      <Tab.Screen
-        name="Home"
-        component={HomeStackScreen}
-        options={({ route }) => {
-          return {
-            tabBarVisible: getTabBarVisibility(route),
-            tabBarLabel: "Home",
-            tabBarOptions: {
-              activeTintColor: COLORS.black2,
-              inactiveTintColor: COLORS.secondary,
-            },
-            tabBarIcon: ({ focused }) => (
-              <Image
-                source={icons.home}
-                resizeMode="contain"
-                style={{
-                  width: 20,
-                  height: 20,
-                  tintColor: focused ? COLORS.black2 : COLORS.secondary,
-                }}
-              />
-            ),
-            tabBarButton: (props) => <TabBarCustomButton {...props} />,
-          };
-        }}
-      />
       {userInfo.type === "tutor" ? (
         <>
           <Tab.Screen
+            initialRouteName={userInfo.type === "tutor" ? "Sessions" : "Home"}
             name="Sessions"
             component={SessionsStackScreen}
             options={({ route }) => {
@@ -287,6 +261,32 @@ const MainTabScreen = () => {
       ) : (
         <>
           <Tab.Screen
+            name="Home"
+            component={HomeStackScreen}
+            options={({ route }) => {
+              return {
+                tabBarVisible: getTabBarVisibility(route),
+                tabBarLabel: "Home",
+                tabBarOptions: {
+                  activeTintColor: COLORS.black2,
+                  inactiveTintColor: COLORS.secondary,
+                },
+                tabBarIcon: ({ focused }) => (
+                  <Image
+                    source={icons.home}
+                    resizeMode="contain"
+                    style={{
+                      width: 20,
+                      height: 20,
+                      tintColor: focused ? COLORS.black2 : COLORS.secondary,
+                    }}
+                  />
+                ),
+                tabBarButton: (props) => <TabBarCustomButton {...props} />,
+              };
+            }}
+          />
+          <Tab.Screen
             name="StudentSessions"
             component={StudentSessionsStackScreen}
             options={({ route }) => {
@@ -308,7 +308,7 @@ const MainTabScreen = () => {
               };
             }}
           />
-          <Tab.Screen
+          {/* <Tab.Screen
             name="Notification"
             component={DetailsStackScreen}
             options={({ route }) => {
@@ -329,7 +329,7 @@ const MainTabScreen = () => {
                 tabBarButton: (props) => <TabBarCustomButton {...props} />,
               };
             }}
-          />
+          /> */}
         </>
       )}
       <Tab.Screen
@@ -384,7 +384,6 @@ export default MainTabScreen;
 
 const HomeStackScreen = ({ navigation }) => (
   <HomeStack.Navigator
-    initialRouteName="Home"
     screenOptions={{
       // animationEnabled: false,
       headerShown: false,
@@ -1065,17 +1064,17 @@ const SessionsStackScreen = ({ navigation }) => (
       options={{
         headerShown: true,
         title: "COURSES",
+        headerStyle: { backgroundColor: COLORS.yellow2, elevation: 0 },
         headerTitleStyle: {
-          color: "gray",
-          fontWeight: "800",
-          fontSize: 14,
+          color: COLORS.black3,
+          fontSize: 25,
           alignSelf: "center",
         },
         headerLeft: () => (
           <MaterialIcon
             name="arrow-back-ios"
             size={24}
-            color="gray"
+            color={COLORS.black3}
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("TutorSessions");
@@ -1084,10 +1083,10 @@ const SessionsStackScreen = ({ navigation }) => (
         ),
 
         headerRight: () => (
-          <Icon
+          <FontAwesome
             name="pencil"
             size={25}
-            color="gray"
+            color={COLORS.black3}
             style={{ marginRight: 16 }}
             onPress={() => {}}
           />
@@ -1183,16 +1182,17 @@ const SessionsStackScreen = ({ navigation }) => (
       options={{
         headerShown: true,
         title: "Add Address",
+        headerStyle: { backgroundColor: COLORS.yellow2 },
         headerTitleStyle: {
           color: COLORS.black2,
-          fontWeight: "bold",
+          left: 45,
           fontSize: 25,
         },
         headerLeft: () => (
           <MaterialIcon
             name="arrow-back-ios"
             size={24}
-            color="gray"
+            color={COLORS.black3}
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("TutorSessions");

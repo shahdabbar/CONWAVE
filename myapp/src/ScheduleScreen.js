@@ -84,7 +84,7 @@ const ScheduleScreen = ({ route, navigation }) => {
                     backgroundColor: COLORS.white,
                     borderTopRightRadius: SIZES.radius,
                     borderBottomRightRadius: SIZES.radius,
-                    elevation: 2,
+                    elevation: 5,
                     borderLeftColor: COLORS.pink,
                     borderLeftWidth: 4,
                     marginHorizontal: SIZES.padding * 2,
@@ -106,7 +106,7 @@ const ScheduleScreen = ({ route, navigation }) => {
                             source={
                               item.student_profile_photo_path
                                 ? {
-                                    uri: `http://192.168.0.106:8000/${item.student_profile_photo_path}`,
+                                    uri: `http://192.168.0.107:8000/${item.student_profile_photo_path}`,
                                   }
                                 : require("../assets/images/profile2.png")
                             }
@@ -230,7 +230,7 @@ const ScheduleScreen = ({ route, navigation }) => {
                     backgroundColor: COLORS.white,
                     borderTopRightRadius: SIZES.radius,
                     borderBottomRightRadius: SIZES.radius,
-                    elevation: 2,
+                    elevation: 5,
                     borderLeftColor: COLORS.yellow2,
                     borderLeftWidth: 4,
                     marginHorizontal: SIZES.padding * 2,
@@ -252,7 +252,7 @@ const ScheduleScreen = ({ route, navigation }) => {
                             source={
                               item.student_profile_photo_path
                                 ? {
-                                    uri: `http://192.168.0.106:8000/${item.student_profile_photo_path}`,
+                                    uri: `http://192.168.0.107:8000/${item.student_profile_photo_path}`,
                                   }
                                 : require("../assets/images/profile2.png")
                             }

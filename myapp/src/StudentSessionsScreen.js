@@ -183,7 +183,7 @@ const StudentSessionsScreen = ({ route, navigation }) => {
                             source={
                               item.tutor_profile_photo_path
                                 ? {
-                                    uri: `http://192.168.0.106:8000/${item.tutor_profile_photo_path}`,
+                                    uri: `http://192.168.0.107:8000/${item.tutor_profile_photo_path}`,
                                   }
                                 : require("../assets/images/profile2.png")
                             }
@@ -354,7 +354,7 @@ const StudentSessionsScreen = ({ route, navigation }) => {
                             source={
                               item.tutor_profile_photo_path
                                 ? {
-                                    uri: `http://192.168.0.106:8000/${item.tutor_profile_photo_path}`,
+                                    uri: `http://192.168.0.107:8000/${item.tutor_profile_photo_path}`,
                                   }
                                 : require("../assets/images/profile2.png")
                             }

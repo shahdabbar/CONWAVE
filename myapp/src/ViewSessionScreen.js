@@ -222,7 +222,7 @@ const ViewSessionScreen = ({ route, navigation }) => {
                     source={
                       data.session.tutor_profile_photo_path
                         ? {
-                            uri: `http://192.168.0.106:8000/${data.session.tutor_profile_photo_path}`,
+                            uri: `http://192.168.0.107:8000/${data.session.tutor_profile_photo_path}`,
                           }
                         : require("../assets/images/profile2.png")
                     }
@@ -244,19 +244,19 @@ const ViewSessionScreen = ({ route, navigation }) => {
                     {data.session.course_name}
                   </Text>
                 </View>
-                <View>
+                {/* <View>
                   <Text
                     style={{
                       ...styles.text,
                       color: COLORS.black,
                       fontWeight: "800",
                       textTransform: "capitalize",
-                      width: "100%",
+                      width: "20%",
                     }}
                   >
                     {data.session.course_description[0].course_description}
                   </Text>
-                </View>
+                </View> */}
                 <View>
                   <Text
                     style={{

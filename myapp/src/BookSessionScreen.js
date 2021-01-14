@@ -134,7 +134,7 @@ const BookSessionScreen = ({ route, navigation }) => {
             backgroundColor: COLORS.beige,
             borderTopRightRadius: SIZES.radius * 1.5,
             borderBottomRightRadius: SIZES.radius * 1.5,
-            // elevation: 5,
+            elevation: 3,
             marginRight: SIZES.padding * 5,
           }}
         >
@@ -163,7 +163,7 @@ const BookSessionScreen = ({ route, navigation }) => {
                     source={
                       data.course.tutor.profile_photo_path
                         ? {
-                            uri: `http://192.168.0.106:8000/${data.course.tutor.profile_photo_path}`,
+                            uri: `http://192.168.0.107:8000/${data.course.tutor.profile_photo_path}`,
                           }
                         : require("../assets/images/profile2.png")
                     }
@@ -220,7 +220,7 @@ const BookSessionScreen = ({ route, navigation }) => {
             backgroundColor: COLORS.beige,
             borderTopLeftRadius: SIZES.radius * 1.5,
             borderBottomLeftRadius: SIZES.radius * 1.5,
-            // elevation: 5,
+            elevation: 3,
             marginLeft: SIZES.radius * 1.5,
             // marginRight: SIZES.padding * 5,
           }}
@@ -329,13 +329,13 @@ const BookSessionScreen = ({ route, navigation }) => {
           </View>
         </View>
       </View>
-      <View style={{ paddingVertical: 5 }}>
+      <View style={{ paddingVertical: 10 }}>
         <View
           style={{
             backgroundColor: COLORS.beige,
             borderTopRightRadius: SIZES.radius * 1.5,
             borderBottomRightRadius: SIZES.radius * 1.5,
-            // elevation: 5,
+            elevation: 3,
             marginRight: SIZES.padding * 5,
           }}
         >
@@ -375,8 +375,11 @@ const BookSessionScreen = ({ route, navigation }) => {
           </View>
         </View>
       </View>
-      <View style={{ bottom: -100, marginHorizontal: 10 }}>
-        <TouchableOpacity style={styles.next} onPress={() => onClick()}>
+      <View style={{ marginHorizontal: 30 }}>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={() => onClick()}
+        >
           <LinearGradient
             colors={[COLORS.darkpink, COLORS.primary]}
             style={styles.next}
@@ -423,18 +426,28 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: COLORS.pink,
   },
+
   next: {
-    marginHorizontal: 20,
     position: "absolute",
+    alignSelf: "flex-end",
     alignItems: "center",
-    top: 20,
-    bottom: 0,
-    alignSelf: "center",
     justifyContent: "center",
     borderRadius: SIZES.radius,
-    width: "90%",
+    width: "100%",
     height: 70,
   },
+  buttonContainer: {
+    position: "absolute",
+    justifyContent: "flex-end",
+    bottom: 0,
+    borderRadius: SIZES.radius,
+    alignItems: "center",
+    top: 60,
+    width: "100%",
+    elevation: 10,
+    height: 70,
+  },
+
   next_text: {
     fontSize: 25,
     fontWeight: "bold",

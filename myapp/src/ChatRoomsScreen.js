@@ -120,7 +120,7 @@ const ChatRoomsScreen = ({ navigation }) => {
                           source={
                             item.tutors.profile_photo_path
                               ? {
-                                  uri: `http://192.168.0.106:8000/${item.tutors.profile_photo_path}`,
+                                  uri: `http://192.168.0.107:8000/${item.tutors.profile_photo_path}`,
                                 }
                               : require("../assets/images/profile2.png")
                           }
@@ -132,7 +132,7 @@ const ChatRoomsScreen = ({ navigation }) => {
                           source={
                             item.users.profile_photo_path
                               ? {
-                                  uri: `http://192.168.0.106:8000/${item.users.profile_photo_path}`,
+                                  uri: `http://192.168.0.107:8000/${item.users.profile_photo_path}`,
                                 }
                               : require("../assets/images/profile2.png")
                           }

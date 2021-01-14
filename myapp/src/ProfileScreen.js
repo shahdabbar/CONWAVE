@@ -256,7 +256,7 @@ const ProfileScreen = ({ navigation }) => {
           <Ionicon
             name="ios-menu"
             size={30}
-            color={COLORS.white}
+            color={COLORS.black3}
             style={{ marginLeft: 16 }}
             onPress={() => navigation.openDrawer()}
           />
@@ -264,7 +264,7 @@ const ProfileScreen = ({ navigation }) => {
           <Icon
             name="account-edit"
             size={30}
-            color={COLORS.white}
+            color={COLORS.black3}
             style={{ marginRight: 20 }}
             onPress={() => navigation.navigate("EditProfile")}
           />
@@ -303,7 +303,7 @@ const ProfileScreen = ({ navigation }) => {
                   source={
                     userInfo.profile_photo_path
                       ? {
-                          uri: `http://192.168.0.106:8000/${userInfo.profile_photo_path}`,
+                          uri: `http://192.168.0.107:8000/${userInfo.profile_photo_path}`,
                         }
                       : require("../assets/images/profile2.png")
                   }
