@@ -21,7 +21,7 @@ function GenderScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Animated.View
+      <View
         style={{
           ...StyleSheet.absoluteFill,
         }}
@@ -38,7 +38,7 @@ function GenderScreen({ route, navigation }) {
             ClipPath="url(#clip)"
           />
         </Svg>
-      </Animated.View>
+      </View>
       <View>
         <MaterialIcons
           style={styles.icon}
@@ -113,7 +113,7 @@ export default GenderScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "orange",
+    backgroundColor: COLORS.black3,
   },
   header: {
     flex: 1,

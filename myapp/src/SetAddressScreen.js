@@ -100,6 +100,8 @@ const SetAddressScreen = ({ route, navigation }) => {
     } catch (error) {
       console.log(error);
     }
+
+    navigation.navigate("TutorSessions");
   }
   const onPress = async (e) => {
     setMarker(e.nativeEvent.coordinate);

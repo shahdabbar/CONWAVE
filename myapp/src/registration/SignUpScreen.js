@@ -111,7 +111,7 @@ const SignInScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Animated.View
+      <View
         style={{
           ...StyleSheet.absoluteFill,
         }}
@@ -128,7 +128,7 @@ const SignInScreen = ({ route, navigation }) => {
             ClipPath="url(#clip)"
           />
         </Svg>
-      </Animated.View>
+      </View>
       <View>
         <MaterialIcons
           style={styles.arrow_icon}
@@ -142,11 +142,11 @@ const SignInScreen = ({ route, navigation }) => {
         <Text style={styles.text_header}>Create Your Account!</Text>
       </View>
       <Animatable.View style={styles.footer} animation="fadeInUpBig">
-        {error && (
+        {/* {error && (
           <Animatable.View animation="fadeInLeft" duration={500}>
             <Text style={styles.errorMsg}>{error}</Text>
           </Animatable.View>
-        )}
+        )} */}
         <View style={styles.action}>
           <FontAwesome
             name="envelope"
@@ -204,13 +204,13 @@ const SignInScreen = ({ route, navigation }) => {
             )}
           </TouchableOpacity>
         </View>
-        {data.isValidPassword ? null : (
+        {/* {data.isValidPassword ? null : (
           <Animatable.View animation="fadeInLeft" duration={500}>
             <Text style={styles.errorMsg}>
               Password must be 8 characters long.
             </Text>
           </Animatable.View>
-        )}
+        )} */}
         <View style={styles.action}>
           <FontAwesome
             style={styles.icon}
@@ -327,7 +327,7 @@ export default SignInScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "orange",
+    backgroundColor: COLORS.black3,
   },
   header: {
     flex: 1,

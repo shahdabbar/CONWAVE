@@ -234,7 +234,6 @@ const Reviews = ({ route, navigation }) => {
       .then((response) => {
         setReviews(response.data[0]);
         setsumRatings(response.data[1]);
-        // console.log("reviews", response.data[1]);
       })
       .catch((error) => {
         console.log(error);
@@ -271,6 +270,8 @@ const Reviews = ({ route, navigation }) => {
   sumRatings.map((e) => {
     (num = num + 1), (sum = sum + e["rating"] * e["count(rating)"]);
   });
+
+  console.log("sum", sum, num);
 
   function flatlist() {
     return (
@@ -383,10 +384,7 @@ const Reviews = ({ route, navigation }) => {
                             );
                           })}
 
-                          {/* <Star
-                          score={item.rating}
-                          style={styles.starStyle}
-                        /> */}
+                          {/* <Star score={item.rating} style={styles.starStyle} /> */}
                         </View>
                         <View style={{ left: 3, bottom: 3 }}>
                           <Text
@@ -603,46 +601,6 @@ function TutorProfileScreen({ route, navigation }) {
               </View>
 
               <View style={{ marginHorizontal: 0, marginTop: 35 }}>
-                {/* {num > 0 ? (
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate("Reviews", {
-                        tutor_id: tutor[0].id,
-                        course_id: course_id,
-                      })
-                    }
-                  >
-                    <LinearGradient
-                      colors={[COLORS.white, COLORS.white]}
-                      style={{
-                        // borderBottomRightRadius: SIZES.radius,
-                        // borderTopLeftRadius: SIZES.radius,
-                        // borderWidth: 2,
-                        elevation: 10,
-                        padding: 10,
-                        marginBottom: 20,
-                      }}
-                    >
-                      <View style={{ marginLeft: 5 }}>
-                        <Text
-                          style={{
-                            fontSize: 20,
-                            // fontWeight: "bold",
-                            color: COLORS.black2,
-                            // textDecorationLine: "underline",
-                            textDecorationColor: "blue",
-                          }}
-                        >
-                          Reviews by students
-                        </Text>
-                        <Text style={{ left: 1, color: COLORS.gray }}>
-                          Based on {num} ratings
-                        </Text>
-                      </View>
-                    </LinearGradient>
-                  </TouchableOpacity>
-                ) : null} */}
-
                 <LinearGradient
                   colors={[COLORS.white, COLORS.white]}
                   style={{

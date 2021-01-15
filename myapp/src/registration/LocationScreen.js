@@ -31,7 +31,7 @@ function LocationScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Animated.View
+      <View
         style={{
           ...StyleSheet.absoluteFill,
         }}
@@ -48,7 +48,7 @@ function LocationScreen({ route, navigation }) {
             ClipPath="url(#clip)"
           />
         </Svg>
-      </Animated.View>
+      </View>
       <View>
         <MaterialIcons
           style={styles.arrow_icon}
@@ -184,7 +184,7 @@ export default LocationScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "orange",
+    backgroundColor: COLORS.black3,
   },
   header: {
     flex: 1,
