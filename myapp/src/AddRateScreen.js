@@ -75,7 +75,10 @@ const AddRateScreen = ({ route, navigation }) => {
         <Text style={styles.text}>Total: {data.rate} LBP/h</Text>
       </View>
       <View>
-        <TouchableOpacity style={{ marginTop: 320 }} onPress={() => onClick()}>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={() => onClick()}
+        >
           <LinearGradient colors={["#ff01ff", "#ffd200"]} style={styles.next}>
             <Text style={styles.next_text}>NEXT</Text>
           </LinearGradient>
@@ -96,33 +99,41 @@ const styles = StyleSheet.create({
   action: {
     flexDirection: "row",
     height: 70,
-    borderRadius: 40,
+    borderRadius: SIZES.radius,
     borderWidth: 2,
     marginHorizontal: 20,
     marginVertical: 5,
-    borderColor: "#ffd200",
+    borderColor: COLORS.yellow,
     paddingLeft: 20,
     backgroundColor: "#FFFFFF",
-    elevation: 10,
+    elevation: 5,
   },
   text: {
     margin: 30,
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: "bold",
   },
-  next: {
-    marginTop: 16,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 12,
-    left: "70%",
+  buttonContainer: {
     borderTopLeftRadius: 40,
     borderBottomLeftRadius: 40,
     width: "30%",
     height: 70,
-    borderColor: "#ffd200",
-    borderWidth: 2,
+    position: "absolute",
+    bottom: 0,
+    top: 400,
+    elevation: 5,
+    alignSelf: "flex-end",
+  },
+  next: {
+    position: "absolute",
+    alignSelf: "flex-end",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 12,
+    borderTopLeftRadius: 40,
+    borderBottomLeftRadius: 40,
+    width: "100%",
+    height: 70,
   },
   next_text: {
     fontSize: 25,

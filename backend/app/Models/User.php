@@ -87,7 +87,7 @@ class User extends Authenticatable
 
     public function sessions()
     {
-        return $this->hasMany(Booked_Sessions::class);
+        return $this->hasMany(Booked_Sessions::class, 'tutor_id');
     }
 
     public function videos()

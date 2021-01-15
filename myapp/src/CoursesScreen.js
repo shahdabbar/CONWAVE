@@ -159,7 +159,7 @@ export default CoursesScreen;
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: COLORS.yellow2,
+    // backgroundColor: COLORS.white,
   },
   courses: { marginHorizontal: 20, marginVertical: 10, fontWeight: "100" },
   button: {

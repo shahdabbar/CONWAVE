@@ -232,7 +232,7 @@ export default SetAddressScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.beige,
+    // backgroundColor: COLORS.white,
   },
   map: {
     width: Dimensions.get("window").width,

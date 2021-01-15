@@ -32,10 +32,16 @@ class RatingController extends Controller
             'user_id' => "required",
             'tutor_id' => "required",
             'course_id' => "required",
-            'rating' =>  "required"
+            'rating' =>  "required",
+            'comment' => 'required'
         ]);
    
         Rating::firstOrCreate([
+            'user_id' => $request->user_id,
+            'tutor_id' => $request->tutor_id,
+            'course_id' => $request->course_id,
+        ],
+        [
             'user_id' => $request->user_id,
             'tutor_id' => $request->tutor_id,
             'course_id' => $request->course_id,

@@ -594,7 +594,7 @@ function TutorProfileScreen({ route, navigation }) {
                   }}
                 >
                   <Text style={{ ...styles.text, fontSize: 24 }}>
-                    {/* {tutor[0].profile.students_tutored} */}
+                    {/* {tutor[0].profile.students_tutored} */}7
                   </Text>
                   <Text style={{ ...styles.text, ...styles.subText }}>
                     Students Tutored

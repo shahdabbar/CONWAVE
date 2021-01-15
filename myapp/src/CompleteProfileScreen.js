@@ -301,7 +301,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{ paddingVertical: 5, marginHorizontal: 10 }}>
+          {/* <View style={{ paddingVertical: 5, marginHorizontal: 10 }}>
             <TouchableOpacity
               style={{
                 ...styles.wrapper,
@@ -336,7 +336,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
                 />
               </View>
             </TouchableOpacity>
-          </View>
+          </View> */}
           <View style={{ paddingVertical: 5, marginHorizontal: 10 }}>
             <TouchableOpacity
               style={{
@@ -369,7 +369,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
                     style={styles.icon}
                   />
                 </View>
-                <Text style={styles.text}>Add your payment method</Text>
+                <Text style={styles.text}>Payment method</Text>
                 <Image
                   source={icons.right}
                   resizeMode="contain"
@@ -586,7 +586,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
               name="ios-menu"
               size={30}
               backgroundColor="#fff"
-              color="gray"
+              color={COLORS.black3}
               onPress={() => navigation.openDrawer()}
             />
           </View>

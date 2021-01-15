@@ -93,7 +93,8 @@ const SearchTutorsScreen = ({ route, navigation }) => {
           <MaterialIcon
             name="arrow-back-ios"
             size={24}
-            color="gray"
+            // color="gray"
+            color={COLORS.black3}
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("SessionType");
@@ -276,11 +277,9 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: "white",
-    paddingTop: 60,
+    paddingTop: 50,
   },
-  header: {
-    // backgroundColor: COLORS.lightGray4,
-  },
+
   headerContent: {
     marginHorizontal: 10,
     marginVertical: 20,
@@ -331,7 +330,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   infoText: {
-    fontSize: 27,
+    fontSize: 25,
     fontWeight: "bold",
   },
   text: {

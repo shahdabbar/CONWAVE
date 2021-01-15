@@ -59,7 +59,7 @@ function TypeScreen({ navigation }) {
               }}
             >
               <LinearGradient
-                colors={[COLORS.primary, COLORS.yellow2]}
+                colors={[COLORS.darkpink, COLORS.primary]}
                 style={styles.button}
               >
                 <Text style={styles.textSign}>I want to learn</Text>
@@ -81,7 +81,7 @@ function TypeScreen({ navigation }) {
               }}
             >
               <LinearGradient
-                colors={[COLORS.primary, COLORS.darkpink]}
+                colors={[COLORS.primary, COLORS.yellow2]}
                 style={styles.button}
               >
                 <Text style={styles.textSign}>I want to teach</Text>

@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     height: 75,
     borderRadius: 100,
     overflow: "hidden",
-    elevation: 5,
+    elevation: 30,
   },
 
   input: {

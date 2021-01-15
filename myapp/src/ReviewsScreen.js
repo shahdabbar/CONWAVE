@@ -15,6 +15,7 @@ import { AuthContext } from "./AuthProvider";
 import { COLORS, SIZES, FONTS, icons } from "./constants";
 import Star from "react-native-star-view";
 import axios from "axios";
+import moment from "moment";
 
 const ReviewsScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
@@ -45,8 +46,8 @@ const ReviewsScreen = ({ route, navigation }) => {
       x: x,
       name: "star",
       color: COLORS.yellow,
-      size: 32,
-      style: { marginHorizontal: 6 },
+      size: 20,
+      style: { marginHorizontal: 2 },
     });
   }
 
@@ -73,30 +74,44 @@ const ReviewsScreen = ({ route, navigation }) => {
   function flatlist() {
     return (
       <View>
-        <View style={{ paddingVertical: 10, marginHorizontal: 20 }}>
+        <View style={{ paddingVertical: 16, marginHorizontal: 20 }}>
           <View
             style={{
               backgroundColor: COLORS.white,
-              borderRadius: SIZES.radius,
-              borderWidth: 2,
-              borderColor: COLORS.beige,
+              borderRadius: SIZES.radius / 2,
+              // borderWidth: 2,
+              // borderColor: COLORS.beige,
               elevation: 10,
             }}
           >
             <View
               style={{
-                padding: 20,
+                marginVertical: 10,
+                marginHorizontal: 16,
               }}
             >
-              <Star score={sum / num} style={styles.starStyle} />
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Text
+                  style={{
+                    ...styles.starText,
+                    color: COLORS.orange,
+                    bottom: 3,
+                  }}
+                >
+                  {sum / num}
+                </Text>
+                <Star score={sum / num} style={styles.starStyle} />
+              </View>
+
               <View>
                 <Text style={styles.name}>{status(sum / num)}</Text>
               </View>
               <View>
                 <Text
                   style={{
-                    ...styles.infoText,
+                    fontSize: 18,
                     marginVertical: 2,
+                    color: COLORS.lightgray,
                   }}
                 >
                   Based on {num} ratings
@@ -107,7 +122,9 @@ const ReviewsScreen = ({ route, navigation }) => {
         </View>
 
         <View>
-          <Text style={styles.text}>Reviews</Text>
+          <Text style={{ fontSize: 20, left: 30, color: COLORS.lightgray }}>
+            Reviews
+          </Text>
         </View>
         <FlatList
           data={reviews}
@@ -121,61 +138,99 @@ const ReviewsScreen = ({ route, navigation }) => {
                 <View
                   style={{
                     backgroundColor: COLORS.white,
-                    borderRadius: SIZES.radius,
-                    borderWidth: 2,
-                    borderColor: COLORS.beige,
+                    borderRadius: SIZES.radius / 2,
+                    // borderWidth: 2,
+                    // borderColor: COLORS.beige,
                     elevation: 10,
                   }}
                 >
                   <View
                     style={{
-                      padding: 20,
+                      marginVertical: 10,
+                      marginHorizontal: 16,
                     }}
                   >
-                    <View>
-                      <Text style={styles.name}>{status(item.rating)}</Text>
-                    </View>
                     <View
                       style={{
                         flexDirection: "row",
+                        justifyContent: "space-between",
                         alignItems: "center",
-                        marginVertical: 5,
-                        marginHorizontal: 5,
                       }}
                     >
-                      {stars.map((e) => {
-                        return (
-                          <View
-                            key={e.x}
-                            onPress={() => {
-                              rate(e.x), animate();
+                      <View style={{ flexDirection: "row" }}>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                          }}
+                        >
+                          {stars.map((e) => {
+                            return (
+                              <View
+                                key={e.x}
+                                onPress={() => {
+                                  rate(e.x);
+                                }}
+                              >
+                                <FontAwesome
+                                  name={e.x <= item.rating ? e.name : "star-o"}
+                                  size={e.size}
+                                  color={e.color}
+                                  style={e.style}
+                                />
+                              </View>
+                            );
+                          })}
+
+                          {/* <Star
+                          score={item.rating}
+                          style={styles.starStyle}
+                        /> */}
+                        </View>
+                        <View style={{ left: 3, bottom: 3 }}>
+                          <Text
+                            style={{
+                              fontSize: 14,
+                              color: "gray",
+                              marginVertical: 2,
                             }}
                           >
-                            <FontAwesome
-                              name={e.x <= item.rating ? e.name : "star-o"}
-                              size={e.size}
-                              color={e.color}
-                              style={e.style}
-                            />
-                          </View>
-                        );
-                      })}
+                            <Text
+                              style={{
+                                fontSize: 20,
+                                fontWeight: "bold",
+                              }}
+                            >
+                              .
+                            </Text>
+                            By {item.users.firstname} {item.users.lastname}
+                            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                              .
+                            </Text>
+                          </Text>
+                        </View>
+                      </View>
+
+                      <View>
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            color: "gray",
+                            marginVertical: 2,
+                          }}
+                        >
+                          {moment(item.created_at).format("MMM DD, YYYY")}
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={{ marginVertical: 3 }}>
+                      <Text style={styles.name}>{status(item.rating)}</Text>
                     </View>
 
                     <View>
                       <Text
                         style={{
-                          ...styles.name,
-                          marginVertical: 2,
-                        }}
-                      >
-                        {item.users.firstname} {item.users.lastname}
-                      </Text>
-                    </View>
-                    <View>
-                      <Text
-                        style={{
-                          ...styles.infoText,
+                          fontSize: 16,
                           marginVertical: 2,
                         }}
                       >
@@ -191,6 +246,14 @@ const ReviewsScreen = ({ route, navigation }) => {
       </View>
     );
   }
+  // // style={{ marginBottom: 70 }}
+  // return (
+  //   <View style={styles.container}>
+  //     <View>
+  //       <FlatList ListHeaderComponent={flatlist} />
+  //     </View>
+  //   </View>
+  // );
 
   return (
     <View style={styles.container}>
@@ -305,6 +368,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "gray",
     left: 30,
+  },
+  starStyle: {
+    width: 120,
+    height: 25,
+    marginBottom: 5,
+    left: 10,
+  },
+  starText: {
+    fontWeight: "bold",
+    fontSize: 24,
   },
   action: {
     flexDirection: "row",

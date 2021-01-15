@@ -66,7 +66,6 @@ const TutorCourses = ({ navigation }) => {
                       elevation: 5,
                       padding: 5,
                       marginHorizontal: 20,
-                      height: 150,
                       marginBottom: 20,
                     }}
                   >
@@ -137,7 +136,7 @@ const TutorCourses = ({ navigation }) => {
                       </View>
                     </TouchableOpacity>
                     <LinearGradient
-                      colors={[COLORS.rose, COLORS.rose]}
+                      colors={[COLORS.primary, COLORS.yellow2]}
                       style={{
                         position: "absolute",
                         top: 0,

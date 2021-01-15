@@ -52,6 +52,7 @@ import ViewSessionDetails from "./ViewSessionDetails";
 import axios from "axios";
 import ReviewsScreen from "./ReviewsScreen";
 import MeetingAddressScreen from "./MeetingAddressScreen";
+import { block } from "react-native-reanimated";
 
 const HomeStack = createStackNavigator();
 const DetailsStack = createStackNavigator();
@@ -424,15 +425,14 @@ const HomeStackScreen = ({ navigation }) => (
         headerShown: false,
         title: "Session Type",
         headerTitleStyle: {
-          color: "gray",
-          fontWeight: "800",
-          fontSize: 20,
+          color: COLORS.black3,
+          fontSize: 25,
         },
         headerLeft: () => (
           <MaterialIcon
             name="arrow-back-ios"
             size={24}
-            color="gray"
+            color={COLORS.black3}
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("Home");
@@ -449,15 +449,14 @@ const HomeStackScreen = ({ navigation }) => (
         headerShown: false,
         title: "Tutors",
         headerTitleStyle: {
-          color: "gray",
-          fontWeight: "800",
-          fontSize: 20,
+          color: COLORS.black3,
+          fontSize: 25,
         },
         headerLeft: () => (
           <MaterialIcon
             name="arrow-back-ios"
             size={24}
-            color="gray"
+            color={COLORS.black3}
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("SessionType");
@@ -473,7 +472,11 @@ const HomeStackScreen = ({ navigation }) => (
       options={{
         headerShown: true,
         title: "Tutor Profile",
-
+        headerTitleStyle: {
+          fontSize: 24,
+          color: COLORS.black3,
+          // fontWeight: "bold",
+        },
         headerStyle: {
           // backgroundColor: COLORS.primary,
           elevation: 0, // Android
@@ -482,7 +485,7 @@ const HomeStackScreen = ({ navigation }) => (
           <MaterialIcon
             name="arrow-back-ios"
             size={24}
-            color="gray"
+            color={COLORS.black3}
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("SearchTutor");
@@ -499,8 +502,7 @@ const HomeStackScreen = ({ navigation }) => (
         headerShown: false,
         title: "Reviews",
         headerTitleStyle: {
-          color: "gray",
-          fontWeight: "800",
+          color: COLORS.black3,
           fontSize: 25,
         },
         headerStyle: {
@@ -510,7 +512,7 @@ const HomeStackScreen = ({ navigation }) => (
           <MaterialIcon
             name="arrow-back-ios"
             size={24}
-            color="gray"
+            color={COLORS.black3}
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("TutorProfile");
@@ -527,8 +529,7 @@ const HomeStackScreen = ({ navigation }) => (
         headerShown: false,
         title: "Select Time",
         headerTitleStyle: {
-          color: "gray",
-          fontWeight: "800",
+          color: COLORS.black3,
           fontSize: 25,
         },
         headerStyle: {
@@ -539,7 +540,7 @@ const HomeStackScreen = ({ navigation }) => (
           <MaterialIcon
             name="arrow-back-ios"
             size={24}
-            color="gray"
+            color={COLORS.black3}
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("TutorProfile");
@@ -556,8 +557,7 @@ const HomeStackScreen = ({ navigation }) => (
         headerShown: false,
         title: "Payment",
         headerTitleStyle: {
-          color: "gray",
-          fontWeight: "800",
+          color: COLORS.black3,
           fontSize: 25,
         },
         headerStyle: {
@@ -568,7 +568,7 @@ const HomeStackScreen = ({ navigation }) => (
           <MaterialIcon
             name="arrow-back-ios"
             size={24}
-            color="gray"
+            color={COLORS.black3}
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("BookTime");
@@ -585,8 +585,7 @@ const HomeStackScreen = ({ navigation }) => (
         headerShown: true,
         title: "Add Your Credit Card",
         headerTitleStyle: {
-          color: "gray",
-          fontWeight: "800",
+          color: COLORS.black3,
           fontSize: 25,
         },
         headerStyle: {
@@ -597,7 +596,7 @@ const HomeStackScreen = ({ navigation }) => (
           <MaterialIcon
             name="arrow-back-ios"
             size={24}
-            color="gray"
+            color={COLORS.black3}
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("BookSession");
@@ -614,8 +613,7 @@ const HomeStackScreen = ({ navigation }) => (
         headerShown: false,
         title: "",
         headerTitleStyle: {
-          color: "gray",
-          fontWeight: "800",
+          color: COLORS.black3,
           fontSize: 25,
         },
         headerStyle: {
@@ -625,7 +623,7 @@ const HomeStackScreen = ({ navigation }) => (
           <MaterialIcon
             name="arrow-back-ios"
             size={24}
-            color="gray"
+            color={COLORS.black3}
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("Home");
@@ -723,7 +721,7 @@ const StudentSessionsStackScreen = ({ navigation }) => (
           <MaterialIcon
             name="arrow-back-ios"
             size={24}
-            color="gray"
+            color={COLORS.black3}
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("StudentsSessions");
@@ -742,7 +740,7 @@ const StudentSessionsStackScreen = ({ navigation }) => (
           <MaterialIcon
             name="arrow-back-ios"
             size={24}
-            color="gray"
+            color={COLORS.black3}
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("StudentsSessions");
@@ -822,7 +820,7 @@ const ScheduleStackScreen = ({ navigation }) => (
           <MaterialIcon
             name="arrow-back-ios"
             size={24}
-            color="gray"
+            color={COLORS.black3}
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("tutorSchedule");
@@ -877,7 +875,7 @@ const ProfileStackScreen = ({ navigation }) => {
             <MaterialCommunityIcons
               name="account-edit"
               size={30}
-              color="#000000-p;'"
+              color="#000000"
               style={{ marginRight: 20 }}
               onPress={() => navigation.navigate("EditProfile")}
             />
@@ -900,7 +898,7 @@ const ProfileStackScreen = ({ navigation }) => {
             <MaterialIcon
               name="arrow-back-ios"
               size={24}
-              color="gray"
+              color={COLORS.black3}
               style={{ marginLeft: 20 }}
               onPress={() => {
                 navigation.navigate("Profile");
@@ -917,16 +915,14 @@ const ProfileStackScreen = ({ navigation }) => {
           headerShown: false,
           title: "PROFILE SETTINGS",
           headerTitleStyle: {
-            color: "gray",
-            fontWeight: "800",
-            fontSize: 14,
-            alignSelf: "center",
+            color: COLORS.black3,
+            fontSize: 25,
           },
           headerLeft: () => (
             <MaterialIcon
               name="arrow-back-ios"
               size={24}
-              color="gray"
+              color={COLORS.black3}
               style={{ marginLeft: 20 }}
               onPress={() => {
                 navigation.navigate("Profile");
@@ -937,7 +933,7 @@ const ProfileStackScreen = ({ navigation }) => {
             <Icon
               name="md-ellipsis-vertical"
               size={30}
-              color="gray"
+              color={COLORS.black3}
               style={{ marginRight: 16 }}
               onPress={() => {
                 navigation.navigate("Profile");
@@ -953,6 +949,10 @@ const ProfileStackScreen = ({ navigation }) => {
         options={{
           headerShown: true,
           headerTitle: "Reviews Per Course",
+          headerTitleStyle: {
+            color: COLORS.black3,
+            fontSize: 25,
+          },
           headerStyle: {
             elevation: 0,
           },
@@ -960,7 +960,7 @@ const ProfileStackScreen = ({ navigation }) => {
             <MaterialIcon
               name="arrow-back-ios"
               size={24}
-              color="gray"
+              color={COLORS.black3}
               style={{ marginLeft: 20 }}
               onPress={() => {
                 navigation.navigate("Profile");
@@ -999,8 +999,7 @@ const ChatStackScreen = ({ navigation }) => (
       component={ChatRoomsScreen}
       options={{
         headerTitleStyle: {
-          fontSize: 27,
-          fontWeight: "bold",
+          fontSize: 25,
           color: COLORS.pink,
         },
 
@@ -1010,7 +1009,7 @@ const ChatStackScreen = ({ navigation }) => (
             size={30}
             backgroundColor="#FFFFFF"
             style={{ left: 10 }}
-            color="gray"
+            color={COLORS.black3}
             onPress={() => navigation.openDrawer()}
           ></Icon.Button>
         ),
@@ -1023,15 +1022,14 @@ const ChatStackScreen = ({ navigation }) => (
       options={{
         title: "Chat",
         headerTitleStyle: {
-          color: "gray",
-          fontWeight: "bold",
+          color: COLORS.black3,
           fontSize: 25,
         },
         headerLeft: () => (
           <MaterialIcon
             name="arrow-back-ios"
             size={24}
-            color="gray"
+            color={COLORS.black3}
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("Chats");
@@ -1064,7 +1062,7 @@ const SessionsStackScreen = ({ navigation }) => (
       options={{
         headerShown: true,
         title: "COURSES",
-        headerStyle: { backgroundColor: COLORS.yellow2, elevation: 0 },
+        headerStyle: { elevation: 0 },
         headerTitleStyle: {
           color: COLORS.black3,
           fontSize: 25,
@@ -1109,15 +1107,14 @@ const SessionsStackScreen = ({ navigation }) => (
         headerShown: true,
         title: "Course Description",
         headerTitleStyle: {
-          color: "gray",
-          fontWeight: "800",
-          fontSize: 20,
+          color: COLORS.black3,
+          fontSize: 25,
         },
         headerLeft: () => (
           <MaterialIcon
             name="arrow-back-ios"
             size={24}
-            color="gray"
+            color={COLORS.black3}
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("AddCourse");
@@ -1134,15 +1131,14 @@ const SessionsStackScreen = ({ navigation }) => (
         headerShown: true,
         title: "Set Your Rate",
         headerTitleStyle: {
-          color: "gray",
-          fontWeight: "800",
-          fontSize: 20,
+          color: COLORS.black3,
+          fontSize: 25,
         },
         headerLeft: () => (
           <MaterialIcon
             name="arrow-back-ios"
             size={24}
-            color="gray"
+            color={COLORS.black3}
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("AddCourse");
@@ -1158,15 +1154,14 @@ const SessionsStackScreen = ({ navigation }) => (
         headerShown: true,
         title: "Availabilities",
         headerTitleStyle: {
-          color: "gray",
-          fontWeight: "800",
-          fontSize: 20,
+          color: COLORS.black3,
+          fontSize: 25,
         },
         headerLeft: () => (
           <MaterialIcon
             name="arrow-back-ios"
             size={24}
-            color="gray"
+            color={COLORS.black3}
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("TutorSessions");
@@ -1182,10 +1177,9 @@ const SessionsStackScreen = ({ navigation }) => (
       options={{
         headerShown: true,
         title: "Add Address",
-        headerStyle: { backgroundColor: COLORS.yellow2 },
         headerTitleStyle: {
           color: COLORS.black2,
-          left: 45,
+          // left: 45,
           fontSize: 25,
         },
         headerLeft: () => (

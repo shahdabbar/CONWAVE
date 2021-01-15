@@ -27,7 +27,7 @@ class TutorResources extends JsonResource
             'university' => $this->profile->university->name,
             'major' => $this->profile->major->name,
             'courses' => $this->courses,
-            'tutored_students' => $this->session->where('user_id', $this->id),
+            'tutored_students' => $this->sessions
 
         ];
     }

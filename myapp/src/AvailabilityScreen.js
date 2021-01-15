@@ -234,9 +234,6 @@ const AvailabilityScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.text}>Availabilites</Text>
-      </View>
       <View style={{ marginBottom: 20 }}>
         <FlatList
           horizontal={true}

@@ -188,28 +188,32 @@ function DrawerContent(props) {
               props.navigation.navigate("Home");
             }}
           />
-          <DrawerItem
-            icon={() => (
-              <Icon
-                name="video-outline"
-                color={COLORS.white}
-                size={30}
-                style={{
-                  backgroundColor: COLORS.yellow,
-                  borderRadius: 35,
-                  width: 40,
-                  height: 40,
-                  textAlign: "center",
-                  paddingTop: 4,
-                }}
-              />
-            )}
-            label="Videos"
-            labelStyle={{ fontSize: 18, fontWeight: "bold" }}
-            onPress={() => {
-              props.navigation.navigate("VideosScreen");
-            }}
-          />
+          {userInfo.type === "tutor" ? (
+            <DrawerItem
+              icon={() => (
+                <Icon
+                  name="video-outline"
+                  color={COLORS.white}
+                  size={30}
+                  style={{
+                    backgroundColor: COLORS.yellow,
+                    borderRadius: 35,
+                    width: 40,
+                    height: 40,
+                    textAlign: "center",
+                    paddingTop: 4,
+                  }}
+                />
+              )}
+              label="Videos"
+              labelStyle={{ fontSize: 18, fontWeight: "bold" }}
+              onPress={() => {
+                props.navigation.navigate("VideosScreen");
+              }}
+            />
+          ) : (
+            <View></View>
+          )}
           <DrawerItem
             icon={() => (
               <Icon

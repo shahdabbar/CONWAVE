@@ -50,7 +50,7 @@ const SessionTypeScreen = ({ route, navigation }) => {
             <MaterialIcon
               name="arrow-back-ios"
               size={24}
-              color="gray"
+              color={COLORS.black3}
               style={{ marginLeft: 20 }}
               onPress={() => {
                 navigation.goBack("SessionType");
@@ -61,8 +61,7 @@ const SessionTypeScreen = ({ route, navigation }) => {
                 <Text
                   style={{
                     ...styles.infoText,
-                    color: COLORS.black,
-                    fontWeight: "bold",
+                    color: COLORS.black3,
                   }}
                 >
                   Select Session{" "}

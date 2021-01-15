@@ -372,7 +372,7 @@ const ScheduleScreen = ({ route, navigation }) => {
             name="ios-menu"
             size={30}
             backgroundColor="#fff"
-            color="gray"
+            color={COLORS.black3}
             onPress={() => navigation.openDrawer()}
           />
         </View>
@@ -446,9 +446,9 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   sessions: {
-    fontSize: 27,
-    fontWeight: "bold",
-    color: COLORS.black2,
+    fontSize: 25,
+    // fontWeight: "bold",
+    color: COLORS.black3,
   },
   infoText: {
     fontSize: 25,

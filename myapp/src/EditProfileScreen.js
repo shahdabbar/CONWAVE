@@ -114,7 +114,7 @@ const EditProfileScreen = ({ route, navigation }) => {
           });
 
           console.log("i am here");
-          console.log(state.university);
+          console.log(response.data[0].university.name);
         }
       })
       .catch((error) => {
@@ -701,17 +701,17 @@ const EditProfileScreen = ({ route, navigation }) => {
         <MaterialIcon
           name="arrow-back-ios"
           size={24}
-          color="gray"
+          color={COLORS.black3}
           style={{ marginLeft: 20 }}
           onPress={() => {
             navigation.goBack();
           }}
         />
-        <Text style={styles.text}>PROFILE SETTINGS</Text>
+        <Text style={{ ...styles.text, fontSize: 18 }}>PROFILE SETTINGS</Text>
         <Ionicon
           name="md-ellipsis-vertical"
           size={30}
-          color="gray"
+          color={COLORS.black3}
           style={{ marginRight: 16 }}
           onPress={() => {
             setModalOpen({ ...modalOpen, modal3: true });

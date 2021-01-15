@@ -137,60 +137,6 @@
 //   );
 // };
 
-// export default ProfileScreen;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#FFFFFF",
-//   },
-//   userInfoSection: {
-//     paddingHorizontal: 30,
-//     marginBottom: 25,
-//   },
-//   title: {
-//     fontSize: 24,
-//     fontWeight: "bold",
-//   },
-//   caption: {
-//     fontSize: 14,
-//     lineHeight: 14,
-//     fontWeight: "500",
-//   },
-//   row: {
-//     flexDirection: "row",
-//     marginBottom: 10,
-//   },
-//   infoBoxWrapper: {
-//     borderBottomColor: "#dddddd",
-//     borderBottomWidth: 1,
-//     borderTopColor: "#dddddd",
-//     borderTopWidth: 1,
-//     flexDirection: "row",
-//     height: 100,
-//   },
-//   infoBox: {
-//     width: "50%",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   menuWrapper: {
-//     marginTop: 10,
-//   },
-//   menuItem: {
-//     flexDirection: "row",
-//     paddingVertical: 15,
-//     paddingHorizontal: 30,
-//   },
-//   menuItemText: {
-//     color: "#777777",
-//     marginLeft: 20,
-//     fontWeight: "600",
-//     fontSize: 16,
-//     lineHeight: 26,
-//   },
-// });
-
 import React, { useEffect, useContext, useState } from "react";
 import {
   StyleSheet,
@@ -317,19 +263,45 @@ const ProfileScreen = ({ navigation }) => {
               <View style={styles.active}></View> */}
             </View>
           </View>
-          <Text style={[styles.subText, styles.recent]}>About</Text>
-          <View style={{ alignItems: "center" }}>
-            <View style={styles.recentItem}>
-              <View style={styles.activityIndicator}></View>
-              <View style={{ width: 300 }}>
-                <Text
-                  style={[styles.text, { color: "#41444B", fontWeight: "300" }]}
-                >
-                  <Text>{profile.bio}</Text>
-                </Text>
+          {userInfo.type === "tutor" ? (
+            <View>
+              <Text style={[styles.subText, styles.recent]}>About</Text>
+              <View style={{ alignItems: "center" }}>
+                <View style={styles.recentItem}>
+                  <View style={styles.activityIndicator}></View>
+                  <View style={{ width: 300 }}>
+                    <Text
+                      style={[
+                        styles.text,
+                        { color: "#41444B", fontWeight: "300" },
+                      ]}
+                    >
+                      <Text>{profile.bio}</Text>
+                    </Text>
+                  </View>
+                </View>
               </View>
             </View>
-          </View>
+          ) : (
+            <View>
+              <View style={styles.userInfoSection}>
+                <View style={styles.row}>
+                  <Icon name="map-marker-radius" color="#777777" size={20} />
+
+                  <Text style={{ color: "#777777", marginLeft: 20 }}>
+                    {userInfo.location}, Lebanon
+                  </Text>
+                </View>
+                <View style={styles.row}>
+                  <Icon name="email" color="#777777" size={20} />
+
+                  <Text style={{ color: "#777777", marginLeft: 20 }}>
+                    {userInfo.email}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          )}
           <View style={styles.statsContainer}>
             <View style={styles.statsBox}>
               <TouchableOpacity
@@ -415,128 +387,142 @@ const ProfileScreen = ({ navigation }) => {
               </TouchableOpacity>
             </View>
           </View>
-          <View>
-            <View
-              style={{
-                padding: 20,
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <Text style={{ ...FONTS.h2, fontWeight: "bold" }}>My Videos</Text>
-              <TouchableOpacity onPress={() => navigation.navigate("Videos")}>
-                <Text style={{ ...FONTS.h3, color: COLORS.pink }}>
-                  View all
+          {userInfo.type === "tutor" ? (
+            <View>
+              <View
+                style={{
+                  padding: 20,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={{ ...FONTS.h2, fontWeight: "bold" }}>
+                  My Videos
                 </Text>
-              </TouchableOpacity>
-            </View>
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-            >
-              <View style={styles.mediaVideoContainer}>
-                <Video
-                  source={require("../assets/images/video3.mp4")}
-                  rate={1.0}
-                  volume={1.0}
-                  isMuted={false}
-                  resizeMode="cover"
-                  shouldPlay={false}
-                  isLooping={false}
-                  useNativeControls
-                  style={styles.image}
-                />
+                <TouchableOpacity onPress={() => navigation.navigate("Videos")}>
+                  <Text style={{ ...FONTS.h3, color: COLORS.pink }}>
+                    View all
+                  </Text>
+                </TouchableOpacity>
               </View>
-              <View style={styles.mediaVideoContainer}>
-                <Video
-                  source={require("../assets/images/video1.mp4")}
-                  rate={1.0}
-                  volume={1.0}
-                  isMuted={false}
-                  resizeMode="cover"
-                  shouldPlay={false}
-                  isLooping={false}
-                  useNativeControls
-                  style={styles.image}
-                />
-              </View>
-              <View style={styles.mediaVideoContainer}>
-                <Video
-                  source={require("../assets/images/video4.mp4")}
-                  rate={1.0}
-                  volume={1.0}
-                  isMuted={false}
-                  resizeMode="cover"
-                  shouldPlay={false}
-                  isLooping={false}
-                  useNativeControls
-                  style={styles.image}
-                />
-              </View>
-              <View style={styles.mediaVideoContainer}>
-                <Video
-                  source={require("../assets/images/se_intro.mp4")}
-                  rate={1.0}
-                  volume={1.0}
-                  isMuted={false}
-                  resizeMode="cover"
-                  shouldPlay={false}
-                  isLooping={false}
-                  useNativeControls
-                  style={styles.image}
-                />
-              </View>
-            </ScrollView>
-            <View style={styles.mediaCount}>
-              <Text
-                style={[
-                  styles.text,
-                  { fontSize: 24, color: "#DFD8C8", fontWeight: "300" },
-                ]}
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
               >
-                4
-              </Text>
-              <Text
-                style={[
-                  styles.text,
-                  {
-                    fontSize: 14,
-                    color: "#DFD8C8",
-                    textTransform: "uppercase",
-                  },
-                ]}
-              >
-                Videos
-              </Text>
-            </View>
-          </View>
-          {/* <Text style={[styles.subText, styles.recent]}>About</Text> */}
-          {/* <View style={{ alignItems: "center", marginBottom: 30 }}> */}
-          {/* <View style={styles.recentItem}>
-              <View style={styles.activityIndicator}></View>
-              <View style={{ width: 250 }}>
+                <View style={styles.mediaVideoContainer}>
+                  <Video
+                    source={require("../assets/images/video3.mp4")}
+                    rate={1.0}
+                    volume={1.0}
+                    isMuted={false}
+                    resizeMode="cover"
+                    shouldPlay={false}
+                    isLooping={false}
+                    useNativeControls
+                    style={styles.image}
+                  />
+                </View>
+                <View style={styles.mediaVideoContainer}>
+                  <Video
+                    source={require("../assets/images/video1.mp4")}
+                    rate={1.0}
+                    volume={1.0}
+                    isMuted={false}
+                    resizeMode="cover"
+                    shouldPlay={false}
+                    isLooping={false}
+                    useNativeControls
+                    style={styles.image}
+                  />
+                </View>
+                <View style={styles.mediaVideoContainer}>
+                  <Video
+                    source={require("../assets/images/video4.mp4")}
+                    rate={1.0}
+                    volume={1.0}
+                    isMuted={false}
+                    resizeMode="cover"
+                    shouldPlay={false}
+                    isLooping={false}
+                    useNativeControls
+                    style={styles.image}
+                  />
+                </View>
+                <View style={styles.mediaVideoContainer}>
+                  <Video
+                    source={require("../assets/images/se_intro.mp4")}
+                    rate={1.0}
+                    volume={1.0}
+                    isMuted={false}
+                    resizeMode="cover"
+                    shouldPlay={false}
+                    isLooping={false}
+                    useNativeControls
+                    style={styles.image}
+                  />
+                </View>
+              </ScrollView>
+              <View style={styles.mediaCount}>
                 <Text
-                  style={[styles.text, { color: "#41444B", fontWeight: "300" }]}
+                  style={[
+                    styles.text,
+                    { fontSize: 24, color: "#DFD8C8", fontWeight: "300" },
+                  ]}
                 >
-                  Started following{" "}
-                  <Text style={{ fontWeight: "400" }}>Jake Challeahe</Text> and{" "}
-                  <Text style={{ fontWeight: "400" }}>Luis Poteer</Text>
+                  4
+                </Text>
+                <Text
+                  style={[
+                    styles.text,
+                    {
+                      fontSize: 14,
+                      color: "#DFD8C8",
+                      textTransform: "uppercase",
+                    },
+                  ]}
+                >
+                  Videos
                 </Text>
               </View>
-            </View> */}
+            </View>
+          ) : (
+            <View>
+              <View style={styles.menuWrapper}>
+                <TouchableRipple onPress={() => {}}>
+                  <View style={styles.menuItem}>
+                    <Icon name="credit-card" color="#000000" size={25} />
+                    <Text style={styles.menuItemText}>Payment</Text>
+                  </View>
+                </TouchableRipple>
 
-          {/* <View style={styles.recentItem}>
-              <View style={styles.activityIndicator}></View>
-              <View style={{ width: 250 }}>
-                <Text
-                  style={[styles.text, { color: "#41444B", fontWeight: "300" }]}
-                >
-                  <Text>{profile.bio}</Text>
-               
-                </Text>
+                <TouchableRipple onPress={() => {}}>
+                  <View style={styles.menuItem}>
+                    <Icon name="heart-outline" color="#000000" size={25} />
+                    <Text style={styles.menuItemText}>Your favorites</Text>
+                  </View>
+                </TouchableRipple>
+
+                <TouchableRipple onPress={() => {}}>
+                  <View style={styles.menuItem}>
+                    <Icon name="share-outline" color="#000000" size={25} />
+
+                    <Text style={styles.menuItemText}>Tell Your Friends</Text>
+                  </View>
+                </TouchableRipple>
+
+                <TouchableRipple onPress={() => {}}>
+                  <View style={styles.menuItem}>
+                    <Ionicon
+                      name="settings-outline"
+                      color="#000000"
+                      size={25}
+                    />
+                    <Text style={styles.menuItemText}>Settings</Text>
+                  </View>
+                </TouchableRipple>
               </View>
             </View>
-          </View> */}
+          )}
         </View>
       </View>
     </SafeAreaView>
@@ -564,8 +550,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   userInfoSection: {
-    paddingHorizontal: 30,
-    marginBottom: 25,
+    paddingHorizontal: 20,
   },
   image: {
     flex: 1,
@@ -626,7 +611,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     alignSelf: "center",
     alignItems: "center",
-    left: 10,
+    left: 20,
     // marginTop: 5,
   },
   statsContainer: {

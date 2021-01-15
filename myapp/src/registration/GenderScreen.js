@@ -64,7 +64,7 @@ function GenderScreen({ route, navigation }) {
               }}
             >
               <LinearGradient
-                colors={[COLORS.primary, COLORS.yellow2]}
+                colors={[COLORS.darkpink, COLORS.primary]}
                 style={styles.button}
               >
                 <Text style={styles.textSign}>Male</Text>
@@ -89,7 +89,7 @@ function GenderScreen({ route, navigation }) {
               }}
             >
               <LinearGradient
-                colors={[COLORS.darkpink, COLORS.primary]}
+                colors={[COLORS.primary, COLORS.yellow2]}
                 style={styles.button}
               >
                 <Text style={styles.textSign}>Female</Text>

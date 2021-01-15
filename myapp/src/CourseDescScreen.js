@@ -110,6 +110,7 @@ const CourseDescScreen = ({ route, navigation }) => {
       </View>
       <View>
         <TouchableOpacity
+          style={styles.buttonContainer}
           onPress={() => navigation.navigate("SetRate", { data: courses })}
         >
           <LinearGradient colors={["#ff01ff", "#ffd200"]} style={styles.next}>
@@ -165,19 +166,27 @@ const styles = StyleSheet.create({
     height: 150,
     textAlignVertical: "top",
   },
-  next: {
-    marginTop: 16,
+  buttonContainer: {
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 12,
-    left: "70%",
     borderTopLeftRadius: 40,
     borderBottomLeftRadius: 40,
     width: "30%",
     height: 70,
-    borderColor: "#ffd200",
-    borderWidth: 2,
+    position: "absolute",
+    bottom: 40,
+    elevation: 5,
+    alignSelf: "flex-end",
+  },
+  next: {
+    position: "absolute",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 12,
+    borderTopLeftRadius: 40,
+    borderBottomLeftRadius: 40,
+    width: "100%",
+    height: 70,
   },
   next_text: {
     fontSize: 25,

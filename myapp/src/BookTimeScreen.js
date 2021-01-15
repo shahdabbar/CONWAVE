@@ -315,7 +315,7 @@ const BookTimeScreen = ({ route, navigation }) => {
             <MaterialIcon
               name="arrow-back-ios"
               size={24}
-              color="gray"
+              color={COLORS.black3}
               style={{ marginLeft: 10 }}
               onPress={() => {
                 navigation.goBack();

@@ -117,7 +117,7 @@ const BookSessionScreen = ({ route, navigation }) => {
           <MaterialIcon
             name="arrow-back-ios"
             size={24}
-            color="gray"
+            color={COLORS.black3}
             style={{ marginLeft: 20 }}
             onPress={() => {
               navigation.navigate("BookTime");
@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
     color: COLORS.black2,
   },
   payment: {
-    fontSize: 27,
+    fontSize: 25,
     fontWeight: "bold",
     color: COLORS.pink,
   },

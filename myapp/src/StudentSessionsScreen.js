@@ -30,6 +30,8 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { AuthContext } from "./AuthProvider";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
+import Star from "react-native-star-view";
+
 import moment from "moment";
 
 import axios from "axios";
@@ -44,9 +46,11 @@ const StudentSessionsScreen = ({ route, navigation }) => {
   const [comment, setComment] = useState("");
   const [sessions, setSessions] = useState(upcoming);
   const [modal, setModal] = useState(false);
+  const [review, setReview] = useState(null);
   const [id, setId] = useState({
     tutor_id: "",
     course_id: "",
+    item: null,
   });
   const [state, setState] = useState({
     rating: 0,
@@ -125,7 +129,7 @@ const StudentSessionsScreen = ({ route, navigation }) => {
     opacity: animateOpacity,
   };
 
-  function onSubmit() {
+  function onSubmit(item) {
     let data = {
       comment: comment,
       rating: state.rating,
@@ -133,6 +137,10 @@ const StudentSessionsScreen = ({ route, navigation }) => {
       tutor_id: id.tutor_id,
       course_id: id.course_id,
     };
+
+    setReview(data.rating);
+    // previous[0].review = { ...previous[0].review, review: data };
+
     axios
       .post("api/user/rating", data)
       .then((response) => {
@@ -314,8 +322,30 @@ const StudentSessionsScreen = ({ route, navigation }) => {
                   }}
                 >
                   <View style={{ position: "absolute", top: 5, right: 10 }}>
-                    {console.log("review", item.review)}
-                    {item.review ? (
+                    {item.review[0] || review != null ? (
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            color: COLORS.yellow2,
+                            fontWeight: "bold",
+                            fontSize: 15,
+                          }}
+                        >
+                          {item.review[0] ? item.review[0].rating : review}
+                        </Text>
+                        <FontAwesome
+                          name="star"
+                          size={20}
+                          color={COLORS.yellow2}
+                        />
+                      </View>
+                    ) : (
                       <Text
                         style={{
                           color: COLORS.yellow,
@@ -327,16 +357,13 @@ const StudentSessionsScreen = ({ route, navigation }) => {
                             ...id,
                             tutor_id: item.tutor_id,
                             course_id: item.course_id,
+                            item: item,
                           });
                           setModal(true);
                         }}
                       >
                         Rate
                       </Text>
-                    ) : (
-                      <View>
-                        <Text>{item.review.rating}</Text>
-                      </View>
                     )}
                   </View>
                   <View style={{ paddingHorizontal: 20 }}>
@@ -555,7 +582,7 @@ const StudentSessionsScreen = ({ route, navigation }) => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => {
-                      onSubmit(), setModal(false);
+                      onSubmit(id.item), setModal(false);
                     }}
                     style={{
                       ...styles.statsBox,
@@ -589,7 +616,7 @@ const StudentSessionsScreen = ({ route, navigation }) => {
               name="ios-menu"
               size={30}
               backgroundColor="#fff"
-              color="gray"
+              color={COLORS.black3}
               onPress={() => navigation.openDrawer()}
             />
           </View>
@@ -660,12 +687,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    paddingTop: 60,
+    paddingTop: 45,
   },
   sessions: {
-    fontSize: 27,
-    fontWeight: "bold",
-    color: COLORS.black2,
+    fontSize: 25,
+    // fontWeight: "bold",s
+    color: COLORS.black3,
+  },
+  starStyle: {
+    width: 120,
+    height: 25,
+    marginBottom: 5,
+    left: 10,
   },
   infoText: {
     fontSize: 25,
