@@ -236,55 +236,30 @@ class MyApp extends Component {
         <View style={styles.header}>
           <Text
             style={{
-              ...styles.title,
               textTransform: "uppercase",
-              fontSize: 30,
-              color: COLORS.white2,
+              fontSize: 33,
+              color: COLORS.white,
               textShadowColor: COLORS.primary,
-              lineHeight: 55,
+              alignSelf: "center",
+              fontWeight: "bold",
             }}
           >
-            <Text
-              style={{
-                fontSize: 30,
-                fontWeight: "bold",
-                width: width,
-              }}
-            >
-              Stay
-            </Text>{" "}
-            <Text
-              style={{
-                fontSize: 30,
-                color: COLORS.white,
-                // color: "#ffa3b2",
-                fontWeight: "bold",
-                width: width,
-              }}
-            >
-              connected
-            </Text>{" "}
-            <Text
-              style={{
-                fontSize: 30,
-                width: width,
-                fontWeight: "bold",
-              }}
-            >
-              with
-            </Text>{" "}
+            Stay connected with
+          </Text>
+          <View style={{ alignItems: "center" }}>
             <Text
               style={{
                 fontSize: 65,
+                lineHeight: 63,
                 fontWeight: "bold",
                 color: COLORS.pink,
-                width: width,
+                textTransform: "uppercase",
               }}
             >
-              <Text style={{ color: COLORS.primary }}>con</Text>
+              <Text style={{ color: COLORS.primary, left: 20 }}>con</Text>
               wave!
             </Text>
-          </Text>
+          </View>
           <Text style={styles.ttt}>Sign in with account</Text>
         </View>
         <View style={styles.footer}>
@@ -455,6 +430,7 @@ const styles = StyleSheet.create({
   },
   header: {
     marginVertical: 100,
+    // alignItems: "center",
   },
   footer: {
     height: height / 3,
@@ -486,14 +462,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "black",
   },
-  title: {
-    color: "black",
-    // fontSize: 30,
-    // fontWeight: "bold",
-    // marginLeft: 20,
-    // marginRight: 20,
-    // marginHorizontal: 30,
-  },
+
   signin: {
     height: height / 3,
     top: null,

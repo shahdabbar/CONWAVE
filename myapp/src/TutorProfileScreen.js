@@ -27,6 +27,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { COLORS, SIZES, FONTS, icons } from "./constants";
 import Star from "react-native-star-view";
 import axios from "axios";
+import NumberFormat from "react-number-format";
 import moment from "moment";
 import { block } from "react-native-reanimated";
 
@@ -118,7 +119,13 @@ const Courses = ({ route, navigation }) => {
                 </Text>
               </View>
               <View style={styles.action}>
-                <Text>LBP {e.rate}</Text>
+                <NumberFormat
+                  renderText={(text) => <Text>{text}</Text>}
+                  value={item.rate}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={" LBP "}
+                />
               </View>
             </View>
           </View>
@@ -637,7 +644,13 @@ function TutorProfileScreen({ route, navigation }) {
                           color: COLORS.black3,
                         }}
                       >
-                        LBP {item.rate}
+                        <NumberFormat
+                          renderText={(text) => <Text>{text}</Text>}
+                          value={item.rate}
+                          displayType={"text"}
+                          thousandSeparator={true}
+                          prefix={" LBP "}
+                        />
                       </Text>
                     </View>
                   </LinearGradient>
@@ -744,7 +757,15 @@ function TutorProfileScreen({ route, navigation }) {
                     textTransform: "uppercase",
                   }}
                 >
-                  Book a session - LBP {item.rate}/h
+                  Book a session -
+                  <NumberFormat
+                    renderText={(text) => <Text>{text}</Text>}
+                    value={item.rate}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                    prefix={" LBP "}
+                  />
+                  <Text style={{ textTransform: "none" }}>/h</Text>
                 </Text>
               </LinearGradient>
             </TouchableOpacity>

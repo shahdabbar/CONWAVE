@@ -5,6 +5,7 @@ import {
   View,
   Dimensions,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import GenderScreen from "./GenderScreen";

@@ -68,6 +68,7 @@
     "react-native-tab-view": "^2.15.2",
     "react-native-web": "~0.13.12",
     "react-native-webview": "^10.7.0",
+    "react-number-format": "^4.4.4",
     "react-web-component": "^2.0.1",
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",
     "rn-modal-picker": "^0.3.0"

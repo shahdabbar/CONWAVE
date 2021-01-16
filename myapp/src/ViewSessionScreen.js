@@ -28,6 +28,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { AuthContext } from "./AuthProvider";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import axios from "axios";
+import NumberFormat from "react-number-format";
 
 const ViewSessionScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
@@ -318,7 +319,16 @@ const ViewSessionScreen = ({ route, navigation }) => {
                 </Text>
               </View>
               <View>
-                <Text style={{ fontSize: 18 }}>LBP {data.session.payment}</Text>
+                <Text style={{ fontSize: 18 }}>
+                  {" "}
+                  <NumberFormat
+                    renderText={(text) => <Text>{text}</Text>}
+                    value={data.session.payment}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                    prefix={" LBP "}
+                  />
+                </Text>
               </View>
             </View>
           </View>

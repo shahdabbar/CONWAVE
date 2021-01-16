@@ -30,6 +30,7 @@ import DrawerContent from "./DrawerContent";
 import { deleteItemAsync } from "expo-secure-store";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import axios from "axios";
+import NumberFormat from "react-number-format";
 
 const BookSessionScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
@@ -368,7 +369,13 @@ const BookSessionScreen = ({ route, navigation }) => {
               </View>
               <View>
                 <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                  LBP {data.course.rate}
+                  <NumberFormat
+                    renderText={(text) => <Text>{text}</Text>}
+                    value={data.course.rate}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                    prefix={" LBP "}
+                  />
                 </Text>
               </View>
             </View>

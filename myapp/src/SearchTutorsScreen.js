@@ -32,6 +32,7 @@ import { deleteItemAsync } from "expo-secure-store";
 import { COLORS, SIZES, FONTS, icons } from "./constants";
 import axios from "axios";
 import { block, color } from "react-native-reanimated";
+import NumberFormat from "react-number-format";
 
 const SearchTutorsScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
@@ -183,7 +184,13 @@ const SearchTutorsScreen = ({ route, navigation }) => {
                       >
                         <View>
                           <Text style={{ fontSize: 14, fontWeight: "bold" }}>
-                            LBP {item.rate}
+                            <NumberFormat
+                              renderText={(text) => <Text>{text}</Text>}
+                              value={item.rate}
+                              displayType={"text"}
+                              thousandSeparator={true}
+                              prefix={" LBP "}
+                            />
                           </Text>
                         </View>
                       </LinearGradient>

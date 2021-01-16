@@ -27,6 +27,7 @@ import { AuthContext } from "./AuthProvider";
 import DrawerContent from "./DrawerContent";
 import { deleteItemAsync } from "expo-secure-store";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
+import NumberFormat from "react-number-format";
 import axios from "axios";
 
 const CoursesScreen = ({ navigation }) => {
@@ -77,12 +78,10 @@ const CoursesScreen = ({ navigation }) => {
                 <LinearGradient
                   colors={["#FFFFFF", "#FFFFFF"]}
                   style={{
-                    // borderRadius: SIZES.radius / 2,
-                    borderTopRightRadius: SIZES.radius,
-                    borderBottomLeftRadius: SIZES.radius,
+                    borderRadius: SIZES.radius,
                     borderColor: COLORS.beige,
                     borderWidth: 2,
-                    elevation: 10,
+                    elevation: 5,
                     padding: 5,
                     marginHorizontal: 20,
                     marginBottom: 20,
@@ -99,11 +98,16 @@ const CoursesScreen = ({ navigation }) => {
                         }}
                       >
                         <View>
-                          <Text style={{ ...styles.infoText, bottom: 16 }}>
+                          <Text
+                            style={{
+                              ...styles.infoText,
+                              marginVertical: 8,
+                            }}
+                          >
                             {item.course.name}
                           </Text>
                         </View>
-                        <View
+                        {/* <View
                           style={{
                             // flexDirection: "row",
                             alignItems: "center",
@@ -111,23 +115,103 @@ const CoursesScreen = ({ navigation }) => {
                         >
                           <View style={styles.action}>
                             <TextInput
-                              defaultValue={item.rate}
+                              // defaultValue={item.rate}
                               textContentType="telephoneNumber"
                               style={{ fontSize: 20, fontWeight: "bold" }}
-                              placeholder="Rate"
+                              // placeholder="Rate"
                               placeholderTextColor="#666"
                               onChangeText={(text) => onChangeText(item, text)}
                               underlineColorAndroid="transparent"
-                            ></TextInput>
+                            >
+                              <NumberFormat
+                                renderText={(text) => <Text>{text}</Text>}
+                                value={item.rate}
+                                displayType={"text"}
+                                thousandSeparator={true}
+                                // prefix={"LBP "}
+                              />
+                            </TextInput>
                           </View>
                           <Text style={{ ...styles.text, color: "#34495e" }}>
                             LBP/h
                           </Text>
-                        </View>
+                        </View> */}
                       </View>
                       <Text style={styles.text}>{item.course_description}</Text>
                     </View>
                   </View>
+                  <TouchableOpacity
+                    style={{
+                      // position: "absolute",
+                      marginHorizontal: 20,
+                      marginVertical: 5,
+                      bottom: 0,
+                      right: 0,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      // justifyContent: "flex-end",
+                      justifyContent: "center",
+                    }}
+                    onPress={() =>
+                      navigation.navigate("Reviews", {
+                        tutor_id: item.user_id,
+                        course_id: item.course_id,
+                      })
+                    }
+                  >
+                    <Text
+                      style={{
+                        fontSize: 19,
+                        fontWeight: "800",
+                        color: COLORS.pink,
+                        alignSelf: "center",
+                      }}
+                    >
+                      Students reviews
+                    </Text>
+                    <View>
+                      <FontAwesome5
+                        name="arrow-right"
+                        size={16}
+                        style={{ left: 10 }}
+                        color={COLORS.pink}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                  <LinearGradient
+                    colors={[COLORS.primary, COLORS.yellow2]}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      right: 0,
+                      height: 50,
+                      width: SIZES.width * 0.3,
+                      backgroundColor: COLORS.yellow,
+                      borderTopRightRadius: SIZES.radius,
+                      borderBottomLeftRadius: SIZES.radius,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      ...styles.shadow,
+                    }}
+                  >
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: 13,
+                          fontWeight: "bold",
+                          color: COLORS.white,
+                        }}
+                      >
+                        <NumberFormat
+                          renderText={(text) => <Text>{text}</Text>}
+                          value={item.rate}
+                          displayType={"text"}
+                          thousandSeparator={true}
+                          prefix={"LBP/h "}
+                        />
+                      </Text>
+                    </View>
+                  </LinearGradient>
                 </LinearGradient>
               </View>
             </View>

@@ -1093,6 +1093,14 @@ const SessionsStackScreen = ({ navigation }) => (
     />
 
     <SessionStack.Screen
+      name="Reviews"
+      component={ReviewsScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+
+    <SessionStack.Screen
       name="AddCourse"
       component={AddCourseScreen}
       options={{

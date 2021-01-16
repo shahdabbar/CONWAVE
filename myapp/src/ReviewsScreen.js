@@ -246,14 +246,6 @@ const ReviewsScreen = ({ route, navigation }) => {
       </View>
     );
   }
-  // // style={{ marginBottom: 70 }}
-  // return (
-  //   <View style={styles.container}>
-  //     <View>
-  //       <FlatList ListHeaderComponent={flatlist} />
-  //     </View>
-  //   </View>
-  // );
 
   return (
     <View style={styles.container}>
