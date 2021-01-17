@@ -384,7 +384,6 @@ const EditProfileScreen = ({ route, navigation }) => {
                             university: itemValue,
                             university_id: itemIndex,
                           });
-                        } else {
                         }
                       }}
                     >
@@ -411,7 +410,6 @@ const EditProfileScreen = ({ route, navigation }) => {
                             major: itemValue,
                             major_id: itemIndex,
                           });
-                        } else {
                         }
                       }}
                     >
@@ -434,7 +432,6 @@ const EditProfileScreen = ({ route, navigation }) => {
                             degree: itemValue,
                             degree_id: itemIndex,
                           });
-                        } else {
                         }
                       }}
                     >
@@ -782,6 +779,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                       ...styles.infoContent,
                       justifyContent: "center",
                       alignItems: "center",
+                      left: 5,
                     }}
                   >
                     <FontAwesome name="user" size={22} color={COLORS.dark} />
@@ -807,6 +805,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                       ...styles.infoContent,
                       justifyContent: "center",
                       alignItems: "center",
+                      left: 5,
                     }}
                   >
                     <FontAwesome name="user" size={22} color={COLORS.dark} />
@@ -834,6 +833,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                       ...styles.infoContent,
                       justifyContent: "center",
                       alignItems: "center",
+                      left: 5,
                     }}
                   >
                     <FontAwesome name="phone" size={20} color={COLORS.dark} />
@@ -966,7 +966,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                       >
                         <FontAwesome
                           name="university"
-                          size={20}
+                          size={19}
                           color={COLORS.dark}
                         />
                         {state.university ? (
@@ -1001,7 +1001,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                       >
                         <FontAwesome
                           name="graduation-cap"
-                          size={22}
+                          size={20}
                           color={COLORS.dark}
                         />
                         {state.major ? (
@@ -1094,7 +1094,7 @@ export default EditProfileScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    // backgroundColor: "#FFFFFF",
   },
   titleBar: {
     flexDirection: "row",

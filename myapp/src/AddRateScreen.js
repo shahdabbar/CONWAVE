@@ -30,6 +30,7 @@ import DrawerContent from "./DrawerContent";
 import { deleteItemAsync } from "expo-secure-store";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import axios from "axios";
+import NumberFormat from "react-number-format";
 
 const AddRateScreen = ({ route, navigation }) => {
   const { colors } = useTheme();
@@ -65,14 +66,23 @@ const AddRateScreen = ({ route, navigation }) => {
       <View style={styles.action}>
         <TextInput
           style={{ fontSize: 20 }}
-          placeholder="Start Typing"
+          placeholder="ex: 70,000"
           placeholderTextColor="#666"
           onChangeText={(text) => setData({ ...data, rate: text })}
           underlineColorAndroid="transparent"
         ></TextInput>
       </View>
       <View>
-        <Text style={styles.text}>Total: {data.rate} LBP/h</Text>
+        <Text style={styles.text}>
+          Total:{" "}
+          <NumberFormat
+            renderText={(text) => <Text>{text}</Text>}
+            value={data.rate}
+            displayType={"text"}
+            thousandSeparator={true}
+            prefix={"LBP/h "}
+          />
+        </Text>
       </View>
       <View>
         <TouchableOpacity

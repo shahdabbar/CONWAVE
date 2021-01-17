@@ -388,7 +388,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
       <View>
         <Modal
           visible={modal.paymentModal}
-          transparent={true}
+          // transparent={true}
           animationType="slide"
         >
           <View>
@@ -398,6 +398,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
                 marginHorizontal: 10,
                 marginVertical: 10,
                 right: 2,
+                top: 0,
               }}
             >
               <FontAwesome
@@ -458,7 +459,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
                       }}
                     >
                       <View>
-                        <Feather name="users" size={30} color={COLORS.black} />
+                        <Feather name="users" size={30} color={COLORS.blue} />
                       </View>
                       <View style={{ left: 10 }}>
                         <Text style={styles.text}>In-Person Session</Text>
@@ -490,6 +491,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
                       flexDirection: "row",
                       justifyContent: "space-between",
                       alignItems: "center",
+                      marginTop: 10,
                     }}
                     onPress={() => {
                       setMeetingType({
@@ -505,7 +507,11 @@ const CompleteProfileSCreen = ({ navigation }) => {
                       }}
                     >
                       <View>
-                        <FontAwesome name="tv" size={25} color={COLORS.black} />
+                        <FontAwesome
+                          name="tv"
+                          size={25}
+                          color={COLORS.primary}
+                        />
                       </View>
                       <View style={{ left: 10 }}>
                         <Text style={styles.text}>Online Session</Text>

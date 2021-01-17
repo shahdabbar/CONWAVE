@@ -1,34 +1,7 @@
 // import "react-native-get-random-values";
 import React, { useContext, useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ImageBackground,
-  ScrollView,
-  FlatList,
-  Button,
-  StatusBar,
-  TextInput,
-  TouchableOpacity,
-  SafeAreaView,
-} from "react-native";
-import { useTheme } from "@react-navigation/native";
-import * as Animatable from "react-native-animatable";
-import {
-  MaterialIcons as MaterialIcon,
-  Ionicons as Ionicon,
-  MaterialCommunityIcons as Icon,
-  FontAwesome,
-  FontAwesome5,
-  Feather,
-} from "react-native-vector-icons";
-import CheckBox from "@react-native-community/checkbox";
-import { LinearGradient } from "expo-linear-gradient";
+import { StyleSheet, Text, View } from "react-native";
 import { AuthContext } from "./AuthProvider";
-import DrawerContent from "./DrawerContent";
-import { deleteItemAsync } from "expo-secure-store";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import axios from "axios";
 import WebView from "react-native-webview";

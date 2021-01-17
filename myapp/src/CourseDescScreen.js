@@ -102,7 +102,7 @@ const CourseDescScreen = ({ route, navigation }) => {
     <View style={styles.container}>
       <View style={styles.warning}>
         <Text style={styles.paragraph}>
-          Please specify more what you are gonna teach in each course..
+          Please specify more what you are going to teach in each course..
         </Text>
       </View>
       <View style={{ marginBottom: 40 }}>
@@ -127,7 +127,7 @@ export default CourseDescScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     // paddingTop: 20,
   },
 
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginHorizontal: 20,
     marginVertical: 5,
-    borderColor: "#ffd200",
+    borderColor: COLORS.yellow,
     // paddingLeft: 20,
     backgroundColor: "#FFFFFF",
     elevation: 5,

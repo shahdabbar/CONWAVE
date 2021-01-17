@@ -237,7 +237,7 @@ class MyApp extends Component {
           <Text
             style={{
               textTransform: "uppercase",
-              fontSize: 33,
+              fontSize: 20,
               color: COLORS.white,
               textShadowColor: COLORS.primary,
               alignSelf: "center",
@@ -249,8 +249,8 @@ class MyApp extends Component {
           <View style={{ alignItems: "center" }}>
             <Text
               style={{
-                fontSize: 65,
-                lineHeight: 63,
+                fontSize: 60,
+                lineHeight: 58,
                 fontWeight: "bold",
                 color: COLORS.pink,
                 textTransform: "uppercase",
@@ -453,7 +453,7 @@ const styles = StyleSheet.create({
     color: "gray",
     fontSize: 17,
     marginTop: 5,
-    marginHorizontal: 30,
+    marginHorizontal: 50,
     // marginLeft: 20,
     // marginRight: 20,
   },
