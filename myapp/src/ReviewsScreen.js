@@ -68,7 +68,8 @@ const ReviewsScreen = ({ route, navigation }) => {
   let sum = 0;
   let num = 0;
   sumRatings.map((e) => {
-    (num = num + 1), (sum = sum + e["rating"] * e["count(rating)"]);
+    (num = num + e["count(rating)"]),
+      (sum = sum + e["rating"] * e["count(rating)"]);
   });
 
   function flatlist() {

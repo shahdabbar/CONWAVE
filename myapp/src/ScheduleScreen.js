@@ -35,10 +35,12 @@ import axios from "axios";
 
 const ScheduleScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
-  const [sessions, setSessions] = useState([]);
   const [upcoming, setUpcoming] = useState([]);
   const [previous, setPrevious] = useState([]);
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState({
+    upcoming: true,
+    previous: false,
+  });
 
   useEffect(() => {
     axios
@@ -385,18 +387,17 @@ const ScheduleScreen = ({ route, navigation }) => {
         <TouchableOpacity
           style={styles.statsBox}
           onPress={() => {
-            setShow(!show);
+            setShow({ ...show, upcoming: true, previous: false });
           }}
         >
           <Text
             style={{
               ...styles.text,
               ...styles.subText,
-              color: show ? COLORS.primary : COLORS.black2,
-              fontWeight: show ? "bold" : "normal",
-              fontSize: show ? 22 : 20,
-              textTransform: show ? "uppercase" : "none",
-              textDecorationLine: show ? "underline" : "none",
+              color: show.upcoming ? COLORS.primary : COLORS.black2,
+              fontWeight: show.upcoming ? "bold" : "normal",
+              fontSize: show.upcoming ? 22 : 20,
+              textDecorationLine: show.upcoming ? "underline" : "none",
             }}
           >
             Upcoming
@@ -404,7 +405,7 @@ const ScheduleScreen = ({ route, navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            setShow(!show);
+            setShow({ ...show, upcoming: false, previous: true });
           }}
           style={{
             ...styles.statsBox,
@@ -417,11 +418,10 @@ const ScheduleScreen = ({ route, navigation }) => {
               ...styles.text,
               ...styles.subText,
 
-              color: !show ? COLORS.yellow2 : COLORS.black2,
-              fontWeight: !show ? "bold" : "normal",
-              fontSize: !show ? 22 : 20,
-              textTransform: !show ? "uppercase" : "none",
-              textDecorationLine: !show ? "underline" : "none",
+              color: show.previous ? COLORS.yellow2 : COLORS.black2,
+              fontWeight: show.previous ? "bold" : "normal",
+              fontSize: show.previous ? 22 : 20,
+              textDecorationLine: show.previous ? "underline" : "none",
             }}
           >
             Previous
@@ -431,7 +431,7 @@ const ScheduleScreen = ({ route, navigation }) => {
 
       <View style={{ paddingVertical: 10, marginBottom: 70 }}>
         {/* <FlatList ListHeaderComponent= /> */}
-        {show ? Upcoming() : Previous()}
+        {show.upcoming ? Upcoming() : Previous()}
       </View>
     </View>
   );

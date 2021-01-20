@@ -62,11 +62,12 @@ const CompleteProfileSCreen = ({ navigation }) => {
 
   useEffect(() => {
     axios.get("/api/meetingtype").then((response) => {
-      if (response.data === "both") {
+      console.log(response.data[0].type);
+      if (response.data[0].type === "both") {
         setMeetingType({ ...meetingType, inperson: true, online: true });
-      } else if (response.data === "inperson") {
+      } else if (response.data[0].type === "inperson") {
         setMeetingType({ ...meetingType, inperson: true });
-      } else if (response.data === "online") {
+      } else if (response.data[0].type === "online") {
         setMeetingType({ ...meetingType, online: true });
       }
     });
@@ -439,7 +440,7 @@ const CompleteProfileSCreen = ({ navigation }) => {
                 <View>
                   <TouchableOpacity
                     style={{
-                      marginBottom: 10,
+                      marginBottom: 16,
                       flexDirection: "row",
                       justifyContent: "space-between",
                       alignItems: "center",

@@ -275,7 +275,8 @@ const Reviews = ({ route, navigation }) => {
   let sum = 0;
   let num = 0;
   sumRatings.map((e) => {
-    (num = num + 1), (sum = sum + e["rating"] * e["count(rating)"]);
+    (num = num + e["count(rating)"]),
+      (sum = sum + e["rating"] * e["count(rating)"]);
   });
 
   console.log("sum", sum, num);
@@ -498,7 +499,8 @@ function TutorProfileScreen({ route, navigation }) {
   let sum = 0;
   let num = 0;
   sumRatings.map((e) => {
-    (num = num + 1), (sum = sum + e["rating"] * e["count(rating)"]);
+    (num = num + e["count(rating)"]),
+      (sum = sum + e["rating"] * e["count(rating)"]);
   });
 
   return (
@@ -612,10 +614,6 @@ function TutorProfileScreen({ route, navigation }) {
                   colors={[COLORS.white, COLORS.white]}
                   style={{
                     borderRadius: SIZES.radius,
-                    // borderTopRightRadius: SIZES.radius,
-                    // borderBottomLeftRadius: SIZES.radius,
-                    // borderWidth: 2,
-                    // borderColor: COLORS.beige,
                     elevation: 10,
 
                     padding: 10,

@@ -329,11 +329,11 @@ class MyApp extends Component {
                 </Animated.Text>
               </Animated.View>
             </TapGestureHandler>
-            {/* {this.context.error && (
+            {this.context.error && (
               <Animatable.View animation="fadeInLeft" duration={500}>
                 <Text style={styles.errorMsg}>{this.context.error}</Text>
               </Animatable.View>
-            )} */}
+            )}
             <View style={styles.action}>
               <FontAwesome
                 name="envelope"

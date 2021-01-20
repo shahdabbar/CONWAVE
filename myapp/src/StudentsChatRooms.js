@@ -14,7 +14,7 @@ import { COLORS, SIZES, FONTS, icons } from "./constants";
 import Moment from "moment";
 import axios from "axios";
 
-const ChatRoomsScreen = ({ navigation }) => {
+const StudentsChatRooms = ({ navigation }) => {
   const { user } = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState([]);
   const [chat, setChat] = useState([]);
@@ -38,9 +38,10 @@ const ChatRoomsScreen = ({ navigation }) => {
       });
 
     axios
-      .get(`api/chat/users?tutor_id=${user.id}`)
+      .get(`api/chat/users?user_id=${user.id}`)
       .then((response) => {
         setChat(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -65,7 +66,7 @@ const ChatRoomsScreen = ({ navigation }) => {
                     marginHorizontal: 20,
                   }}
                   onPress={() => {
-                    goChat(item.users.firstname + " " + item.users.lastname);
+                    goChat(item.tutors.firstname + " " + item.tutors.lastname);
                   }}
                 >
                   <View
@@ -78,9 +79,9 @@ const ChatRoomsScreen = ({ navigation }) => {
                     <View style={styles.profileImage}>
                       <Image
                         source={
-                          item.users.profile_photo_path
+                          item.tutors.profile_photo_path
                             ? {
-                                uri: `http://192.168.0.107:8000/${item.users.profile_photo_path}`,
+                                uri: `http://192.168.0.107:8000/${item.tutors.profile_photo_path}`,
                               }
                             : require("../assets/images/profile2.png")
                         }
@@ -90,7 +91,7 @@ const ChatRoomsScreen = ({ navigation }) => {
                     </View>
                     <View style={{ paddingLeft: 20 }}>
                       <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                        {item.users.firstname} {item.users.lastname}
+                        {item.tutors.firstname} {item.tutors.lastname}
                       </Text>
 
                       <Text
@@ -122,7 +123,7 @@ const ChatRoomsScreen = ({ navigation }) => {
   );
 };
 
-export default ChatRoomsScreen;
+export default StudentsChatRooms;
 
 const styles = StyleSheet.create({
   container: {

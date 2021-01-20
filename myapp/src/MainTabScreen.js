@@ -53,6 +53,7 @@ import axios from "axios";
 import ReviewsScreen from "./ReviewsScreen";
 import MeetingAddressScreen from "./MeetingAddressScreen";
 import { block } from "react-native-reanimated";
+import StudentsChatRooms from "./StudentsChatRooms";
 
 const HomeStack = createStackNavigator();
 const DetailsStack = createStackNavigator();
@@ -236,16 +237,16 @@ const MainTabScreen = () => {
             }}
           />
 
-          {/* <Tab.Screen
-            name="Courses"
-            component={TutorCoursesStackScreen}
+          <Tab.Screen
+            name="Chat"
+            component={ChatStackScreen}
             options={({ route }) => {
               return {
                 tabBarVisible: getTabBarVisibility(route),
-                tabBarLabel: "Courses",
+                tabBarLabel: "chat",
                 tabBarIcon: ({ focused }) => (
                   <Image
-                    source={icons.courses}
+                    source={icons.chat}
                     resizeMode="contain"
                     style={{
                       width: 20,
@@ -257,7 +258,7 @@ const MainTabScreen = () => {
                 tabBarButton: (props) => <TabBarCustomButton {...props} />,
               };
             }}
-          /> */}
+          />
         </>
       ) : (
         <>
@@ -309,6 +310,28 @@ const MainTabScreen = () => {
               };
             }}
           />
+          <Tab.Screen
+            name="Chat"
+            component={StudentsChatStackScreen}
+            options={({ route }) => {
+              return {
+                tabBarVisible: getTabBarVisibility(route),
+                tabBarLabel: "chat",
+                tabBarIcon: ({ focused }) => (
+                  <Image
+                    source={icons.chat}
+                    resizeMode="contain"
+                    style={{
+                      width: 20,
+                      height: 20,
+                      tintColor: focused ? COLORS.black2 : COLORS.secondary,
+                    }}
+                  />
+                ),
+                tabBarButton: (props) => <TabBarCustomButton {...props} />,
+              };
+            }}
+          />
           {/* <Tab.Screen
             name="Notification"
             component={DetailsStackScreen}
@@ -333,28 +356,7 @@ const MainTabScreen = () => {
           /> */}
         </>
       )}
-      <Tab.Screen
-        name="Chat"
-        component={ChatStackScreen}
-        options={({ route }) => {
-          return {
-            tabBarVisible: getTabBarVisibility(route),
-            tabBarLabel: "chat",
-            tabBarIcon: ({ focused }) => (
-              <Image
-                source={icons.chat}
-                resizeMode="contain"
-                style={{
-                  width: 20,
-                  height: 20,
-                  tintColor: focused ? COLORS.black2 : COLORS.secondary,
-                }}
-              />
-            ),
-            tabBarButton: (props) => <TabBarCustomButton {...props} />,
-          };
-        }}
-      />
+
       <Tab.Screen
         name="Profile"
         component={ProfileStackScreen}
@@ -641,45 +643,6 @@ const HomeStackScreen = ({ navigation }) => (
       }}
     />
   </HomeStack.Navigator>
-);
-
-const TutorCoursesStackScreen = ({ navigation }) => (
-  <CoursesStack.Navigator
-    screenOptions={{
-      headerShown: false,
-      headerStyle: {
-        backgroundColor: "#fff",
-      },
-      headerTintColor: "#000",
-      headerTitleStyle: {
-        fontWeight: "bold",
-      },
-    }}
-  >
-    <CoursesStack.Screen
-      name="TutorCourses"
-      component={TutorCoursesScreen}
-      options={{
-        headerLeft: () => (
-          <Icon.Button
-            name="ios-menu"
-            size={30}
-            backgroundColor="#fff"
-            color="black"
-            onPress={() => navigation.openDrawer()}
-          ></Icon.Button>
-        ),
-      }}
-    />
-
-    <CoursesStack.Screen
-      name="Reviews"
-      component={ReviewsScreen}
-      options={{
-        headerShown: false,
-      }}
-    />
-  </CoursesStack.Navigator>
 );
 
 const StudentSessionsStackScreen = ({ navigation }) => (
@@ -980,6 +943,66 @@ const ProfileStackScreen = ({ navigation }) => {
     </ProfileStack.Navigator>
   );
 };
+
+const StudentsChatStackScreen = ({ navigation }) => (
+  <ChatStack.Navigator
+    screenOptions={{
+      headerShown: true,
+      headerStyle: {
+        backgroundColor: "#fff",
+      },
+      headerTintColor: "#000",
+      headerTitleStyle: {
+        fontWeight: "bold",
+      },
+    }}
+  >
+    <ChatStack.Screen
+      name="Chats"
+      component={StudentsChatRooms}
+      options={{
+        headerTitleStyle: {
+          fontSize: 25,
+          color: COLORS.pink,
+        },
+
+        headerLeft: () => (
+          <Icon.Button
+            name="ios-menu"
+            size={30}
+            backgroundColor="#FFFFFF"
+            style={{ left: 10 }}
+            color={COLORS.black3}
+            onPress={() => navigation.openDrawer()}
+          ></Icon.Button>
+        ),
+      }}
+    />
+
+    <ChatStack.Screen
+      name="Chat"
+      component={ChatScreen}
+      options={{
+        title: "Chat",
+        headerTitleStyle: {
+          color: COLORS.black3,
+          fontSize: 25,
+        },
+        headerLeft: () => (
+          <MaterialIcon
+            name="arrow-back-ios"
+            size={24}
+            color={COLORS.black3}
+            style={{ marginLeft: 20 }}
+            onPress={() => {
+              navigation.navigate("Chats");
+            }}
+          />
+        ),
+      }}
+    />
+  </ChatStack.Navigator>
+);
 
 const ChatStackScreen = ({ navigation }) => (
   <ChatStack.Navigator
