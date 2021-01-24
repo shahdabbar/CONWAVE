@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { StyleSheet, Text, View, Image, FlatList } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import * as Animatable from "react-native-animatable";
 import {
   MaterialIcons as MaterialIcon,
   Ionicons as Ionicon,
@@ -10,9 +9,8 @@ import {
   FontAwesome5,
   Feather,
 } from "react-native-vector-icons";
-import { LinearGradient } from "expo-linear-gradient";
-import { AuthContext } from "./AuthProvider";
-import { COLORS, SIZES, FONTS, icons } from "./constants";
+import { AuthContext } from "../AuthProvider";
+import { COLORS, SIZES, FONTS, icons } from "../constants";
 import Star from "react-native-star-view";
 import axios from "axios";
 import moment from "moment";
@@ -33,7 +31,6 @@ const ReviewsScreen = ({ route, navigation }) => {
       .then((response) => {
         setReviews(response.data[0]);
         setsumRatings(response.data[1]);
-        // console.log("reviews", response.data[1]);
       })
       .catch((error) => {
         console.log(error);

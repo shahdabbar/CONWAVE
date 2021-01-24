@@ -14,20 +14,15 @@ import {
   DefaultTheme as NavigationDefaultTheme,
   DarkTheme as NavigationDarkTheme,
 } from "@react-navigation/native";
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItem,
-} from "@react-navigation/drawer";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import MainTabScreen from "../src/MainTabScreen";
 import DrawerContent, { DRAWER_WIDTH } from "../src/DrawerContent";
 import SupportScreen from "../src/SupportScreen";
 import SettingsScreen from "../src/SettingsScreen";
-import CompleteProfileScreen from "../src/CompleteProfileScreen";
 import RootStackScreen from "../src/RootStackScreen";
-import VideosScreen from "./VideosScreen";
-import EditProfileScreen from "./EditProfileScreen";
+import VideosScreen from "../src/profile/VideosScreen";
+import EditProfileScreen from "./profile/EditProfileScreen";
 
 const Drawer = createDrawerNavigator();
 // const RootApp = createAppContainer(appNavigator);

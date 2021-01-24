@@ -8,7 +8,7 @@ import {
   Modal,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { AuthContext } from "./AuthProvider";
+import { AuthContext } from "../AuthProvider";
 import {
   MaterialIcons as MaterialIcon,
   Ionicons as Ionicon,
@@ -17,8 +17,8 @@ import {
   FontAwesome5,
   Feather,
 } from "react-native-vector-icons";
-import { COLORS, SIZES, FONTS, icons } from "../src/constants";
-import PaymentView from "../src/HomeScreen/PaymentView";
+import { COLORS, SIZES, FONTS, icons } from "../constants";
+import PaymentView from "../../src/HomeScreen/PaymentView";
 import axios from "axios";
 import { FlatList } from "react-native-gesture-handler";
 

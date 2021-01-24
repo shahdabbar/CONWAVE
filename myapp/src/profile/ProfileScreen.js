@@ -3,7 +3,6 @@ import {
   StyleSheet,
   SafeAreaView,
   View,
-  StatusBar,
   ScrollView,
   Image,
 } from "react-native";
@@ -14,12 +13,10 @@ import {
   Text,
   TouchableRipple,
 } from "react-native-paper";
-import { AuthContext } from "./AuthProvider";
+import { AuthContext } from "../AuthProvider";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import Ionicon from "react-native-vector-icons/Ionicons";
-import { COLORS, SIZES, FONTS, icons } from "../src/constants";
-import { LinearGradient } from "expo-linear-gradient";
+import { COLORS, SIZES, FONTS, icons } from "../constants";
 import { Video } from "expo-av";
 
 import axios from "axios";
@@ -30,7 +27,6 @@ const ProfileScreen = ({ navigation }) => {
   axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
 
   const [userInfo, setUserInfo] = useState([]);
-
   const [profile, setProfile] = useState([]);
 
   useEffect(() => {
@@ -110,7 +106,7 @@ const ProfileScreen = ({ navigation }) => {
                       ? {
                           uri: `http://192.168.0.107:8000/${userInfo.profile_photo_path}`,
                         }
-                      : require("../assets/images/profile2.png")
+                      : require("../../assets/images/profile2.png")
                   }
                   style={styles.image}
                   resizeMode="cover"
@@ -266,7 +262,7 @@ const ProfileScreen = ({ navigation }) => {
               >
                 <View style={styles.mediaVideoContainer}>
                   <Video
-                    source={require("../assets/images/video3.mp4")}
+                    source={require("../../assets/images/video3.mp4")}
                     rate={1.0}
                     volume={1.0}
                     isMuted={false}
@@ -279,7 +275,7 @@ const ProfileScreen = ({ navigation }) => {
                 </View>
                 <View style={styles.mediaVideoContainer}>
                   <Video
-                    source={require("../assets/images/video1.mp4")}
+                    source={require("../../assets/images/video1.mp4")}
                     rate={1.0}
                     volume={1.0}
                     isMuted={false}
@@ -292,7 +288,7 @@ const ProfileScreen = ({ navigation }) => {
                 </View>
                 <View style={styles.mediaVideoContainer}>
                   <Video
-                    source={require("../assets/images/video4.mp4")}
+                    source={require("../../assets/images/video4.mp4")}
                     rate={1.0}
                     volume={1.0}
                     isMuted={false}
@@ -305,7 +301,7 @@ const ProfileScreen = ({ navigation }) => {
                 </View>
                 <View style={styles.mediaVideoContainer}>
                   <Video
-                    source={require("../assets/images/se_intro.mp4")}
+                    source={require("../../assets/images/se_intro.mp4")}
                     rate={1.0}
                     volume={1.0}
                     isMuted={false}

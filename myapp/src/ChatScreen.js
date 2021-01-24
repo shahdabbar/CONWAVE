@@ -2,7 +2,7 @@ import React, { useEffect, useState, Component } from "react";
 import { Platform, KeyboardAvoidingView, SafeAreaView } from "react-native";
 import { Button } from "react-native-paper";
 import { GiftedChat } from "react-native-gifted-chat";
-import Fire from "./Fire";
+import Fire from "./firebase/Fire";
 import { COLORS } from "./constants";
 
 class ChatScreen extends Component {

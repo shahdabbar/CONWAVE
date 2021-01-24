@@ -4,11 +4,8 @@ import {
   Text,
   View,
   Image,
-  ImageBackground,
   ScrollView,
   FlatList,
-  Button,
-  StatusBar,
   TextInput,
   TouchableOpacity,
   SafeAreaView,
@@ -25,10 +22,8 @@ import {
 } from "react-native-vector-icons";
 import CheckBox from "@react-native-community/checkbox";
 import { LinearGradient } from "expo-linear-gradient";
-import { AuthContext } from "./AuthProvider";
-import DrawerContent from "./DrawerContent";
-import { deleteItemAsync } from "expo-secure-store";
-import { COLORS, SIZES, FONTS, icons } from "../src/constants";
+import { AuthContext } from "../AuthProvider";
+import { COLORS, SIZES, FONTS, icons } from "../constants";
 import axios from "axios";
 
 const AddCoursesScreen = ({ navigation }) => {
@@ -49,7 +44,7 @@ const AddCoursesScreen = ({ navigation }) => {
   useEffect(() => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
 
-    // get user name
+    // get username
     axios
       .get("api/user")
       .then((response) => {
@@ -109,10 +104,6 @@ const AddCoursesScreen = ({ navigation }) => {
     setFilteredCourses(coursesList);
     setSelectedCategory(category);
   };
-
-  // const onSelectCourse = (course) => {
-  //   setSelectedCourse(course);
-  // };
 
   const Icon = (name) => {
     let icon = "";

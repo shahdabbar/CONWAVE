@@ -9,7 +9,6 @@ import {
   SafeAreaView,
   ScrollView,
   Modal,
-  Button,
 } from "react-native";
 import {
   MaterialIcons as MaterialIcon,
@@ -19,8 +18,8 @@ import {
   FontAwesome5,
   Feather,
 } from "react-native-vector-icons";
-import { AuthContext } from "./AuthProvider";
-import { COLORS, SIZES, FONTS, icons } from "../src/constants";
+import { AuthContext } from "../AuthProvider";
+import { COLORS, SIZES, FONTS, icons } from "../constants";
 import { Checkbox } from "react-native-paper";
 import { Picker } from "@react-native-picker/picker";
 import { LinearGradient } from "expo-linear-gradient";
@@ -29,7 +28,6 @@ import BottomSheet from "reanimated-bottom-sheet";
 import * as ImagePicker from "expo-image-picker";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import axios from "axios";
-import { useFocusEffect } from "@react-navigation/native";
 
 const EditProfileScreen = ({ route, navigation }) => {
   const { user, logout } = useContext(AuthContext);
@@ -727,7 +725,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                 source={
                   userInfo.imagePath
                     ? { uri: `http://192.168.0.107:8000/${userInfo.imagePath}` }
-                    : require("../assets/images/profile2.png")
+                    : require("../../assets/images/profile2.png")
                 }
                 style={styles.image}
                 resizeMode="cover"

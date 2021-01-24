@@ -6,9 +6,8 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-
-import { AuthContext } from "./AuthProvider";
-import { COLORS, SIZES, FONTS, icons } from "../src/constants";
+import { AuthContext } from "../AuthProvider";
+import { COLORS, SIZES, FONTS, icons } from "../constants";
 import axios from "axios";
 
 const AvailabilityScreen = ({ route, navigation }) => {
