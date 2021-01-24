@@ -4,12 +4,8 @@ import {
   Text,
   View,
   Image,
-  ImageBackground,
   ScrollView,
   FlatList,
-  Button,
-  StatusBar,
-  TextInput,
   TouchableOpacity,
 } from "react-native";
 import {
@@ -22,14 +18,13 @@ import {
 } from "react-native-vector-icons";
 import { Video } from "expo-av";
 import { LinearGradient } from "expo-linear-gradient";
-import { AuthContext } from "./AuthProvider";
+import { AuthContext } from "../AuthProvider";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { COLORS, SIZES, FONTS, icons } from "./constants";
+import { COLORS, SIZES, FONTS, icons } from "../constants";
 import Star from "react-native-star-view";
 import axios from "axios";
 import NumberFormat from "react-number-format";
 import moment from "moment";
-import { block } from "react-native-reanimated";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -146,7 +141,7 @@ const Courses = ({ route, navigation }) => {
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           <View style={styles.mediaVideoContainer}>
             <Video
-              source={require("../assets/images/video3.mp4")}
+              source={require("../../assets/images/video3.mp4")}
               rate={1.0}
               volume={1.0}
               isMuted={false}
@@ -159,7 +154,7 @@ const Courses = ({ route, navigation }) => {
           </View>
           <View style={styles.mediaVideoContainer}>
             <Video
-              source={require("../assets/images/video1.mp4")}
+              source={require("../../assets/images/video1.mp4")}
               rate={1.0}
               volume={1.0}
               isMuted={false}
@@ -172,7 +167,7 @@ const Courses = ({ route, navigation }) => {
           </View>
           <View style={styles.mediaVideoContainer}>
             <Video
-              source={require("../assets/images/video4.mp4")}
+              source={require("../../assets/images/video4.mp4")}
               rate={1.0}
               volume={1.0}
               isMuted={false}
@@ -185,7 +180,7 @@ const Courses = ({ route, navigation }) => {
           </View>
           <View style={styles.mediaVideoContainer}>
             <Video
-              source={require("../assets/images/se_intro.mp4")}
+              source={require("../../assets/images/se_intro.mp4")}
               rate={1.0}
               volume={1.0}
               isMuted={false}
@@ -576,7 +571,7 @@ function TutorProfileScreen({ route, navigation }) {
                           ? {
                               uri: `http://192.168.0.107:8000/${item.tutor.profile_photo_path}`,
                             }
-                          : require("../assets/images/profile2.png")
+                          : require("../../assets/images/profile2.png")
                       }
                       style={styles.image}
                       resizeMode="cover"
@@ -792,16 +787,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-  // profileImage: {
-  //   width: 100,
-  //   height: 100,
-  //   borderRadius: 100,
-  //   // backgroundColor: "gray",
-  //   overflow: "hidden",
-  //   elevation: 5,
-  //   borderWidth: 2,
-  //   borderColor: COLORS.white,
-  // },
   buttonContainer: {
     width: "80%",
     alignSelf: "center",

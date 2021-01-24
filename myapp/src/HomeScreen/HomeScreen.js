@@ -15,7 +15,6 @@ import {
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
 
-// LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 import * as Animatable from "react-native-animatable";
 import {
@@ -26,11 +25,8 @@ import {
   FontAwesome5,
   Feather,
 } from "react-native-vector-icons";
-import { LinearGradient } from "expo-linear-gradient";
-import { AuthContext } from "./AuthProvider";
-import DrawerContent from "./DrawerContent";
-import { deleteItemAsync } from "expo-secure-store";
-import { COLORS, SIZES, FONTS, icons } from "../src/constants";
+import { AuthContext } from "../AuthProvider";
+import { COLORS, SIZES, FONTS, icons } from "../constants";
 // import { AppLoading } from "expo";
 // import {
 //   useFonts,
@@ -39,8 +35,6 @@ import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 //   Raleway_900Black,
 // } from "@expo-google-fonts/raleway";
 import axios from "axios";
-
-// axios.defaults.baseURL = "http://192.168.0.1:8000";
 
 const HomeScreen = ({ navigation }) => {
   // let [fontsLoaded, error] = useFonts({
@@ -68,40 +62,6 @@ const HomeScreen = ({ navigation }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [tutors, setTutors] = useState([]);
-  const [gallery, setgallery] = useState([
-    {
-      image: {
-        uri:
-          "https://images.pexels.com/photos/672358/pexels-photo-672358.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940%27",
-      },
-      title: "tutor1",
-      key: "1",
-    },
-    {
-      image: {
-        uri:
-          "https://images.pexels.com/photos/227417/pexels-photo-227417.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-      },
-      title: "tutor2",
-      key: "2",
-    },
-    {
-      image: {
-        uri:
-          "https://images.pexels.com/photos/258196/pexels-photo-258196.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-      },
-      title: "tutor3",
-      key: "3",
-    },
-    {
-      image: {
-        uri:
-          "https://images.pexels.com/photos/672358/pexels-photo-672358.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940%27",
-      },
-      title: "tutor4",
-      key: "4",
-    },
-  ]);
 
   useEffect(() => {
     if (search) {
@@ -583,7 +543,7 @@ const HomeScreen = ({ navigation }) => {
                             ? {
                                 uri: `http://192.168.0.107:8000/${item.profile_photo_path}`,
                               }
-                            : require("../assets/images/profile4.png")
+                            : require("../../assets/images/profile4.png")
                         }
                         resizeMode="cover"
                         style={{
@@ -632,7 +592,7 @@ const HomeScreen = ({ navigation }) => {
             borderBottomRightRadius: SIZES.radius * 2,
           }}
           resizeMode="cover"
-          source={require("../assets/images/bg28.jpg")}
+          source={require("../../assets/images/bg28.jpg")}
         >
           <View style={styles.DarkOverlay}></View>
           <View style={styles.searchContainer}>

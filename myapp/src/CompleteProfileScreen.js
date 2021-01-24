@@ -3,15 +3,10 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
-  SafeAreaView,
-  TextInput,
   TouchableOpacity,
   Image,
-  ScrollView,
   Modal,
 } from "react-native";
-import { Card, CardItem } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import { AuthContext } from "./AuthProvider";
 import {
@@ -23,7 +18,7 @@ import {
   Feather,
 } from "react-native-vector-icons";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
-import PaymentView from "./PaymentView";
+import PaymentView from "../src/HomeScreen/PaymentView";
 import axios from "axios";
 import { FlatList } from "react-native-gesture-handler";
 

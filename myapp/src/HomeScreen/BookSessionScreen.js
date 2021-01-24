@@ -1,20 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ImageBackground,
-  ScrollView,
-  FlatList,
-  Button,
-  StatusBar,
-  TextInput,
-  TouchableOpacity,
-  SafeAreaView,
-} from "react-native";
-import { useTheme } from "@react-navigation/native";
-import * as Animatable from "react-native-animatable";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import {
   MaterialIcons as MaterialIcon,
   Ionicons as Ionicon,
@@ -23,12 +8,9 @@ import {
   FontAwesome5,
   Feather,
 } from "react-native-vector-icons";
-import CheckBox from "@react-native-community/checkbox";
 import { LinearGradient } from "expo-linear-gradient";
-import { AuthContext } from "./AuthProvider";
-import DrawerContent from "./DrawerContent";
-import { deleteItemAsync } from "expo-secure-store";
-import { COLORS, SIZES, FONTS, icons } from "../src/constants";
+import { AuthContext } from "../AuthProvider";
+import { COLORS, SIZES, FONTS, icons } from "../../src/constants";
 import axios from "axios";
 import NumberFormat from "react-number-format";
 
@@ -36,16 +18,29 @@ const BookSessionScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
   axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
 
-  const [status, setStatus] = useState("failed");
-
+  const [sumRatings, setsumRatings] = useState([]);
   const [data, setData] = useState({
-    // day: route.params.day,
     date: route.params.date,
     hour: route.params.hour,
-    // tutor: route.params.tutor,
     type: route.params.type,
     course: route.params.course,
   });
+
+  console.log("COURSE", data.course.tutor.id);
+
+  useEffect(() => {
+    // get all reviews
+    axios
+      .get(
+        `api/tutor/ratings?tutor_id=${data.course.tutor.id}&course_id=${data.course.course_id}`
+      )
+      .then((response) => {
+        setsumRatings(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   // console.log("type", data.course.tutor.id);
 
@@ -89,22 +84,14 @@ const BookSessionScreen = ({ route, navigation }) => {
     } else {
       alert("Please select a payment method");
     }
-    // const newData = data.courses.map((e) => {
-    //   return {
-    //     ...e,
-    //     rate: data.rate,
-    //   };
-    // });
-    // axios
-    //   .post("api/tutor/courses", newData)
-    //   .then((response) => {
-    //     console.log(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    // navigation.navigate("Courses");
   };
+
+  let sum = 0;
+  let num = 0;
+  sumRatings.map((e) => {
+    (num = num + e["count(rating)"]),
+      (sum = sum + e["rating"] * e["count(rating)"]);
+  });
 
   return (
     <View style={styles.container}>
@@ -166,7 +153,7 @@ const BookSessionScreen = ({ route, navigation }) => {
                         ? {
                             uri: `http://192.168.0.107:8000/${data.course.tutor.profile_photo_path}`,
                           }
-                        : require("../assets/images/profile2.png")
+                        : require("../../assets/images/profile2.png")
                     }
                     style={styles.image}
                     resizeMode="cover"
@@ -206,7 +193,7 @@ const BookSessionScreen = ({ route, navigation }) => {
                       fontWeight: "bold",
                     }}
                   >
-                    4
+                    {Number((sum / num).toFixed(1))}
                   </Text>
                 </View>
               </View>

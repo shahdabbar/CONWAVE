@@ -1,20 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ImageBackground,
-  ScrollView,
-  FlatList,
-  Button,
-  StatusBar,
-  TextInput,
-  TouchableOpacity,
-  SafeAreaView,
-} from "react-native";
-import { useTheme } from "@react-navigation/native";
-import * as Animatable from "react-native-animatable";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import {
   MaterialIcons as MaterialIcon,
   Ionicons as Ionicon,
@@ -23,14 +8,9 @@ import {
   FontAwesome5,
   Feather,
 } from "react-native-vector-icons";
-import CheckBox from "@react-native-community/checkbox";
 import { LinearGradient } from "expo-linear-gradient";
-import { AuthContext } from "./AuthProvider";
-import DrawerContent from "./DrawerContent";
-import { deleteItemAsync } from "expo-secure-store";
-import { COLORS, SIZES, FONTS, icons } from "../src/constants";
-import axios from "axios";
-import { color } from "react-native-reanimated";
+import { AuthContext } from "../AuthProvider";
+import { COLORS, SIZES, FONTS, icons } from "../constants";
 
 const SessionTypeScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);

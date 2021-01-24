@@ -15,17 +15,11 @@ import {
   FontAwesome5,
   Feather,
 } from "react-native-vector-icons";
-import { AuthContext } from "./AuthProvider";
-import { COLORS, SIZES, FONTS, icons } from "../src/constants";
+import { AuthContext } from "../AuthProvider";
+import { COLORS, SIZES, FONTS, icons } from "../constants";
 import axios from "axios";
-
 import moment from "moment";
-import * as Calendar from "expo-calendar";
-import * as Localization from "expo-localization";
-import Constants from "expo-constants";
-
 import CalendarStrip from "react-native-calendar-strip";
-// import DateTimePicker from "react-native-modal-datetime-picker";
 
 const BookTimeScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
@@ -35,17 +29,12 @@ const BookTimeScreen = ({ route, navigation }) => {
     datesWhitelist: [
       {
         start: moment(),
-        end: moment().add(365, "days"), // total 4 days enabled
+        end: moment().add(365, "days"),
       },
     ],
-    todoList: [],
-    markedDate: [],
     currentDate: `${moment().format("YYYY")}-${moment().format(
       "MM"
     )}-${moment().format("DD")}`,
-    isModalVisible: false,
-    selectedTask: null,
-    isDateTimePickerVisible: false,
   });
 
   const [course, setCourse] = useState(route.params.course);
@@ -369,8 +358,8 @@ const BookTimeScreen = ({ route, navigation }) => {
           disabledDateNameStyle={{ color: "grey" }}
           disabledDateNumberStyle={{ color: "grey", paddingTop: 10 }}
           datesWhitelist={state.datesWhitelist}
-          iconLeft={require("../assets/icons/left-arrow.png")}
-          iconRight={require("../assets/icons/right-arrow.png")}
+          iconLeft={require("../../assets/icons/left-arrow.png")}
+          iconRight={require("../../assets/icons/right-arrow.png")}
           iconContainer={{ flex: 0.1 }}
           markedDates={state.markedDate}
           onDateSelected={(date) => {

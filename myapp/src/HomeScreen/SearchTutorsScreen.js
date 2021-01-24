@@ -4,19 +4,10 @@ import {
   Text,
   View,
   Image,
-  ImageBackground,
-  ScrollView,
   FlatList,
-  Button,
-  StatusBar,
-  TextInput,
   TouchableOpacity,
-  TouchableHighlight,
-  TouchableWithoutFeedback,
-  TouchableNativeFeedback,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import * as Animatable from "react-native-animatable";
 import {
   MaterialIcons as MaterialIcon,
   Ionicons as Ionicon,
@@ -26,12 +17,9 @@ import {
   Feather,
 } from "react-native-vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { AuthContext } from "./AuthProvider";
-import DrawerContent from "./DrawerContent";
-import { deleteItemAsync } from "expo-secure-store";
-import { COLORS, SIZES, FONTS, icons } from "./constants";
+import { AuthContext } from "../AuthProvider";
+import { COLORS, SIZES, FONTS, icons } from "../constants";
 import axios from "axios";
-import { block, color } from "react-native-reanimated";
 import NumberFormat from "react-number-format";
 
 const SearchTutorsScreen = ({ route, navigation }) => {
@@ -50,7 +38,7 @@ const SearchTutorsScreen = ({ route, navigation }) => {
     axios
       .get(`api/course/rating?course_id=${data.course.id}`)
       .then((response) => {
-        console.log("coursessssssssssssssss", response.data);
+        // console.log("coursessssssssssssssss", response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -210,7 +198,7 @@ const SearchTutorsScreen = ({ route, navigation }) => {
                                       ? {
                                           uri: `http://192.168.0.107:8000/${item.tutor.profile_photo_path}`,
                                         }
-                                      : require("../assets/images/profile2.png")
+                                      : require("../../assets/images/profile2.png")
                                   }
                                   style={styles.image}
                                   resizeMode="cover"

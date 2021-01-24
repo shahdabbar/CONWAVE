@@ -1,8 +1,7 @@
-// import "react-native-get-random-values";
 import React, { useContext, useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { AuthContext } from "./AuthProvider";
-import { COLORS, SIZES, FONTS, icons } from "../src/constants";
+import { AuthContext } from "../AuthProvider";
+import { COLORS, SIZES, FONTS, icons } from "../constants";
 import axios from "axios";
 import WebView from "react-native-webview";
 

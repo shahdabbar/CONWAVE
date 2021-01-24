@@ -1,17 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
-import {
-  EdgeInsetsPropType,
-  Image,
-  TouchableOpacity,
-  View,
-  Text,
-  StyleSheet,
-} from "react-native";
+import { Image, TouchableOpacity, View, StyleSheet } from "react-native";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useTheme } from "react-native-paper";
-import Svg, { Path, Circle, ClipPath } from "react-native-svg";
 import { COLORS, SIZES, FONTS, icons } from "../src/constants";
 import { AuthContext } from "./AuthProvider";
 import {
@@ -21,8 +13,7 @@ import {
   FontAwesome,
   Feather,
 } from "react-native-vector-icons";
-import { Modal, Card } from "react-native-paper";
-import HomeScreen from "./HomeScreen";
+import HomeScreen from "./HomeScreen/HomeScreen";
 import DetailsScreen from "./DetailsScreen";
 import ProfileScreen from "./ProfileScreen";
 import ChatScreen from "./ChatScreen";
@@ -34,13 +25,13 @@ import AddCourseScreen from "./AddCourseScreen";
 import AddRateScreen from "./AddRateScreen";
 import CourseDescScreen from "./CourseDescScreen";
 import AvailabilityScreen from "./AvailabilityScreen";
-import SessionTypeScreen from "./SessionTypeScreen";
-import SearchTutorsScreen from "./SearchTutorsScreen";
-import TutorProfileScreen from "./TutorProfileScreen";
-import BookTimeScreen from "./BookTimeScreen";
-import BookSessionScreen from "./BookSessionScreen";
-import PaymentMethodScreen from "./PaymentMethodScreen";
-import BookingSucceededScreen from "./BookingSucceededScreen";
+import SessionTypeScreen from "./HomeScreen/SessionTypeScreen";
+import SearchTutorsScreen from "./HomeScreen/SearchTutorsScreen";
+import TutorProfileScreen from "./HomeScreen/TutorProfileScreen";
+import BookTimeScreen from "./HomeScreen/BookTimeScreen";
+import BookSessionScreen from "./HomeScreen/BookSessionScreen";
+import PaymentMethodScreen from "./HomeScreen/PaymentMethodScreen";
+import BookingSucceededScreen from "./HomeScreen/BookingSucceededScreen";
 import StudentSessionsScreen from "./StudentSessionsScreen";
 import VideosScreen from "./VideosScreen";
 import SetAddressScreen from "./SetAddressScreen";
@@ -48,12 +39,10 @@ import TutorCoursesScreen from "./TutorCoursesScreen";
 import ScheduleScreen from "./ScheduleScreen";
 import ViewSessionScreen from "./ViewSessionScreen";
 import ViewSessionDetails from "./ViewSessionDetails";
-
-import axios from "axios";
 import ReviewsScreen from "./ReviewsScreen";
 import MeetingAddressScreen from "./MeetingAddressScreen";
-import { block } from "react-native-reanimated";
 import StudentsChatRooms from "./StudentsChatRooms";
+import axios from "axios";
 
 const HomeStack = createStackNavigator();
 const DetailsStack = createStackNavigator();
@@ -64,7 +53,6 @@ const CoursesStack = createStackNavigator();
 const ScheduleStack = createStackNavigator();
 const StudentSessionsStack = createStackNavigator();
 
-// const ExploreStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const TabBarCustomButton = ({ accessibilityState, children, onPress }) => {
